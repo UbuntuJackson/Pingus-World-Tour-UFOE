@@ -1,0 +1,26 @@
+{
+	"player_data":	{
+		"x":	877.0224609375,
+		"y":	983.52069091796875
+	},
+	"dead_actors":	[3, 3],
+	"player_data":	{
+		"x":	289.53543090820312,
+		"y":	134.49385070800781
+	},
+	"dead_actors":	[],
+	"level_path":	"../res/tuxtale/res/tiles/purple_cave.json",
+	"visited_levels":	[{
+			"dead_actors":	[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+		}, {
+			"dead_actors":	[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+		}, {
+			"dead_actors":	[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+		}, {
+			"dead_actors":	[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+		}, {
+			"dead_actors":	[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+		}],
+	"level_path":	"../res/tuxtale/res/tiles/purple_cave.json",
+	"visited_levels":	[]
+}

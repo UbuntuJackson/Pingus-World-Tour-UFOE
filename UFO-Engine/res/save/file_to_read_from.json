@@ -1,0 +1,13 @@
+{
+    "i" : 2.0,
+    "array" : [1,2.0,4, null],
+    "array2" : [],
+    "obj" : {},
+    "obj2" : {
+        "str" : "full of stuff"
+    },
+    "position" : {
+        "x" : 29.0,
+        "y" : 31.0
+    }
+}

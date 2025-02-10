@@ -1,0 +1,16 @@
+{
+    "layers" : [
+        {
+            "name" : "bg",
+            "path" : "../res/map/test_level/bg.png"
+        },
+        {
+            "name" : "solid",
+            "path" : "../res/map/test_level/solid.png"
+        },
+        {
+            "name" : "mg",
+            "path" : "../res/map/test_level/mg.png"
+        }
+    ]
+}

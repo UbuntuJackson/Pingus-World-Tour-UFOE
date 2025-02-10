@@ -1,0 +1,21 @@
+{
+    "animations" : [
+        {
+            "name" : "walk-up",
+            "path" : "walk_up.png",
+            "number-of-frames" : 4,
+            "frame-duration" : 0.2,
+            "width" : 16,
+            "height" : 16
+
+        },
+        {
+            "name" : "walk-down",
+            "path" : "walk_down.png",
+            "number-of-frames" : 4,
+            "frame-duration" : 0.2,
+            "width" : 16,
+            "height" : 16
+        }
+    ]
+}

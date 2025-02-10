@@ -1,0 +1,11 @@
+{
+    "ground-acceleration" : 0.0,
+    "ground-friction" : 0.0,
+    "air-acceleration" : 0.0,
+    "air-friction" : 0.0,
+    "jump-initial-speed" : 0.0,
+    "ulc-components" : [
+        "hp(skin.json, 4);",
+        "animation(my-pb.json, 8.0,8.0, stand);"
+    ] 
+}

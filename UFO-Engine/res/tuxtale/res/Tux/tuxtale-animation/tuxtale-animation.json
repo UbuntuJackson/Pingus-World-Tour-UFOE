@@ -1,0 +1,35 @@
+{
+    "animations" : [
+        {
+            "name" : "walk-up",
+            "path" : "walk-up.png",
+            "number-of-frames" : 4,
+            "frame-duration" : 5.0,
+            "width" : 16,
+            "height" : 16,
+            "offset-x" : -8,
+            "offset-y" : -8
+
+        },
+        {
+            "name" : "walk-down",
+            "path" : "walk-down.png",
+            "number-of-frames" : 4,
+            "frame-duration" : 5.0,
+            "width" : 16,
+            "height" : 16,
+            "offset-x" : -8,
+            "offset-y" : -8
+        },
+        {
+            "name" : "walk-horizontal",
+            "path" : "walk-horizontal.png",
+            "number-of-frames" : 4,
+            "frame-duration" : 5.0,
+            "width" : 16,
+            "height" : 16,
+            "offset-x" : -8,
+            "offset-y" : -8
+        }
+    ]
+}

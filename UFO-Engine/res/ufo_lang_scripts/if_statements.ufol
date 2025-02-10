@@ -1,0 +1,17 @@
+if(==(false, true), out(add(2,2)),
+    if(==(true, false) ,out("so untrue"),
+        out("nested if statements seem to work")
+    )
+);
+
+out(sub(pow(10,2), 50));
+
+if(==(add(2,2), 4),
+    out("they are equal"),
+    out("not equal")
+);
+
+out("hello world we can now print strings!");
+
+out(add(2,2));
+out(sub(2,3));

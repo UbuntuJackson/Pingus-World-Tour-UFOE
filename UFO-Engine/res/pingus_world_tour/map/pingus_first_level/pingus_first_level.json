@@ -1,0 +1,78 @@
+{
+    "score_requirements" : {
+        "max_rescuable" : 20,
+        "min_rescuable" : 10
+    },
+    "items" : [
+        {
+            "item" : "BOMBER",
+            "number" : 20
+        },
+        {
+            "item" : "DRILLER",
+            "number" : 10
+        }
+    ],
+    "layers" : [
+        {
+            "name" : "sky",
+            "type" : "background",
+            "path" : "../res/pingus_world_tour/map/pingus_first_level/sky.png",
+            "category" : "other"
+        },
+        {
+            "name" : "bg",
+            "type" : "terrain",
+            "path" : "../res/pingus_world_tour/map/pingus_first_level/bg.png",
+            "category" : "other"
+        },
+        {
+            "name" : "goals",
+            "type" :"actor",
+            "actors" : [
+                {
+                    "actor" : "Goal",
+                    "x" : 1900,
+                    "y" : 1600
+                }
+            ],
+            "category" : "actor"
+        },
+        {
+            "name" : "mg",
+            "type" : "terrain",
+            "path" : "../res/pingus_world_tour/map/pingus_first_level/mg.png",
+            "category" : "other"
+        },
+        {
+            "name" : "actors",
+            "type" :"actor",
+            "actors" : [
+                {
+                    "actor" : "Spawner",
+                    "x" : 40,
+                    "y" : 40,
+                    "number_of_penguins" : 30
+                },
+                {
+                    "actor" : "HoneyCoin",
+                    "x" : 1248,
+                    "y" : 906
+                }
+            ],
+            "category" : "actor"
+        },
+        {
+            "name" : "fg",
+            "type" : "terrain",
+            "path" : "../res/pingus_world_tour/map/pingus_first_level/fg.png",
+            "category" : "other"
+        },
+        {
+            "name" : "solid",
+            "type" : "collision",
+            "path" : "../res/pingus_world_tour/map/pingus_first_level/collision.png",
+            "category" : "other"
+        }
+    ]
+}

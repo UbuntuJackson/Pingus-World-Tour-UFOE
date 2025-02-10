@@ -1,0 +1,12 @@
+{
+	"visited_levels":	{
+		"../res/engine/default_level.json":	{
+			"dead_actors":	[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+		}
+	},
+	"player_data":	{
+		"x":	1003.2442626953125,
+		"y":	257.13925170898438
+	},
+	"level_path":	"../res/tuxtale/res/tiles/green_maze.json"
+}

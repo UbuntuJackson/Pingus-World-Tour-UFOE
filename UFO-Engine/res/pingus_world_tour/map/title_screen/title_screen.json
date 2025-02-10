@@ -1,0 +1,12 @@
+{
+    "layers":[
+        {
+            "name" : "actor_layer",
+            "actors":[
+                {
+                    "name":"MainMenu"
+                }
+            ]
+        }
+    ]
+}

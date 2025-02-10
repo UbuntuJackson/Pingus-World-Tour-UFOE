@@ -1,0 +1,15 @@
+{
+    "resolution" : {
+        "x" : 340,
+        "y" : 240
+    },
+    "pixel-size" : {
+        "x" : 4,
+        "y" : 4    
+    },
+    "vsync" : false,
+    "start-level" : "../res/frogatto_jr/frogatto_level_1.json",
+    "all-shapes-visible" : true,
+    "edit-mode" : false,
+    "modified-collision-lines-visible" : false
+}

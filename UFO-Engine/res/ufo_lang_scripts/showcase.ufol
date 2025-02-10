@@ -1,0 +1,3 @@
+if(==(2, 3),
+    out("Hello Filip"),
+    out(add(3,pow(2,4))));
