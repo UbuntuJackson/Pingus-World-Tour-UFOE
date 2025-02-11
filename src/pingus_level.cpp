@@ -24,6 +24,7 @@ void PingusLevel::OnResourceLoad(){
     AssetManager::Get().LoadDecal("../res/assets/pingu_hitbox.png","pill");
     AssetManager::Get().LoadDecal("../res/assets/box_12_24.png","box_12_24");
     AssetManager::Get().LoadDecal("../res/assets/walking animation-Sheet.png", "pingu_walk");
+    AssetManager::Get().LoadDecal("../res/assets/spawner.png", "spawner");
     AssetManager::Get().LoadDecal("../res/assets/pingu_fall.png", "pingu_fall");
     AssetManager::Get().LoadDecal("../res/assets/pingu_blowing_up-Sheet.png", "pingu_explode");
     Engine::Get().pixel_game_engine.LoadFontSprite("../res/assets/pwt_font.png");

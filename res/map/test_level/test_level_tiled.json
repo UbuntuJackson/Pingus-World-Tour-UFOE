@@ -123,6 +123,24 @@
                  "width":14.0000000000002,
                  "x":1819.95454545455,
                  "y":337.863636363637
+                }, 
+                {
+                 "gid":8,
+                 "height":32,
+                 "id":27,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"number_of_pingus",
+                         "type":"int",
+                         "value":15
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":1598.5,
+                 "y":223.5
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -131,7 +149,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":27,
+ "nextobjectid":28,
  "orientation":"orthogonal",
  "properties":[
         {

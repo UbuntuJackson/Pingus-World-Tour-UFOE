@@ -1,7 +1,4 @@
 import importlib
-import platform
-
-print(platform.system())
 
 tool = importlib.import_module("UFO-Engine.tools.UFOProjectManager")
 
@@ -16,10 +13,13 @@ goal.editor_attributes.append(("Int", "height"))
 
 main_menu = tool.Class("PingusMainMenu", "src/pingus_main_menu.h", "src/pingus_main_menu.cpp")
 
+spawner = tool.Class("Spawner", "src/spawner.h")
+spawner.editor_attributes.append(("Int","number_of_pingus"))
+
 project.classes.append(None)
 project.classes.append(pingu)
 project.classes.append(None)
-project.classes.append(None)
+project.classes.append(spawner)
 project.classes.append(goal)
 project.classes.append(main_menu)
 

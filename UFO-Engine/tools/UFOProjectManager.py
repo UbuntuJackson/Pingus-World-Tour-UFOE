@@ -35,27 +35,19 @@ class Class:
         for arg in self.editor_attributes:
             if arg[1] in default_actor_attributes: code += "    "*3 + "instance->"+ attribute_map[arg[1]]+ " = _actor_json.GetAs" + arg[0] + "(\"" + arg[1] + "\");\n"
 
-        code+= "            Console::Out("+ '"'+ self.name +'"' +");\n"
+        code+= '            Json property_json = _actor_json.GetObject("properties");\n'
+        code+= '            if(!property_json.IsNull()){\n'
+        code+= '                Json::ArrayForEach(Json(), property_json, [&](Json _json, Json _data){\n'
 
         #For attributes that are in the properties object.
-        """for arg in self.editor_attributes:
+        for arg in self.editor_attributes:
             if not arg[1] in default_actor_attributes:
-
-                code+= 'Json property_json = layer.GetObject("properties");\n'
-                code+= 'Json::ArrayForEach(Json(), property_json, [&](Json _json, Json _data){'
-                code+= '    if(property_json.member){'
-                code+= '        '
-                code+= '        if(_json.GetAsString("name") == "parallax_x"){'
-                code+= '            parallax_x = _json.GetAsDouble("value");'
-                code+= '        }'
-                code+= '        if(_json.GetAsString("name") == "parallax_y"){'
-                code+= '            parallax_y = _json.GetAsDouble("value");'
-                code+= '        }'
-                code+= '    }'
-                code+= '}'
-                code+= ');'
-
-                code += "    "*3 + "instance->"+ attribute_map[arg[1]]+ " = _actor_json.GetAs" + arg[0] + "(\"" + arg[1] + "\");\n"""
+                code+= '                    if(_json.GetAsString("name") == "' +arg[1] +'"){\n'
+                code+= '                        instance->'+ arg[1]+ ' = _json.GetAs'+ arg[0] + '(\"'+ 'value' + '\");\n'
+                code+= '                    }\n'
+        
+        code+= '                });\n'
+        code+= '            }\n'
 
         code+= "    "*2 + "}\n        break;\n"
         return code
@@ -98,7 +90,6 @@ class ProjectManager:
 
         actor_json_bridge_dot_h += "    auto actors_tileset_data = _level->tilemap.GetTilesetData(_actor_sheet);\n"
         actor_json_bridge_dot_h += "    int type_id = _actor_json.GetAsInt(\"gid\") - actors_tileset_data.tileset_start_id+1;\n"
-        actor_json_bridge_dot_h += "    Console::Out(type_id);"
         actor_json_bridge_dot_h += "    switch(type_id){\n"
 
         for klass in self.classes:
