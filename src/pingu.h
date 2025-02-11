@@ -122,9 +122,12 @@ public:
     }
 
     void Build(){
+        float step_width = 5.0f;
+        int number_of_steps = 18;
+
         snap_to_ground_enabled = false;
 
-        if(steps == 12 || hit_wall || velocity.x == 0.0f || IsOverlappingHead(local_position,olc::WHITE)){
+        if(steps == number_of_steps || hit_wall || velocity.x == 0.0f || IsOverlappingHead(local_position,olc::WHITE)){
             is_in_special_state = false;
             steps = 0;
             snap_to_ground_enabled = true;
@@ -133,7 +136,7 @@ public:
 
         bool reached_location = false;
 
-        float destination_x = build_location.x + face_direction * 6.0f * steps;
+        float destination_x = build_location.x + face_direction * step_width * steps;
         if(face_direction > 0.0f){
             if(local_position.x < destination_x) velocity.x = 6.0f;
             else reached_location = true;
@@ -148,10 +151,10 @@ public:
             Console::Out("Build");
             build_timer.Start(200.0f);
             for(int yy = 0; yy < 2; yy++){
-                for(int xx = 6; xx < 12; xx++){
+                for(int xx = 6; xx < 6+(int)step_width; xx++){
                     
                     auto dec = level->level_decals.at("solid");
-                    dec->sprite->SetPixel(build_location+Vector2f(xx+6.0f*steps*face_direction,yy+24.0f-2.0f-steps*2),olc::Pixel(255,0,0,255));
+                    dec->sprite->SetPixel(build_location+Vector2f(xx+step_width*steps*face_direction,yy+24.0f-2.0f-steps*2),olc::Pixel(255,0,0,255));
                     dec->Update();
                     
                     //level->level_decals.at("mg")->sprite->SetPixel(local_position+Vector2f(xx,yy),olc::Pixel(255,0,0,255));
