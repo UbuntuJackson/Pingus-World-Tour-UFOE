@@ -336,6 +336,19 @@ bool IsOverlapping(const Circle& _circle, const Pill& _pill){
     return PillVsCircle(_pill, _circle);
 }
 
+int Wrapi(int _value, int _min, int _max){
+    assert(_min < _max);
+    int value_relative_to_min = _value - _min; // -1 - 0 = -1
+    int range = _max - _min; //1
+    if(value_relative_to_min > 0){ //x
+        return _min + value_relative_to_min % range;
+    }
+    if(value_relative_to_min < 0){
+        return _max + value_relative_to_min % range; //1 + -1 % 1 = 1
+    }
+    return _value;
+}
+
 float DotProduct(olc::vf2d _v0, olc::vf2d _v1){
     return _v0.x * _v1.x + _v0.y * _v1.y;
 }

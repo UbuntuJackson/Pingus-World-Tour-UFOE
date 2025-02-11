@@ -9,7 +9,7 @@
     },
     "vsync" : false,
     "start-level" : "../res/frogatto_jr/frogatto_level_1.json",
-    "all-shapes-visible" : true,
+    "all-shapes-visible" : false,
     "edit-mode" : false,
     "modified-collision-lines-visible" : false
 }

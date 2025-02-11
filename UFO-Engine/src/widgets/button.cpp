@@ -52,7 +52,8 @@ void Button::OnWidgetDraw(){
     else r.position = GetGlobalPosition();*/
 
     r.position = GetGlobalPosition();
-    DrawingSystem::DrawFilled(r, background_colour);
+    if(!is_selected) DrawingSystem::DrawFilled(r, background_colour);
+    else DrawingSystem::DrawFilled(r, background_colour/2);
     DrawingSystem::DrawString(r.position + Vector2f(3.0f,3.0f), GetWrappedTextWrapOnSpace(text).text, text_colour, {1.0f,1.0f});
 }
 

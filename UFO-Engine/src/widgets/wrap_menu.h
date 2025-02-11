@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <vector>
+#include "../mouse/mouse.h"
 #include "../widgets/widget.h"
 #include "../ufo_maths/ufo_maths.h"
 #include "../widgets/button.h"
@@ -21,6 +22,8 @@ public:
 
     int selected_index = 0;
     int spacing = 1;
+
+    bool has_modified_controls = false;
 
     WrapMenu(Vector2f _local_position, Vector2f _size) : Widget(_local_position, _size){
 
@@ -48,10 +51,9 @@ public:
 
     }
 
-    void OnUpdate(){
-        //Engine::Get().current_level->QueueForPurge(id);
+    void ControlWithKeys(bool _up, bool _down, bool _select){
 
-        if(SingleKeyboard::Get().GetKey(olc::UP).is_pressed){
+        if(_up){
             selected_index--;
             selected_index = ufoMaths::Wrap(selected_index, 0, int(buttons.size()));
 
@@ -61,6 +63,73 @@ public:
             else{
                 local_position.y-=buttons[selected_index]->GetGlobalPosition().y;
             }*/
+        }
+        if(_down){
+            selected_index++;
+
+            if(buttons[ufoMaths::Wrap(selected_index, 0, int(buttons.size()))]->GetGlobalPosition().y > Engine::Get().pixel_game_engine.GetWindowSizeInPixles().y){
+                local_position.y-=(buttons[ufoMaths::Wrap(selected_index, 0, int(buttons.size()))]->rectangle.size.y+spacing);
+            }
+            if(selected_index == buttons.size()){
+                local_position.y = original_position.y;
+            }
+
+            selected_index = ufoMaths::Wrap(selected_index, 0, int(buttons.size()));
+
+        }
+        if(_select){
+            buttons[selected_index]->on_pressed(this, buttons[selected_index]);
+        }
+    }
+
+    void ControlWithMouse(bool _up, bool _down, bool _select){
+        if(!ufoMaths::RectangleVsPoint(buttons[selected_index]->rectangle, Mouse::GetPosition())){
+            return;
+        }
+
+        if(_up){
+            selected_index--;
+            selected_index = ufoMaths::Wrap(selected_index, 0, int(buttons.size()));
+
+            /*if(buttons[selected_index]->GetGlobalPosition().y < 0.0f){
+                local_position.y=buttons[selected_index]->GetGlobalPosition().y;
+            }
+            else{
+                local_position.y-=buttons[selected_index]->GetGlobalPosition().y;
+            }*/
+        }
+        if(_down){
+            selected_index++;
+
+            if(buttons[ufoMaths::Wrap(selected_index, 0, int(buttons.size()))]->GetGlobalPosition().y > Engine::Get().pixel_game_engine.GetWindowSizeInPixles().y){
+                local_position.y-=(buttons[ufoMaths::Wrap(selected_index, 0, int(buttons.size()))]->rectangle.size.y+spacing);
+            }
+            if(selected_index == buttons.size()){
+                local_position.y = original_position.y;
+            }
+
+            selected_index = ufoMaths::Wrap(selected_index, 0, int(buttons.size()));
+
+        }
+        if(_select){
+            buttons[selected_index]->on_pressed(this, buttons[selected_index]);
+        }
+    }
+
+    void OnUpdate(){
+
+        for(auto&& button : buttons){
+            button->is_selected = false;    
+        }
+
+        buttons[selected_index]->is_selected = true;
+        //Engine::Get().current_level->QueueForPurge(id);
+        if(has_modified_controls) return;
+
+        if(SingleKeyboard::Get().GetKey(olc::UP).is_pressed){
+            selected_index--;
+            selected_index = ufoMaths::Wrap(selected_index, 0, int(buttons.size()));
+            Console::Out("WrapMenu::selected_index=",selected_index);
         }
         if(SingleKeyboard::Get().GetKey(olc::DOWN).is_pressed){
             selected_index++;

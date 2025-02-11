@@ -132,6 +132,8 @@ tNumber Wrap(tNumber _value, tNumber _min, tNumber _max){
     return _value;
 }
 
+int Wrapi(int _value, int _min, int _max);
+
 float DotProduct(olc::vf2d _v0, olc::vf2d _v1);
 
 const float PI = 3.141592653589793238464338328f;

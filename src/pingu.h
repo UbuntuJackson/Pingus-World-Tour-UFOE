@@ -12,6 +12,8 @@
 #include <rectangle.h>
 #include <mouse.h>
 #include <timer.h>
+#include "goal.h"
+#include "honey_coin.h"
 
 class Pingu : public BitmapCollisionBody{
 public:
@@ -89,15 +91,19 @@ public:
             10.6f
         ));
 
-        AddChild<SpriteReference>(
-            mask,Vector2f(0.0f, 0.0f),
-            Vector2f(0.0f, 0.0f),
-            Vector2f(12.0f, 24.0f),
-            Vector2f(1.0f, 1.0f),
-            0.0f
-        )->tint.a = 100;
+        if(Engine::Get().all_shapes_visible){
+            AddChild<SpriteReference>(
+                mask,Vector2f(0.0f, 0.0f),
+                Vector2f(0.0f, 0.0f),
+                Vector2f(12.0f, 24.0f),
+                Vector2f(1.0f, 1.0f),
+                0.0f
+            )->tint.a = 100;
+        }
 
         level = dynamic_cast<PingusLevel*>(_level);
+        
+        level->released_pingus++;
         
     }
 
@@ -228,9 +234,22 @@ public:
         if(!is_in_special_state){
             if(hit_floor){
                 state = state_walk;
+                for(const auto& goal : level->goals){
+                    if(ufoMaths::RectangleVsRectangle(Rectangle(local_position, Vector2f(12.0f,24.0f)),goal->shape)){
+                        level->rescued_pingus++;
+                        QueueForPurge();
+                    }
+                }
             }
             else{
                 state = state_fall;
+            }
+        }
+
+        for(const auto& honey_coin : level->honey_coin_handles){
+            if(ufoMaths::RectangleVsCircle(Rectangle(local_position, Vector2f(12.0f,24.0f)),honey_coin->shape)){
+                level->honey_coin_hud->current_frame_index = 0.0f;
+                honey_coin->QueueForPurge();
             }
         }
 

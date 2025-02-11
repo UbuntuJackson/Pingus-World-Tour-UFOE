@@ -113,34 +113,93 @@
          "name":"actors",
          "objects":[
                 {
-                 "gid":9,
-                 "height":14.3636363636364,
-                 "id":18,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":14.0000000000002,
-                 "x":1819.95454545455,
-                 "y":337.863636363637
-                }, 
-                {
-                 "gid":8,
+                 "gid":11,
                  "height":32,
-                 "id":27,
+                 "id":30,
                  "name":"",
                  "properties":[
                         {
-                         "name":"number_of_pingus",
+                         "name":"number_of_bombers",
                          "type":"int",
-                         "value":15
+                         "value":0
+                        }, 
+                        {
+                         "name":"number_of_builders",
+                         "type":"int",
+                         "value":12
                         }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":1598.5,
-                 "y":223.5
+                 "x":2.66666666666666,
+                 "y":33.3333333333333
+                }, 
+                {
+                 "gid":5,
+                 "height":32,
+                 "id":31,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":722,
+                 "y":232.416666666667
+                }, 
+                {
+                 "gid":9,
+                 "height":21,
+                 "id":32,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"number_of_pingus",
+                         "type":"int",
+                         "value":10
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":20.3333333333334,
+                 "x":611.333333333333,
+                 "y":156.666666666667
+                }, 
+                {
+                 "gid":8,
+                 "height":32,
+                 "id":33,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"number_of_pingus",
+                         "type":"int",
+                         "value":10
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":82.5,
+                 "y":337
+                }, 
+                {
+                 "gid":8,
+                 "height":32,
+                 "id":34,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"number_of_pingus",
+                         "type":"int",
+                         "value":2
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":141.333333333333,
+                 "y":336
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -149,7 +208,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":28,
+ "nextobjectid":35,
  "orientation":"orthogonal",
  "properties":[
         {
@@ -160,7 +219,7 @@
         {
          "name":"relative path",
          "type":"string",
-         "value":"..\/res\/map\/test_level"
+         "value":"..\/res\/map\/builder_test_level"
         }],
  "renderorder":"right-down",
  "tiledversion":"1.11.0",

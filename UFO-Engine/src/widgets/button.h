@@ -11,6 +11,7 @@
 
 class Button : public Widget{
 public:
+    bool is_selected = false;
     bool active;
     std::string on_clicked;
     std::string on_create;

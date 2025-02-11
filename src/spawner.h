@@ -19,7 +19,10 @@ public:
     }
 
     void OnLevelEnter(Level* _level){
+        
+        spawn_timer.Start(interval_milliseconds);
         level = dynamic_cast<PingusLevel*>(_level);
+        
         AddChild<SpriteReference>(
             "spawner",
             Vector2f(-0.0f, -0.0f),
@@ -30,8 +33,12 @@ public:
         );
     }
 
+    void OnStart(Level* _level){
+        level->total_number_of_pingus += number_of_pingus;
+    }
+
     void OnUpdate(){
-        if(spawn_timer.GetTimeLeft() <= 0.0f && number_of_pingus != 0){
+        if((spawn_timer.GetTimeLeft() <= 0.0f) && (number_of_pingus > 0)){
             level->NewActor<Pingu>(local_position);
             spawn_timer.Start(interval_milliseconds);
             number_of_pingus--;

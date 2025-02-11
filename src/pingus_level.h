@@ -8,17 +8,30 @@
 #include <ufo_maths.h>
 
 class Widget;
-
-using namespace ufoMaths;
+class Goal;
+class WrapMenu;
+class Label;
+class WidgetSpriteReference;
+class HoneyCoin;
 
 class PingusLevel : public Level{
 public:
+    std::vector<Goal*> goals;
+    std::vector<HoneyCoin*> honey_coin_handles;
     std::vector<olc::Decal*> level_decals_in_draw_order;
     olc::Decal* solid_decal;
     Vector2f custom_level_size;
     Widget* current_menu = nullptr;
+
+    WrapMenu* item_select_menu = nullptr;
     std::string pingus_level_path = "";
-    int pingu_count = 0;
+    int total_number_of_pingus = 0;
+    int released_pingus = 0;
+    int rescued_pingus = 0;
+    int required_pingus = 0;
+    Label* rescued_pingus_label = nullptr;
+    Label* released_pingus_label = nullptr;
+    WidgetSpriteReference* honey_coin_hud = nullptr;
 
     void OnResourceLoad();
 
@@ -27,5 +40,7 @@ public:
     void OnLoad(Json& _j);
 
     void OnUpdate();
+
+    void OnHandlePurge();
 
 };
