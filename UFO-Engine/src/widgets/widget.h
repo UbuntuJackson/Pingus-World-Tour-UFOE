@@ -9,6 +9,7 @@
 #include "../json/json.h"
 #include "../actor/actor.h"
 #include "../ufo_maths/ufo_maths.h"
+#include "theme.h"
 
 class Level;
 
@@ -22,6 +23,10 @@ using namespace ufoMaths;
 class Widget : public Actor{
 public:
     Rectangle rectangle;
+    Rectangle GetRectangle();
+
+    Theme theme;
+
     Level* level = nullptr;
 
     Widget(Vector2f _local_position, Vector2f _size);

@@ -24,7 +24,7 @@ public:
     void OnFileOpen(FileMenuButton* _button,std::string _file_extension){
         Console::Out("OnFileOpen");
         if(_file_extension == "json"){
-            Engine::Get().GoToLevel(std::make_unique<PingusLevel>(), _button->path, Engine::LevelFormat::JSON_CUSTOM);
+            Engine::Get().GoToLevel(std::make_unique<PingusLevel>(), _button->path);
         }
         else{
             Console::Out("File is not .json");

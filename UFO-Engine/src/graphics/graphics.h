@@ -9,6 +9,7 @@ typedef olc::Pixel Colour;
 
 class Graphics{
 public:
+    olc::PixelGameEngine* graphics_engine = nullptr;
 
     const Colour RED = olc::RED;
     const Colour DARK_RED = olc::DARK_RED;
@@ -28,9 +29,15 @@ public:
     const Colour CYAN = olc::CYAN;
     const Colour DARK_CYAN = olc::DARK_CYAN;
     const Colour VERY_DARK_CYAN = olc::VERY_DARK_CYAN;
+    const Colour WHITE = olc::WHITE;
 
-    Graphics(){
-        
+    Graphics(olc::PixelGameEngine* _graphics_engine){
+        graphics_engine = _graphics_engine;
+    }
+
+    static Graphics& Get(){
+        static Graphics self(&Engine::Get().pixel_game_engine);
+        return self;
     }
 
     //Blit to specific surface?
@@ -40,5 +47,7 @@ public:
     void DrawCircle(Vector2f _position, Vector2f _size, int _line_thickness);
     void DrawCircleFilled(Vector2f _position, Vector2f _size);
     void DrawLine(Vector2f _start, Vector2f _end, int _line_thickness, Colour _colour);
+    void DrawDecal(const std::string& _key, Vector2f _drawing_position, Vector2f _centre, Vector2f _source_position, Vector2f _source_size, Vector2f _scale, float _rotation, Colour _tint);
+    void DrawFrame(const std::string& _key, Vector2f _drawing_position, Vector2f _centre, Vector2f _frame_size, Vector2f _scale, int _index, float _rotation, Colour _tint);
 
 };

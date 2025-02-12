@@ -21,6 +21,7 @@
 #include "level_select_menu.h"
 #include "pingus_main_menu.h"
 #include "generated_actor_json_bridge.h"
+#include "result_screen.h"
 
 void PingusLevel::OnResourceLoad(){
     AssetManager::Get().LoadDecal("../res/assets/pingu_hitbox.png","pill");
@@ -31,6 +32,7 @@ void PingusLevel::OnResourceLoad(){
     AssetManager::Get().LoadDecal("../res/assets/honey_coint-Sheet.png", "honey_coin");
     AssetManager::Get().LoadDecal("../res/assets/pingu_blowing_up-Sheet.png", "pingu_explode");
     AssetManager::Get().LoadDecal("../res/assets/honey_coin_hud-Sheet.png", "honey_coin_hud");
+    AssetManager::Get().LoadDecal("../res/assets/widget_theme.png", "pwt_widget_theme");
     Engine::Get().pixel_game_engine.LoadFontSprite("../res/assets/pwt_font.png");
 }
 
@@ -69,14 +71,19 @@ void PingusLevel::OnUpdate(){
     rescued_pingus_label->text = "Rescued Pingus:" + std::to_string(rescued_pingus) + "/" + std::to_string(required_pingus);
     released_pingus_label->text = "Released Pingus:" + std::to_string(released_pingus) + "/" + std::to_string(total_number_of_pingus);
 
-    if(SingleKeyboard::Get().GetKey(olc::ESCAPE).is_pressed){
+    if(total_number_of_pingus > 0 && rescued_pingus >= total_number_of_pingus){
+        NewActor<ResultScreen>(Vector2f(30.0f,30.0f));
+        //NewActor<PingusMainMenu>(Vector2f(100.0f,100.0f));
+    }
 
-        NewActor<PingusMainMenu>(Vector2f(100.0f,100.0f));
+    if(SingleKeyboard::Get().GetKey(olc::ESCAPE).is_pressed){
+        NewActor<ResultScreen>(Vector2f(30.0f,30.0f));
+        //NewActor<PingusMainMenu>(Vector2f(100.0f,100.0f));
     }
 
     if(Mouse::Get().GetLeftButton().is_pressed){
 
-        auto a = NewActor<Pingu>(GetActiveCamera()->TransformScreenToWorld(Mouse::Get().GetPosition()));
+        //auto a = NewActor<Pingu>(GetActiveCamera()->TransformScreenToWorld(Mouse::Get().GetPosition()));
 
         //Console::Out("Pingu count",pingu_count++);
     

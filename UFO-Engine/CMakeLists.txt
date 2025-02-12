@@ -39,7 +39,9 @@ set(
     src/json/json.cpp
     src/json/json_variant.cpp
     #src/widgets/menu_system.cpp
+    src/graphics/graphics.cpp
     src/widgets/widget.cpp
+    src/widgets/theme.cpp
     src/widgets/button.cpp
     #src/widget/new_widget.cpp
     #src/widget/menu_maker.cpp
@@ -118,6 +120,7 @@ target_include_directories(UFO PUBLIC src/drawing_system)
 target_include_directories(UFO PUBLIC src/editor)
 target_include_directories(UFO PUBLIC src/external)
 target_include_directories(UFO PUBLIC src/file)
+target_include_directories(UFO PUBLIC src/graphics)
 target_include_directories(UFO PUBLIC src/json)
 target_include_directories(UFO PUBLIC src/keyboard)
 target_include_directories(UFO PUBLIC src/level)

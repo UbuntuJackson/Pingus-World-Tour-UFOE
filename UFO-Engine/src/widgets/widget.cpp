@@ -10,6 +10,11 @@
 
 using namespace ufoMaths;
 
+Rectangle
+Widget::GetRectangle(){
+    return Rectangle(GetGlobalPosition(), rectangle.size);
+}
+
 Widget::Widget(Vector2f _local_position, Vector2f _size) :
     Actor(_local_position), rectangle(_local_position, _size){}
 
@@ -24,5 +29,8 @@ void Widget::OnUpdate(){
 }
 
 void Widget::OnWidgetDraw(){
-    DrawingSystem::Draw(rectangle, olc::BLUE);
+    if(!theme.non_default_theme) DrawingSystem::Draw(rectangle, olc::BLUE);
+    else{
+        theme.OnDraw(this);
+    }
 }

@@ -26,5 +26,18 @@ void SpriteReference::OnLevelEnter(Level* _level){
 }
 
 void SpriteReference::OnDraw(Camera* _camera){
-    if(visible) DrawingSystem::Draw(*this, _camera);
+
+    if(!visible) return;
+    Rectangle sample_rectangle = GetFrameFromSpriteSheet(key,current_frame_index,frame_size);
+    Engine::Get().pixel_game_engine.DrawPartialRotatedDecal(
+        _camera->Transform(GetGlobalPosition()),
+        AssetManager::Get().GetDecal(key),
+        rotation,
+        offset,
+        sample_rectangle.position,
+        sample_rectangle.size,
+        scale*_camera->scale,
+        tint
+    );
+
 }

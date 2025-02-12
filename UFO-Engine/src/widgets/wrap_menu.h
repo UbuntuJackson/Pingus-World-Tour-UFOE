@@ -129,7 +129,7 @@ public:
         if(SingleKeyboard::Get().GetKey(olc::UP).is_pressed){
             selected_index--;
             selected_index = ufoMaths::Wrap(selected_index, 0, int(buttons.size()));
-            Console::Out("WrapMenu::selected_index=",selected_index);
+            //Console::Out("WrapMenu::selected_index=",selected_index);
         }
         if(SingleKeyboard::Get().GetKey(olc::DOWN).is_pressed){
             selected_index++;
