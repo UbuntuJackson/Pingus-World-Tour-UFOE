@@ -7,6 +7,7 @@
 #include <animated_sprite_reference.h>
 #include <single_keyboard.h>
 #include <console.h>
+#include <sprite_reference.h>
 #include "pingus_level.h"
 #include <ufo_maths.h>
 #include <rectangle.h>
@@ -44,6 +45,12 @@ public:
 
     std::function<void()> state_explode = [this](){
         Explode();
+    };
+
+    int parachute_sprite_id = -1;
+
+    std::function<void()> state_parachute = [this](){
+        Parachute();
     };
 
     std::function<void()> state = state_walk;
@@ -91,6 +98,17 @@ public:
             10.6f
         ));
 
+        anim->AddAnimationState(AnimatedSpriteReference(
+            "pingu_parachute",
+            Vector2f(0.0f, 0.0f),
+            Vector2f(16.0f,16.0f),
+            Vector2f(32.0f, 32.0f),
+            Vector2f(1.0f,1.0f),
+            0.0f,
+            0,
+            10.6f
+        ));
+
         if(Engine::Get().all_shapes_visible){
             AddChild<SpriteReference>(
                 mask,Vector2f(0.0f, 0.0f),
@@ -105,6 +123,17 @@ public:
         
         level->released_pingus++;
         
+    }
+
+    void Parachute(){
+        anim->SetAnimation("pingu_parachute");
+        velocity.y = 20.0f;
+
+        if(hit_floor){
+            is_in_special_state = false;
+            level->QueueForPurge(parachute_sprite_id);
+            parachute_sprite_id = -1;
+        }
     }
 
     void Walk(){
@@ -219,12 +248,29 @@ public:
         is_in_special_state = true;
     };
 
-    std::vector<std::function<void()>> items = {
-        item_blow_up,
-        item_build
+    std::function<void()> item_parachute = [this](){
+        if(hit_floor) return;
+
+        state = state_parachute;
+
+        parachute_sprite_id = AddChild<SpriteReference>("parachute",
+            Vector2f(-22.0f, -48.0f),
+            Vector2f(0.0f, 0.0f),
+            Vector2f(59.0f, 66.0f),
+            Vector2f(1.0f, 1.0f),
+            0.0f
+        )->GetID();
+
+        is_in_special_state = true;
     };
 
-    int current_item = 1;
+    std::vector<std::function<void()>> items = {
+        item_blow_up,
+        item_build,
+        item_parachute
+    };
+
+    int current_item = 2;
 
     void OnUpdate(){
         
