@@ -41,6 +41,7 @@ bool Button::IsReleased(){
 }
 
 void Button::OnWidgetDraw(){
+    if(!visible) return;
     if(!theme.non_default_theme){
         Rectangle r = rectangle;
         /*if(parent){

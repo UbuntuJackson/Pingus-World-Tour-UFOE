@@ -7,7 +7,7 @@
 #include "../console/console.h"
 #include "../ufo_engine/ufo_engine.h"
 
-SpriteReference::SpriteReference(std::string _key, olc::vf2d _position, olc::vf2d _offset, olc::vf2d _frame_size, olc::vf2d _scale, float _rotation, int _z_index, bool _temporary) :
+SpriteReference::SpriteReference(std::string _key, olc::vf2d _position, olc::vf2d _offset, olc::vf2d _frame_size, olc::vf2d _scale, float _rotation, int _z_index, bool _temporary, bool _custom_asset_manager) :
     key{_key},
     Actor(_position),
     offset{_offset},
@@ -18,7 +18,7 @@ SpriteReference::SpriteReference(std::string _key, olc::vf2d _position, olc::vf2
     temporary{_temporary}
     {
         //if(!_temporary) Engine::Get().current_level->sprite_handles.push_back(this);
-        number_of_frames = AssetManager::Get().GetDecal(_key)->sprite->Size().x/(int)_frame_size.x * AssetManager::Get().GetDecal(_key)->sprite->Size().y/(int)_frame_size.y;
+        if(!_custom_asset_manager) number_of_frames = AssetManager::Get().GetDecal(_key)->sprite->Size().x/(int)_frame_size.x * AssetManager::Get().GetDecal(_key)->sprite->Size().y/(int)_frame_size.y;
     }
 
 void SpriteReference::OnLevelEnter(Level* _level){

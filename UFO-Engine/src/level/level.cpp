@@ -27,6 +27,7 @@
 #include "../player_body/player_body.h"
 #include "level_transition_effect.h"
 #include "../tilemap/tile_map.h"
+#include "../sprite_reference/level_sprite_reference.h"
 
 void Level::NewActor(std::unique_ptr<Actor> _actor){
     if(_actor->id == -1){
@@ -198,12 +199,12 @@ void Level::Load(){
 
             if(background_path == "") continue;
 
-            AssetManager::Get().LoadDecal(relative_path+"/"+background_path, background_path);
-            olc::vf2d image_size = AssetManager::Get().GetDecal(background_path)->sprite->Size();
+            asset_manager.LoadDecal(relative_path+"/"+background_path, background_path);
+            olc::vf2d image_size = asset_manager.GetDecal(background_path)->sprite->Size();
 
-            level_decals[layer.GetAsString("name")] = AssetManager::Get().GetDecal(background_path);
+            level_decals[layer.GetAsString("name")] = asset_manager.GetDecal(background_path);
 
-            NewActor<SpriteReference>(
+            NewActor<LevelSpriteReference>(
                 background_path,
                 olc::vf2d(0.0f,0.0f),
                 olc::vf2d(0.0f,0.0f),

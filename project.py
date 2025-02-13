@@ -10,6 +10,7 @@ goal = tool.Class("Goal", "src/goal.h", "src/goal.cpp")
 goal.editor_attributes.append(("Int", "number_of_pingus"))
 goal.editor_attributes.append(("Int", "width"))
 goal.editor_attributes.append(("Int", "height"))
+goal.editor_attributes.append(("Int", "maximum_rescuable_pingus"))
 
 main_menu = tool.Class("PingusMainMenu", "src/pingus_main_menu.h", "src/pingus_main_menu.cpp")
 

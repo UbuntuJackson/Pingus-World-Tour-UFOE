@@ -17,6 +17,7 @@ void PingusMainMenu::OnLevelEnter(Level* _level){
     dynamic_cast<PingusLevel*>(_level)->current_menu = this;
 
     level = dynamic_cast<PingusLevel*>(_level);
+    dynamic_cast<PingusLevel*>(_level)->is_menu = true;
 
     auto b_level_select = std::make_unique<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 150.0f), "Level Select");
     auto b_quit = std::make_unique<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 150.0f), "Quit");

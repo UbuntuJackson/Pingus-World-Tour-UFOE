@@ -51,6 +51,9 @@ void GeneratedActorJsonBridge(Level* _level, Json& _actor_json, std::string _act
                     if(_json.GetAsString("name") == "number_of_pingus"){
                         instance->number_of_pingus = _json.GetAsInt("value");
                     }
+                    if(_json.GetAsString("name") == "maximum_rescuable_pingus"){
+                        instance->maximum_rescuable_pingus = _json.GetAsInt("value");
+                    }
                 });
             }
         }

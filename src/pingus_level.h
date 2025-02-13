@@ -23,12 +23,16 @@ public:
     Vector2f custom_level_size;
     Widget* current_menu = nullptr;
 
+    bool is_menu = false;
+    bool level_finished = false;
+
     WrapMenu* item_select_menu = nullptr;
     std::string pingus_level_path = "";
     int total_number_of_pingus = 0;
     int released_pingus = 0;
     int rescued_pingus = 0;
     int required_pingus = 0;
+    int maximum_rescuable_pingus = 100;
     Label* rescued_pingus_label = nullptr;
     Label* released_pingus_label = nullptr;
     WidgetSpriteReference* honey_coin_hud = nullptr;

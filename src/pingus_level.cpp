@@ -45,7 +45,7 @@ void PingusLevel::OnLoadActors(Json& _actor_json){
 }
 
 void PingusLevel::OnLoad(Json& _j){
-    custom_level_size = AssetManager::Get().GetDecal("solid.png")->sprite->Size();
+    custom_level_size = asset_manager.GetDecal("solid.png")->sprite->Size();
     level_size = custom_level_size;
     Console::Out("Level Custom size =",level_size);
     GetActiveCamera()->world.x1 = custom_level_size.x;
@@ -71,11 +71,19 @@ void PingusLevel::OnUpdate(){
     
     Level::OnUpdate();
 
+    if(is_menu){
+        honey_coin_hud->visible = false;
+        rescued_pingus_label->visible = false;
+        released_pingus_label->visible = false;
+        return;
+    }
+
     rescued_pingus_label->text = "Rescued Pingus:" + std::to_string(rescued_pingus) + "/" + std::to_string(required_pingus);
     released_pingus_label->text = "Released Pingus:" + std::to_string(released_pingus) + "/" + std::to_string(total_number_of_pingus);
 
-    if(total_number_of_pingus > 0 && rescued_pingus >= total_number_of_pingus){
+    if(total_number_of_pingus > 0 && rescued_pingus >= total_number_of_pingus && !level_finished){
         NewActor<ResultScreen>(Vector2f(30.0f,30.0f));
+        level_finished = true;
         //NewActor<PingusMainMenu>(Vector2f(100.0f,100.0f));
     }
 

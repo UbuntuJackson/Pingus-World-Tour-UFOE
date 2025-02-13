@@ -20,7 +20,7 @@ public:
     bool visible = true;
     olc::Pixel tint = olc::WHITE;
 
-    SpriteReference(std::string _key, olc::vf2d _position, olc::vf2d _offset, olc::vf2d _frame_size, olc::vf2d _scale, float _rotation, int _z_index = 0, bool _temporary = false);
+    SpriteReference(std::string _key, olc::vf2d _position, olc::vf2d _offset, olc::vf2d _frame_size, olc::vf2d _scale, float _rotation, int _z_index = 0, bool _temporary = false, bool _custom_asset_manager = false);
     
     void OnLevelEnter(Level* _level);
 

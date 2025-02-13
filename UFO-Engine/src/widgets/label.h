@@ -19,6 +19,7 @@ public:
     }
 
     void OnWidgetDraw(){
+        if(!visible) return;
         Engine::Get().pixel_game_engine.DrawStringDecal(GetGlobalPosition(), text, colour, scale);
     }
 };

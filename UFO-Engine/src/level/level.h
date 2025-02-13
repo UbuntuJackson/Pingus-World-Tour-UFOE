@@ -14,6 +14,7 @@
 #include "../shapes/rectangle.h"
 #include "../bitmap_level/bitmap_dynamic_solid.h"
 #include "../bitmap_level/bitmap_collision_body.h"
+#include "../asset_manager/level_asset_manager.h"
 
 class RawShapeBase;
 class SpriteReference;
@@ -59,6 +60,7 @@ public:
     TCollisionSystem tcollision_system;
     CollisionSystem collision_system;
 
+    LevelAssetManager asset_manager;
     std::unordered_map<std::string, olc::Decal*> level_decals;
     std::vector<BitmapDynamicSolid*> dynamic_bitmap_solid_handles;
     std::vector<BitmapCollisionBody*> bitmap_collision_body_handles;

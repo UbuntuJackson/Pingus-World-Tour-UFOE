@@ -29,8 +29,9 @@ public:
         auto level = dynamic_cast<PingusLevel*>(_level);
 
         if(level->rescued_pingus >= level->required_pingus) rank = Ranks::B;
-        if(level->rescued_pingus == level->total_number_of_pingus) rank = Ranks::A;
-        if(level->rescued_pingus == level->total_number_of_pingus && level->honey_coin_hud->current_frame_index == 0.0f) rank = Ranks::S;
+        if(level->rescued_pingus >= level->maximum_rescuable_pingus) rank = Ranks::A;
+        Console::Out("Honey coin hud frame index:",level->honey_coin_hud->current_frame_index == 0.0f);
+        if(level->rescued_pingus >= level->maximum_rescuable_pingus && level->honey_coin_hud->current_frame_index == 0.0f) rank = Ranks::S;
 
         theme = Theme("pwt_widget_theme", 3,4,3,4);
 
@@ -71,8 +72,6 @@ public:
             Engine::Get().GoToLevel(std::make_unique<PingusLevel>(),Engine::Get().current_level->path);
             return;
         }
-
-        Console::Out("Try again rectangle",try_again->local_position, try_again->GetGlobalPosition(), try_again->rectangle.position);
 
     }
 

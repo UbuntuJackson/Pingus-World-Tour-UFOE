@@ -22,6 +22,7 @@ find_package(ZLIB REQUIRED)
 set(
     SRC
     src/asset_manager/asset_manager.cpp
+    src/asset_manager/level_asset_manager.cpp
     src/asset_manager/get_rect_from_index.cpp
     #src/animation/animation_bundle.cpp
     #src/animation/animation_manager.cpp
@@ -65,6 +66,7 @@ set(
     src/actor/actor.cpp
     src/sprite_reference/sprite_reference.cpp
     src/sprite_reference/widget_sprite_reference.cpp
+    src/sprite_reference/level_sprite_reference.cpp
     src/player_body/player_body.cpp
     src/level/tcollision_system.cpp
     src/animation/animation.cpp

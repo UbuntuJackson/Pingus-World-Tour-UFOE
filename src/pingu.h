@@ -270,11 +270,11 @@ public:
         item_parachute
     };
 
-    int current_item = 2;
+    int current_item = 1;
 
     void OnUpdate(){
         
-        if(RectangleVsPoint(Rectangle(local_position, Vector2f(12.0f,24.0f)),level->GetActiveCamera()->TransformScreenToWorld(Mouse::Get().GetPosition())) && Mouse::Get().GetRightButton().is_pressed){
+        if(RectangleVsPoint(Rectangle(local_position, Vector2f(12.0f,24.0f)),level->GetActiveCamera()->TransformScreenToWorld(Mouse::Get().GetPosition())) && Mouse::Get().GetLeftButton().is_pressed){
 
             items[current_item]();
 

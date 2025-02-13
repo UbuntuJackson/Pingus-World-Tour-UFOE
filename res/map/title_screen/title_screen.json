@@ -66,8 +66,19 @@
         {
          "class":"SpriteReference",
          "id":7,
-         "image":"title_screen.png",
+         "image":"solid.png",
          "name":"solid",
+         "opacity":1,
+         "type":"imagelayer",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "class":"SpriteReference",
+         "id":8,
+         "image":"title_screen.png",
+         "name":"bg",
          "opacity":1,
          "type":"imagelayer",
          "visible":true,
@@ -130,7 +141,7 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":8,
+ "nextlayerid":9,
  "nextobjectid":36,
  "orientation":"orthogonal",
  "properties":[

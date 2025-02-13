@@ -22,6 +22,7 @@ using namespace ufoMaths;
 
 class Widget : public Actor{
 public:
+    bool visible = true;
     Rectangle rectangle;
     Rectangle GetRectangle();
 
