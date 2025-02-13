@@ -77,6 +77,13 @@ public:
         int number_of_rows = 1;
 
         for(int i_word = 0; i_word < text_as_vector.size(); i_word++){
+            
+            for(int c = 0; c < text_as_vector[i_word].size(); c++){
+                if(text_as_vector[i_word][c] == '\n'){
+                    number_of_rows++;
+                }
+            }
+
             if(row.size()+text_as_vector[i_word].size() < int(rectangle.size.x/text_width)){
                 row+=text_as_vector[i_word]+" ";
             }

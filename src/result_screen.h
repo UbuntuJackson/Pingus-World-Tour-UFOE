@@ -43,6 +43,18 @@ public:
 
         Console::Out("Try again rectangle",try_again->local_position);
         Console::Out("Back to level select rectangle",back_to_level_select->local_position);
+
+        auto rank_icon = AddChild<WidgetSpriteReference>(
+            "ranks",
+            Vector2f(0.0f,0.0f),
+            Vector2f(0.0f,0.0f),
+            Vector2f(120.0f,120.0f),
+            Vector2f(0.5f,0.5f),
+            0.0f,
+            0
+        );
+
+        rank_icon->current_frame_index = rank;
     }
 
     void OnUpdate(){
@@ -96,8 +108,10 @@ public:
             break;
         }
 
-        std::string result_screen_text = "Rank:" + s_rank + "\n\n" + message;
+        std::string result_screen_text = "Rank: "+s_rank+"\n\n" + message;
 
-        Engine::Get().pixel_game_engine.DrawStringDecal(GetGlobalPosition() + Vector2f(20.0f,20.0f), GetWrappedTextWrapOnSpace(result_screen_text).text);
+        WrappedText wrapped_result_screen_text = GetWrappedTextWrapOnSpace(result_screen_text);
+
+        Engine::Get().pixel_game_engine.DrawStringDecal(GetGlobalPosition() + Vector2f(20.0f,try_again->local_position.y-8.0f*wrapped_result_screen_text.rows-8.0f), wrapped_result_screen_text.text);
     }
 };

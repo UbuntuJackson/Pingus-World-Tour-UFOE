@@ -33,6 +33,7 @@ void PingusLevel::OnResourceLoad(){
     AssetManager::Get().LoadDecal("../res/assets/pingu_blowing_up-Sheet.png", "pingu_explode");
     AssetManager::Get().LoadDecal("../res/assets/honey_coin_hud-Sheet.png", "honey_coin_hud");
     AssetManager::Get().LoadDecal("../res/assets/widget_theme.png", "pwt_widget_theme");
+    AssetManager::Get().LoadDecal("../res/assets/ranks.png", "ranks");
     Engine::Get().pixel_game_engine.LoadFontSprite("../res/assets/pwt_font.png");
 }
 
