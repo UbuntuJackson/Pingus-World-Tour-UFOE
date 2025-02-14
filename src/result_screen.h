@@ -28,10 +28,14 @@ public:
 
         auto level = dynamic_cast<PingusLevel*>(_level);
 
+        Console::Out("Honey coin hud frame index:",level->honey_coin_hud->current_frame_index);
+        Console::Out("required pingus", level->required_pingus);
+        Console::Out("maxumum rescuable_pingus", level->maximum_rescuable_pingus);
+
         if(level->rescued_pingus >= level->required_pingus) rank = Ranks::B;
         if(level->rescued_pingus >= level->maximum_rescuable_pingus) rank = Ranks::A;
-        Console::Out("Honey coin hud frame index:",level->honey_coin_hud->current_frame_index == 0.0f);
-        if(level->rescued_pingus >= level->maximum_rescuable_pingus && level->honey_coin_hud->current_frame_index == 0.0f) rank = Ranks::S;
+        
+        if(level->honey_coin_hud->current_frame_index == 0.0f && rank <= Ranks::B) rank--;
 
         theme = Theme("pwt_widget_theme", 3,4,3,4);
 

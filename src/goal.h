@@ -18,12 +18,12 @@ public:
         local_position.y -= shape.size.y;
         level = dynamic_cast<PingusLevel*>(_level);
         level->goals.push_back(this);
-        level->maximum_rescuable_pingus = maximum_rescuable_pingus;
 
     }
 
     void OnStart(Level* _level){
         level->required_pingus += number_of_pingus;
+        level->maximum_rescuable_pingus = maximum_rescuable_pingus;
     }
     
 };
