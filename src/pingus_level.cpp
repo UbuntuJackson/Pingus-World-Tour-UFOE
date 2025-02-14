@@ -35,6 +35,7 @@ void PingusLevel::OnResourceLoad(){
     AssetManager::Get().LoadDecal("../res/assets/pingu_blowing_up-Sheet.png", "pingu_explode");
     AssetManager::Get().LoadDecal("../res/assets/honey_coin_hud-Sheet.png", "honey_coin_hud");
     AssetManager::Get().LoadDecal("../res/assets/widget_theme.png", "pwt_widget_theme");
+    AssetManager::Get().LoadDecal("../res/assets/widget_theme_gray.png", "pwt_widget_theme_gray");
     AssetManager::Get().LoadDecal("../res/assets/ranks.png", "ranks");
     Engine::Get().pixel_game_engine.LoadFontSprite("../res/assets/pwt_font.png");
 }
@@ -84,19 +85,17 @@ void PingusLevel::OnUpdate(){
     if(total_number_of_pingus > 0 && rescued_pingus >= total_number_of_pingus && !level_finished){
         NewActor<ResultScreen>(Vector2f(30.0f,30.0f));
         level_finished = true;
-        //NewActor<PingusMainMenu>(Vector2f(100.0f,100.0f));
+        //paused = true;
     }
 
     if(SingleKeyboard::Get().GetKey(olc::ESCAPE).is_pressed){
         NewActor<ResultScreen>(Vector2f(30.0f,30.0f));
-        //NewActor<PingusMainMenu>(Vector2f(100.0f,100.0f));
+        //paused = true;
     }
 
     if(Mouse::Get().GetLeftButton().is_pressed){
 
         //auto a = NewActor<Pingu>(GetActiveCamera()->TransformScreenToWorld(Mouse::Get().GetPosition()));
-
-        //Console::Out("Pingu count",pingu_count++);
     
     }
 }

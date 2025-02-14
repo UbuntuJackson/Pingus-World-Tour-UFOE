@@ -37,14 +37,14 @@ public:
         
         if(level->honey_coin_hud->current_frame_index == 0.0f && rank <= Ranks::B) rank--;
 
-        theme = Theme("pwt_widget_theme", 3,4,3,4);
+        theme = Theme("pwt_widget_theme_gray", 3,4,3,4);
 
         try_again = AddChild<Button>(Vector2f(50.0f,200.0f-65.0f),Vector2f(100.0f,20.0f),"Try again");
 
         back_to_level_select = AddChild<Button>(Vector2f(50.0f,200.0f-40.0f),Vector2f(100.0f,20.0f),"Back to level select");
 
-        try_again->theme = Theme("pwt_widget_theme", 3,4,3,4);
-        back_to_level_select->theme = Theme("pwt_widget_theme", 3,4,3,4);
+        try_again->theme = Theme("pwt_widget_theme_gray", 3,4,3,4);
+        back_to_level_select->theme = Theme("pwt_widget_theme_gray", 3,4,3,4);
 
         Console::Out("Try again rectangle",try_again->local_position);
         Console::Out("Back to level select rectangle",back_to_level_select->local_position);
@@ -87,31 +87,31 @@ public:
 
         switch(rank){
             case Ranks::C:{
-                s_rank = "C";
-                message = "You failed. Too many pingu lives were lost.";
+                s_rank = "L for Loss.";
+                message = "But don't feel down! Try better next time!";
             }
             break;
 
             case Ranks::B:{
-                s_rank = "B";
-                message = "Well done, some lives were lost, but worth the sacrifice.";
+                s_rank = "B for Brilliant!";
+                message = "Some friends were left behind, but course was cleared.";
             }
             break;
 
             case Ranks::A:{
-                s_rank = "A";
+                s_rank = "A for Absolutely incredible!";
                 message = "Luckily no lives were lost!";
             }
             break;
 
             case Ranks::S:{
-                s_rank = "S";
-                message = "You got that sweet-sweet honeycoin. You're about to conquer the world!";
+                s_rank = "S for Superb!";
+                message = "You got that sweet-sweet honeycoin!";
             }
             break;
         }
 
-        std::string result_screen_text = "Rank: "+s_rank+"\n\n" + message;
+        std::string result_screen_text = "Rank: "+s_rank+"\n" + message;
 
         WrappedText wrapped_result_screen_text = GetWrappedTextWrapOnSpace(result_screen_text);
 

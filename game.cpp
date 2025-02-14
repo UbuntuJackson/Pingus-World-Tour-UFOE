@@ -14,7 +14,7 @@ int main(){
     Engine& ufo = Engine::Get();
 
     //ufo.GoToLevel("../UFO-Engine/res/engine/default_level.json");
-    ufo.GoToLevel(std::make_unique<PingusLevel>(), "../res/map/builder_test_level/test_level_builder_tiled.json");
+    ufo.GoToLevel(std::make_unique<PingusLevel>(), "../res/map/parachute_test_level/parachute_test_level.json");
     ufo.Start();
 
     return 0;
