@@ -25,6 +25,7 @@ public:
     PingusLevel* level;
 
     Timer build_timer;
+    Timer fall_timer;
 
     bool is_in_special_state = false;
     bool exploded = false;
@@ -126,6 +127,8 @@ public:
     }
 
     void Parachute(){
+        fall_timer.Start(5000000.0f);
+        fall_timer.Stop();
         anim->SetAnimation("pingu_parachute");
         velocity.y = 20.0f;
 
@@ -142,9 +145,16 @@ public:
         
         anim->SetAnimation("pingu_walk");
         
+        if(fall_timer.GetTimeLeft() <= 0.0f){
+            item_blow_up();
+        }
+
+        fall_timer.Start(5000000.0f);
+        fall_timer.Stop();
     }
 
     void Fall(){
+        if(!fall_timer.is_started) fall_timer.Start(3000.0f);
         anim->SetAnimation("pingu_fall");
         velocity.x = 0.0f;
         velocity.y = 100.0f;
@@ -270,7 +280,7 @@ public:
         item_parachute
     };
 
-    int current_item = 1;
+    int current_item = 2;
 
     void OnUpdate(){
         
