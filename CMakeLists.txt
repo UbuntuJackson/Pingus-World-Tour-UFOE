@@ -8,6 +8,7 @@ set(
     src/pingus_level.cpp
     src/goal.cpp
     src/pingus_main_menu.cpp
+    src/item_select_menu.cpp
 )
 add_executable(${PROJECT_NAME} ${SRC})
 target_link_libraries(${PROJECT_NAME} UFO)

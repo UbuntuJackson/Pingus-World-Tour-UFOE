@@ -41,7 +41,7 @@ void PingusLevel::OnResourceLoad(){
 }
 
 void PingusLevel::OnLoadActors(Json& _actor_json){
-    Console::Out("PingusLevel OnLoadACtors");
+    
     GeneratedActorJsonBridge(this, _actor_json, "pingus_actor_sheet");
 }
 
@@ -103,7 +103,7 @@ void PingusLevel::OnUpdate(){
     if(total_number_of_pingus > 0 && rescued_pingus >= total_number_of_pingus && !level_finished){
         NewActor<ResultScreen>(Vector2f(30.0f,30.0f));
         level_finished = true;
-        //paused = true;
+        paused = true;
     }
 
     if(SingleKeyboard::Get().GetKey(olc::ESCAPE).is_pressed){

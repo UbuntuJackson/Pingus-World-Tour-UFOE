@@ -125,22 +125,28 @@
                  "y":337.863636363637
                 }, 
                 {
-                 "gid":8,
+                 "gid":6,
                  "height":32,
-                 "id":27,
+                 "id":28,
                  "name":"",
-                 "properties":[
-                        {
-                         "name":"number_of_pingus",
-                         "type":"int",
-                         "value":15
-                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":1598.5,
-                 "y":223.5
+                 "x":507.818181818182,
+                 "y":165.272727272727
+                }, 
+                {
+                 "gid":8,
+                 "height":32,
+                 "id":29,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":403.818181818182,
+                 "y":162.909090909091
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -149,7 +155,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":28,
+ "nextobjectid":30,
  "orientation":"orthogonal",
  "properties":[
         {

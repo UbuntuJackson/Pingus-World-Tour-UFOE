@@ -189,7 +189,7 @@ public:
         }
         
         if(reached_location){
-            Console::Out("Build");
+            
             build_timer.Start(200.0f);
             for(int yy = 0; yy < 2; yy++){
                 for(int xx = 6; xx < 6+(int)step_width; xx++){
@@ -243,7 +243,6 @@ public:
         
         state = state_explode;
 
-        Console::Out("Frame index",anim->current_animation_state->current_frame_index);
         is_in_special_state = true;
     };
 
