@@ -82,37 +82,11 @@ public:
         }
     }
 
-    void ControlWithMouse(bool _up, bool _down, bool _select){
-        if(!ufoMaths::RectangleVsPoint(buttons[selected_index]->rectangle, Mouse::GetPosition())){
-            return;
-        }
-
-        if(_up){
-            selected_index--;
-            selected_index = ufoMaths::Wrapi(selected_index, 0, int(buttons.size()));
-
-            /*if(buttons[selected_index]->GetGlobalPosition().y < 0.0f){
-                local_position.y=buttons[selected_index]->GetGlobalPosition().y;
+    void ControlWithMouse(){
+        for(int index = 0; index < buttons.size(); index++){
+            if(buttons[index]->IsPressed()){
+                selected_index = index; 
             }
-            else{
-                local_position.y-=buttons[selected_index]->GetGlobalPosition().y;
-            }*/
-        }
-        if(_down){
-            selected_index++;
-
-            if(buttons[ufoMaths::Wrapi(selected_index, 0, int(buttons.size()))]->GetGlobalPosition().y > Engine::Get().pixel_game_engine.GetWindowSizeInPixles().y){
-                local_position.y-=(buttons[ufoMaths::Wrapi(selected_index, 0, int(buttons.size()))]->rectangle.size.y+spacing);
-            }
-            if(selected_index == buttons.size()){
-                local_position.y = original_position.y;
-            }
-
-            selected_index = ufoMaths::Wrapi(selected_index, 0, int(buttons.size()));
-
-        }
-        if(_select){
-            buttons[selected_index]->on_pressed(this, buttons[selected_index]);
         }
     }
 

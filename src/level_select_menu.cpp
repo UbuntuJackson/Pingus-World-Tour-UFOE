@@ -6,7 +6,7 @@
 #include "item_select_menu.h"
 
 ItemSelectMenu::ItemSelectMenu(Vector2f _local_position) : WrapMenu(Vector2f(0.0f,0.0f), Vector2f(50.0f,20.0f)){
-
+    has_modified_controls = true;
 }
 
 void ItemSelectMenu::OnStart(Level* _level){

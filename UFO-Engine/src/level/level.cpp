@@ -436,6 +436,10 @@ void Level::ActiveCameraLookAround(bool _condition_move, bool _condition_zoom){
 
 }
 
+void Level::OnCameraManipulation(){
+    ActiveCameraLookAround(Mouse::GetMiddleButton().is_held, true);
+}
+
 void Level::Update(){
     for(auto&& actor : new_actor_queue){
         
@@ -451,7 +455,7 @@ void Level::Update(){
 
     new_actor_queue.clear();
 
-    ActiveCameraLookAround(Mouse::GetMiddleButton().is_held, true);
+    OnCameraManipulation();
 
     for(const auto& camera : camera_handles){
         camera->EarlyUpdate();

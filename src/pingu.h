@@ -147,7 +147,7 @@ public:
         
         anim->SetAnimation("pingu_walk");
         
-        if(fall_timer.GetTimeLeft() <= 0.0f){
+        if(fall_timer.GetTimeLeft() <= 0.0f && IsOverlapping(level,mask_decal,solid_layer,local_position+Vector2f(0.0f,2.0f),olc::MAGENTA)){
             item_blow_up();
         }
 
@@ -288,7 +288,7 @@ public:
         
         if(RectangleVsPoint(Rectangle(local_position, Vector2f(12.0f,24.0f)),level->GetActiveCamera()->TransformScreenToWorld(Mouse::Get().GetPosition())) && Mouse::Get().GetLeftButton().is_pressed){
 
-            level->item_select_menu->items[level->item_select_menu->selected_index](this);
+            if(level->item_select_menu != nullptr) level->item_select_menu->items[level->item_select_menu->selected_index](this);
 
         }
 

@@ -139,6 +139,7 @@ public:
 
     Camera* GetActiveCamera();
     void ActiveCameraLookAround(bool _condition_move, bool _condition_zoom);
+    virtual void OnCameraManipulation();
 
     void Update();
     virtual void OnUpdate();

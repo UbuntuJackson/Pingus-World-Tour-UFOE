@@ -62,8 +62,8 @@ public:
         rank_icon->current_frame_index = rank;
     }
 
-    void OnUpdate(){
-        Widget::OnUpdate();
+    void OnPaused(){
+        //Widget::OnUpdate();
 
         if(back_to_level_select->IsPressed()){
             Console::Out("Back to level select");

@@ -44,6 +44,8 @@ public:
 
     void OnLoad(Json& _j);
 
+    void OnCameraManipulation();
+    
     void OnUpdate();
 
     void OnHandlePurge();

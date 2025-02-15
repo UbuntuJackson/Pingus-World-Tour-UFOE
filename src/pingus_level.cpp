@@ -68,9 +68,27 @@ void PingusLevel::OnLoad(Json& _j){
     
 }
 
+void PingusLevel::OnCameraManipulation(){
+    ActiveCameraLookAround(Mouse::Get().GetMiddleButton().is_held, SingleKeyboard::Get().GetKey(olc::SHIFT).is_held);
+}
+
 void PingusLevel::OnUpdate(){
     
     Level::OnUpdate();
+
+    if(paused){
+        
+        return;
+    }
+
+    if(item_select_menu != nullptr){
+        item_select_menu->ControlWithMouse();
+        item_select_menu->ControlWithKeys(
+            Mouse::Get().GetScrollDirection() > 0 && !SingleKeyboard::Get().GetKey(olc::SHIFT).is_held,
+            Mouse::Get().GetScrollDirection() < 0 && !SingleKeyboard::Get().GetKey(olc::SHIFT).is_held,
+            false
+        );
+    }
 
     if(is_menu){
         honey_coin_hud->visible = false;
@@ -90,7 +108,7 @@ void PingusLevel::OnUpdate(){
 
     if(SingleKeyboard::Get().GetKey(olc::ESCAPE).is_pressed){
         NewActor<ResultScreen>(Vector2f(30.0f,30.0f));
-        //paused = true;
+        paused = true;
     }
 
     if(Mouse::Get().GetLeftButton().is_pressed){
