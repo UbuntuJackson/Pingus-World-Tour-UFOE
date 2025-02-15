@@ -13,6 +13,7 @@ class WrapMenu;
 class Label;
 class WidgetSpriteReference;
 class HoneyCoin;
+class ItemSelectMenu;
 
 class PingusLevel : public Level{
 public:
@@ -26,7 +27,7 @@ public:
     bool is_menu = false;
     bool level_finished = false;
 
-    WrapMenu* item_select_menu = nullptr;
+    ItemSelectMenu* item_select_menu = nullptr;
     std::string pingus_level_path = "";
     int total_number_of_pingus = 0;
     int released_pingus = 0;

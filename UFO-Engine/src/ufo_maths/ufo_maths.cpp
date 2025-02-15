@@ -338,15 +338,12 @@ bool IsOverlapping(const Circle& _circle, const Pill& _pill){
 
 int Wrapi(int _value, int _min, int _max){
     assert(_min < _max);
-    int value_relative_to_min = _value - _min; // -1 - 0 = -1
+    if(_value < 0) _value = std::abs(_max+_value%(_max-_min));
+    
     int range = _max - _min; //1
-    if(value_relative_to_min > 0){ //x
-        return _min + value_relative_to_min % range;
-    }
-    if(value_relative_to_min < 0){
-        return _max + value_relative_to_min % range; //1 + -1 % 1 = 1
-    }
-    return _value;
+    
+    return _min + _value % range;
+    
 }
 
 float DotProduct(olc::vf2d _v0, olc::vf2d _v1){

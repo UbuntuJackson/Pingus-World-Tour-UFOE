@@ -6,10 +6,21 @@
 
 int main(){
 
-    int result = ufoMaths::Wrapi(-1,0,2);
-    int result2 = ufoMaths::Wrap(-1,0,1);
-    //Console::Out(result,result2,-1%3);
-    //return 0;
+    /*for(int i = -10; i < 10; i++){
+        Console::Out(ufoMaths::Wrapi(i, 0, 4));
+    }
+
+    Console::Out("---");
+
+    for(int i = -10; i < 10; i++){
+        Console::Out(ufoMaths::Wrapi(i, -4, 0));
+    }
+
+    for(int i = -10; i < 10; i++){
+        Console::Out(ufoMaths::Wrapi(i, 0, 1));
+    }
+    
+    return 0;*/
 
     Engine& ufo = Engine::Get();
 

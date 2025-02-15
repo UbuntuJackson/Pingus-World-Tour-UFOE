@@ -20,6 +20,7 @@ spawner.editor_attributes.append(("Int","number_of_pingus"))
 item_select_menu = tool.Class("ItemSelectMenu", "src/item_select_menu.h")
 item_select_menu.editor_attributes.append(("Int", "number_of_builders"))
 item_select_menu.editor_attributes.append(("Int", "number_of_bombers"))
+item_select_menu.editor_attributes.append(("Int", "number_of_parachutes"))
 
 honey_coin = tool.Class("HoneyCoin", "src/honey_coin.h")
 

@@ -13,8 +13,10 @@
 #include <rectangle.h>
 #include <mouse.h>
 #include <timer.h>
+#include <widget_sprite_reference.h>
 #include "goal.h"
 #include "honey_coin.h"
+#include "item_select_menu.h"
 
 class Pingu : public BitmapCollisionBody{
 public:
@@ -286,7 +288,7 @@ public:
         
         if(RectangleVsPoint(Rectangle(local_position, Vector2f(12.0f,24.0f)),level->GetActiveCamera()->TransformScreenToWorld(Mouse::Get().GetPosition())) && Mouse::Get().GetLeftButton().is_pressed){
 
-            items[current_item]();
+            level->item_select_menu->items[level->item_select_menu->selected_index](this);
 
         }
 

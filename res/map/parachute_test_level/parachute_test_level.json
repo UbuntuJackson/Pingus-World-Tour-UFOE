@@ -471,12 +471,17 @@
                         {
                          "name":"number_of_bombers",
                          "type":"int",
-                         "value":0
+                         "value":1
                         }, 
                         {
                          "name":"number_of_builders",
                          "type":"int",
                          "value":12
+                        }, 
+                        {
+                         "name":"number_of_parachutes",
+                         "type":"int",
+                         "value":2
                         }],
                  "rotation":0,
                  "type":"",
@@ -518,8 +523,8 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":621.333333333333,
-                 "y":2567.77272727273
+                 "x":617.333333333333,
+                 "y":2565.77272727273
                 }],
          "opacity":1,
          "type":"objectgroup",
