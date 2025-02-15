@@ -85,7 +85,8 @@ public:
     void ControlWithMouse(){
         for(int index = 0; index < buttons.size(); index++){
             if(buttons[index]->IsPressed()){
-                selected_index = index; 
+                selected_index = index;
+                buttons[index]->on_pressed(this, buttons[index]); 
             }
         }
     }

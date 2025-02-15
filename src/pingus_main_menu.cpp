@@ -10,10 +10,12 @@
 #include "level_select_menu.h"
 
 PingusMainMenu::PingusMainMenu(Vector2f _local_position) : WrapMenu(_local_position,Vector2f(250.0f,200.0f)){
-
+    
 }
 
 void PingusMainMenu::OnLevelEnter(Level* _level){
+    has_modified_controls = true;
+    
     dynamic_cast<PingusLevel*>(_level)->current_menu = this;
 
     level = dynamic_cast<PingusLevel*>(_level);
@@ -36,5 +38,19 @@ void PingusMainMenu::OnLevelEnter(Level* _level){
     AddChild(std::move(b_quit));
 
     WrapMenu::OnLevelEnter(_level);
+
+    local_position.x = Engine::Get().pixel_game_engine.GetWindowSizeInPixles().x/2.0f-150.0f/2.0f;
+    local_position.y = Engine::Get().pixel_game_engine.GetWindowSizeInPixles().y-50.0f;
     
+}
+
+void PingusMainMenu::OnUpdate(){
+    ControlWithMouse();
+    ControlWithKeys(
+        SingleKeyboard::Get().GetKey(olc::UP).is_pressed, SingleKeyboard::Get().GetKey(olc::DOWN).is_pressed,
+        SingleKeyboard::Get().GetKey(olc::ENTER).is_pressed
+    );
+
+    level->GetActiveCamera()->local_position = Vector2f(800.0f, 400.0f);
+    level->GetActiveCamera()->scale = 0.5f;
 }

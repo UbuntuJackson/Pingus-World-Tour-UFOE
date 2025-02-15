@@ -113,7 +113,7 @@ void PingusLevel::OnUpdate(){
 
     if(Mouse::Get().GetLeftButton().is_pressed){
 
-        //auto a = NewActor<Pingu>(GetActiveCamera()->TransformScreenToWorld(Mouse::Get().GetPosition()));
+        auto a = NewActor<Pingu>(GetActiveCamera()->TransformScreenToWorld(Mouse::Get().GetPosition()));
     
     }
 }

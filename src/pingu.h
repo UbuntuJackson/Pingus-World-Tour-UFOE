@@ -339,8 +339,6 @@ public:
 
         bool attempt_free_from_semisolid = false;
 
-        Vector2f position_before_slope_detected = local_position;
-
         is_already_in_semi_solid = IsOverlappingFeet(local_position, olc::RED);
 
         local_position.x += velocity.x * Engine::Get().GetDeltaTime();
@@ -368,44 +366,57 @@ public:
             }
         }*/
 
+        Console::Out("");
+
         //Normal slope and walls
         if(IsOverlapping(game, mask_decal,solid_layer,local_position)){
             bool slope_resolved = false;
+            Vector2f incrementing_position = local_position;
             
             while(!slope_resolved){
 
-                position_before_slope_detected.x += ufoMaths::Sign(velocity.x);
+                Vector2f position_before_slope_incrementation = incrementing_position;
 
-                Vector2f position_before_slope_check = position_before_slope_detected;
-                while(IsOverlapping(game, mask_decal,solid_layer,position_before_slope_detected)){
+                while(IsOverlapping(game, mask_decal,solid_layer,incrementing_position)){
                     
-                    position_before_slope_detected.y-=1.0f;
+                    incrementing_position.y-=1.0f;
 
-                    if(std::abs(position_before_slope_detected.y - position_before_slope_check.y) > max_slope_height){
+                    if(std::abs(incrementing_position.y - position_before_slope_incrementation.y) > max_slope_height){
+                        
                         hit_slope = false;
                         hit_wall = true;
-
-                        position_before_slope_detected.x -= ufoMaths::Sign(velocity.x);
-                        velocity.x = 0.0f;
-
-                        local_position.x = position_before_slope_detected.x;
+                        incrementing_position.x -= ufoMaths::Sign(velocity.x);
                         slope_resolved = true;
-                        hit_wall = true;
                         break;
                         
                     }
                 }
 
-                if(std::abs(local_position.x - position_before_slope_detected.x) > std::abs(velocity.x * Engine::Get().GetDeltaTime())){
+                if(!hit_wall) incrementing_position.x += ufoMaths::Sign(velocity.x);
+
+                Console::Out("Less than max slope height", std::abs(incrementing_position.y - position_before_slope_incrementation.y));
+
+                if(std::abs(local_position.x - incrementing_position.x) >= std::abs(velocity.x * Engine::Get().GetDeltaTime())){
                     slope_resolved = true;
+                    Console::Out("Slope still not resolved", velocity.x * Engine::Get().GetDeltaTime());
                 }
             }
-            if(hit_slope) local_position.y = position_before_slope_detected.y;
+            if(hit_slope){
+                local_position.y = incrementing_position.y;
+                Console::Out("Hit slope confirmed");
+            }
+            if(hit_wall){
+                Console::Out("Hit wall confirmed");
+                local_position.x = incrementing_position.x;
+                velocity.x = 0.0f;
+            }
             
         }
         else{
             hit_slope = false;
         }
+
+        if(IsOverlapping(game, mask_decal,solid_layer,local_position)) Console::Out("Is still overlapping after resolution");
 
         //Semi solid slope
 
@@ -475,35 +486,6 @@ public:
                 //velocity.y = 100.0f;
             }
             
-        }
-
-        return;
-
-        if(!(hit_semisolid_slope || hit_floor)){
-            bool found_slope = true;
-            
-            Console::Out("Trying for semisolid snap to ground");
-            for(int i = 0; i < 12; i++){
-                Vector2f temporary_position = local_position;
-                while(!((game->level_decals[solid_layer]->sprite->GetPixel(temporary_position.x+(float)i,temporary_position.y + 23.0f) == olc::RED)))
-                {
-                    temporary_position.y += 1.0f;
-                    if(std::abs(temporary_position.y - local_position.y) > max_slope_height*2.0f){
-                        
-                        found_slope = false;
-                        break;
-                    }
-                }
-                
-                if(found_slope){
-                    local_position.y = temporary_position.y-1.0f;
-                    //velocity.y = 100.0f;
-                    break;
-                }
-                else{
-                    Console::Out("Did not fine slope");
-                }
-            }
         }
         
     }
