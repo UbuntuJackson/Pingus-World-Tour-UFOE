@@ -50,6 +50,10 @@ public:
         Explode();
     };
 
+    std::function<void()> die_by_fall = [this](){
+        DieByFall();
+    };
+
     int parachute_sprite_id = -1;
 
     std::function<void()> state_parachute = [this](){
@@ -81,6 +85,17 @@ public:
 
         anim->AddAnimationState(AnimatedSpriteReference(
             "pingu_explode",
+            Vector2f(0.0f, 0.0f),
+            Vector2f(16.0f,16.0f),
+            Vector2f(32.0f, 32.0f),
+            Vector2f(1.0f,1.0f),
+            0.0f,
+            0,
+            10.6f
+        ));
+
+        anim->AddAnimationState(AnimatedSpriteReference(
+            "pingu_fall_death",
             Vector2f(0.0f, 0.0f),
             Vector2f(16.0f,16.0f),
             Vector2f(32.0f, 32.0f),
@@ -141,14 +156,26 @@ public:
         }
     }
 
+    void DieByFall(){
+        velocity.x = 0.0f;
+        if(anim->current_animation_state->key != "pingu_fall_death") anim->SetAnimation("pingu_fall_death");
+        if(anim->cycle_count > 0) QueueForPurge();
+    }
+
     void Walk(){
         anim->current_animation_state->scale.x = face_direction;
         velocity.x = face_direction * 30.0f;
         
         anim->SetAnimation("pingu_walk");
         
-        if(fall_timer.GetTimeLeft() <= 0.0f && IsOverlapping(level,mask_decal,solid_layer,local_position+Vector2f(0.0f,2.0f),olc::MAGENTA)){
-            item_blow_up();
+        if(fall_timer.GetTimeLeft() <= 0.0f){
+            if(IsOverlapping(level,mask_decal,solid_layer,local_position+Vector2f(0.0f,2.0f),olc::MAGENTA)) item_blow_up();
+            else{
+                state = die_by_fall;
+            }
+
+            is_in_special_state = true;
+            
         }
 
         fall_timer.Start(5000000.0f);

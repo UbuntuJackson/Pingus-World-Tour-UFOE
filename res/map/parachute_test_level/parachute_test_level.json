@@ -171,17 +171,17 @@
                         {
                          "name":"number_of_bombers",
                          "type":"int",
-                         "value":1
+                         "value":0
                         }, 
                         {
                          "name":"number_of_builders",
                          "type":"int",
-                         "value":12
+                         "value":0
                         }, 
                         {
                          "name":"number_of_parachutes",
                          "type":"int",
-                         "value":2
+                         "value":20
                         }, 
                         {
                          "name":"table",
@@ -200,12 +200,18 @@
                  "height":32,
                  "id":37,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"number_of_pingus",
+                         "type":"int",
+                         "value":5
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":1313.15151515152,
-                 "y":1182.51515151515
+                 "x":510.151515151515,
+                 "y":172.515151515148
                 }, 
                 {
                  "gid":5,

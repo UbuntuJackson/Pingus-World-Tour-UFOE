@@ -27,6 +27,7 @@ void PingusLevel::OnResourceLoad(){
     AssetManager::Get().LoadDecal("../res/assets/pingu_hitbox.png","pill");
     AssetManager::Get().LoadDecal("../res/assets/box_12_24.png","box_12_24");
     AssetManager::Get().LoadDecal("../res/assets/walking animation-Sheet.png", "pingu_walk");
+    AssetManager::Get().LoadDecal("../res/assets/fall_death-Sheet.png", "pingu_fall_death");
     AssetManager::Get().LoadDecal("../res/assets/spawner.png", "spawner");
     AssetManager::Get().LoadDecal("../res/assets/pingu_fall.png", "pingu_fall");
     AssetManager::Get().LoadDecal("../res/assets/pingu_parachute.png", "pingu_parachute");
@@ -113,7 +114,7 @@ void PingusLevel::OnUpdate(){
 
     if(Mouse::Get().GetLeftButton().is_pressed){
 
-        auto a = NewActor<Pingu>(GetActiveCamera()->TransformScreenToWorld(Mouse::Get().GetPosition()));
+        //auto a = NewActor<Pingu>(GetActiveCamera()->TransformScreenToWorld(Mouse::Get().GetPosition()));
     
     }
 }
