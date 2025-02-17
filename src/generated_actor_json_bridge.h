@@ -37,6 +37,9 @@ void GeneratedActorJsonBridge(Level* _level, Json& _actor_json, std::string _act
                     if(_json.GetAsString("name") == "number_of_pingus"){
                         instance->number_of_pingus = _json.GetAsInt("value");
                     }
+                    if(_json.GetAsString("name") == "interval_milliseconds"){
+                        instance->interval_milliseconds = _json.GetAsDouble("value");
+                    }
                 });
             }
         }

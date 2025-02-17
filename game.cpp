@@ -27,7 +27,7 @@ int main(){
     //ufo.GoToLevel("../UFO-Engine/res/engine/default_level.json");
     //ufo.GoToLevel(std::make_unique<PingusLevel>(), "../res/map/builder_test_level/test_level_builder_tiled.json");
     //ufo.GoToLevel(std::make_unique<PingusLevel>(), "../res/map/test_level/test_level_tiled.json");
-    ufo.GoToLevel(std::make_unique<PingusLevel>(), "../res/map/parachute_test_level/parachute_test_level.json");
+    ufo.GoToLevel(std::make_unique<PingusLevel>(), "../res/map/skyscrapers/skyscrapers.json");
     ufo.Start();
 
     return 0;

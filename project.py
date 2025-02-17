@@ -16,6 +16,7 @@ main_menu = tool.Class("PingusMainMenu", "src/pingus_main_menu.h", "src/pingus_m
 
 spawner = tool.Class("Spawner", "src/spawner.h")
 spawner.editor_attributes.append(("Int","number_of_pingus"))
+spawner.editor_attributes.append(("Double","interval_milliseconds"))
 
 item_select_menu = tool.Class("ItemSelectMenu", "src/item_select_menu.h", "src/item_select_menu.cpp")
 item_select_menu.editor_attributes.append(("Int", "number_of_builders"))

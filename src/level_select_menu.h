@@ -14,7 +14,7 @@
 class LevelSelectMenu : public FileMenu{
 public:
     LevelSelectMenu() : FileMenu(Vector2f(40.0f, 0.0f),Vector2f(250.0f, 200.0f), "../res"){
-        
+        has_modified_controls = true;
     }
 
     void OnFileMenuCreated(){
@@ -39,6 +39,15 @@ public:
 
     void OnUpdate(){
         FileMenu::OnUpdate();
+
+        ControlWithMouse();
+        ControlWithKeys(
+            SingleKeyboard::Get().GetKey(olc::UP).is_pressed, SingleKeyboard::Get().GetKey(olc::DOWN).is_pressed,
+            SingleKeyboard::Get().GetKey(olc::ENTER).is_pressed
+        );
+
+        level->GetActiveCamera()->local_position = Vector2f(800.0f, 400.0f);
+        level->GetActiveCamera()->scale = 0.5f;
         //Console::Out("LevelSelectMenu::OnUpdate");
     }
 

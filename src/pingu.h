@@ -399,6 +399,10 @@ public:
         if(IsOverlapping(game, mask_decal,solid_layer,local_position)){
             bool slope_resolved = false;
             Vector2f incrementing_position = local_position;
+
+            while(IsOverlapping(game, mask_decal,solid_layer,incrementing_position)){
+                incrementing_position.x -= ufoMaths::Sign(velocity.x);
+            }
             
             while(!slope_resolved){
 
@@ -412,6 +416,7 @@ public:
                         
                         hit_slope = false;
                         hit_wall = true;
+                        incrementing_position = position_before_slope_incrementation;
                         incrementing_position.x -= ufoMaths::Sign(velocity.x);
                         slope_resolved = true;
                         break;
@@ -430,11 +435,11 @@ public:
             }
             if(hit_slope){
                 local_position.y = incrementing_position.y;
-                Console::Out("Hit slope confirmed");
+                Console::Out("Hit slope confirmed", std::abs(velocity.x * Engine::Get().GetDeltaTime()));
             }
             if(hit_wall){
-                Console::Out("Hit wall confirmed");
-                local_position.x = incrementing_position.x;
+                Console::Out("Hit wall confirmed", std::abs(velocity.x * Engine::Get().GetDeltaTime()));
+                local_position = incrementing_position;
                 velocity.x = 0.0f;
             }
             

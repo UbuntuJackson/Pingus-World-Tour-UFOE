@@ -36,6 +36,7 @@ public:
     int maximum_rescuable_pingus = 100;
     Label* rescued_pingus_label = nullptr;
     Label* released_pingus_label = nullptr;
+    Label* max_pingus_label = nullptr;
     WidgetSpriteReference* honey_coin_hud = nullptr;
 
     void OnResourceLoad();

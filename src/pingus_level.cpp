@@ -56,9 +56,10 @@ void PingusLevel::OnLoad(Json& _j){
     Console::Out("Level size", level_size);
 
     rescued_pingus_label = NewActor<Label>(Vector2f(180.0f, 3.0f), Vector2f(100.0f, 20.0f), "Rescued Pingus");
-    released_pingus_label = NewActor<Label>(Vector2f(160.0f, 20.0f), Vector2f(100.0f, 20.0f), "Released Pingus");
+    released_pingus_label = NewActor<Label>(Vector2f(175.0f, 18.0f), Vector2f(100.0f, 20.0f), "Released Pingus");
+    max_pingus_label = NewActor<Label>(Vector2f(135.0f, 33.0f), Vector2f(100.0f, 20.0f), "Max. Rescuable Pingus");
     honey_coin_hud = NewActor<WidgetSpriteReference>("honey_coin_hud",
-        Vector2f(Engine::Get().pixel_game_engine.GetWindowSizeInPixles().x-33.0f, 40.0f),
+        Vector2f(Engine::Get().pixel_game_engine.GetWindowSizeInPixles().x-33.0f, 45.0f),
         Vector2f(0.0f, 0.0f),
         Vector2f(32.0f, 32.0f),
         Vector2f(1.0f, 1.0f),
@@ -95,11 +96,13 @@ void PingusLevel::OnUpdate(){
         honey_coin_hud->visible = false;
         rescued_pingus_label->visible = false;
         released_pingus_label->visible = false;
+        max_pingus_label->visible = false;
         return;
     }
 
     rescued_pingus_label->text = "Rescued Pingus:" + std::to_string(rescued_pingus) + "/" + std::to_string(required_pingus);
     released_pingus_label->text = "Released Pingus:" + std::to_string(released_pingus) + "/" + std::to_string(total_number_of_pingus);
+    max_pingus_label->text = "Max. Rescuable Pingus:" + std::to_string(maximum_rescuable_pingus);
 
     if(total_number_of_pingus > 0 && rescued_pingus >= total_number_of_pingus && !level_finished){
         NewActor<ResultScreen>(Vector2f(30.0f,30.0f));
