@@ -179,14 +179,14 @@
                         {
                          "name":"number_of_pingus",
                          "type":"int",
-                         "value":1
+                         "value":12
                         }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":502.166666666667,
-                 "y":374.666666666667
+                 "x":80.5000000000004,
+                 "y":429.333333333334
                 }],
          "opacity":1,
          "type":"objectgroup",

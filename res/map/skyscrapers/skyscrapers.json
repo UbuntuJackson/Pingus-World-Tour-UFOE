@@ -163,57 +163,6 @@
          "name":"actors",
          "objects":[
                 {
-                 "gid":11,
-                 "height":32,
-                 "id":30,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"number_of_bombers",
-                         "type":"int",
-                         "value":0
-                        }, 
-                        {
-                         "name":"number_of_builders",
-                         "type":"int",
-                         "value":0
-                        }, 
-                        {
-                         "name":"number_of_parachutes",
-                         "type":"int",
-                         "value":20
-                        }, 
-                        {
-                         "name":"table",
-                         "type":"string",
-                         "value":"number_of_bombers = 1\nnumber_of_builders = 2\nnumber_of_parachutes = 3"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":2.66666666666666,
-                 "y":33.3333333333333
-                }, 
-                {
-                 "gid":8,
-                 "height":32,
-                 "id":37,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"number_of_pingus",
-                         "type":"int",
-                         "value":5
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":510.151515151515,
-                 "y":172.515151515148
-                }, 
-                {
                  "gid":5,
                  "height":32,
                  "id":41,
