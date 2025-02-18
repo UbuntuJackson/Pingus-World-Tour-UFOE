@@ -43,6 +43,8 @@ set(
     src/graphics/graphics.cpp
     src/widgets/widget.cpp
     src/widgets/theme.cpp
+    src/widgets/colour_rectangle_theme.cpp
+    src/widgets/nine_patch_theme.cpp
     src/widgets/button.cpp
     #src/widget/new_widget.cpp
     #src/widget/menu_maker.cpp

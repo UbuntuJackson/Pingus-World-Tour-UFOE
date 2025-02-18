@@ -129,7 +129,7 @@ public:
     }
 
     void OnWidgetDraw(){
-        DrawingSystem::DrawFilled(rectangle, olc::Pixel(100,100,100,100));
+        Widget::OnWidgetDraw();
         Engine::Get().pixel_game_engine.DrawStringDecal(buttons[selected_index]->GetGlobalPosition()-Vector2f(16.0f,0.0f),">");
     }
 

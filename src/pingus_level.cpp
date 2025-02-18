@@ -104,6 +104,10 @@ void PingusLevel::OnUpdate(){
     released_pingus_label->text = "Released Pingus:" + std::to_string(released_pingus) + "/" + std::to_string(total_number_of_pingus);
     max_pingus_label->text = "Max. Rescuable Pingus:" + std::to_string(maximum_rescuable_pingus);
 
+    rescued_pingus_label->local_position.x = Engine::Get().pixel_game_engine.GetWindowSizeInPixles().x - 8.0f*rescued_pingus_label->text.size();
+    released_pingus_label->local_position.x = Engine::Get().pixel_game_engine.GetWindowSizeInPixles().x - 8.0f*released_pingus_label->text.size();
+    max_pingus_label->local_position.x = Engine::Get().pixel_game_engine.GetWindowSizeInPixles().x - 8.0f*max_pingus_label->text.size();
+
     if(total_number_of_pingus > 0 && rescued_pingus >= total_number_of_pingus && !level_finished){
         NewActor<ResultScreen>(Vector2f(30.0f,30.0f));
         level_finished = true;

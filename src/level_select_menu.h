@@ -47,7 +47,7 @@ public:
         );
 
         level->GetActiveCamera()->local_position = Vector2f(800.0f, 400.0f);
-        level->GetActiveCamera()->scale = 0.5f;
+        
         //Console::Out("LevelSelectMenu::OnUpdate");
     }
 

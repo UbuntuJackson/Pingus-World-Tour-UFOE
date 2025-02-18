@@ -30,3 +30,8 @@ Graphics::DrawFrame(const std::string& _key, Vector2f _drawing_position, Vector2
         _tint
     ); 
 }
+
+void
+Graphics::DrawRectangleFilled(Vector2f _position, Vector2f _size, const Colour& _colour){
+    graphics_engine->FillRectDecal(_position,_size,_colour);
+}

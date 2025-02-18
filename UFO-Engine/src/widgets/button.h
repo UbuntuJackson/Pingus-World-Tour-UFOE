@@ -8,6 +8,8 @@
 #include "widget.h"
 #include "../json/json.h"
 #include "../level/level.h"
+#include "colour_rectangle_theme.h"
+#include "theme.h"
 
 class Button : public Widget{
 public:
@@ -29,6 +31,9 @@ public:
     bool IsHeld();
     bool IsReleased();
     bool IsHovered();
+
+    std::unique_ptr<Theme> hovered_theme = std::make_unique<ColourRectangleTheme>(olc::CYAN);
+    std::unique_ptr<Theme> held_theme = std::make_unique<ColourRectangleTheme>(olc::VERY_DARK_CYAN);
 
     void OnWidgetDraw();
 

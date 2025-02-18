@@ -30,8 +30,6 @@ void Widget::OnUpdate(){
 
 void Widget::OnWidgetDraw(){
     if(!visible) return;
-    if(!theme.non_default_theme) DrawingSystem::Draw(rectangle, olc::BLUE);
-    else{
-        theme.OnDraw(this);
-    }
+    theme->OnDraw(this);
+    
 }

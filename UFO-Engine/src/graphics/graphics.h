@@ -11,25 +11,25 @@ class Graphics{
 public:
     olc::PixelGameEngine* graphics_engine = nullptr;
 
-    const Colour RED = olc::RED;
-    const Colour DARK_RED = olc::DARK_RED;
-    const Colour VERY_DARK_RED = olc::VERY_DARK_RED;
-    const Colour BLUE = olc::BLUE;
-    const Colour DARK_BLUE = olc::DARK_BLUE;
-    const Colour VERY_DARK_BLUE = olc::VERY_DARK_BLUE;
-    const Colour GREEN = olc::GREEN;
-    const Colour DARK_GREEN = olc::DARK_GREEN;
-    const Colour VERY_DARK_GREEN = olc::VERY_DARK_GREEN;
-    const Colour YELLOW = olc::YELLOW;
-    const Colour DARK_YELLOW = olc::DARK_YELLOW;
-    const Colour VERY_DARK_YELLOW = olc::VERY_DARK_YELLOW;
-    const Colour MAGENTA = olc::MAGENTA;
-    const Colour DARK_MAGENTA = olc::DARK_MAGENTA;
-    const Colour VERY_DARK_MAGENTA = olc::VERY_DARK_MAGENTA;
-    const Colour CYAN = olc::CYAN;
-    const Colour DARK_CYAN = olc::DARK_CYAN;
-    const Colour VERY_DARK_CYAN = olc::VERY_DARK_CYAN;
-    const Colour WHITE = olc::WHITE;
+    static const inline Colour RED = olc::RED;
+    static const inline Colour DARK_RED = olc::DARK_RED;
+    static const inline Colour VERY_DARK_RED = olc::VERY_DARK_RED;
+    static const inline Colour BLUE = olc::BLUE;
+    static const inline Colour DARK_BLUE = olc::DARK_BLUE;
+    static const inline Colour VERY_DARK_BLUE = olc::VERY_DARK_BLUE;
+    static const inline Colour GREEN = olc::GREEN;
+    static const inline Colour DARK_GREEN = olc::DARK_GREEN;
+    static const inline Colour VERY_DARK_GREEN = olc::VERY_DARK_GREEN;
+    static const inline Colour YELLOW = olc::YELLOW;
+    static const inline Colour DARK_YELLOW = olc::DARK_YELLOW;
+    static const inline Colour VERY_DARK_YELLOW = olc::VERY_DARK_YELLOW;
+    static const inline Colour MAGENTA = olc::MAGENTA;
+    static const inline Colour DARK_MAGENTA = olc::DARK_MAGENTA;
+    static const inline Colour VERY_DARK_MAGENTA = olc::VERY_DARK_MAGENTA;
+    static const inline Colour CYAN = olc::CYAN;
+    static const inline Colour DARK_CYAN = olc::DARK_CYAN;
+    static const inline Colour VERY_DARK_CYAN = olc::VERY_DARK_CYAN;
+    static const inline Colour WHITE = olc::WHITE;
 
     Graphics(olc::PixelGameEngine* _graphics_engine){
         graphics_engine = _graphics_engine;
@@ -43,7 +43,7 @@ public:
     //Blit to specific surface?
     void DrawString(Vector2f _position,const std::string& _str, Colour _colour, Vector2f _scale, Vector2f _rotation);
     void DrawRectangle(Vector2f _position, Vector2f _size, int _line_thickness);
-    void DrawRectangleFilled(Vector2f _position, Vector2f _size);
+    void DrawRectangleFilled(Vector2f _position, Vector2f _size,  const Colour& _colour);
     void DrawCircle(Vector2f _position, Vector2f _size, int _line_thickness);
     void DrawCircleFilled(Vector2f _position, Vector2f _size);
     void DrawLine(Vector2f _start, Vector2f _end, int _line_thickness, Colour _colour);

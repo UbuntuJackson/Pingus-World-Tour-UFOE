@@ -9,7 +9,8 @@
 #include "../json/json.h"
 #include "../actor/actor.h"
 #include "../ufo_maths/ufo_maths.h"
-#include "theme.h"
+#include "colour_rectangle_theme.h"
+#include "../graphics/graphics.h"
 
 class Level;
 
@@ -26,7 +27,7 @@ public:
     Rectangle rectangle;
     Rectangle GetRectangle();
 
-    Theme theme;
+    std::unique_ptr<Theme> theme = std::make_unique<ColourRectangleTheme>(Graphics::DARK_CYAN);
 
     Level* level = nullptr;
 

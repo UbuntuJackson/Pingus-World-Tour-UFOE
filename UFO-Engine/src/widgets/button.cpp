@@ -42,26 +42,12 @@ bool Button::IsReleased(){
 
 void Button::OnWidgetDraw(){
     if(!visible) return;
-    if(!theme.non_default_theme){
-        Rectangle r = rectangle;
-        /*if(parent){
-            r = Rectangle(local_position, rectangle.size);
-
-            r = ShapeWithRespectToParentWidgetBorder(r);
-
-            r.position+=parent->GetGlobalPosition();
-        }
-        else r.position = GetGlobalPosition();*/
-
-        r.position = GetGlobalPosition();
-        if(!is_selected) DrawingSystem::DrawFilled(r, background_colour);
-        else DrawingSystem::DrawFilled(r, background_colour/2);
-        DrawingSystem::DrawString(r.position + Vector2f(3.0f,3.0f), GetWrappedTextWrapOnSpace(text).text, text_colour, {1.0f,1.0f});
-    }
-    else{
-        theme.OnDraw(this);
-        DrawingSystem::DrawString(GetGlobalPosition() + Vector2f(3.0f,3.0f), GetWrappedTextWrapOnSpace(text).text, text_colour, {1.0f,1.0f});
-    }
+        
+    if(!IsHovered() && !IsHeld()) theme->OnDraw(this);
+    if(IsHovered() && !IsHeld()) hovered_theme->OnDraw(this);
+    if(IsHeld()) held_theme->OnDraw(this);
+    DrawingSystem::DrawString(GetGlobalPosition() + Vector2f(3.0f,3.0f), GetWrappedTextWrapOnSpace(text).text, text_colour, {1.0f,1.0f});
+    
 }
 
 std::unique_ptr<Button> Button::Load(Json* _json){
