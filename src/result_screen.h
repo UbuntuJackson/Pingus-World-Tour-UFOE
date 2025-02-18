@@ -38,14 +38,20 @@ public:
         
         if(level->honey_coin_hud->current_frame_index == 0.0f && rank <= Ranks::B) rank--;
 
-        theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_gray", 3,4,3,4);
+        theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_grey", 3,4,3,4);
 
         try_again = AddChild<Button>(Vector2f(50.0f,200.0f-65.0f),Vector2f(100.0f,20.0f),"Try again");
 
         back_to_level_select = AddChild<Button>(Vector2f(50.0f,200.0f-40.0f),Vector2f(100.0f,20.0f),"Back to level select");
 
-        try_again->theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_gray", 3,4,3,4);
-        back_to_level_select->theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_gray", 3,4,3,4);
+        //Set the themes
+        try_again->theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_grey", 3,4,3,4);
+        try_again->hovered_theme = std::make_unique<NinePatchTheme>("pwt_theme_grey_light", 3,4,3,4);
+        try_again->held_theme = std::make_unique<NinePatchTheme>("pwt_theme_grey_dark", 3,4,3,4);
+
+        back_to_level_select->theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_grey", 3,4,3,4);
+        back_to_level_select->hovered_theme = std::make_unique<NinePatchTheme>("pwt_theme_grey_light", 3,4,3,4);
+        back_to_level_select->held_theme = std::make_unique<NinePatchTheme>("pwt_theme_grey_dark", 3,4,3,4);
 
         Console::Out("Try again rectangle",try_again->local_position);
         Console::Out("Back to level select rectangle",back_to_level_select->local_position);
@@ -66,13 +72,13 @@ public:
     void OnPaused(){
         //Widget::OnUpdate();
 
-        if(back_to_level_select->IsPressed()){
+        if(back_to_level_select->IsReleased()){
             Console::Out("Back to level select");
             Engine::Get().GoToLevel(std::make_unique<PingusLevel>(),"../res/map/title_screen/title_screen.json");
             return;
         }
 
-        if(try_again->IsPressed()){
+        if(try_again->IsReleased()){
             Console::Out("Pressed Try again", Engine::Get().current_level->path);
             Engine::Get().GoToLevel(std::make_unique<PingusLevel>(),Engine::Get().current_level->path);
             return;

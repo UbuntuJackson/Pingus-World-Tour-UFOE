@@ -36,9 +36,11 @@ void PingusLevel::OnResourceLoad(){
     AssetManager::Get().LoadDecal("../res/assets/pingu_blowing_up-Sheet.png", "pingu_explode");
     AssetManager::Get().LoadDecal("../res/assets/honey_coin_hud-Sheet.png", "honey_coin_hud");
     AssetManager::Get().LoadDecal("../res/assets/widget_theme.png", "pwt_widget_theme");
-    AssetManager::Get().LoadDecal("../res/assets/widget_theme_gray.png", "pwt_widget_theme_gray");
+    AssetManager::Get().LoadDecal("../res/assets/widget_theme_grey.png", "pwt_widget_theme_grey");
+    AssetManager::Get().LoadDecal("../res/assets/theme_grey_light.png", "pwt_theme_grey_light");
+    AssetManager::Get().LoadDecal("../res/assets/theme_grey_dark.png", "pwt_theme_grey_dark");
     AssetManager::Get().LoadDecal("../res/assets/ranks.png", "ranks");
-    Engine::Get().pixel_game_engine.LoadFontSprite("../res/assets/pwt_font.png");
+    Engine::Get().pixel_game_engine.LoadFontSprite("../res/assets/pwt_grey_font.png");
 }
 
 void PingusLevel::OnLoadActors(Json& _actor_json){
