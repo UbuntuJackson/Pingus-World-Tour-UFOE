@@ -194,6 +194,7 @@ void Level::Load(){
 
         if(layer.GetAsString("type") == "imagelayer" && layer.GetAsString("class") == "SpriteReference"){
             std::string background_path = layer.GetAsString("image");
+            bool visible = layer.GetAsInt("visible");
 
             Console::Out("Found SpriteReference: ",background_path);
 
@@ -204,13 +205,15 @@ void Level::Load(){
 
             level_decals[layer.GetAsString("name")] = asset_manager.GetDecal(background_path);
 
-            NewActor<LevelSpriteReference>(
+            auto level_sprite_reference = NewActor<LevelSpriteReference>(
                 background_path,
                 olc::vf2d(0.0f,0.0f),
                 olc::vf2d(0.0f,0.0f),
                 image_size,
                 olc::vf2d(1.0f, 1.0f),
                 0.0f);
+            
+            level_sprite_reference->visible = visible;
         }
 
         if(layer.GetAsString("type") == "tilelayer" && layer.GetAsString("name") == "tilemap_collision"){

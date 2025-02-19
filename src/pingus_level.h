@@ -34,6 +34,7 @@ public:
     int rescued_pingus = 0;
     int required_pingus = 0;
     int maximum_rescuable_pingus = 100;
+    bool pingu_selected_this_frame = false;
     Label* rescued_pingus_label = nullptr;
     Label* released_pingus_label = nullptr;
     Label* max_pingus_label = nullptr;

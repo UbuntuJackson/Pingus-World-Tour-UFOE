@@ -79,6 +79,7 @@ void PingusLevel::OnCameraManipulation(){
 void PingusLevel::OnUpdate(){
     
     Level::OnUpdate();
+    pingu_selected_this_frame = false;
 
     if(paused){
         

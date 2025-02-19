@@ -311,12 +311,24 @@ public:
     int current_item = 2;
 
     void OnUpdate(){
+
+        bool should_set_pingu_selected = false;
+
+        if(!level->pingu_selected_this_frame && RectangleVsPoint(Rectangle(local_position, Vector2f(12.0f,24.0f)),level->GetActiveCamera()->TransformScreenToWorld(Mouse::Get().GetPosition()))){
+            anim->current_animation_state->tint = olc::GREEN;
+            should_set_pingu_selected = true;
+        }
+        else{
+            anim->current_animation_state->tint = olc::WHITE;
+        }
         
-        if(RectangleVsPoint(Rectangle(local_position, Vector2f(12.0f,24.0f)),level->GetActiveCamera()->TransformScreenToWorld(Mouse::Get().GetPosition())) && Mouse::Get().GetLeftButton().is_pressed){
+        if(!level->pingu_selected_this_frame && RectangleVsPoint(Rectangle(local_position, Vector2f(12.0f,24.0f)),level->GetActiveCamera()->TransformScreenToWorld(Mouse::Get().GetPosition())) && Mouse::Get().GetLeftButton().is_pressed){
 
             if(level->item_select_menu != nullptr) level->item_select_menu->items[level->item_select_menu->selected_index](this);
 
         }
+
+        if(should_set_pingu_selected) level->pingu_selected_this_frame = true;
 
         if(!is_in_special_state){
             if(hit_floor){
