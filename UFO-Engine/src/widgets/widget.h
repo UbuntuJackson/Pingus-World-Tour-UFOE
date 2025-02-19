@@ -113,7 +113,7 @@ public:
             }
             new_text+=_text[c];
 
-            Console::Out((c*text_width)%int(rectangle.size.x));
+            //Console::Out((c*text_width)%int(rectangle.size.x));
         }
 
         return {new_text, number_of_rows};

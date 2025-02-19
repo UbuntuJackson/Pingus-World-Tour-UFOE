@@ -320,6 +320,7 @@ public:
     void OnUpdate(){
 
         bool should_set_pingu_selected = false;
+        level->at_least_one_pingu_active = true;
 
         if(!level->pingu_selected_this_frame && RectangleVsPoint(Rectangle(local_position, Vector2f(12.0f,24.0f)),level->GetActiveCamera()->TransformScreenToWorld(Mouse::Get().GetPosition()))){
             anim->current_animation_state->tint = olc::GREEN;

@@ -23,6 +23,11 @@ original_local_position{_position}
     Engine::Get().current_level->camera_handles.push_back(this);
 }
 
+void Camera::OnStart(Level* _level){
+    Console::Out("Initial camera position:", local_position);
+    //_level->ActiveCameraLookAround(true,true);
+}
+
 void
 Camera::ClampLocalPosition(){
     if(clamp){ //for clamping x in this case, the same applies for y

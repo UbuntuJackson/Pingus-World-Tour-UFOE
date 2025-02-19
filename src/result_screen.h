@@ -29,10 +29,6 @@ public:
 
         auto level = dynamic_cast<PingusLevel*>(_level);
 
-        Console::Out("Honey coin hud frame index:",level->honey_coin_hud->current_frame_index);
-        Console::Out("required pingus", level->required_pingus);
-        Console::Out("maxumum rescuable_pingus", level->maximum_rescuable_pingus);
-
         if(level->rescued_pingus >= level->required_pingus) rank = Ranks::B;
         if(level->rescued_pingus >= level->maximum_rescuable_pingus) rank = Ranks::A;
         
@@ -53,9 +49,6 @@ public:
         back_to_level_select->hovered_theme = std::make_unique<NinePatchTheme>("pwt_theme_grey_light", 3,4,3,4);
         back_to_level_select->held_theme = std::make_unique<NinePatchTheme>("pwt_theme_grey_dark", 3,4,3,4);
 
-        Console::Out("Try again rectangle",try_again->local_position);
-        Console::Out("Back to level select rectangle",back_to_level_select->local_position);
-
         auto rank_icon = AddChild<WidgetSpriteReference>(
             "ranks",
             Vector2f(0.0f,0.0f),
@@ -67,6 +60,9 @@ public:
         );
 
         rank_icon->current_frame_index = rank;
+
+        Vector2f window_size = Engine::Get().pixel_game_engine.GetWindowSizeInPixles();
+        local_position = window_size/2 - GetRectangle().size/2;
     }
 
     void OnPaused(){

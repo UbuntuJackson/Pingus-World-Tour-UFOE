@@ -118,11 +118,16 @@ void PingusLevel::OnUpdate(){
     released_pingus_label->rectangle.size.x = 8.0f*released_pingus_label->text.size()+8;
     max_pingus_label->rectangle.size.x = 8.0f*max_pingus_label->text.size()+8;
 
-    if(total_number_of_pingus > 0 && rescued_pingus >= total_number_of_pingus && !level_finished){
+    //Console::Out("Are there pingus active?", at_least_one_pingu_active);
+
+    if(!at_least_one_pingu_active && released_pingus >= total_number_of_pingus){
+        
         NewActor<ResultScreen>(Vector2f(30.0f,30.0f));
         level_finished = true;
         paused = true;
     }
+
+    at_least_one_pingu_active = false;
 
     if(SingleKeyboard::Get().GetKey(olc::ESCAPE).is_pressed){
         NewActor<ResultScreen>(Vector2f(30.0f,30.0f));

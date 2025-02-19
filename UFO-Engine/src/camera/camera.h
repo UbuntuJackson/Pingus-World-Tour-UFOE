@@ -51,6 +51,7 @@ public:
     bool local_position_set_elsewhere = true;
 
     Camera(olc::vf2d _position);
+    void OnStart(Level* _level);
     void EarlyUpdate();
     void ClampLocalPosition();
     void HandleUpdate();

@@ -431,8 +431,8 @@ void Level::ActiveCameraLookAround(bool _condition_move, bool _condition_zoom){
     
     if(_condition_move){
         GetActiveCamera()->local_position-=Mouse::GetDeltaPosition()/GetActiveCamera()->scale;
-        GetActiveCamera()->original_local_position = GetActiveCamera()->local_position;
     }
+    GetActiveCamera()->original_local_position = GetActiveCamera()->local_position;
     if(!_condition_zoom) return;
     if(Mouse::GetScrollDirection() > 0) GetActiveCamera()->scale *= 1.05f;
     if(Mouse::GetScrollDirection() < 0) GetActiveCamera()->scale *= (1/1.05f);

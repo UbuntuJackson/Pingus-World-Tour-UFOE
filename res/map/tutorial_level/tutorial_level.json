@@ -64,24 +64,13 @@
          "y":0
         }, 
         {
-         "class":"BackgroundImage",
-         "id":8,
-         "image":"bg.png",
-         "name":"bg",
-         "opacity":1,
-         "type":"imagelayer",
-         "visible":true,
-         "x":0,
-         "y":0
-        }, 
-        {
          "class":"SpriteReference",
          "id":6,
          "image":"solid.png",
          "name":"solid",
          "opacity":1,
          "type":"imagelayer",
-         "visible":false,
+         "visible":true,
          "x":0,
          "y":0
         }, 
@@ -137,55 +126,61 @@
                 {
                  "gid":11,
                  "height":32,
-                 "id":30,
+                 "id":35,
                  "name":"",
                  "properties":[
                         {
-                         "name":"number_of_bombers",
-                         "type":"int",
-                         "value":16
-                        }, 
-                        {
                          "name":"number_of_builders",
                          "type":"int",
-                         "value":0
+                         "value":20
                         }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":2.66666666666666,
-                 "y":33.3333333333333
+                 "x":92.3333333333333,
+                 "y":815
+                }, 
+                {
+                 "gid":9,
+                 "height":32,
+                 "id":36,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"maximum_rescuable_pingus",
+                         "type":"int",
+                         "value":20
+                        }, 
+                        {
+                         "name":"number_of_pingus",
+                         "type":"int",
+                         "value":10
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":2,
+                 "x":552,
+                 "y":865
                 }, 
                 {
                  "gid":8,
                  "height":32,
-                 "id":35,
+                 "id":37,
                  "name":"",
                  "properties":[
                         {
                          "name":"number_of_pingus",
                          "type":"int",
-                         "value":16
+                         "value":20
                         }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":59.4445841566373,
-                 "y":401.845158972517
-                }, 
-                {
-                 "gid":5,
-                 "height":32,
-                 "id":36,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":582.90847853422,
-                 "y":355.109888629423
+                 "x":129,
+                 "y":854
                 }, 
                 {
                  "gid":5,
@@ -196,31 +191,8 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":582.90847853422,
-                 "y":355.109888629423
-                }, 
-                {
-                 "gid":9,
-                 "height":32,
-                 "id":37,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"maximum_rescuable_pingus",
-                         "type":"int",
-                         "value":9
-                        }, 
-                        {
-                         "name":"number_of_pingus",
-                         "type":"int",
-                         "value":5
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":1.25,
-                 "x":1199.36518771331,
-                 "y":231.55595473325
+                 "x":640,
+                 "y":862.5
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -228,7 +200,7 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":9,
+ "nextlayerid":8,
  "nextobjectid":39,
  "orientation":"orthogonal",
  "properties":[
@@ -240,7 +212,7 @@
         {
          "name":"relative path",
          "type":"string",
-         "value":"..\/res\/map\/bomber_test_level"
+         "value":"..\/res\/map\/tutorial_level"
         }],
  "renderorder":"right-down",
  "tiledversion":"1.11.0",
