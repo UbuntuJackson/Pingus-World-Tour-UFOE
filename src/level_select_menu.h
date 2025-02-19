@@ -15,7 +15,7 @@
 
 class LevelSelectMenu : public FileMenu{
 public:
-    LevelSelectMenu() : FileMenu(Vector2f(40.0f, 40.0f),Vector2f(250.0f, 400.0f), "../res/map"){
+    LevelSelectMenu() : FileMenu(Vector2f(40.0f, 40.0f),Vector2f(250.0f, 400.0f), "../res"){
         has_modified_controls = true;
         spacing = 8;
     }
