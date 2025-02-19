@@ -20,7 +20,9 @@ public:
 
     void OnWidgetDraw(){
         if(!visible) return;
-        Engine::Get().pixel_game_engine.DrawStringDecal(GetGlobalPosition(), text, colour, scale);
+        theme->OnDraw(this);
+        WrappedText wrapped_text = GetWrappedTextWrapOnCharMeetsBorder(text);
+        Engine::Get().pixel_game_engine.DrawStringDecal(GetGlobalPosition(), wrapped_text.text, colour, scale);
     }
 };
 

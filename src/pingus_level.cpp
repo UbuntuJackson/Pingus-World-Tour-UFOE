@@ -57,11 +57,11 @@ void PingusLevel::OnLoad(Json& _j){
     GetActiveCamera()->clamp = true;
     Console::Out("Level size", level_size);
 
-    rescued_pingus_label = NewActor<Label>(Vector2f(180.0f, 3.0f), Vector2f(100.0f, 20.0f), "Rescued Pingus");
-    released_pingus_label = NewActor<Label>(Vector2f(175.0f, 18.0f), Vector2f(100.0f, 20.0f), "Released Pingus");
-    max_pingus_label = NewActor<Label>(Vector2f(135.0f, 33.0f), Vector2f(100.0f, 20.0f), "Max. Rescuable Pingus");
+    rescued_pingus_label = NewActor<Label>(Vector2f(180.0f, 4.0f), Vector2f(100.0f, 10.0f), "Rescued Pingus");
+    released_pingus_label = NewActor<Label>(Vector2f(175.0f, 21.0f), Vector2f(100.0f, 10.0f), "Released Pingus");
+    max_pingus_label = NewActor<Label>(Vector2f(135.0f, 38.0f), Vector2f(100.0f, 10.0f), "Max. Rescuable Pingus");
     honey_coin_hud = NewActor<WidgetSpriteReference>("honey_coin_hud",
-        Vector2f(Engine::Get().pixel_game_engine.GetWindowSizeInPixles().x-33.0f, 45.0f),
+        Vector2f(Engine::Get().pixel_game_engine.GetWindowSizeInPixles().x-33.0f, 52.0f),
         Vector2f(0.0f, 0.0f),
         Vector2f(32.0f, 32.0f),
         Vector2f(1.0f, 1.0f),
@@ -69,6 +69,9 @@ void PingusLevel::OnLoad(Json& _j){
         0
     );
     honey_coin_hud->current_frame_index = 1.0f;
+    rescued_pingus_label->theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_grey", 3,4,3,4);
+    released_pingus_label->theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_grey", 3,4,3,4);
+    max_pingus_label->theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_grey", 3,4,3,4);
     
 }
 
@@ -107,9 +110,13 @@ void PingusLevel::OnUpdate(){
     released_pingus_label->text = "Released Pingus:" + std::to_string(released_pingus) + "/" + std::to_string(total_number_of_pingus);
     max_pingus_label->text = "Max. Rescuable Pingus:" + std::to_string(maximum_rescuable_pingus);
 
-    rescued_pingus_label->local_position.x = Engine::Get().pixel_game_engine.GetWindowSizeInPixles().x - 8.0f*rescued_pingus_label->text.size();
-    released_pingus_label->local_position.x = Engine::Get().pixel_game_engine.GetWindowSizeInPixles().x - 8.0f*released_pingus_label->text.size();
-    max_pingus_label->local_position.x = Engine::Get().pixel_game_engine.GetWindowSizeInPixles().x - 8.0f*max_pingus_label->text.size();
+    rescued_pingus_label->local_position.x = Engine::Get().pixel_game_engine.GetWindowSizeInPixles().x - 8.0f*rescued_pingus_label->text.size() - 12.0f;
+    released_pingus_label->local_position.x = Engine::Get().pixel_game_engine.GetWindowSizeInPixles().x - 8.0f*released_pingus_label->text.size() - 12.0f;
+    max_pingus_label->local_position.x = Engine::Get().pixel_game_engine.GetWindowSizeInPixles().x - 8.0f*max_pingus_label->text.size() -12.0f;
+    
+    rescued_pingus_label->rectangle.size.x = 8.0f*rescued_pingus_label->text.size()+8;
+    released_pingus_label->rectangle.size.x = 8.0f*released_pingus_label->text.size()+8;
+    max_pingus_label->rectangle.size.x = 8.0f*max_pingus_label->text.size()+8;
 
     if(total_number_of_pingus > 0 && rescued_pingus >= total_number_of_pingus && !level_finished){
         NewActor<ResultScreen>(Vector2f(30.0f,30.0f));
