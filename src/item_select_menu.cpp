@@ -1,12 +1,15 @@
+#include <memory>
 #include <wrap_menu.h>
 #include <ufo_maths.h>
 #include <button.h>
 #include "pingu.h"
 #include "pingus_level.h"
 #include "item_select_menu.h"
+#include <nine_patch_theme.h>
 
-ItemSelectMenu::ItemSelectMenu(Vector2f _local_position) : WrapMenu(Vector2f(0.0f,0.0f), Vector2f(50.0f,20.0f)){
+ItemSelectMenu::ItemSelectMenu(Vector2f _local_position) : WrapMenu(Vector2f(4.0f,4.0f), Vector2f(50.0f,20.0f)){
     has_modified_controls = true;
+    spacing = 8;
 }
 
 void ItemSelectMenu::OnStart(Level* _level){
@@ -51,5 +54,11 @@ void ItemSelectMenu::OnStart(Level* _level){
     dynamic_cast<PingusLevel*>(_level)->item_select_menu = this;
 
     WrapMenu::OnLevelEnter(_level);
+
+    for(auto&& button : buttons){
+        button->theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_grey", 3,4,3,4);
+        button->held_theme = std::make_unique<NinePatchTheme>("pwt_theme_grey_dark", 3,4,3,4);
+        button->hovered_theme = std::make_unique<NinePatchTheme>("pwt_theme_grey_light", 3,4,3,4);
+    }
 
 }

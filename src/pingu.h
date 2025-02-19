@@ -247,9 +247,16 @@ public:
                     
                     for(int yy = -32+12; yy < 32+12; yy++){
                         for(int xx = -32+6; xx < 32+6; xx++){
-                            if(ufoMaths::Distance2(local_position+Vector2f(xx,yy), local_position+Vector2f(6.0f,12.0f)) < 32.0f){
-                                v->sprite->SetPixel(local_position+Vector2f(xx,yy),olc::Pixel(0,0,0,0));
+                            if(ufoMaths::Distance2(local_position+Vector2f(xx,yy), local_position+Vector2f(6.0f,12.0f)) <= 33.0f){
+                                if(ufoMaths::Distance2(local_position+Vector2f(xx,yy), local_position+Vector2f(6.0f,12.0f)) > 28.0f
+                                    && v->sprite->GetPixel(local_position+Vector2f(xx,yy)) != olc::Pixel(0,0,0,0)
+                                ){
+                                    olc::Pixel c = v->sprite->GetPixel(local_position+Vector2f(xx,yy));
+                                    v->sprite->SetPixel(local_position+Vector2f(xx,yy),olc::Pixel(25,25,25));
+                                }
+                                else v->sprite->SetPixel(local_position+Vector2f(xx,yy),olc::Pixel(0,0,0,0));
                             }
+                            
                         }
                     }
                     v->Update();
