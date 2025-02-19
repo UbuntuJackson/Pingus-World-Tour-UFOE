@@ -104,6 +104,30 @@ void FileMenu::SetDirectory(std::string _path){
     rectangle.size.x = 0.0f;
 
     original_position = local_position;
+
+    for(auto button : buttons){
+        button->theme = OnSetButtonTheme();
+        button->hovered_theme = OnSetButtonHoveredTheme();
+        button->held_theme = OnSetButtonHeldTheme();
+    }
+
+    OnSetDirectory(_path);
+}
+
+void FileMenu::OnSetDirectory(std::string _path){
+    
+}
+
+std::unique_ptr<Theme> FileMenu::OnSetButtonTheme(){
+    return std::make_unique<ColourRectangleTheme>(Graphics::DARK_CYAN);
+}
+
+std::unique_ptr<Theme> FileMenu::OnSetButtonHoveredTheme(){
+    return std::make_unique<ColourRectangleTheme>(Graphics::CYAN);
+}
+
+std::unique_ptr<Theme> FileMenu::OnSetButtonHeldTheme(){
+    return std::make_unique<ColourRectangleTheme>(Graphics::VERY_DARK_CYAN);
 }
 
 void FileMenu::OnLevelEnter(Level* _level){

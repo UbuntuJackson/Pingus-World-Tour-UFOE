@@ -27,6 +27,11 @@ public:
     FileMenu(Vector2f _local_position, Vector2f _size, std::string _path);
 
     void SetDirectory(std::string _path);
+    virtual void OnSetDirectory(std::string _path);
+
+    virtual std::unique_ptr<Theme> OnSetButtonTheme();
+    virtual std::unique_ptr<Theme> OnSetButtonHoveredTheme();
+    virtual std::unique_ptr<Theme> OnSetButtonHeldTheme();
 
     void OnLevelEnter(Level* _level);
 

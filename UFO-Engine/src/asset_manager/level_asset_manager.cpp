@@ -45,9 +45,11 @@ void LevelAssetManager::LoadDecal(const std::string& _path, const std::string& _
     switch (spr->LoadFromFile(_path)){
         case olc::rcode::NO_FILE:
             Console::Out("Error: The file does not exist at path", _path);
+            return;
             break;
         case olc::rcode::FAIL:
             Console::Out("Error: Failed to load the file at path", _path);
+            return;
             break;
         default:
             break;
@@ -65,8 +67,9 @@ void LevelAssetManager::LoadDecal(const std::string& _path, const std::string& _
 olc::Decal*
 LevelAssetManager::GetDecal(std::string _name) {
     if(!decals.count(_name)){
-        return nullptr;
         Console::Out("Decal with key: " + _name + " does not exist");
+        return nullptr;
+        
     }
     return decals.at(_name).get();
 }

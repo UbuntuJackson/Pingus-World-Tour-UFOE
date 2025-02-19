@@ -10,7 +10,7 @@
 #include "level_select_menu.h"
 
 PingusMainMenu::PingusMainMenu(Vector2f _local_position) : WrapMenu(_local_position,Vector2f(250.0f,200.0f)){
-    
+    spacing = 8;
 }
 
 void PingusMainMenu::OnLevelEnter(Level* _level){
@@ -41,6 +41,15 @@ void PingusMainMenu::OnLevelEnter(Level* _level){
 
     local_position.x = Engine::Get().pixel_game_engine.GetWindowSizeInPixles().x/2.0f-150.0f/2.0f;
     local_position.y = Engine::Get().pixel_game_engine.GetWindowSizeInPixles().y-50.0f;
+
+    for(auto&& button : buttons){
+        button->theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_grey", 3,4,3,4);
+        
+        button->hovered_theme = std::make_unique<NinePatchTheme>("pwt_theme_grey_light", 3,4,3,4);
+
+        button->held_theme = std::make_unique<NinePatchTheme>("pwt_theme_grey_dark", 3,4,3,4);
+    }
+    
     
 }
 
