@@ -230,6 +230,17 @@
                  "height":32,
                  "id":42,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"max_rescuable_pingus",
+                         "type":"int",
+                         "value":4
+                        }, 
+                        {
+                         "name":"number_of_pingus",
+                         "type":"int",
+                         "value":3
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
