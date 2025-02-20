@@ -81,7 +81,7 @@
          "name":"mg",
          "opacity":1,
          "type":"imagelayer",
-         "visible":true,
+         "visible":false,
          "x":0,
          "y":0
         }, 
@@ -130,16 +130,21 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"number_of_builders",
+                         "name":"number_of_bombers",
                          "type":"int",
                          "value":20
+                        }, 
+                        {
+                         "name":"number_of_builders",
+                         "type":"int",
+                         "value":1
                         }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":92.3333333333333,
-                 "y":815
+                 "x":91.6666666666666,
+                 "y":495
                 }, 
                 {
                  "gid":9,
@@ -160,9 +165,9 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":2,
-                 "x":552,
-                 "y":865
+                 "width":1.33333333333337,
+                 "x":753.417040895755,
+                 "y":453.658164181786
                 }, 
                 {
                  "gid":8,
@@ -170,6 +175,11 @@
                  "id":37,
                  "name":"",
                  "properties":[
+                        {
+                         "name":"interval_milliseconds",
+                         "type":"float",
+                         "value":1000
+                        }, 
                         {
                          "name":"number_of_pingus",
                          "type":"int",
@@ -179,8 +189,8 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":129,
-                 "y":854
+                 "x":101.310650968097,
+                 "y":435.137678201087
                 }, 
                 {
                  "gid":5,
@@ -191,8 +201,8 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":640,
-                 "y":862.5
+                 "x":571.43320759236,
+                 "y":517.583288425843
                 }],
          "opacity":1,
          "type":"objectgroup",

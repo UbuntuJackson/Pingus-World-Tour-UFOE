@@ -7,16 +7,15 @@ project = tool.ProjectManager()
 pingu = tool.Class("Pingu", "src/pingu.h")
 
 goal = tool.Class("Goal", "src/goal.h", "src/goal.cpp")
-goal.editor_attributes.append(("Int", "number_of_pingus"))
+
 goal.editor_attributes.append(("Int", "width"))
 goal.editor_attributes.append(("Int", "height"))
-goal.editor_attributes.append(("Int", "maximum_rescuable_pingus"))
+goal.export_variables_to_editor()
 
 main_menu = tool.Class("PingusMainMenu", "src/pingus_main_menu.h", "src/pingus_main_menu.cpp")
 
 spawner = tool.Class("Spawner", "src/spawner.h")
-spawner.editor_attributes.append(("Int","number_of_pingus"))
-spawner.editor_attributes.append(("Double","interval_milliseconds"))
+spawner.export_variables_to_editor()
 
 item_select_menu = tool.Class("ItemSelectMenu", "src/item_select_menu.h", "src/item_select_menu.cpp")
 item_select_menu.editor_attributes.append(("Int", "number_of_builders"))

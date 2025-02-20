@@ -224,6 +224,10 @@ public:
                     auto dec = level->level_decals.at("solid");
                     dec->sprite->SetPixel(build_location+Vector2f(xx+step_width*steps*face_direction,yy+24.0f-2.0f-steps*2),olc::Pixel(255,0,0,255));
                     dec->Update();
+
+                    auto dec_mg = level->level_decals.at("mg");
+                    dec_mg->sprite->SetPixel(build_location+Vector2f(xx+step_width*steps*face_direction,yy+24.0f-2.0f-steps*2),olc::Pixel(200,50,50,255));
+                    dec_mg->Update();
                     
                     //level->level_decals.at("mg")->sprite->SetPixel(local_position+Vector2f(xx,yy),olc::Pixel(255,0,0,255));
                     

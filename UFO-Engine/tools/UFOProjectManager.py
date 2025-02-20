@@ -1,5 +1,8 @@
 import os
 import subprocess
+import importlib
+
+var_exporter_module = importlib.import_module("UFO-Engine.tools.UFO_variable_exporter")
 
 class Class:
 
@@ -13,6 +16,10 @@ class Class:
 
         for constructor_parameter in args:
             self.constructor_parameters.append(constructor_parameter)
+
+    def export_variables_to_editor(self):
+        exported_variables = var_exporter_module.export_variables(self.header_file)
+        var_exporter_module.add_exported_variables_to_project(self,exported_variables)
 
     def add_attribute(self, _arg_type, _arg_name):
         self.editor_attributes.append((_arg_type,_arg_name))        

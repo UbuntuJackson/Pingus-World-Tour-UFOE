@@ -11,8 +11,13 @@
 class Spawner : public Actor{
 public:
     PingusLevel* level = nullptr;
+
+    /// @export;
     int number_of_pingus = 10;
+
+    /// @export;
     float interval_milliseconds = 2000.0f;
+    
     Timer spawn_timer;
     Spawner(Vector2f _local_position) : Actor(_local_position){
 
