@@ -13,7 +13,7 @@ public:
     std::string spawn_point_name;
     bool activated = false;
     //bool hit = false;
-    LevelTrigger(Rectangle _rectangle, std::string _path, int _tiled_object_id, std::string _spawn_point_name = "") :
+    LevelTrigger(ufo::Rectangle _rectangle, std::string _path, int _tiled_object_id, std::string _spawn_point_name = "") :
         Trigger(_rectangle),
         path{_path}, tiled_object_id{_tiled_object_id},
         spawn_point_name{_spawn_point_name}{}

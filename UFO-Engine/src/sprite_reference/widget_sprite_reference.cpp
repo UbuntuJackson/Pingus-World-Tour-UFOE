@@ -18,7 +18,7 @@ WidgetSpriteReference::OnDraw(Camera* _camera){
 void
 WidgetSpriteReference::OnWidgetDraw(){
     if(!visible) return;
-    Rectangle sample_rectangle = GetFrameFromSpriteSheet(key,current_frame_index,frame_size);
+    ufo::Rectangle sample_rectangle = GetFrameFromSpriteSheet(key,current_frame_index,frame_size);
     Engine::Get().pixel_game_engine.DrawPartialRotatedDecal(
         GetGlobalPosition(),
         AssetManager::Get().GetDecal(key),

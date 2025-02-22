@@ -4,7 +4,7 @@
 #include "../camera/camera.h"
 #include "../collision/collision_body.h"
 
-CollisionRectangle::CollisionRectangle(AlternativeCollisionBody* _collision_body, olc::vf2d _position, olc::vf2d _size) : Rectangle(_position, _size){}
+CollisionRectangle::CollisionRectangle(AlternativeCollisionBody* _collision_body, olc::vf2d _position, olc::vf2d _size) : ufo::Rectangle(_position, _size){}
 
 void CollisionRectangle::Update(){
 

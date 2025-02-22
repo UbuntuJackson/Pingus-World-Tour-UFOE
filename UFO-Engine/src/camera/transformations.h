@@ -12,7 +12,7 @@ SpriteReference Transform_ufoSprite(SpriteReference* _sprite, Camera *_camera);
 
 Circle TransformCircle(Circle *_circle, Camera *_camera);
 
-Rectangle TransformRectangle(Rectangle *_rectangle, Camera *_camera);
+ufo::Rectangle TransformRectangle(ufo::Rectangle *_rectangle, Camera *_camera);
 
 Ray2 TransformRay2(Ray2 *_ray, Camera *_camera);
 

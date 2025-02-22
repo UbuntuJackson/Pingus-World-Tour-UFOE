@@ -51,28 +51,28 @@ tSetOfNumbers Lerp(tSetOfNumbers _p0, tSetOfNumbers _p1, float _scalar){
 float Distance2(olc::vf2d _p0, olc::vf2d _p1);
 
 bool
-RectangleVsRectangle(const Rectangle& _rect_1, const Rectangle& _rect_2);
+RectangleVsRectangle(const ufo::Rectangle& _rect_1, const ufo::Rectangle& _rect_2);
 
 bool
-RectangleContainsRectangle(const Rectangle& _rect_1, const Rectangle& _rect_2);
+RectangleContainsRectangle(const ufo::Rectangle& _rect_1, const ufo::Rectangle& _rect_2);
 
 bool
-IsOverlapping(const Rectangle& _rect_1, const Rectangle& _rect_2);
+IsOverlapping(const ufo::Rectangle& _rect_1, const ufo::Rectangle& _rect_2);
 
 bool
-RectangleVsCircle(const Rectangle& _rectangle, const Circle& _circle);
+RectangleVsCircle(const ufo::Rectangle& _rectangle, const Circle& _circle);
 
 bool
-RectangleVsCircle(const Circle& _circle, const Rectangle& _rectangle);
+RectangleVsCircle(const Circle& _circle, const ufo::Rectangle& _rectangle);
 
 bool
-CircleVsRectangle(const Circle& _circle, const Rectangle& _rectangle);
+CircleVsRectangle(const Circle& _circle, const ufo::Rectangle& _rectangle);
 
 bool
-IsOverlapping(const Circle& _circle, const Rectangle& _rectangle);
+IsOverlapping(const Circle& _circle, const ufo::Rectangle& _rectangle);
 
 bool
-IsOverlapping(const Rectangle& _rectangle, const Circle& _circle);
+IsOverlapping(const ufo::Rectangle& _rectangle, const Circle& _circle);
 
 bool
 CircleVsCircle(const Circle& _circle_1, const Circle& _circle_2);
@@ -84,7 +84,7 @@ bool
 CircleVsRay(const Circle& _circle, const Ray2& _ray);
 
 bool
-RectangleVsPoint(const Rectangle& _rect, olc::vf2d _point);
+RectangleVsPoint(const ufo::Rectangle& _rect, olc::vf2d _point);
 
 /*bool
 IsOverlapping(const Rectangle& _rect, const olc::vf2d& _point);
@@ -108,12 +108,12 @@ IsOverlapping(const Circle& _rect, const olc::vf2d& _point);
 
 // Pill
 
-bool PillVsRectangle(const Pill& _pill, const Rectangle& _rectangle);
+bool PillVsRectangle(const Pill& _pill, const ufo::Rectangle& _rectangle);
 
 bool PillVsCircle(const Pill& _pill, const Circle& _circle);
 bool CircleVsPill(const Circle& _circle, const Pill& _pill);
 
-bool IsOverlapping(const Pill& _pill, const Rectangle& _rectangle);
+bool IsOverlapping(const Pill& _pill, const ufo::Rectangle& _rectangle);
 
 bool IsOverlapping(const Pill& _pill, const Circle& _circle);
 bool IsOverlapping(const Circle& _circle, const Pill& _pill);

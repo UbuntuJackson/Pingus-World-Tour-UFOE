@@ -30,7 +30,7 @@ public:
     bool in_level_tree = false;
 //public:
     //Unused so far
-    Rectangle editor_selection_shape = Rectangle(olc::vf2d(0.0f, 0.0f), olc::vf2d(16.0f,16.0f));
+    ufo::Rectangle editor_selection_shape = ufo::Rectangle(olc::vf2d(0.0f, 0.0f), olc::vf2d(16.0f,16.0f));
     std::unique_ptr<Actor> GetConfigurationWidget();
 
     Actor* parent = nullptr;

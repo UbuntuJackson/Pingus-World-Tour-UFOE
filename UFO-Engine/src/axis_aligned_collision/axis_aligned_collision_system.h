@@ -1,6 +1,7 @@
 #ifndef AXIS_ALIGNED_COLLISION_SYSTEM
 #define AXIS_ALIGNED_COLLISION_SYSTEM
 
+#include "../shapes/rectangle.h"
 #include "axis_aligned_collision_body.h"
 #include "../ufo_maths/ufo_maths.h"
 #include "../drawing_system/drawing_system.h"
@@ -16,7 +17,7 @@ public:
     int collision_tile_height;
     std::vector<int> collision_tiles;
 
-    std::vector<Rectangle> active_tiles;
+    std::vector<ufo::Rectangle> active_tiles;
 
     void Update(AxisAlignedCollisionBody* _collisionbody);
 

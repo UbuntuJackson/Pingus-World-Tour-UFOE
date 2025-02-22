@@ -30,6 +30,6 @@ public:
     olc::sound::Wave* GetAudio(std::string _name);
     void StopAudio(std::string _name);
 
-    Rectangle GetFrameFromSpriteSheet(std::string _sprite_key, int _frame, olc::vf2d _frame_size);
+    ufo::Rectangle GetFrameFromSpriteSheet(std::string _sprite_key, int _frame, olc::vf2d _frame_size);
 
 };

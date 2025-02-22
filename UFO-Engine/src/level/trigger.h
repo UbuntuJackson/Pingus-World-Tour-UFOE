@@ -6,9 +6,9 @@
 #include "../shapes/shape.h"
 #include "../shapes/rectangle.h"
 
-class Trigger : public Shape<Rectangle>{
+class Trigger : public Shape<ufo::Rectangle>{
 public:
-    Trigger(Rectangle _rectangle) : Shape<Rectangle>(_rectangle, _rectangle.position){}
+    Trigger(ufo::Rectangle _rectangle) : Shape<ufo::Rectangle>(_rectangle, _rectangle.position){}
     virtual void OnHit(Level* _level){
         
     }

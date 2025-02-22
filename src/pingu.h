@@ -328,7 +328,7 @@ public:
         bool should_set_pingu_selected = false;
         level->at_least_one_pingu_active = true;
 
-        if(!level->pingu_selected_this_frame && RectangleVsPoint(Rectangle(local_position, Vector2f(12.0f,24.0f)),level->GetActiveCamera()->TransformScreenToWorld(Mouse::Get().GetPosition()))){
+        if(!level->pingu_selected_this_frame && RectangleVsPoint(ufo::Rectangle(local_position, Vector2f(12.0f,24.0f)),level->GetActiveCamera()->TransformScreenToWorld(Mouse::Get().GetPosition()))){
             anim->current_animation_state->tint = olc::GREEN;
             should_set_pingu_selected = true;
         }
@@ -336,7 +336,7 @@ public:
             anim->current_animation_state->tint = olc::WHITE;
         }
         
-        if(!level->pingu_selected_this_frame && RectangleVsPoint(Rectangle(local_position, Vector2f(12.0f,24.0f)),level->GetActiveCamera()->TransformScreenToWorld(Mouse::Get().GetPosition())) && Mouse::Get().GetLeftButton().is_pressed){
+        if(!level->pingu_selected_this_frame && RectangleVsPoint(ufo::Rectangle(local_position, Vector2f(12.0f,24.0f)),level->GetActiveCamera()->TransformScreenToWorld(Mouse::Get().GetPosition())) && Mouse::Get().GetLeftButton().is_pressed){
 
             if(level->item_select_menu != nullptr) level->item_select_menu->items[level->item_select_menu->selected_index](this);
 
@@ -348,7 +348,7 @@ public:
             if(hit_floor){
                 state = state_walk;
                 for(const auto& goal : level->goals){
-                    if(ufoMaths::RectangleVsRectangle(Rectangle(local_position, Vector2f(12.0f,24.0f)),goal->shape)){
+                    if(ufoMaths::RectangleVsRectangle(ufo::Rectangle(local_position, Vector2f(12.0f,24.0f)),goal->shape)){
                         level->rescued_pingus++;
                         QueueForPurge();
                     }
@@ -360,7 +360,7 @@ public:
         }
 
         for(const auto& honey_coin : level->honey_coin_handles){
-            if(ufoMaths::RectangleVsCircle(Rectangle(local_position, Vector2f(12.0f,24.0f)),honey_coin->shape)){
+            if(ufoMaths::RectangleVsCircle(ufo::Rectangle(local_position, Vector2f(12.0f,24.0f)),honey_coin->shape)){
                 level->honey_coin_hud->current_frame_index = 0.0f;
                 honey_coin->QueueForPurge();
             }

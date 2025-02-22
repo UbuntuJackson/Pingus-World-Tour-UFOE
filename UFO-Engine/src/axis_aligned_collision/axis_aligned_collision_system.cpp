@@ -24,7 +24,7 @@ AxisAlignedCollisionSystem::Update(AxisAlignedCollisionBody* _collisionbody){
     for(int y = 0; y < collision_check_range_y; y++){
         for(int x = 0; x < collision_check_range_x; x++){
             olc::vf2d tile_position = {_collisionbody->shape.position.x + (float)x, _collisionbody->shape.position.y + (float)y};
-            Rectangle tile = Rectangle(tile_position, olc::vf2d(collision_tile_width, collision_tile_height));
+            ufo::Rectangle tile = ufo::Rectangle(tile_position, olc::vf2d(collision_tile_width, collision_tile_height));
             active_tiles.push_back(tile);
         }
     }

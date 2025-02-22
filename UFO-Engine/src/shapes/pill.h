@@ -12,7 +12,7 @@ public:
 
     bool IsOverlapping(Circle* _circle);
 
-    bool IsOverlapping(Rectangle* _circle);
+    bool IsOverlapping(ufo::Rectangle* _circle);
 
     bool IsOverlappingOther(RawShapeBase* _other);
 

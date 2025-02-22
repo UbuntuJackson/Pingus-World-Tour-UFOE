@@ -24,8 +24,8 @@ Circle TransformCircle(Circle *_circle, Camera *_camera){
     return transformed_circle;
 }
 
-Rectangle TransformRectangle(Rectangle *_rectangle, Camera *_camera){
-    Rectangle transformed_rectangle{
+ufo::Rectangle TransformRectangle(ufo::Rectangle *_rectangle, Camera *_camera){
+    ufo::Rectangle transformed_rectangle{
         _camera->Transform(_rectangle->position),
         _rectangle->size * _camera->scale};
     return transformed_rectangle;

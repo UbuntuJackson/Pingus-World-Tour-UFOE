@@ -4,7 +4,7 @@
 #include "../external/olcPixelGameEngine.h"
 
 class Camera;
-class Rectangle;
+namespace ufo{class Rectangle;}
 class Circle;
 class Pill;
 
@@ -17,7 +17,7 @@ public:
     virtual void Draw(Camera* _camera);
     virtual bool IsOverlappingOther(RawShapeBase* _other);
     virtual bool IsOverlapping(Circle* _circle);
-    virtual bool IsOverlapping(Rectangle* _circle);
+    virtual bool IsOverlapping(ufo::Rectangle* _circle);
     virtual bool IsOverlapping(Pill* _pill);
 };
 

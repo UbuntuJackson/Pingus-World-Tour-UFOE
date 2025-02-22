@@ -190,7 +190,7 @@ float Distance2(olc::vf2d _p0, olc::vf2d _p1){
 }
 
 bool
-RectangleVsRectangle(const Rectangle& _rect_1, const Rectangle& _rect_2){
+RectangleVsRectangle(const ufo::Rectangle& _rect_1, const ufo::Rectangle& _rect_2){
     if (
         (_rect_1.position.x > (_rect_2.position.x + _rect_2.size.x)) || // is the left side greater than the other rect's right side?
         ((_rect_1.position.x + _rect_1.size.x) < _rect_2.position.x) ||       // is the right side less than the other rect's left side?
@@ -204,7 +204,7 @@ RectangleVsRectangle(const Rectangle& _rect_1, const Rectangle& _rect_2){
 
 //Does rect 1 contain rect 2?
 bool
-RectangleContainsRectangle(const Rectangle& _rect_1, const Rectangle& _rect_2){
+RectangleContainsRectangle(const ufo::Rectangle& _rect_1, const ufo::Rectangle& _rect_2){
     if(
         _rect_2.position.x >= _rect_1.position.x && _rect_2.position.x <= _rect_1.position.x + _rect_1.size.x &&
         _rect_2.position.x + _rect_2.size.x >= _rect_1.position.x && _rect_2.position.x + _rect_2.size.x <= _rect_1.position.x + _rect_1.size.x &&
@@ -217,7 +217,7 @@ RectangleContainsRectangle(const Rectangle& _rect_1, const Rectangle& _rect_2){
 }
 
 bool
-IsOverlapping(const Rectangle& _rect_1, const Rectangle& _rect_2){
+IsOverlapping(const ufo::Rectangle& _rect_1, const ufo::Rectangle& _rect_2){
     return RectangleVsRectangle(_rect_1, _rect_2);
 }
 
@@ -254,7 +254,7 @@ IsOverlapping(const Circle& _circle, const Ray2& _ray){
 }*/
 
 bool
-CircleVsRectangle(const Circle& _circle, const Rectangle& _rectangle){
+CircleVsRectangle(const Circle& _circle, const ufo::Rectangle& _rectangle){
     if(
         Distance2(_circle.position, _rectangle.position) <= _circle.radius ||
         Distance2(_circle.position, _rectangle.position+olc::vf2d(0.0f, _rectangle.size.y)) <= _circle.radius ||
@@ -276,24 +276,24 @@ CircleVsRectangle(const Circle& _circle, const Rectangle& _rectangle){
     return false;
 }
 
-bool RectangleVsCircle(const Rectangle& _rectangle, const Circle& _circle){
+bool RectangleVsCircle(const ufo::Rectangle& _rectangle, const Circle& _circle){
     return CircleVsRectangle(_circle, _rectangle);
 }
 
 //Not implemented yet
 bool
-IsOverlapping(const Circle& _circle, const Rectangle& _rectangle){
+IsOverlapping(const Circle& _circle, const ufo::Rectangle& _rectangle){
     return CircleVsRectangle(_circle, _rectangle);
 }
 
 //Not implemented yet
 bool
-IsOverlapping(const Rectangle& _rectangle, const Circle& _circle){
+IsOverlapping(const ufo::Rectangle& _rectangle, const Circle& _circle){
     return CircleVsRectangle(_circle, _rectangle);
 }
 
 bool
-RectangleVsPoint(const Rectangle& _rect, olc::vf2d _point){
+RectangleVsPoint(const ufo::Rectangle& _rect, olc::vf2d _point){
     if (_point.x < _rect.position.x ||
         _point.x > _rect.position.x + _rect.size.x ||
         _point.y < _rect.position.y ||
@@ -307,14 +307,14 @@ RectangleVsPoint(const Rectangle& _rect, olc::vf2d _point){
 
 // Pill
 
-bool PillVsRectangle(const Pill& _pill, const Rectangle& _rectangle){
+bool PillVsRectangle(const Pill& _pill, const ufo::Rectangle& _rectangle){
     return false;
 }
 
 bool PillVsCircle(const Pill& _pill, const Circle& _circle){
     Circle top_circle = Circle(_pill.position, _pill.radius);
     Circle bottom_circle = Circle(_pill.position+olc::vf2d(0.0f, _pill.height), _pill.radius);
-    Rectangle middle_rectangle = Rectangle(_pill.position-olc::vf2d(_pill.radius ,0.0f), olc::vf2d(_pill.radius * 2.0f, _pill.height));
+    ufo::Rectangle middle_rectangle = ufo::Rectangle(_pill.position-olc::vf2d(_pill.radius ,0.0f), olc::vf2d(_pill.radius * 2.0f, _pill.height));
     if(CircleVsCircle(top_circle, _circle) || CircleVsCircle(bottom_circle, _circle) || RectangleVsCircle(middle_rectangle, _circle)) return true;
 
     return false;
@@ -324,7 +324,7 @@ bool CircleVsPill(const Circle& _circle, const Pill& _pill){
     return PillVsCircle(_pill, _circle);
 }
 
-bool IsOverlapping(const Pill& _pill, const Rectangle& _rectangle){
+bool IsOverlapping(const Pill& _pill, const ufo::Rectangle& _rectangle){
     return PillVsRectangle(_pill, _rectangle);
 }
 

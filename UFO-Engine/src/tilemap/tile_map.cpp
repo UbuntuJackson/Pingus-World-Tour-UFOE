@@ -37,7 +37,7 @@ void TileMap::OnDraw(Camera* _camera){
     
     
     for(auto&& tileset : level->tilemap.tileset_data){
-        Rectangle screen_rectangle = _camera->GetOnScreenRectangleInWorld({tileset.tile_width, tileset.tile_height});
+        ufo::Rectangle screen_rectangle = _camera->GetOnScreenRectangleInWorld({tileset.tile_width, tileset.tile_height});
 
         int tile_start_x = int(std::floor(screen_rectangle.position.x/tileset.tile_width));
         int tile_end_x = int(std::floor((screen_rectangle.position.x + screen_rectangle.size.x)/tileset.tile_width));
@@ -56,7 +56,7 @@ void TileMap::OnDraw(Camera* _camera){
                 olc::vd2d tile_position = {index_x*tileset.tile_width, index_y*tileset.tile_height};
 
                 if(tileset.tileset_start_id <= tile_id && tile_id < tileset.tileset_start_id+tileset.tile_count){
-                    Rectangle sample_rectangle = GetFrameFromSpriteSheet(tileset.name,tile_id-tileset.tileset_start_id,{tileset.tile_width, tileset.tile_height});
+                    ufo::Rectangle sample_rectangle = GetFrameFromSpriteSheet(tileset.name,tile_id-tileset.tileset_start_id,{tileset.tile_width, tileset.tile_height});
                     //Console::Out("sample rectangle:", sample_rectangle.position, sample_rectangle.size);
                     Engine::Get().pixel_game_engine.DrawPartialRotatedDecal(
                         _camera->Transform(tile_position),

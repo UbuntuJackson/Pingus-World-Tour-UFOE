@@ -10,9 +10,9 @@
 
 using namespace ufoMaths;
 
-Rectangle
+ufo::Rectangle
 Widget::GetRectangle(){
-    return Rectangle(GetGlobalPosition(), rectangle.size);
+    return ufo::Rectangle(GetGlobalPosition(), rectangle.size);
 }
 
 Widget::Widget(Vector2f _local_position, Vector2f _size) :

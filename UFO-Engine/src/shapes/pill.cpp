@@ -10,7 +10,7 @@ bool Pill::IsOverlapping(Circle* _circle){
     return ufoMaths::IsOverlapping(*this,*_circle);
 }
 
-bool Pill::IsOverlapping(Rectangle* _circle){
+bool Pill::IsOverlapping(ufo::Rectangle* _circle){
     return ufoMaths::IsOverlapping(*this,*_circle);
 }
 

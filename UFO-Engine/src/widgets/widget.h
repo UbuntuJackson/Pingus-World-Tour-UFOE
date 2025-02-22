@@ -24,8 +24,8 @@ using namespace ufoMaths;
 class Widget : public Actor{
 public:
     bool visible = true;
-    Rectangle rectangle;
-    Rectangle GetRectangle();
+    ufo::Rectangle rectangle;
+    ufo::Rectangle GetRectangle();
 
     std::unique_ptr<Theme> theme = std::make_unique<ColourRectangleTheme>(Graphics::DARK_CYAN);
 
@@ -35,8 +35,8 @@ public:
 
     void OnLevelEnter(Level* _level);
 
-    Rectangle ShapeWithRespectToParentWidgetBorder(const Rectangle& _r){
-        Rectangle return_rectangle = _r;
+    ufo::Rectangle ShapeWithRespectToParentWidgetBorder(const ufo::Rectangle& _r){
+        ufo::Rectangle return_rectangle = _r;
         if(parent){
             auto w_parent = dynamic_cast<Widget*>(parent);
 

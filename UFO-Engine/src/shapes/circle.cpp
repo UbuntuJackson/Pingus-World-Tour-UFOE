@@ -15,7 +15,7 @@ bool Circle::IsOverlapping(Circle* _circle){
     return ufoMaths::IsOverlapping(*this,*_circle);
 }
 
-bool Circle::IsOverlapping(Rectangle* _circle){
+bool Circle::IsOverlapping(ufo::Rectangle* _circle){
     return ufoMaths::IsOverlapping(*this,*_circle);
 }
 

@@ -25,11 +25,11 @@ DrawingSystem::Update(){
     
 }
 
-void DrawingSystem::DrawFilled(const Rectangle& _rectangle, const olc::Pixel& _colour){
+void DrawingSystem::DrawFilled(const ufo::Rectangle& _rectangle, const olc::Pixel& _colour){
     Engine::Get().pixel_game_engine.FillRectDecal(_rectangle.position, _rectangle.size, _colour);
 }
 
-void DrawingSystem::DrawFilled(const Rectangle& _rectangle, Camera* _camera, const olc::Pixel& _colour){
+void DrawingSystem::DrawFilled(const ufo::Rectangle& _rectangle, Camera* _camera, const olc::Pixel& _colour){
     DrawingSystem::DrawFilled(_camera->Transform(_rectangle), _colour);
 }
 
@@ -44,12 +44,12 @@ DrawingSystem::Draw(const Circle& _circle, Camera* _camera, const olc::Pixel& _c
 }
 
 void
-DrawingSystem::Draw(const Rectangle& _rectangle, const olc::Pixel& _colour){
+DrawingSystem::Draw(const ufo::Rectangle& _rectangle, const olc::Pixel& _colour){
     Engine::Get().pixel_game_engine.DrawRectDecal(_rectangle.position, _rectangle.size, _colour);
 }
 
 void
-DrawingSystem::Draw(const Rectangle& _rectangle, Camera* _camera, const olc::Pixel& _colour){
+DrawingSystem::Draw(const ufo::Rectangle& _rectangle, Camera* _camera, const olc::Pixel& _colour){
     DrawingSystem::Draw(_camera->Transform(_rectangle), _colour);
 }
 
@@ -87,7 +87,7 @@ DrawingSystem::Draw(const olc::vf2d& _point, Camera* _camera,  const olc::Pixel&
 void
 DrawingSystem::Draw(const SpriteReference& _sprite){
     if(!_sprite.visible) return;
-    Rectangle sample_rectangle = GetFrameFromSpriteSheet(_sprite.key,_sprite.current_frame_index,_sprite.frame_size);
+    ufo::Rectangle sample_rectangle = GetFrameFromSpriteSheet(_sprite.key,_sprite.current_frame_index,_sprite.frame_size);
     Engine::Get().pixel_game_engine.DrawPartialRotatedDecal(
         _sprite.position,
         AssetManager::Get().GetDecal(_sprite.key),

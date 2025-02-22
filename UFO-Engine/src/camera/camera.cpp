@@ -113,8 +113,8 @@ Camera::Transform(const olc::vf2d& _position){ //position is supposed to be in t
     return olc::vf2d(screen_position_x, screen_position_y); //im not calculating screen_position_y here, just pretend I did this calculation for that too, haha
 }
 
-Rectangle Camera::Transform(const Rectangle& _rectangle){
-    Rectangle transformed_rectangle{
+ufo::Rectangle Camera::Transform(const ufo::Rectangle& _rectangle){
+    ufo::Rectangle transformed_rectangle{
     Transform(_rectangle.position),
     _rectangle.size * scale};
     return transformed_rectangle;
@@ -177,11 +177,11 @@ Camera::IsOnScreen(olc::vf2d _position, olc::vf2d _offset){
     return ufoMaths::RectangleVsPoint(GetOnScreenRectangleInWorld(_offset),_position);
 }
 
-Rectangle
+ufo::Rectangle
 Camera::GetOnScreenRectangleInWorld(olc::vf2d _offset){
     float x0 = (GetGlobalPosition().x-(view.GetWidthHalf())/scale-_offset.x*scale);
     float x1 = (GetGlobalPosition().x+(view.GetWidthHalf())/scale+_offset.x*scale);
     float y0 = (GetGlobalPosition().y-(view.GetHeightHalf())/scale-_offset.y*scale);
     float y1 = (GetGlobalPosition().y+(view.GetHeightHalf())/scale+_offset.y*scale);
-    return Rectangle({x0, y0}, {x1-x0, y1-y0});
+    return ufo::Rectangle({x0, y0}, {x1-x0, y1-y0});
 }

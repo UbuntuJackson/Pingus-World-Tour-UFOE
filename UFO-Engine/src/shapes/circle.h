@@ -4,7 +4,7 @@
 #include "raw_shape_base.h"
 #include "../external/olcPixelGameEngine.h"
 
-class Rectangle;
+namespace ufo{class Rectangle;}
 class Camera;
 
 class Circle : public RawShapeBase{
@@ -13,7 +13,7 @@ public:
     float radius;
     Circle(olc::vf2d _position, float _radius);
     bool IsOverlapping(Circle* _circle);
-    bool IsOverlapping(Rectangle* _circle);
+    bool IsOverlapping(ufo::Rectangle* _circle);
     bool IsOverlappingOther(RawShapeBase* _other);
     void Draw(Camera *_camera);
 };

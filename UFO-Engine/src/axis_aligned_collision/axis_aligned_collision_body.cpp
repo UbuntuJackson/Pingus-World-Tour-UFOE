@@ -3,7 +3,7 @@
 #include "../external/olcPixelGameEngine.h"
 #include "axis_aligned_collision_body.h"
 
-AxisAlignedCollisionBody::AxisAlignedCollisionBody(olc::vf2d _position, Rectangle _shape) :
+AxisAlignedCollisionBody::AxisAlignedCollisionBody(olc::vf2d _position, ufo::Rectangle _shape) :
     Actor(_position),
     shape{_shape}
 {

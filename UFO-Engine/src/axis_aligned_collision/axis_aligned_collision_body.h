@@ -7,10 +7,10 @@
 
 class AxisAlignedCollisionBody : public Actor{
 public:
-    Rectangle shape;
+    ufo::Rectangle shape;
     olc::vf2d velocity = {0.0f, 0.0f};
     olc::vf2d acceleration = {1.0f, 1.0f};
-    AxisAlignedCollisionBody(olc::vf2d _position, Rectangle _shape);
+    AxisAlignedCollisionBody(olc::vf2d _position, ufo::Rectangle _shape);
     void OnUpdate();
 };
 

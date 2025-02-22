@@ -105,7 +105,7 @@ void LevelAssetManager::StopAudio(std::string _name){
     Engine::Get().wave_engine.StopWaveform(wf);
 }
 
-Rectangle
+ufo::Rectangle
 LevelAssetManager::GetFrameFromSpriteSheet(std::string _sprite_key, int _frame, olc::vf2d _frame_size){
     return GetRectangle(
         (int)_frame % (GetDecal(_sprite_key)->sprite->Size().x/(int)_frame_size.x), //1 can only give me x = 0

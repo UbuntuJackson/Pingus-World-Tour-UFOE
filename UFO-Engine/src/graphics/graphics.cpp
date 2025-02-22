@@ -17,7 +17,7 @@ Graphics::DrawDecal(const std::string& _key, Vector2f _drawing_position, Vector2
 
 void
 Graphics::DrawFrame(const std::string& _key, Vector2f _drawing_position, Vector2f _centre, Vector2f _frame_size, Vector2f _scale, int _index, float _rotation, Colour _tint){
-    Rectangle sample_rectangle = GetFrameFromSpriteSheet(_key, _index, _frame_size);
+    ufo::Rectangle sample_rectangle = GetFrameFromSpriteSheet(_key, _index, _frame_size);
     
     graphics_engine->DrawPartialRotatedDecal(
         _drawing_position,

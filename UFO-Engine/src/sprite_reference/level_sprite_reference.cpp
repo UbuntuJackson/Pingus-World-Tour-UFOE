@@ -21,7 +21,7 @@ void LevelSpriteReference::OnLevelEnter(Level* _level){
 void
 LevelSpriteReference::OnDraw(Camera* _camera){
     if(!visible) return;
-    Rectangle sample_rectangle = level_asset_manager->GetFrameFromSpriteSheet(key,current_frame_index,frame_size);
+    ufo::Rectangle sample_rectangle = level_asset_manager->GetFrameFromSpriteSheet(key,current_frame_index,frame_size);
     Engine::Get().pixel_game_engine.DrawPartialRotatedDecal(
         _camera->Transform(GetGlobalPosition()),
         level_asset_manager->GetDecal(key),

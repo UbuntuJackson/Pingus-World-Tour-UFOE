@@ -15,10 +15,6 @@ class Scene;
 class DrawingSystem{
 public:
     DrawingSystem() = default;
-    
-    std::vector<std::pair<Circle*, bool>> circles;
-    std::vector<std::pair<Rectangle*, bool>> rectangles;
-    std::vector<std::pair<ufoSprite*, bool>> ufo_sprites;
 
     void DrawRectangles();
     void Update();
@@ -33,11 +29,11 @@ public:
     static void Draw(const Circle& _circle, const olc::Pixel& _colour);
     static void Draw(const Circle& _circle, Camera* _camera, const olc::Pixel& _colour);
 
-    static void DrawFilled(const Rectangle& _rectangle, const olc::Pixel& _colour);
-    static void DrawFilled(const Rectangle& _rectangle, Camera* _camera, const olc::Pixel& _colour);
+    static void DrawFilled(const ufo::Rectangle& _rectangle, const olc::Pixel& _colour);
+    static void DrawFilled(const ufo::Rectangle& _rectangle, Camera* _camera, const olc::Pixel& _colour);
 
-    static void Draw(const Rectangle& _circle, const olc::Pixel& _colour);
-    static void Draw(const Rectangle& _circle, Camera* _camera, const olc::Pixel& _colour);
+    static void Draw(const ufo::Rectangle& _circle, const olc::Pixel& _colour);
+    static void Draw(const ufo::Rectangle& _circle, Camera* _camera, const olc::Pixel& _colour);
 
     static void Draw(const Ray2& _ray, const olc::Pixel& _colour);
     static void Draw(const Ray2& _ray, Camera* _camera, const olc::Pixel& _colour);

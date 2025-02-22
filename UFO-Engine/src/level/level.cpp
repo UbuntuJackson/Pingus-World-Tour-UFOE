@@ -23,6 +23,7 @@
 #include "../background/background_image.h"
 #include "../animation/animated_sprite_reference.h"
 #include "level_trigger.h"
+#include "trigger.h"
 #include "spawn_point.h"
 #include "../player_body/player_body.h"
 #include "level_transition_effect.h"
@@ -342,7 +343,7 @@ void Level::Load(){
                     int tiled_object_id = _object.GetAsInt("id");
                     
                     auto u_trigger = std::make_unique<LevelTrigger>(
-                        Rectangle(olc::vf2d(x,y),olc::vf2d(width, height)), l_path, tiled_object_id, spawn_point_name
+                        ufo::Rectangle(olc::vf2d(x,y),olc::vf2d(width, height)), l_path, tiled_object_id, spawn_point_name
                     );
 
                     trigger_handles.push_back(u_trigger.get());
@@ -371,7 +372,7 @@ void Level::Load(){
         OnLoadLayer(layer);
     }
     
-    NewActor(std::make_unique<Shape<Rectangle>>(Rectangle(olc::vf2d(0.0f, 0.0f), level_size), olc::vf2d(0.0f, 0.0f))); //This just shows the size of the area.
+    NewActor(std::make_unique<Shape<ufo::Rectangle>>(ufo::Rectangle(olc::vf2d(0.0f, 0.0f), level_size), olc::vf2d(0.0f, 0.0f))); //This just shows the size of the area.
 
     olc::vf2d window_size = Engine::Get().pixel_game_engine.GetWindowSize();
 
@@ -677,7 +678,7 @@ void Level::DebugDraw(){
     if(!Engine::Get().edit_mode) return;
 
     olc::vf2d window_size = Engine::Get().pixel_game_engine.GetWindowSizeInPixles();
-    DrawingSystem::DrawFilled(Rectangle(olc::vf2d(0.0f, window_size.y-18.0f), olc::vf2d(window_size.x,18.0f)),olc::VERY_DARK_CYAN);
+    DrawingSystem::DrawFilled(ufo::Rectangle(olc::vf2d(0.0f, window_size.y-18.0f), olc::vf2d(window_size.x,18.0f)),olc::VERY_DARK_CYAN);
     olc::vf2d current_mouse_position = GetActiveCamera()->TransformScreenToWorld(Mouse::GetPosition());
     Engine::Get().pixel_game_engine.DrawStringDecal(
         olc::vf2d(2.0f,window_size.y-17.0f),

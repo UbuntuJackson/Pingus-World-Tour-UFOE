@@ -5,6 +5,8 @@
 #include "../drawing_system/drawing_system.h"
 #include "../camera/camera.h"
 
+namespace ufo{
+
 Rectangle::Rectangle(olc::vf2d _position, olc::vf2d _size): RawShapeBase(_position), size{_size}{}
 
 bool Rectangle::IsOverlapping(Circle* _circle){
@@ -21,4 +23,6 @@ bool Rectangle::IsOverlappingOther(RawShapeBase* _other){
 
 void Rectangle::Draw(Camera *_camera){
     DrawingSystem::Draw(*this,_camera, colour);
+}
+
 }

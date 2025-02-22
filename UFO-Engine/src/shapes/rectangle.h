@@ -5,8 +5,9 @@
 #include "raw_shape_base.h"
 
 class Circle;
-class Rectangle;
 class Camera;
+
+namespace ufo{
 
 class Rectangle : public RawShapeBase{
 public:
@@ -17,5 +18,7 @@ public:
     bool IsOverlappingOther(RawShapeBase* _other);
     void Draw(Camera *_camera);
 };
+
+}
 
 #endif
