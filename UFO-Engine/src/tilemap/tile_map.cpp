@@ -29,6 +29,7 @@ TileMap::Load(Json& _layer){
 
 int TileMap::GetTileID_AtLevelPosition(Vector2f _position){
     int tile_id = tilemap_data[int(_position.y/16.0f) * level->tilemap.number_of_columns + (_position.x/16.0f)];
+    return tile_id;
 }
 
 void TileMap::OnDraw(Camera* _camera){

@@ -4,6 +4,6 @@
 #include "../shapes/polygon.h"
 
 namespace ufoMaths{
-bool IsPolygonClockwise(Polygon _polygon);
+bool IsPolygonClockwise(ufo::Polygon _polygon);
 }
 #endif

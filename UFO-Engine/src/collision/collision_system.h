@@ -22,7 +22,7 @@ public:
 
     void Load(Json& _json);
 
-    Ray2 CreateLineFromCircleCollision(Circle _dynamic_circle, olc::vf2d _velocity, Ray2 _line);
+    //Ray2 CreateLineFromCircleCollision(Circle _dynamic_circle, olc::vf2d _velocity, Ray2 _line);
 
     void ResolveCircleVsLine(CollisionCircle* _collision_body, olc::vf2d& _velocity);
 

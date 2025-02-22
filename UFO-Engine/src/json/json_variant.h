@@ -61,7 +61,7 @@ public:
 
     }
 
-    virtual cJSON* GetObject(){}
+    virtual cJSON* GetObject(){return nullptr;}
 
 };
 

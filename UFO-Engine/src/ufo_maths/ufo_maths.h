@@ -143,7 +143,7 @@ float WIPSin(float _radians);
 
 float WIPCos(float _radians);
 
-constexpr float Sin(float _x){
+/*constexpr float Sin(float _x){
     return std::sin(_x);
 }
 
@@ -153,7 +153,7 @@ constexpr float Cos(float _x){
 
 constexpr float Tan(float _x){
     return std::cos(_x);
-}
+}*/
 
 constexpr float Sqrt(float _x){
     return std::sqrt(_x);

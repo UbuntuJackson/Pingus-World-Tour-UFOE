@@ -76,7 +76,7 @@ public:
     }
 
     void Set(std::string _object_name, Json _json){
-        if(GetObject(_object_name).IsNull()){
+        if(Json::GetObject(_object_name).IsNull()){
             PushToObject(_object_name, _json);
         }
         else{
@@ -151,23 +151,23 @@ public:
     }
 
     std::string GetKey(std::string _name){
-        return GetObject(_name).member->string;
+        return Json::GetObject(_name).member->string;
     }
 
     int GetAsInt(std::string _name){ //should be renamed to GetObjectAs[Type](...)?
-        return GetObject(_name).GetAsInt();
+        return Json::GetObject(_name).GetAsInt();
     }
 
     double GetAsDouble(std::string _name){
-        return GetObject(_name).GetAsDouble();
+        return Json::GetObject(_name).GetAsDouble();
     }
 
     std::string GetAsString(std::string _name){
-        return GetObject(_name).GetAsString();
+        return Json::GetObject(_name).GetAsString();
     }
 
     std::vector<Json> GetAsArray(std::string _name){
-        return GetObject(_name).GetAsArray();
+        return Json::GetObject(_name).GetAsArray();
     }
 
     int GetAsInt(){

@@ -51,7 +51,7 @@ void CollisionSystem::Load(Json& _json){
 
 }
 
-Ray2 CollisionSystem::CreateLineFromCircleCollision(Circle _dynamic_circle, olc::vf2d _velocity, Ray2 _line){
+/*Ray2 CollisionSystem::CreateLineFromCircleCollision(Circle _dynamic_circle, olc::vf2d _velocity, Ray2 _line){
     Shape<Circle> dynamic_circle = Shape<Circle>(Circle(olc::vf2d(0.0f, 0.0f),_dynamic_circle.radius), _line.Start());
     
     RayVsCircleCollisionData result = ufoMaths::RayVsCircle(Ray2(_dynamic_circle.position, _dynamic_circle.position + _velocity), &dynamic_circle);
@@ -60,7 +60,7 @@ Ray2 CollisionSystem::CreateLineFromCircleCollision(Circle _dynamic_circle, olc:
         olc::vf2d line_size = Ray2(olc::vf2d(0.0f, 0.0f),result.collision_normal).Normal();
     }
 
-}
+}*/
 
 void CollisionSystem::ResolveCircleVsLine(CollisionCircle* _collision_shape, olc::vf2d& _velocity){
     //if(collision_search_depth > 0) Console::Out(collision_search_depth);
