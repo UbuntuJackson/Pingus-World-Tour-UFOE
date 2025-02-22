@@ -1,10 +1,26 @@
 #include <ufo_engine.h>
 #include "src/pingus_level.h"
 #include <ufo_maths.h>
+#include <json_variant.h>
+#include <json_dictionary.h>
 
 //#include "UFO-Engine/src/level/level.h"
 
 int main(){
+
+    JsonDictionary j = JsonVariant::Read("../res/json_test_file.json");
+
+    int i = j.Get("x").AsInt();
+    
+    for(auto&& [k,v] : j.Iterable()){
+        if(v->IsFloat()){
+            Console::Out("Integer k =",v->AsFloat());
+        }
+
+        if(v->IsString()){
+            Console::Out("String k =",v->AsString());
+        }
+    }
 
     /*for(int i = -10; i < 10; i++){
         Console::Out(ufoMaths::Wrapi(i, 0, 4));
