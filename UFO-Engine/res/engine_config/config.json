@@ -7,7 +7,7 @@
         "x" : 2,
         "y" : 2    
     },
-    "vsync" : true,
+    "vsync" : false,
     "start-level" : "../res/frogatto_jr/frogatto_level_1.json",
     "all-shapes-visible" : false,
     "edit-mode" : false,

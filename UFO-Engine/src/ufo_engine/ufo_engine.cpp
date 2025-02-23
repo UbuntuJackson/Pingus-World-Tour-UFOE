@@ -5,6 +5,7 @@
 #include "../json/json.h"
 #include "../custom/frogatto_level.h"
 #include "../keyboard/single_keyboard.h"
+#include "../json/json_variant.h"
 //#include "../ufo_lang/ufo_lang.h"
 
 Profile* Engine::GetActiveProfile(){
@@ -48,18 +49,18 @@ bool
 Engine::Start(){
     wave_engine.InitialiseAudio();
 
-    Json engine_config = Json::Read("../UFO-Engine/res/engine_config/config.json");
+    JsonDictionary engine_config = JsonVariant::Read("../UFO-Engine/res/engine_config/config.json");
 
-    Json resolution = engine_config.GetObject("resolution");
-    int res_width = resolution.GetAsInt("x");
-    int res_height = resolution.GetAsInt("y");
-    Json pixel_size = engine_config.GetObject("pixel-size");
-    int pixel_width = pixel_size.GetAsInt("x");
-    int pixel_height = pixel_size.GetAsInt("y");
-    vsync = (bool)engine_config.GetAsInt("vsync");
-    edit_mode = (bool)engine_config.GetAsInt("edit-mode");
-    all_shapes_visible = (bool)engine_config.GetAsInt("all-shapes-visible");
-    modified_collision_lines_visible = (bool)engine_config.GetAsInt("modified-collision-lines-visible");
+    JsonDictionary& resolution = engine_config.Get("resolution").AsDictionary();
+    int res_width = resolution.Get("x").AsInt();
+    int res_height = resolution.Get("y").AsInt();
+    JsonDictionary& pixel_size = engine_config.Get("pixel-size").AsDictionary();
+    int pixel_width = pixel_size.Get("x").AsInt();
+    int pixel_height = pixel_size.Get("y").AsInt();
+    vsync = (bool)(engine_config.Get("vsync").AsInt());
+    edit_mode = (bool)(engine_config.Get("edit-mode").AsInt());
+    all_shapes_visible = (bool)(engine_config.Get("all-shapes-visible").AsInt());
+    modified_collision_lines_visible = (bool)(engine_config.Get("modified-collision-lines-visible").AsInt());
     if(edit_mode){
         pixel_width = 1;
         pixel_height = 1;

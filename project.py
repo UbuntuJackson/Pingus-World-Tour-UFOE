@@ -38,4 +38,4 @@ project.source_files.append("src/pingus_level.cpp")
 
 project.generate_project("-ggdb", "-j6")
 
-project.run()
+project.debug()

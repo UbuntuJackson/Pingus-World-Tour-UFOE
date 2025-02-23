@@ -2,7 +2,6 @@
 #include "src/pingus_level.h"
 #include <ufo_maths.h>
 #include <json_variant.h>
-#include <json_dictionary.h>
 
 //#include "UFO-Engine/src/level/level.h"
 
@@ -21,6 +20,13 @@ int main(){
             Console::Out("String k =",v->AsString());
         }
     }
+
+    JsonDictionary to_be_saved = JsonDictionary();
+    to_be_saved.Set("one",1);
+    to_be_saved.Set("two",2.0f);
+    to_be_saved.Set("three","3");
+    to_be_saved.Iterable().erase("one");
+    to_be_saved.Write("../res/to_be_saved.json");
 
     /*for(int i = -10; i < 10; i++){
         Console::Out(ufoMaths::Wrapi(i, 0, 4));

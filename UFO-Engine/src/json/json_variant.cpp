@@ -58,6 +58,14 @@ JsonArray JsonArray::cJSON_ToArray(cJSON* member){
             }
 
         }
+
+        if(cJSON_IsBool(iterator)){
+
+            j.Push(float(iterator->valueint));
+            Console::Out("Json::GetAsTree found double");
+
+        }
+
         if(cJSON_IsString(iterator)){
             j.Push(iterator->valuestring);
             Console::Out("JsonArray::cJSON_ToArray found number");

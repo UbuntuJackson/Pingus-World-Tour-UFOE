@@ -284,6 +284,15 @@ public:
 
             }
 
+            if(cJSON_IsBool(iterator)){
+
+                
+                j.Set(iterator->string ,float(iterator->valueint));
+                Console::Out("Json::GetAsTree found double");
+                
+
+            }
+
             if(cJSON_IsString(iterator)){
                 j.Set(iterator->string,iterator->valuestring);
                 Console::Out("Json::GetAsTree found number", iterator->string);
@@ -313,6 +322,15 @@ public:
             if(cJSON_IsNumber(iterator)){
                 j.Set(iterator->string,iterator->valueint);
                 Console::Out("Json::GetAsTree found number", iterator->string);
+            }
+
+            if(cJSON_IsBool(iterator)){
+
+                
+                j.Set(iterator->string ,float(iterator->valueint));
+                Console::Out("Json::GetAsTree found double");
+                
+
             }
             //if(cJSON_IsArray(iterator)){
             //    Console::Out("Json::GetAsTree found number", iterator->string);
