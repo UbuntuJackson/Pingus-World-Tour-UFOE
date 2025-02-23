@@ -14,19 +14,25 @@
 
 class Level;
 
+//Wrapped text contains not only a string, but also the number of times the text
+//wraps around.
 struct WrappedText{
     std::string text;
     int rows;
 };
 
-using namespace ufoMaths;
+//The baseclass for all widgets. It is not abstract and can be used as
+//a frame for other widgets. You can put for example Buttons and WidgetSpriteReferences on it.
 
 class Widget : public Actor{
 public:
     bool visible = true;
+//protected:
     ufo::Rectangle rectangle;
+//public:
     ufo::Rectangle GetRectangle();
 
+    //All widgets has a default theme. They will have additional themes after need.
     std::unique_ptr<Theme> theme = std::make_unique<ColourRectangleTheme>(Graphics::DARK_CYAN);
 
     Level* level = nullptr;
@@ -54,70 +60,12 @@ public:
         return return_rectangle;
     }
     
-    WrappedText GetWrappedTextWrapOnSpace(std::string _text){
+    //Wraps when a word would otherwise go outside of the widget that encapsulates it.
+    WrappedText GetWrappedTextWrapOnSpace(std::string _text);
 
-        int text_width = 8;
-
-        std::vector<std::string> text_as_vector;
-
-        std::string word = "";
-
-        for(int c = 0; c < _text.size(); c++){
-            
-            if(_text[c] != ' ') word += _text[c];
-
-            if(c == _text.size()-1 || _text[c] == ' ' /*|| _text[c] == '\n'*/){
-                text_as_vector.push_back(word);
-                word = "";
-            }
-        }
-
-        std::string new_text = "";
-
-        std::string row = "";
-
-        int number_of_rows = 1;
-
-        for(int i_word = 0; i_word < text_as_vector.size(); i_word++){
-            
-            for(int c = 0; c < text_as_vector[i_word].size(); c++){
-                if(text_as_vector[i_word][c] == '\n'){
-                    number_of_rows++;
-                }
-            }
-
-            if(row.size()+text_as_vector[i_word].size() < int(rectangle.size.x/text_width)){
-                row+=text_as_vector[i_word]+" ";
-            }
-            else{
-                number_of_rows++;
-                new_text+=(row+"\n");
-                row = "";
-                row+=text_as_vector[i_word]+" ";
-            }
-        }
-        new_text+=row;
-        
-        return {new_text, number_of_rows};
-    }
-
-    WrappedText GetWrappedTextWrapOnCharMeetsBorder(std::string _text){
-        int text_width = 8;
-        std::string new_text = "";
-        int number_of_rows;
-
-        for(int c = 0; c < _text.size(); c++){
-            if(c % int(rectangle.size.x/text_width) == int(rectangle.size.x/text_width)-1){
-                new_text+="\n";
-                number_of_rows++;
-            }
-            new_text+=_text[c];
-
-            //Console::Out((c*text_width)%int(rectangle.size.x));
-        }
-
-        return {new_text, number_of_rows};
-    }
+    //Wraps the word so that the characters that would otherwise go outside of the widget
+    //end up on the next row.
+    WrappedText GetWrappedTextWrapOnCharMeetsBorder(std::string _text);
 
     void OnUpdate();
 

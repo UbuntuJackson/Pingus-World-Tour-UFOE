@@ -2,7 +2,7 @@
 #include "../console/console.h"
 
 void JsonVariantTest(){
-    auto j = JsonVariant::Read("../res/save/test_file.json");
+    auto j = JsonVariant::Read("../UFO-Engine/res/save/test_file.json");
     int i = j.Get("value").AsInt();
     Console::Out(i);
     Console::Out("dict size:",j.dictionary.size());
@@ -29,7 +29,7 @@ void JsonVariantTest(){
 
     j.Write("../res/save/test_file.json");
     
-    auto read_dictionary = JsonVariant::Read("../res/save/file_to_read_from.json");
+    auto read_dictionary = JsonVariant::Read("../UFO-Engine/res/save/file_to_read_from.json");
 
     auto& arr_a = read_dictionary.Get("array").AsArray();
 
@@ -47,4 +47,21 @@ void JsonVariantTest(){
     Console::Out(read_dictionary.Get("position").AsVector2f("x","y"));
 
     //Console::Out("JsonVariantTest:",read_dictionary.GetJsonAsString());
+}
+
+void JsonVariantTest2(){
+    JsonDictionary j = JsonVariant::Read("../UFO-Engine/res/save/json_test_file.json");
+
+    JsonArray arr = j.Get("stuff").AsArray();
+
+    for(auto&& o : arr.Iterable()){
+        Console::Out(o->AsDictionary().Get("x").AsString());
+    }
+
+    JsonDictionary to_be_saved = JsonDictionary();
+    to_be_saved.Set("one",1);
+    to_be_saved.Set("two",2.0f);
+    to_be_saved.Set("three","3");
+    to_be_saved.Iterable().erase("one");
+    to_be_saved.Write("../UFO-Engine/res/save/to_be_saved.json");
 }

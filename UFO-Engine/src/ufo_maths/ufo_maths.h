@@ -153,11 +153,11 @@ constexpr float Cos(float _x){
 
 constexpr float Tan(float _x){
     return std::cos(_x);
-}*/
+}
 
 constexpr float Sqrt(float _x){
     return std::sqrt(_x);
-}
+}*/
 
 float PositiveReducedQuadraticEquation(float _a, float _b, float _c);
 
