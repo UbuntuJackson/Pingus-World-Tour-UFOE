@@ -14,6 +14,12 @@ PingusMainMenu::PingusMainMenu(Vector2f _local_position) : WrapMenu(_local_posit
 }
 
 void PingusMainMenu::OnLevelEnter(Level* _level){
+    if(AssetManager::Get().current_music_track != "Pingus_New_theme.wav"){
+        AssetManager::Get().LoadAudio("../res/audio/Pingus_New_theme.wav", "Pingus_New_theme.wav");
+        AssetManager::Get().PlayAudio("Pingus_New_theme.wav", true);
+        AssetManager::Get().current_music_track = "Pingus_New_theme.wav";
+    }
+
     has_modified_controls = true;
     
     dynamic_cast<PingusLevel*>(_level)->current_menu = this;

@@ -14,11 +14,16 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_COMPILER "/usr/bin/g++")
 set(CMAKE_C_COMPILER "/usr/bin/gcc")
 
-# Find required libraries
-find_package(CURL REQUIRED)
-find_package(PNG REQUIRED)
-find_package(ZLIB REQUIRED)
+if(NOT WIN32)
 
+    # Find required libraries
+    find_package(CURL REQUIRED)
+    find_package(PNG REQUIRED)
+    find_package(ZLIB REQUIRED)
+
+endif()
+
+# Find require
 set(
     SRC
     src/asset_manager/asset_manager.cpp
@@ -87,12 +92,12 @@ set(
 
     src/profile/profile.cpp
 
-    #Alternative collision system
+    # Alternative collision system
     src/collision/collision_system.cpp
     src/shapes/collision_circle.cpp
     src/shapes/collision_rectangle.cpp
 
-    #Bitmaplevel
+    # Bitmaplevel
     src/bitmap_level/bitmap_collision_body.cpp
     src/bitmap_level/bitmap_dynamic_solid.cpp
     src/bitmap_level/colour_utils.cpp
@@ -108,7 +113,6 @@ set(
     #src/ufo_sprite/ufo_sprite.cpp
     #src/ufo_clock/ufo_time.cpp
     #src/ufo_vector_utils/range.cpp
-
 )
 
 add_library(UFO ${SRC})
@@ -142,12 +146,16 @@ target_include_directories(UFO PUBLIC src/widgets)
 
 #target_compile_options(${UFO} -Wall -Wextra)
 
-# Link libraries
-target_link_libraries(UFO PUBLIC
-    CURL::libcurl
-    PNG::PNG
-    ZLIB::ZLIB
-)
+if(NOT WIN32)
+
+    # Link libraries
+    target_link_libraries(UFO PUBLIC
+        CURL::libcurl
+        PNG::PNG
+        ZLIB::ZLIB
+    )
+
+endif()
 
 # OpenGL
 set(OpenGL_GL_PREFERENCE LEGACY)
@@ -172,37 +180,33 @@ target_link_libraries(UFO PUBLIC Threads::Threads)
 # stdc++fs
 target_compile_features(UFO PUBLIC cxx_std_17)
 
-if(USE_ALSA)
+# Platform-specific audio backends
+if(NOT WIN32)  # Only consider ALSA or PulseAudio on Linux
+    if(USE_ALSA)
         
-    # ALSA
-    find_package(ALSA REQUIRED)
-    target_link_libraries(UFO PUBLIC ALSA::ALSA)
-    include_directories(${ALSA_INCLUDE_DIRS})
-    add_compile_definitions(SOUNDWAVE_USING_ALSA=1)
-    
-elseif(USE_SDL2_MIXER)
+        # ALSA
+        find_package(ALSA REQUIRED)
+        target_link_libraries(UFO PUBLIC ALSA::ALSA)
+        include_directories(${ALSA_INCLUDE_DIRS})
+        add_compile_definitions(SOUNDWAVE_USING_ALSA=1)
 
-    # Because SDL2_mixer can be used on multiple platforms, we
-    # defer it's inclusion until outside of the platform/toolchain
-    # selection logic.
+    else()
 
-else()  # PulseAudio is Default
+        # PulseAudio
+        find_package(PulseAudio REQUIRED)
+        target_link_libraries(UFO PUBLIC ${PULSEAUDIO_LIBRARY} pulse-simple)
+        include_directories(${PULSEAUDIO_INCLUDE_DIR})
+        add_compile_definitions(SOUNDWAVE_USING_PULSE=1)
 
-    # PulseAudio
-    find_package(PulseAudio REQUIRED)
-    target_link_libraries(UFO PUBLIC ${PULSEAUDIO_LIBRARY} pulse-simple)
-    include_directories(${PULSEAUDIO_INCLUDE_DIR})
-
-    add_compile_definitions(SOUNDWAVE_USING_PULSE=1)
-
+    endif()
 endif()
 
 if(USE_SDL2_MIXER AND NOT EMSCRIPTEN)
-        
+
     # SDL2_mixer
     find_package(SDL2_mixer REQUIRED)
     target_link_libraries(UFO PUBLIC SDL2_mixer::SDL2_mixer)
 
     add_compile_definitions(SOUNDWAVE_USING_SDLMIXER=1)
 
-endif() # USE_SDL2_MIXER
+endif()

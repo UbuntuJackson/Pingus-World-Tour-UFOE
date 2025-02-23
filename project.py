@@ -46,4 +46,4 @@ project.source_files.append("src/pingus_level.cpp")
 #Generate generated_actor_json_bridge.h and CMakeLists.txt.
 project.generate_project("-ggdb", "-j6")
 
-#project.run()
+project.run()

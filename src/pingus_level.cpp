@@ -24,6 +24,8 @@
 #include "result_screen.h"
 
 void PingusLevel::OnResourceLoad(){
+    Engine::Get().wave_engine.StopAll();
+
     AssetManager::Get().LoadDecal("../res/assets/pingu_hitbox.png","pill");
     AssetManager::Get().LoadDecal("../res/assets/box_12_24.png","box_12_24");
     AssetManager::Get().LoadDecal("../res/assets/walking animation-Sheet.png", "pingu_walk");
@@ -49,6 +51,7 @@ void PingusLevel::OnLoadActors(JsonDictionary& _actor_json){
 }
 
 void PingusLevel::OnLoad(JsonDictionary& _j){
+
     custom_level_size = asset_manager.GetDecal("solid.png")->sprite->Size();
     level_size = custom_level_size;
     Console::Out("Level Custom size =",level_size);
