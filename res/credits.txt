@@ -1,0 +1,9 @@
+### Credits to PingusWorldTour ###
+
+Windows compatible CMakeLists.txt - Allie /Bruhmoent
+
+Pingus_New_theme.wav - Rodirod0
+
+Programming / Scripting - UbuntuJackson
+Art - UbuntuJackson
+Level design - UbuntuJackson
