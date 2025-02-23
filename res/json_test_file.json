@@ -1,5 +1,6 @@
 {
-    "x" : 2,
-    "y" : 3,
-    "z" : "hello world"
+    "stuff" : [
+        {"x" : "hello"},
+        {"x" : "world"}
+    ]
 }

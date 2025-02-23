@@ -10,7 +10,7 @@ class SpawnPoint : public Actor{
 public:
     std::string name;
     SpawnPoint(olc::vf2d _position, std::string _name = "");
-    static std::unique_ptr<SpawnPoint> Load(Json& _json);
+    static std::unique_ptr<SpawnPoint> Load(JsonDictionary& _json);
 };
 
 #endif

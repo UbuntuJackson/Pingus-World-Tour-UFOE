@@ -4,7 +4,7 @@
 #include <memory>
 #include <olcPixelGameEngine.h>
 #include <level.h>
-#include <json.h>
+#include <json_variant.h>
 #include <ufo_maths.h>
 
 class Widget;
@@ -43,9 +43,9 @@ public:
 
     void OnResourceLoad();
 
-    void OnLoadActors(Json& _actor_json);
+    void OnLoadActors(JsonDictionary& _actor_json);
 
-    void OnLoad(Json& _j);
+    void OnLoad(JsonDictionary& _j);
 
     void OnCameraManipulation();
     

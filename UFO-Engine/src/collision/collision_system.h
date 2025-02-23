@@ -4,7 +4,7 @@
 #include "../shapes/circle.h"
 #include "../ufo_collision/collision_data.h"
 #include "../shapes/ray2.h"
-#include "../json/json.h"
+#include "../json/json_variant.h"
 
 class CollisionBody;
 class CollisionCircle;
@@ -20,7 +20,7 @@ public:
     int counter = 0;
     bool should_move_with_delta_time = false;
 
-    void Load(Json& _json);
+    void Load(JsonDictionary& _json);
 
     //Ray2 CreateLineFromCircleCollision(Circle _dynamic_circle, olc::vf2d _velocity, Ray2 _line);
 

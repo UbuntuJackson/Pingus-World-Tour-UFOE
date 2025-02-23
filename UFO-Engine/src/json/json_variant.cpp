@@ -6,6 +6,7 @@
 #include "../file/file.h"
 #include "json_variant.h"
 #include "../json/json.h"
+#include "../external/olcPixelGameEngine.h"
 
 void JsonArray::Push(int _value){
     objects.push_back(std::make_unique<JsonInt>(_value));
@@ -39,6 +40,10 @@ JsonDictionary JsonVariant::Read(std::string _path){
     JsonDictionary j = JsonDictionary().GetAsTree(member);
     cJSON_Delete(member);
     return j;
+}
+
+olc::vf2d JsonVariant::AsVector2f(std::string _x, std::string _y){
+    throw std::runtime_error("Not a Vector2f");
 }
 
 JsonArray JsonArray::cJSON_ToArray(cJSON* member){

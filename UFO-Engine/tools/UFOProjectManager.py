@@ -37,23 +37,28 @@ class Class:
         code : str = ""
 
         code += "    " + "case " + str(_index) + ":{\n"
-        code += "    "*3 + "auto instance = _level->NewActor<"+self.name+">"+ "(" + "Vector2f((float)(_actor_json.GetAsInt(\"x\")), (float)(_actor_json.GetAsInt(\"y\")))"
-        code += ");\n"
+        code += "    "*3 + "auto instance = _level->NewActor<"+self.name+">"+ "(" + "Vector2f(_actor_json.Get(\"x\").AsFloat(), _actor_json.Get(\"y\").AsFloat()));\n"
         for arg in self.editor_attributes:
-            if arg[1] in default_actor_attributes: code += "    "*3 + "instance->"+ attribute_map[arg[1]]+ " = _actor_json.GetAs" + arg[0] + "(\"" + arg[1] + "\");\n"
+            if arg[1] in default_actor_attributes: code += "    "*3 + "instance->"+ attribute_map[arg[1]]+ " = _actor_json.Get(\"" + arg[1] + "\").As" + arg[0]+'();\n'
 
-        code+= '            Json property_json = _actor_json.GetObject("properties");\n'
-        code+= '            if(!property_json.IsNull()){\n'
-        code+= '                Json::ArrayForEach(Json(), property_json, [&](Json _json, Json _data){\n'
+        code += "            if(_actor_json.KeyExists(\"properties\")){\n"
+        code += "                JsonArray& property_json = _actor_json.Get(\"properties\").AsArray();\n"
+        code += "                for(auto&& _json : property_json.Iterable()){\n"
+
+        code += "                   auto property_dict = _json->AsDictionary();\n"
 
         #For attributes that are in the properties object.
         for arg in self.editor_attributes:
             if not arg[1] in default_actor_attributes:
-                code+= '                    if(_json.GetAsString("name") == "' +arg[1] +'"){\n'
-                code+= '                        instance->'+ arg[1]+ ' = _json.GetAs'+ arg[0] + '(\"'+ 'value' + '\");\n'
-                code+= '                    }\n'
+                code += '                    if(property_dict.Get(\"name\").AsString() == "' +arg[1] +'"){\n'
+                code += '                        instance->'+ arg[1]+ ' = property_dict.Get(\"value\").As'+arg[0]+'();\n'
+                code += '                    }\n'
+
+                #code+= '                    if(_json.GetAsString("name") == "' +arg[1] +'"){\n'
+                #code+= '                        instance->'+ arg[1]+ ' = _json.GetAs'+ arg[0] + '(\"'+ 'value' + '\");\n'
+                #code+= '                    }\n'
         
-        code+= '                });\n'
+        code+= '                }\n'
         code+= '            }\n'
 
         code+= "    "*2 + "}\n        break;\n"
@@ -85,7 +90,7 @@ class ProjectManager:
 
         actor_json_bridge_dot_h = ""
 
-        actor_json_bridge_dot_h += "#include <json.h>\n"
+        actor_json_bridge_dot_h += "#include <json_variant.h>\n"
         actor_json_bridge_dot_h += "#include <ufo_maths.h>\n"
         actor_json_bridge_dot_h += "#include <console.h>\n"
 
@@ -93,10 +98,10 @@ class ProjectManager:
             if klass == None: continue
             actor_json_bridge_dot_h += "#include " + '"../' + klass.header_file + '"\n'
 
-        actor_json_bridge_dot_h += "void GeneratedActorJsonBridge(Level* _level, Json& _actor_json, std::string _actor_sheet){\n"
+        actor_json_bridge_dot_h += "void GeneratedActorJsonBridge(Level* _level, JsonDictionary& _actor_json, std::string _actor_sheet){\n"
 
         actor_json_bridge_dot_h += "    auto actors_tileset_data = _level->tilemap.GetTilesetData(_actor_sheet);\n"
-        actor_json_bridge_dot_h += "    int type_id = _actor_json.GetAsInt(\"gid\") - actors_tileset_data.tileset_start_id+1;\n"
+        actor_json_bridge_dot_h += "    int type_id = _actor_json.Get(\"gid\").AsInt() - actors_tileset_data.tileset_start_id+1;\n"
         actor_json_bridge_dot_h += "    switch(type_id){\n"
 
         for klass in self.classes:

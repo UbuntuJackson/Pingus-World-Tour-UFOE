@@ -5,22 +5,21 @@
 #include "../actor/actor.h"
 #include "../level/level.h"
 #include "../json/json.h"
+#include "../json/json_variant.h"
 using namespace ufoMaths;
 
 std::unique_ptr<TileMap>
-TileMap::Load(Json& _layer){
+TileMap::Load(JsonDictionary& _layer){
     std::unique_ptr<TileMap> u_tilemap = std::make_unique<TileMap>();
     
-    if(_layer.GetAsString("type") == "tilelayer" && _layer.GetAsString("name") != "tilemap_collision"){
+    if(_layer.Get("type").AsString() == "tilelayer" && _layer.Get("name").AsString() != "tilemap_collision"){
         std::vector<int> data;
-        auto layer_data = _layer.GetObject("data");
+        auto layer_data = _layer.Get("data").AsArray();
 
-        Json::ArrayForEach(
-            Json(),layer_data,[&](Json& _json, const Json& _layer_data){
-                int id = _json.GetAsInt();
-                u_tilemap->tilemap_data.push_back(id);
-            }
-        );
+        for(auto&& _json : layer_data.Iterable()){
+            int id = _json->AsInt();
+            u_tilemap->tilemap_data.push_back(id);
+        }
 
     }
 

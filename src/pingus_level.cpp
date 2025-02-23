@@ -4,7 +4,7 @@
 #include <olcPixelGameEngine.h>
 #include <sprite_reference.h>
 #include <level.h>
-#include <json.h>
+#include <json_variant.h>
 #include <ufo_maths.h>
 #include <asset_manager.h>
 #include <bitmap_collision_body.h>
@@ -43,12 +43,12 @@ void PingusLevel::OnResourceLoad(){
     Engine::Get().pixel_game_engine.LoadFontSprite("../res/assets/pwt_grey_font.png");
 }
 
-void PingusLevel::OnLoadActors(Json& _actor_json){
+void PingusLevel::OnLoadActors(JsonDictionary& _actor_json){
     
     GeneratedActorJsonBridge(this, _actor_json, "pingus_actor_sheet");
 }
 
-void PingusLevel::OnLoad(Json& _j){
+void PingusLevel::OnLoad(JsonDictionary& _j){
     custom_level_size = asset_manager.GetDecal("solid.png")->sprite->Size();
     level_size = custom_level_size;
     Console::Out("Level Custom size =",level_size);

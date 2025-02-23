@@ -11,6 +11,7 @@
 #include "../shapes/shape.h"
 #include "../shapes/rectangle.h"
 #include "../json/json.h"
+#include "../json/json_variant.h"
 #include "../tilemap/tileset_data.h"
 #include "../ufo_benchmarker/ufo_benchmarker.h"
 #include "../custom/button_view_cameras.h"
@@ -76,21 +77,30 @@ void Level::Load(){
         path = "../UFO-Engine/res/engine/default_level.json";
     }
 
-    Json level_json = Json::Read(path);
+    JsonDictionary level_json = JsonVariant::Read(path);
 
     //Getting the relative path, which has to be manually specified for now. It's unfortunate.
     std::string relative_path = "";
-    for(auto&& property_json : level_json.GetAsArray("properties")){
-        std::string name = property_json.GetAsString("name");
-        if(name == "relative path") relative_path = property_json.GetAsString("value");
-        Console::Out("[!!!]", "Using relative path:", relative_path, ".", "Should be resolves asap.");
+    
+    Console::Out(path);
+
+    if(level_json.KeyExists("properties")){
+        JsonArray& properties = level_json.Get("properties").AsArray();
+        
+        for(auto&& property_json : properties.Iterable()){
+            Console::Out("Is it an array?",property_json->IsDictionary());
+
+            std::string name = property_json->AsDictionary().Get("name").AsString();
+            if(name == "relative path") relative_path = property_json->AsDictionary().Get("value").AsString();
+            Console::Out("[!!!]", "Using relative path:", relative_path, ".", "Should be resolves asap.");
+        }
     }
 
     //This section handles all the layers.
-    int tile_size_x = level_json.GetAsInt("tilewidth");
-    int tile_size_y = level_json.GetAsInt("tileheight");
-    int map_size_x = level_json.GetAsInt("width");
-    int map_size_y = level_json.GetAsInt("height");
+    int tile_size_x = level_json.Get("tilewidth").AsInt();
+    int tile_size_y = level_json.Get("tileheight").AsInt();
+    int map_size_x = level_json.Get("width").AsInt();
+    int map_size_y = level_json.Get("height").AsInt();
 
     level_size = {(float)tile_size_x*map_size_x,(float)tile_size_y*map_size_y};
 
@@ -104,9 +114,11 @@ void Level::Load(){
     
     Console::Out("[!]", "Currently loading tilesets");
 
-    for(auto&& tileset_json : level_json.GetAsArray("tilesets")){
-        std::string image = tileset_json.GetAsString("image");
-        std::string name = tileset_json.GetAsString("name");
+    for(auto&& tileset_json : level_json.Get("tilesets").AsArray().Iterable()){
+        auto tileset_json_dictionary = tileset_json->AsDictionary();
+        
+        std::string image = tileset_json_dictionary.Get("image").AsString();
+        std::string name = tileset_json_dictionary.Get("name").AsString();
 
         std::string image_path = relative_path;
 
@@ -115,13 +127,13 @@ void Level::Load(){
         AssetManager::Get().LoadDecal(image_path+"/"+image, name);
         tilemap.keys_to_temporary_assets.push_back(name);
 
-        int columns = tileset_json.GetAsInt("columns");
-        int first_gid = tileset_json.GetAsInt("firstgid");
-        int image_height = tileset_json.GetAsInt("imageheight");
-        int image_width = tileset_json.GetAsInt("imagewidth");
-        int tile_count = tileset_json.GetAsInt("tilecount");
-        int tileset_tile_size_x = tileset_json.GetAsInt("tilewidth");
-        int tileset_tile_size_y = tileset_json.GetAsInt("tileheight");
+        int columns = tileset_json_dictionary.Get("columns").AsInt();
+        int first_gid = tileset_json_dictionary.Get("firstgid").AsInt();
+        int image_height = tileset_json_dictionary.Get("imageheight").AsInt();
+        int image_width = tileset_json_dictionary.Get("imagewidth").AsInt();
+        int tile_count = tileset_json_dictionary.Get("tilecount").AsInt();
+        int tileset_tile_size_x = tileset_json_dictionary.Get("tilewidth").AsInt();
+        int tileset_tile_size_y = tileset_json_dictionary.Get("tileheight").AsInt();
         TilesetData local_tilset_data = TilesetData{
             name,
             columns,
@@ -154,9 +166,11 @@ void Level::Load(){
         );
     }
 
-    for(auto&& layer : level_json.GetAsArray("layers")){
-        if(layer.GetAsString("type") == "imagelayer" && (layer.GetAsString("class") == "" || layer.GetAsString("class") == "BackgroundImage")){
-            std::string background_path = layer.GetAsString("image");
+    for(auto&& layer : level_json.Get("layers").AsArray().Iterable()){
+        auto layer_dictionary = layer->AsDictionary();
+
+        if(layer_dictionary.Get("type").AsString() == "imagelayer" && (layer_dictionary.Get("class").AsString() == "" || layer_dictionary.Get("class").AsString() == "BackgroundImage")){
+            std::string background_path = layer_dictionary.Get("image").AsString();
 
             Console::Out("Found BackgroundImage: ",background_path);
 
@@ -165,20 +179,18 @@ void Level::Load(){
             float parallax_x = 0.0f;
             float parallax_y = 0.0f;
             
-            Json property_json = layer.GetObject("properties");
-            if(!property_json.IsNull()){
-                Json::ArrayForEach(Json(), property_json, [&](Json _json, Json _data){
-                    if(property_json.member){
+            
+            if(layer_dictionary.KeyExists("properties")){
+                JsonArray& property_json = layer_dictionary.Get("properties").AsArray();
+                for(auto&& _json : property_json.Iterable()){
                         
-                        if(_json.GetAsString("name") == "parallax_x"){
-                            parallax_x = _json.GetAsDouble("value");
-                        }
-                        if(_json.GetAsString("name") == "parallax_y"){
-                            parallax_y = _json.GetAsDouble("value");
-                        }
+                    if(_json->AsDictionary().Get("name").AsString() == "parallax_x"){
+                        parallax_x = _json->AsDictionary().Get("value").AsFloat();
+                    }
+                    if(_json->AsDictionary().Get("name").AsString() == "parallax_y"){
+                        parallax_y = _json->AsDictionary().Get("value").AsFloat();
                     }
                 }
-                );
             }
 
             AssetManager::Get().LoadDecal(relative_path+"/"+background_path, background_path);
@@ -193,9 +205,9 @@ void Level::Load(){
                 0.0f, 1, olc::vf2d(parallax_x, parallax_y), 0));
         }
 
-        if(layer.GetAsString("type") == "imagelayer" && layer.GetAsString("class") == "SpriteReference"){
-            std::string background_path = layer.GetAsString("image");
-            bool visible = layer.GetAsInt("visible");
+        if(layer_dictionary.Get("type").AsString() == "imagelayer" && layer_dictionary.Get("class").AsString() == "SpriteReference"){
+            std::string background_path = layer_dictionary.Get("image").AsString();
+            bool visible = layer_dictionary.Get("visible").AsInt();
 
             Console::Out("Found SpriteReference: ",background_path);
 
@@ -204,7 +216,7 @@ void Level::Load(){
             asset_manager.LoadDecal(relative_path+"/"+background_path, background_path);
             olc::vf2d image_size = asset_manager.GetDecal(background_path)->sprite->Size();
 
-            level_decals[layer.GetAsString("name")] = asset_manager.GetDecal(background_path);
+            level_decals[layer_dictionary.Get("name").AsString()] = asset_manager.GetDecal(background_path);
 
             auto level_sprite_reference = NewActor<LevelSpriteReference>(
                 background_path,
@@ -217,23 +229,21 @@ void Level::Load(){
             level_sprite_reference->visible = visible;
         }
 
-        if(layer.GetAsString("type") == "tilelayer" && layer.GetAsString("name") == "tilemap_collision"){
+        if(layer_dictionary.Get("type").AsString() == "tilelayer" && layer_dictionary.Get("name").AsString() == "tilemap_collision"){
             std::vector<int> data;
-            auto layer_data = layer.GetObject("data");
+            auto layer_data = layer_dictionary.Get("data").AsArray();
 
-            Json::ArrayForEach(
-                Json(),layer_data,[&](Json& _json, const Json& _layer_data){
-                    int id = _json.GetAsInt();
-                    data.push_back(id);
-                }
-            );
+            for(auto&& tile_id : layer_data.Iterable()){
+                int id = tile_id->AsInt();
+                data.push_back(id);
+            }
 
             Console::Out("Found collision layer");
 
             tilemap.tilemap_collision_data = data;
         }
 
-        if(layer.GetAsString("type") == "tilelayer" && layer.GetAsString("name") != "tilemap_collision"){
+        if(layer_dictionary.Get("type").AsString() == "tilelayer" && layer_dictionary.Get("name").AsString() != "tilemap_collision"){
             /*std::vector<int> data;
             auto layer_data = layer.GetObject("data");
 
@@ -247,7 +257,7 @@ void Level::Load(){
             if(!found_actor_layer) tilemap.layer_data_sets.push_back(data);
             else tilemap.foreground_layer_data_sets.push_back(data);*/
 
-            auto u_tile_map = TileMap::Load(layer);
+            auto u_tile_map = TileMap::Load(layer_dictionary.AsDictionary());
             if(!found_actor_layer){
                 u_tile_map->z_index = -1;
             }
@@ -272,10 +282,10 @@ void Level::Load(){
             background_system.backgrounds.push_back(BackgroundData{image_name, {parallax_x, parallax_y}, Rectangle({0.0f, 0.0f}, decal_size)});
             Console::Out("parallax:" ,parallax_x, parallax_y);
         }*/
-        if(layer.GetAsString("type") == "objectgroup"){
-            if(layer.GetAsString("name") == "buttons"){
+        if(layer_dictionary.Get("type").AsString() == "objectgroup"){
+            if(layer_dictionary.Get("name").AsString() == "buttons"){
 
-                Json::ArrayForEach( Json(), layer.GetObject("objects"), [&](Json _json_a, Json _data_a){
+                for(auto&& _json_a : layer_dictionary.Get("objects").AsArray().Iterable()){
                     std::string on_click = "";
                     std::string on_create = "";
                     float x;
@@ -284,10 +294,10 @@ void Level::Load(){
                     float height;
                     std::string text = "";
 
-                    Json property_json = _json_a.GetObject("properties");
-                    Json::ArrayForEach(Json(), property_json, [&](Json _json_b, Json _data_b){
-                        if(property_json.member){
-                            if(_json_b.GetAsString("name") == "on_click"){
+                    JsonDictionary& property_json = _json_a->AsDictionary();
+                    for(auto&& _json_b : property_json.AsArray().Iterable()){
+                        //if(!property_json.IsNull()){
+                            /*if(_json_b.Get("name").AsString() == "on_click"){
                                 on_click = _json_b.GetAsString("value");
                             }
                             if(_json_b.GetAsString("name") == "on_create"){
@@ -295,52 +305,51 @@ void Level::Load(){
                             }
                             if(_json_b.GetAsString("name") == "text"){
                                 text = _json_b.GetAsString("value");
-                            }
-                        }
+                            }*/
+                        //}
                     }
-                    );
                     
-                    x = _json_a.GetAsInt("x");
-                    y = _json_a.GetAsInt("y");
-                    width = _json_a.GetAsInt("width");
-                    height = _json_a.GetAsInt("height");
+                    x = _json_a->AsDictionary().Get("x").AsInt();
+                    y = _json_a->AsDictionary().Get("y").AsInt();
+                    width = _json_a->AsDictionary().Get("width").AsInt();
+                    height = _json_a->AsDictionary().Get("height").AsInt();
                 }
-                );
             }
-            if(layer.GetAsString("name") == "collision_polygons"){
+            if(layer_dictionary.Get("name").AsString() == "collision_polygons"){
                 Console::Out("found collision polygon layer");
                 //collision_system -> alternative_collision_system
-                collision_system.Load(layer);
+                collision_system.Load(layer_dictionary);
             }
-            if(layer.GetAsString("name") == "actors"){
+            if(layer_dictionary.Get("name").AsString() == "actors"){
                 Console::Out("found actor layer");
                 found_actor_layer = true;
-                LoadActors(layer);
+                LoadActors(layer_dictionary);
             }
-            if(layer.GetAsString("name") == "triggers"){
-                Json objects = layer.GetObject("objects");
-                Json::ArrayForEach(Json(), objects, [this](Json _object, Json _objects){
+            if(layer_dictionary.Get("name").AsString() == "triggers"){
+                JsonArray& objects = layer_dictionary.Get("objects").AsArray();
+                for(auto&& _object : objects.Iterable()){
                     std::string l_path = "";
                     std::string spawn_point_name = "";
                     
-                    Json property_json = _object.GetObject("properties");
-                    Json::ArrayForEach(Json(), property_json, [&](Json _json_b, Json _data_b){
-                        if(property_json.member){
-                            if(_json_b.GetAsString("name") == "path"){
-                                l_path = _json_b.GetAsString("value");
+                    if(_object->AsDictionary().KeyExists("properties")){
+                        JsonArray& property_json = _object->AsDictionary().Get("properties").AsArray();
+                        for(auto&& _json_b : property_json.Iterable()){
+                            
+                            if(_json_b->AsDictionary().Get("name").AsString() == "path"){
+                                l_path = _json_b->AsDictionary().Get("value").AsString();
                             }
-                            if(_json_b.GetAsString("name") == "spawn_point"){
-                                spawn_point_name = _json_b.GetAsString("value");
+                            if(_json_b->AsDictionary().Get("name").AsString() == "spawn_point"){
+                                spawn_point_name = _json_b->AsDictionary().Get("value").AsString();
                             }
+                            
                         }
                     }
-                    );
 
-                    float x = (float)_object.GetAsInt("x");
-                    float y = (float)_object.GetAsInt("y");
-                    float width = (float)_object.GetAsInt("width");
-                    float height = (float)_object.GetAsInt("height");
-                    int tiled_object_id = _object.GetAsInt("id");
+                    float x = (float)_object->AsDictionary().Get("x").AsInt();
+                    float y = (float)_object->AsDictionary().Get("y").AsInt();
+                    float width = (float)_object->AsDictionary().Get("width").AsInt();
+                    float height = (float)_object->AsDictionary().Get("height").AsInt();
+                    int tiled_object_id = _object->AsDictionary().Get("id").AsInt();
                     
                     auto u_trigger = std::make_unique<LevelTrigger>(
                         ufo::Rectangle(olc::vf2d(x,y),olc::vf2d(width, height)), l_path, tiled_object_id, spawn_point_name
@@ -350,13 +359,13 @@ void Level::Load(){
                     level_trigger_handles.push_back(u_trigger.get());
 
                     NewActor(std::move(u_trigger));
-                });
+                }
             }
-            if(layer.GetAsString("name") == "spawn_points"){
-                Json objects = layer.GetObject("objects");
-                Json::ArrayForEach(Json(), objects, [this](Json _object, Json _objects){
-                    NewActor(SpawnPoint::Load(_object));
-                });
+            if(layer_dictionary.Get("name").AsString() == "spawn_points"){
+                JsonArray& objects = layer_dictionary.Get("objects").AsArray();
+                for(auto&& _object : objects.Iterable()){
+                    NewActor(SpawnPoint::Load(_object->AsDictionary()));
+                }
 
                 for(const auto& sp : spawn_point_handles){
                     
@@ -369,7 +378,7 @@ void Level::Load(){
             }
         }
 
-        OnLoadLayer(layer);
+        OnLoadLayer(layer_dictionary);
     }
     
     NewActor(std::make_unique<Shape<ufo::Rectangle>>(ufo::Rectangle(olc::vf2d(0.0f, 0.0f), level_size), olc::vf2d(0.0f, 0.0f))); //This just shows the size of the area.
@@ -385,33 +394,33 @@ void Level::Load(){
 
 }
 
-void Level::OnLoad(Json& _level_json){
+void Level::OnLoad(JsonDictionary& _level_json){
     
 }
 
-void Level::OnLoadLayer(Json& _layer_json){
+void Level::OnLoadLayer(JsonDictionary& _layer_json){
 
 }
 
-void Level::LoadActors(Json& _json){
-    Json objects = _json.GetObject("objects");
+void Level::LoadActors(JsonDictionary& _json){
+    JsonArray objects = _json.Get("objects").AsArray();
     
-    Json::ArrayForEach(Json(), objects, [&](Json& _object, const Json& _objects){
+    for(auto&& _object : objects.Iterable()){
         auto frogatto_actors = tilemap.GetTilesetData("actors");
 
-        Console::Out("Is object null?", _object.IsNull());
+        Console::Out("Is object null?", _object->IsNull());
 
-        int type_id = _object.GetAsInt("gid") - frogatto_actors.tileset_start_id+1;
+        int type_id = _object->AsDictionary().Get("gid").AsInt() - frogatto_actors.tileset_start_id+1;
         switch(type_id){
             case 2:
-                NewActor(TestCollisionBody::Load(_object));
+                //NewActor(TestCollisionBody::Load(_object));
                 break;
         }
-        OnLoadActors(_object);
-    });
+        OnLoadActors(_object->AsDictionary());
+    }
 }
 
-void Level::OnLoadActors(Json& _actor_json){}
+void Level::OnLoadActors(JsonDictionary& _actor_json){}
 void Level::OnResourceLoad(){}
 
 void Level::InitializeEditMode(){
@@ -647,15 +656,15 @@ void Level::OnTransition(Level* _level){
     
 }
 
-void Level::OnSaveFileLoad(Json* _json){
+void Level::OnSaveFileLoad(JsonVariant* _json){
 
 }
 
-void Level::OnSave(Json* _current_savefile){
+void Level::OnSave(JsonVariant* _current_savefile){
     
 }
 
-void Level::Save(Json* _current_savefile){
+void Level::Save(JsonVariant* _current_savefile){
 
     Console::Out(savable_actor_handles.size());
 

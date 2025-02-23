@@ -9,16 +9,10 @@ int main(){
 
     JsonDictionary j = JsonVariant::Read("../res/json_test_file.json");
 
-    int i = j.Get("x").AsInt();
-    
-    for(auto&& [k,v] : j.Iterable()){
-        if(v->IsFloat()){
-            Console::Out("Integer k =",v->AsFloat());
-        }
+    JsonArray arr = j.Get("stuff").AsArray();
 
-        if(v->IsString()){
-            Console::Out("String k =",v->AsString());
-        }
+    for(auto&& o : arr.Iterable()){
+        Console::Out(o->AsDictionary().Get("x").AsString());
     }
 
     JsonDictionary to_be_saved = JsonDictionary();
@@ -27,6 +21,8 @@ int main(){
     to_be_saved.Set("three","3");
     to_be_saved.Iterable().erase("one");
     to_be_saved.Write("../res/to_be_saved.json");
+
+    //return 0;
 
     /*for(int i = -10; i < 10; i++){
         Console::Out(ufoMaths::Wrapi(i, 0, 4));

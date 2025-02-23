@@ -126,10 +126,10 @@ public:
 
     virtual void OnLoadJsonCustom(Json& _json);
     void Load();
-    virtual void OnLoad(Json& _level_json);
-    virtual void OnLoadLayer(Json& _layer_json);
-    void LoadActors(Json& _json);
-    virtual void OnLoadActors(Json& _actor_json);
+    virtual void OnLoad(JsonDictionary& _level_json);
+    virtual void OnLoadLayer(JsonDictionary& _layer_json);
+    void LoadActors(JsonDictionary& _json);
+    virtual void OnLoadActors(JsonDictionary& _actor_json);
     //template<typename tActor> LoadActor(){
     //
     //}
@@ -152,9 +152,9 @@ public:
     virtual void OnHandlePurge();
 
     virtual void OnTransition(Level* _level);
-    virtual void OnSaveFileLoad(Json* _json);
-    virtual void OnSave(Json* _current_savefile);
-    virtual void Save(Json* _current_savefile);
+    virtual void OnSaveFileLoad(JsonVariant* _json);
+    virtual void OnSave(JsonVariant* _current_savefile);
+    virtual void Save(JsonVariant* _current_savefile);
     virtual void OnExit();
 
     virtual ~Level();

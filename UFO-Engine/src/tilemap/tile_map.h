@@ -19,7 +19,7 @@ public:
 
     }
 
-    static std::unique_ptr<TileMap> Load(Json& _layer);
+    static std::unique_ptr<TileMap> Load(JsonDictionary& _layer);
 
     int GetTileID_AtLevelPosition(Vector2f _position);
 

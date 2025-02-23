@@ -128,8 +128,8 @@ def export_variables(_source_file):
 def add_exported_variables_to_project(_class, _list_of_variables):
     cpp_data_type_to_json_data_type = {
         'int' : 'Int',
-        'float' : 'Double',
-        'double' : 'Double',
+        'float' : 'Float',
+        'double' : 'Float',
         'bool' : 'Int',
         'std::string' : 'String',
         'string' : 'String'

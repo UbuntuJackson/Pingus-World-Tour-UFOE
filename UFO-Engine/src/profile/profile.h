@@ -2,11 +2,11 @@
 #define PROFILE_H
 
 #include <string>
-#include "../json/json.h"
+#include "../json/json_variant.h"
 
 class Profile{
 public:
-    Json save_file;
+    JsonDictionary save_file;
     std::string file_path_and_name = "";
     
     //The scene you left the game in. (unused)

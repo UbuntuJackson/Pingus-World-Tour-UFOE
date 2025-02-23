@@ -180,7 +180,7 @@ void Actor::DebugDraw(Camera* _camera){
     OnDebugDraw(_camera);
 }
 
-void Actor::OnSave(Json* _current_save_file){}
+void Actor::OnSave(JsonVariant* _current_save_file){}
 
 void Actor::QueueForPurge(){
     auto local_level = Engine::Get().current_level.get();

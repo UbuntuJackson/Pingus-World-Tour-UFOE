@@ -11,11 +11,11 @@ Actor(_position){
     Engine::Get().current_level->spawn_point_handles.push_back(this);
 }
 
-std::unique_ptr<SpawnPoint> SpawnPoint::Load(Json& _json){
+std::unique_ptr<SpawnPoint> SpawnPoint::Load(JsonDictionary& _json){
     Console::Out("spawnpoint is loading");
-    float x = (float)_json.GetAsInt("x");
-    float y = (float)_json.GetAsInt("y");
-    std::string name = _json.GetAsString("name");
+    float x = _json.Get("x").AsFloat();
+    float y = _json.Get("y").AsFloat();
+    std::string name = _json.Get("name").AsString();
     /*std::string l_from_path;
     Json properties = _json.GetObject("properties");
     Json::ArrayForEach(Json(), properties, [&](Json _property, Json _properties){

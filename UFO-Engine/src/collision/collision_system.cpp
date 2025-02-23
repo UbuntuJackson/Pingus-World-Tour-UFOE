@@ -8,7 +8,7 @@
 #include "../console/console.h"
 #include "../ufo_collision/collision_data.h"
 #include "../shapes/ray2.h"
-#include "../json/json.h"
+#include "../json/json_variant.h"
 #include "../drawing_system/drawing_system.h"
 #include "../camera/camera.h"
 #include "../ufo_maths/ufo_maths.h"
@@ -18,21 +18,22 @@
 #include "../shapes/collision_pill.h"
 #include "../ufo_vector_utils/find_in_vector.h"
 
-void CollisionSystem::Load(Json& _json){
+void CollisionSystem::Load(JsonDictionary& _json){
     lines.clear();
-    Json objects = _json.GetObject("objects");
-    Json::ArrayForEach(Json(), objects, [this](Json _object, Json _objects){
+    JsonArray& objects = _json.Get("objects").AsArray();
+    for(auto&& _object : objects.Iterable()){
+        auto object = _object->AsDictionary();
         std::vector<olc::vf2d> points;
-        Json polygon = _object.GetObject("polygon");
-        float global_x = (float)_object.GetAsInt("x");
-        float global_y = (float)_object.GetAsInt("y");
-        Json::ArrayForEach(Json(), polygon, [&](Json _point, Json _polygon){
-            float x = (float)_point.GetAsInt("x");
-            float y = (float)_point.GetAsInt("y");
+        JsonArray polygon = object.Get("polygon").AsArray();
+        float global_x = object.Get("x").AsFloat();
+        float global_y = object.Get("y").AsFloat();
+        for(auto&& _point : polygon.Iterable()){
+            float x = _point->AsDictionary().Get("x").AsFloat();
+            float y = _point->AsDictionary().Get("y").AsFloat();
             points.push_back(olc::vf2d(global_x, global_y)+olc::vf2d(x,y));
-        });
+        }
         if(ufoMaths::IsPolygonClockwise(points)){
-            if(_object.GetAsString("name") != "") Console::Out("Loading clockwise polygon with name:",_object.GetAsString("name"));
+            if(object.Get("name").AsString() != "") Console::Out("Loading clockwise polygon with name:",object.Get("name").AsString());
 
             for(int i = 0; i < points.size(); i++){
                 Ray2 line = Ray2(points[i], points[(i+1)%points.size()]);
@@ -40,14 +41,14 @@ void CollisionSystem::Load(Json& _json){
             }
         }
         else{
-            if(_object.GetAsString("name") != "") Console::Out("Loading counter clockwise polygon with name:",_object.GetAsString("name"));
+            if(object.Get("name").AsString() != "") Console::Out("Loading counter clockwise polygon with name:",object.Get("name").AsString());
 
             for(int i = points.size()-1; i >= 0; i--){
                 Ray2 line = Ray2(points[(i+1)%points.size()],points[i]);
                 lines.push_back(line);
             }
         }
-    });
+    }
 
 }
 

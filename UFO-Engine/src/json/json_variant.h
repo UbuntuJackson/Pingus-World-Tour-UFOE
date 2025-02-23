@@ -4,8 +4,9 @@
 #include <memory>
 #include "../console/console.h"
 #include "../file/file.h"
+#include "../external/cJSON.h"
 #include <stdexcept>
-#include "../ufo_maths/ufo_maths.h"
+#include "../external/olcPixelGameEngine.h"
 
 class JsonDictionary;
 class JsonArray;
@@ -53,9 +54,7 @@ public:
     virtual std::string AsString();
     virtual float AsFloat();
     virtual JsonDictionary& AsDictionary();
-    virtual Vector2f AsVector2f(std::string _x, std::string _y){
-        throw std::runtime_error("Not a Vector2f");
-    }
+    virtual olc::vf2d AsVector2f(std::string _x, std::string _y);
 
     virtual void Write(std::string _path){
 
@@ -190,6 +189,12 @@ public:
 class JsonDictionary : public JsonVariant{
 public:
     JsonDictionary() = default;
+
+    JsonDictionary& operator=(JsonDictionary&& _other){
+        for(auto&& [k,_other] : _other.dictionary) dictionary[k] = (std::move(_other));
+        return *this;
+    }
+
     JsonDictionary(JsonDictionary&& _other){
         for(auto&& [k,_other] : _other.dictionary) dictionary[k] = (std::move(_other));
     }
@@ -203,10 +208,10 @@ public:
         return *this;
     }
 
-    Vector2f AsVector2f(std::string _x, std::string _y){
+    olc::vf2d AsVector2f(std::string _x, std::string _y){
         float x = Get(_x).AsFloat();
         float y = Get(_y).AsFloat();
-        return Vector2f(x,y);
+        return olc::vf2d(x,y);
     }
 
     std::map<std::string,std::unique_ptr<JsonVariant>>& Iterable(){
@@ -247,6 +252,10 @@ public:
 
     JsonVariant& Get(std::string _key){
         return *dictionary[_key];
+    }
+
+    bool KeyExists(std::string _key){
+        return dictionary.count(_key);
     }
 
     cJSON* GetObject(){
@@ -320,8 +329,16 @@ public:
 
         cJSON_ArrayForEach(iterator,_obj){
             if(cJSON_IsNumber(iterator)){
-                j.Set(iterator->string,iterator->valueint);
-                Console::Out("Json::GetAsTree found number", iterator->string);
+
+                if(/*(double)(iterator->valueint) == iterator->valuedouble*/ false){
+                    j.Set(iterator->string ,iterator->valueint);
+                    Console::Out("Json::GetAsTree found number");
+                }
+                else{
+                    j.Set(iterator->string ,float(iterator->valuedouble));
+                    Console::Out("Json::GetAsTree found double");
+                }
+
             }
 
             if(cJSON_IsBool(iterator)){
@@ -332,9 +349,12 @@ public:
                 
 
             }
-            //if(cJSON_IsArray(iterator)){
-            //    Console::Out("Json::GetAsTree found number", iterator->string);
-            //}
+            
+            if(cJSON_IsString(iterator)){
+                j.Set(iterator->string,iterator->valuestring);
+                Console::Out("Json::GetAsTree found String", iterator->string);
+            }
+
             if(cJSON_IsObject(iterator)){
                 j.Set(iterator->string,GetDictionaryAsTree(iterator));
                 Console::Out("Json::GetAsTree found object", iterator->string);

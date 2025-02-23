@@ -3,10 +3,10 @@
 
 #include <memory>
 #include <vector>
+#include "../json/json_variant.h"
 #include "../external/olcPixelGameEngine.h"
 #include "../shapes/rectangle.h"
 
-class Json;
 class Camera;
 class Level;
 
@@ -89,7 +89,7 @@ public:
 
     virtual void PrintAttributes();
 
-    virtual void OnSave(Json* _current_save_file);
+    virtual void OnSave(JsonVariant* _current_save_file);
 
     //Should be renamed Free()?
     virtual void QueueForPurge();
