@@ -71,18 +71,21 @@ void FileMenu::SetDirectory(std::string _path){
 
     }
 
-    auto bback = std::make_unique<FileMenuButton>(Vector2f(0.0f, 0.0f),Vector2f(250.0f, 150.0f), "..", path);
+    if(path_stack.size() > 0){
+        auto bback = std::make_unique<FileMenuButton>(Vector2f(0.0f, 0.0f),Vector2f(250.0f, 150.0f), "..", path);
 
-    bback->background_colour = olc::Pixel(200,90,0);
+        bback->background_colour = olc::Pixel(200,90,0);
 
-    bback->on_pressed = [](Widget* _w, Button* _button){
-        auto fm = dynamic_cast<FileMenu*>(_w);
-        Console::Out(fm->path_stack.back());      
-        fm->SetDirectory(fm->path_stack.back());
-        fm->path_stack.pop_back();
-    };
-    AddChild(std::move(bback));
-
+        bback->on_pressed = [](Widget* _w, Button* _button){
+            auto fm = dynamic_cast<FileMenu*>(_w);
+            Console::Out(fm->path_stack.back());
+            std::string popped_path = fm->path_stack.back();
+            fm->path_stack.pop_back();      
+            fm->SetDirectory(popped_path);
+            
+        };
+        AddChild(std::move(bback));
+    }
     func_on_file_menu_created(this);
     OnFileMenuCreated();
 

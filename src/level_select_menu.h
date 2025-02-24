@@ -9,6 +9,7 @@
 #include <ufo_engine.h>
 #include <level.h>
 #include "pingus_level.h"
+#include "pingus_main_menu.h"
 #include <file_menu.h>
 #include <nine_patch_theme.h>
 #include <level_sprite_reference.h>
@@ -65,6 +66,39 @@ public:
                 Vector2f(1.0f,1.0f),
                 0.0f
             )->SetZIndex(2);
+        }
+        if(path_stack.size() == 0){
+            auto bback = std::make_unique<FileMenuButton>(Vector2f(0.0f, 0.0f),Vector2f(250.0f, 150.0f), "Back", path);
+
+            bback->background_colour = olc::Pixel(200,90,0);
+
+            bback->on_pressed = [](Widget* _w, Button* _button){
+                _w->QueueForPurge();
+                _w->level->NewActor<PingusMainMenu>(Vector2f(0.0f,0.0f));
+            };
+
+            buttons.push_back(bback.get());
+
+            AddChild(std::move(bback));
+
+            float total_height = 0.0f;
+
+            for(const auto& button : buttons){
+                button->local_position.y = total_height;
+                total_height+=button->rectangle.size.y;
+                total_height+=spacing;
+            }
+
+            rectangle.size.y = total_height;
+            rectangle.size.x = 0.0f;
+
+            original_position = local_position;
+
+            for(auto button : buttons){
+                button->theme = OnSetButtonTheme();
+                button->hovered_theme = OnSetButtonHoveredTheme();
+                button->held_theme = OnSetButtonHeldTheme();
+            }
         }
     }
 
