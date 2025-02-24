@@ -305,7 +305,7 @@ public:
                         for(int xx = -32+6; xx < 32+6; xx++){
                             if(ufoMaths::Distance2(local_position+Vector2f(xx,yy), local_position+Vector2f(6.0f,12.0f)) <= 33.0f){
                                 if(ufoMaths::Distance2(local_position+Vector2f(xx,yy), local_position+Vector2f(6.0f,12.0f)) > 28.0f
-                                    && v->sprite->GetPixel(local_position+Vector2f(xx,yy)) != olc::Pixel(0,0,0,0)
+                                    && v->sprite->GetPixel(local_position+Vector2f(xx,yy)).a != 0
                                 ){
                                     olc::Pixel c = v->sprite->GetPixel(local_position+Vector2f(xx,yy));
                                     v->sprite->SetPixel(local_position+Vector2f(xx,yy),olc::Pixel(25,25,25));
