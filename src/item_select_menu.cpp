@@ -16,25 +16,33 @@ void ItemSelectMenu::OnStart(Level* _level){
 
     std::function<void(Pingu* _pingu)> item_blow_up = [this](Pingu* _pingu){
         if(number_of_bombers > 0){
-            _pingu->item_blow_up();
-            number_of_bombers--;
+            
+            if(_pingu->item_blow_up()) number_of_bombers--;
             buttons[selected_index]->text = "Bomber : "+std::to_string(number_of_bombers);
         }
     };
 
     std::function<void(Pingu* _pingu)> item_build = [this](Pingu* _pingu){
         if(number_of_builders > 0){
-            _pingu->item_build();
-            number_of_builders--;
+            
+            if(_pingu->item_build()) number_of_builders--;
             buttons[selected_index]->text = "Builder : "+std::to_string(number_of_builders);
         }
     };
 
     std::function<void(Pingu* _pingu)> item_parachute = [this](Pingu* _pingu){
         if(number_of_parachutes > 0){
-            _pingu->item_parachute();
-            number_of_parachutes--;
+            
+            if(_pingu->item_parachute()) number_of_parachutes--;
             buttons[selected_index]->text = "Parachute : "+std::to_string(number_of_parachutes);
+        }
+    };
+
+    std::function<void(Pingu* _pingu)> item_blocker = [this](Pingu* _pingu){
+        if(number_of_blockers > 0){
+            
+            if(_pingu->item_block()) number_of_blockers--;
+            buttons[selected_index]->text = "Blocker : "+std::to_string(number_of_blockers);
         }
     };
 
@@ -49,6 +57,10 @@ void ItemSelectMenu::OnStart(Level* _level){
     if(number_of_parachutes > 0){
         AddChild<Button>(Vector2f(0.0f, 0.0f), Vector2f(120.0f,20.0f), "Parachute : "+std::to_string(number_of_parachutes));
         items.push_back(item_parachute);
+    }
+    if(number_of_blockers > 0){
+        AddChild<Button>(Vector2f(0.0f, 0.0f), Vector2f(120.0f,20.0f), "Blocker : "+std::to_string(number_of_blockers));
+        items.push_back(item_blocker);
     }
 
     dynamic_cast<PingusLevel*>(_level)->item_select_menu = this;

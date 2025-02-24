@@ -34,30 +34,53 @@ public:
     int steps = 0;
     Vector2f build_location;
 
+    enum States{
+        WALK,
+        FALL,
+        BUILD,
+        EXPLODE,
+        DIE_BY_FALL,
+        PARACHUTE,
+        BLOCKER
+    };
+
+    int what_is_current_state = States::WALK;
+
     std::function<void()> state_walk = [this](){
+        what_is_current_state = States::WALK;
         Walk();
     };
 
     std::function<void()> state_fall = [this](){
+        what_is_current_state = States::FALL;
         Fall();
     };
 
     std::function<void()> state_build = [this](){
+        what_is_current_state = States::BUILD;
         Build();
     };
 
     std::function<void()> state_explode = [this](){
+        what_is_current_state = States::EXPLODE;
         Explode();
     };
 
     std::function<void()> die_by_fall = [this](){
+        what_is_current_state = States::DIE_BY_FALL;
         DieByFall();
     };
 
     int parachute_sprite_id = -1;
 
     std::function<void()> state_parachute = [this](){
+        what_is_current_state = States::PARACHUTE;
         Parachute();
+    };
+
+    std::function<void()> state_blocker = [this](){
+        what_is_current_state = States::BLOCKER;
+        Blocker();
     };
 
     std::function<void()> state = state_walk;
@@ -117,6 +140,17 @@ public:
         ));
 
         anim->AddAnimationState(AnimatedSpriteReference(
+            "pingu_blocker",
+            Vector2f(0.0f, 0.0f),
+            Vector2f(16.0f,16.0f),
+            Vector2f(32.0f, 32.0f),
+            Vector2f(1.0f,1.0f),
+            0.0f,
+            0,
+            10.6f
+        ));
+
+        anim->AddAnimationState(AnimatedSpriteReference(
             "pingu_parachute",
             Vector2f(0.0f, 0.0f),
             Vector2f(16.0f,16.0f),
@@ -143,6 +177,8 @@ public:
         
     }
 
+    bool has_parachute = false;
+
     void Parachute(){
         fall_timer.Start(5000000.0f);
         fall_timer.Stop();
@@ -150,6 +186,7 @@ public:
         velocity.y = 20.0f;
 
         if(hit_floor){
+            has_parachute = false;
             is_in_special_state = false;
             level->QueueForPurge(parachute_sprite_id);
             parachute_sprite_id = -1;
@@ -187,6 +224,19 @@ public:
         anim->SetAnimation("pingu_fall");
         velocity.x = 0.0f;
         velocity.y = 100.0f;
+        if(has_parachute){
+            state = state_parachute;
+
+            parachute_sprite_id = AddChild<SpriteReference>("parachute",
+                Vector2f(-22.0f, -48.0f),
+                Vector2f(0.0f, 0.0f),
+                Vector2f(59.0f, 66.0f),
+                Vector2f(1.0f, 1.0f),
+                0.0f
+            )->GetID();
+
+            is_in_special_state = true;
+        }
     }
 
     void Build(){
@@ -277,17 +327,83 @@ public:
         }
     }
 
-    std::function<void()> item_blow_up = [this](){
+    bool is_already_blocker = false;
+
+    void Blocker(){
+        velocity.x = 0.0f;
+
+        int width = 2;
+
+        if(
+            RectangleVsPoint(ufo::Rectangle(local_position, Vector2f(12.0f,24.0f)),level->GetActiveCamera()->TransformScreenToWorld(Mouse::Get().GetPosition()))
+            && Mouse::Get().GetLeftButton().is_pressed && is_already_blocker)
+        {
+            for(int yy = 0; yy < 6; yy++){
+                for(int xx = 6; xx < 6+(int)width; xx++){
+                    
+                    auto dec = level->level_decals.at("solid");
+
+                    if(dec->sprite->GetPixel(local_position+Vector2f(xx+4.0f,yy+24.0f-2.0f)) == olc::BLUE) dec->sprite->SetPixel(local_position+Vector2f(xx+4.0f,yy+24.0f-2.0f),olc::Pixel(0,0,0,0));
+                    dec->Update();
+                    Console::Out("made blue",xx,yy);
+                    
+                    //level->level_decals.at("mg")->sprite->SetPixel(local_position+Vector2f(xx,yy),olc::Pixel(255,0,0,255));
+                    
+                }
+            }
+
+            state = state_walk;
+            is_already_blocker = false;
+            is_in_special_state = false;
+        }
+        is_already_blocker = true;
+    }
+
+    std::function<bool()> item_block = [this](){
+        if(
+            what_is_current_state == States::BLOCKER ||
+            what_is_current_state == States::FALL ||
+            what_is_current_state == States::PARACHUTE
+        ) return false;
+        anim->SetAnimation("pingu_blocker");
+        anim->frame_counter = 0.0f;
+        //anim->current_animation_state->visible = false;
+        
+        int width = 2;
+
+        for(int yy = 0; yy < 6; yy++){
+            for(int xx = 6; xx < 6+(int)width; xx++){
+                
+                auto dec = level->level_decals.at("solid");
+
+                if(dec->sprite->GetPixel(local_position+Vector2f(xx+4.0f,yy+24.0f-2.0f)) == olc::Pixel(0,0,0,0)) dec->sprite->SetPixel(local_position+Vector2f(xx+4.0f,yy+24.0f-2.0f),olc::BLUE);
+                dec->Update();
+                Console::Out("made blue",xx,yy);
+                
+                //level->level_decals.at("mg")->sprite->SetPixel(local_position+Vector2f(xx,yy),olc::Pixel(255,0,0,255));
+                
+            }
+        }
+
+        state = state_blocker;
+
+        is_in_special_state = true;
+        return true;
+    };
+
+    std::function<bool()> item_blow_up = [this](){
+        if(what_is_current_state == States::EXPLODE) return false;
         anim->SetAnimation("pingu_explode");
         anim->frame_counter = 0.0f;
         
         state = state_explode;
 
         is_in_special_state = true;
+        return true;
     };
 
-    std::function<void()> item_build = [this](){
-        if(!hit_floor) return;
+    std::function<bool()> item_build = [this](){
+        if(!hit_floor || what_is_current_state == States::BUILD || what_is_current_state == States::EXPLODE) return false;
 
         anim->SetAnimation("pingu_walk");
 
@@ -297,25 +413,20 @@ public:
         build_timer.Start(200.0f);
 
         is_in_special_state = true;
+
+        return true;
     };
 
-    std::function<void()> item_parachute = [this](){
-        if(hit_floor) return;
+    std::function<bool()> item_parachute = [this](){
+        
+        if(has_parachute) return false;
 
-        state = state_parachute;
+        has_parachute = true;
 
-        parachute_sprite_id = AddChild<SpriteReference>("parachute",
-            Vector2f(-22.0f, -48.0f),
-            Vector2f(0.0f, 0.0f),
-            Vector2f(59.0f, 66.0f),
-            Vector2f(1.0f, 1.0f),
-            0.0f
-        )->GetID();
-
-        is_in_special_state = true;
+        return true;
     };
 
-    std::vector<std::function<void()>> items = {
+    std::vector<std::function<bool()>> items = {
         item_blow_up,
         item_build,
         item_parachute
@@ -368,6 +479,8 @@ public:
 
         state();
         
+        bool is_already_overlapping_blue = IsOverlappingFeet(local_position,olc::BLUE);
+
         PinguCollision();
 
         /*if(hit_slope || hit_wall || hit_ceiling || hit_floor){
@@ -377,6 +490,10 @@ public:
             Console::Out("Hit floor",hit_floor);
             Console::Out("---");
         }*/
+
+        if(IsOverlappingFeet(local_position,olc::BLUE) && !is_already_overlapping_blue){
+            face_direction *= -1.0f;
+        }
 
         if(hit_wall) face_direction *= -1.0f;
 

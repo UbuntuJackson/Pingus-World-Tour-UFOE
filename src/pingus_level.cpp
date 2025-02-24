@@ -25,10 +25,12 @@
 
 void PingusLevel::OnResourceLoad(){
     Engine::Get().wave_engine.StopAll();
+    AssetManager::Get().current_music_track = "";
 
     AssetManager::Get().LoadDecal("../res/assets/pingu_hitbox.png","pill");
     AssetManager::Get().LoadDecal("../res/assets/box_12_24.png","box_12_24");
     AssetManager::Get().LoadDecal("../res/assets/walking animation-Sheet.png", "pingu_walk");
+    AssetManager::Get().LoadDecal("../res/assets/pingu_blocker.png", "pingu_blocker");
     AssetManager::Get().LoadDecal("../res/assets/fall_death-Sheet.png", "pingu_fall_death");
     AssetManager::Get().LoadDecal("../res/assets/spawner.png", "spawner");
     AssetManager::Get().LoadDecal("../res/assets/pingu_fall.png", "pingu_fall");

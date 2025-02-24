@@ -169,6 +169,11 @@
                  "name":"",
                  "properties":[
                         {
+                         "name":"number_of_blockers",
+                         "type":"int",
+                         "value":20
+                        }, 
+                        {
                          "name":"number_of_bombers",
                          "type":"int",
                          "value":0
