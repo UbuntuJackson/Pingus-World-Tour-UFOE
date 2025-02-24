@@ -209,14 +209,14 @@
                         {
                          "name":"number_of_pingus",
                          "type":"int",
-                         "value":5
+                         "value":100
                         }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":510.151515151515,
-                 "y":172.515151515148
+                 "x":182.151515151515,
+                 "y":559.181818181815
                 }, 
                 {
                  "gid":5,

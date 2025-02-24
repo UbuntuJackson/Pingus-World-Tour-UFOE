@@ -336,14 +336,17 @@ public:
 
         if(
             RectangleVsPoint(ufo::Rectangle(local_position, Vector2f(12.0f,24.0f)),level->GetActiveCamera()->TransformScreenToWorld(Mouse::Get().GetPosition()))
-            && Mouse::Get().GetLeftButton().is_pressed && is_already_blocker)
+            && Mouse::Get().GetLeftButton().is_pressed && is_already_blocker
+        )
         {
+            Console::Out("removed stuff");
             for(int yy = 0; yy < 6; yy++){
-                for(int xx = 6; xx < 6+(int)width; xx++){
+                for(int xx = 5; xx < 5+width; xx++){
                     
                     auto dec = level->level_decals.at("solid");
 
-                    if(dec->sprite->GetPixel(local_position+Vector2f(xx+4.0f,yy+24.0f-2.0f)) == olc::BLUE) dec->sprite->SetPixel(local_position+Vector2f(xx+4.0f,yy+24.0f-2.0f),olc::Pixel(0,0,0,0));
+                    Vector2f place_pos = local_position+Vector2f(xx,24.0f-yy);
+                    if(dec->sprite->GetPixel(place_pos) == olc::BLUE) dec->sprite->SetPixel(place_pos,olc::Pixel(0,0,0,0));
                     dec->Update();
                     Console::Out("made blue",xx,yy);
                     
@@ -355,6 +358,7 @@ public:
             state = state_walk;
             is_already_blocker = false;
             is_in_special_state = false;
+            return;
         }
         is_already_blocker = true;
     }
@@ -370,20 +374,35 @@ public:
         //anim->current_animation_state->visible = false;
         
         int width = 2;
+        Console::Out("Item block");
+
+        auto dec = level->level_decals.at("solid");
 
         for(int yy = 0; yy < 6; yy++){
-            for(int xx = 6; xx < 6+(int)width; xx++){
-                
-                auto dec = level->level_decals.at("solid");
+            for(int xx = 5; xx < 5+width; xx++){
 
-                if(dec->sprite->GetPixel(local_position+Vector2f(xx+4.0f,yy+24.0f-2.0f)) == olc::Pixel(0,0,0,0)) dec->sprite->SetPixel(local_position+Vector2f(xx+4.0f,yy+24.0f-2.0f),olc::BLUE);
-                dec->Update();
-                Console::Out("made blue",xx,yy);
+                Vector2f place_pos = local_position+Vector2f(xx,24.0f-yy);
+                
+                olc::Pixel p = dec->sprite->GetPixel(place_pos);
+                
+                //This is not {0,0,0,0} for some reason but instead {115,121,121,0}
+                Console::Out(
+                    int(p.r),
+                    int(p.g),
+                    int(p.b),
+                    int(p.a));
+                
+                if(dec->sprite->GetPixel(place_pos).a == 0){
+                    //Console::Out("made blue",xx,yy);
+                    dec->sprite->SetPixel(place_pos,olc::BLUE);
+                }
                 
                 //level->level_decals.at("mg")->sprite->SetPixel(local_position+Vector2f(xx,yy),olc::Pixel(255,0,0,255));
                 
             }
         }
+
+        dec->Update();
 
         state = state_blocker;
 
@@ -490,6 +509,13 @@ public:
             Console::Out("Hit floor",hit_floor);
             Console::Out("---");
         }*/
+        /*for(int i = 0; i++; i < 3){
+            if(IsOverlappingFeet(local_position-Vector2f(0.0f,i),olc::BLUE) && !is_already_overlapping_blue){
+                face_direction *= -1.0f;
+            }
+        }*/
+
+        if(is_already_overlapping_blue) Console::Out("is_already_overlapping_blue");
 
         if(IsOverlappingFeet(local_position,olc::BLUE) && !is_already_overlapping_blue){
             face_direction *= -1.0f;
@@ -536,7 +562,7 @@ public:
             }
         }*/
 
-        Console::Out("");
+        //Console::Out("");
 
         //Normal slope and walls
         if(IsOverlapping(game, mask_decal,solid_layer,local_position)){
