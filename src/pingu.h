@@ -414,7 +414,11 @@ public:
             (!IsOverlappingFeet(local_position + Vector2f(climbing_direction * 2.0f, 0.0f), olc::WHITE))
         ){
             anim->current_animation_state->rotation = 0.0f;
-            state = state_fall_after_climber;
+            if(!hit_ceiling) state = state_fall_after_climber;
+            else{
+                is_in_special_state = false;
+                state = state_walk;
+            }
             velocity.x = 50.0f * climbing_direction;
             has_climber = false;
             snap_to_ground_enabled = true;
