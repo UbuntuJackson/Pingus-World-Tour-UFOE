@@ -107,6 +107,17 @@ public:
         anim->SetAnimation("pingu_walk");
 
         anim->AddAnimationState(AnimatedSpriteReference(
+            "pingu_walk_parachute",
+            Vector2f(0.0f, 0.0f),
+            Vector2f(16.0f,16.0f),
+            Vector2f(32.0f, 32.0f),
+            Vector2f(1.0f,1.0f),
+            0.0f,
+            0,
+            20.0f
+        ));
+
+        anim->AddAnimationState(AnimatedSpriteReference(
             "pingu_explode",
             Vector2f(0.0f, 0.0f),
             Vector2f(16.0f,16.0f),
@@ -203,7 +214,8 @@ public:
         anim->current_animation_state->scale.x = face_direction;
         velocity.x = face_direction * 30.0f;
         
-        anim->SetAnimation("pingu_walk");
+        if(!has_parachute) anim->SetAnimation("pingu_walk");
+        else anim->SetAnimation("pingu_walk_parachute");
         
         if(fall_timer.GetTimeLeft() <= 0.0f){
             if(IsOverlapping(level,mask_decal,solid_layer,local_position+Vector2f(0.0f,2.0f),olc::MAGENTA)) item_blow_up();
