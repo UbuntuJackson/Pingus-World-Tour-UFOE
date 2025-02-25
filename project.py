@@ -23,10 +23,7 @@ spawner = tool.Class("Spawner", "src/spawner.h")
 spawner.export_variables_to_editor()
 
 item_select_menu = tool.Class("ItemSelectMenu", "src/item_select_menu.h", "src/item_select_menu.cpp")
-item_select_menu.editor_attributes.append(("Int", "number_of_builders"))
-item_select_menu.editor_attributes.append(("Int", "number_of_bombers"))
-item_select_menu.editor_attributes.append(("Int", "number_of_parachutes"))
-item_select_menu.editor_attributes.append(("Int", "number_of_blockers"))
+item_select_menu.export_variables_to_editor()
 
 honey_coin = tool.Class("HoneyCoin", "src/honey_coin.h")
 

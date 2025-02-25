@@ -81,11 +81,11 @@ void GeneratedActorJsonBridge(Level* _level, JsonDictionary& _actor_json, std::s
                 JsonArray& property_json = _actor_json.Get("properties").AsArray();
                 for(auto&& _json : property_json.Iterable()){
                    auto property_dict = _json->AsDictionary();
-                    if(property_dict.Get("name").AsString() == "number_of_builders"){
-                        instance->number_of_builders = property_dict.Get("value").AsInt();
-                    }
                     if(property_dict.Get("name").AsString() == "number_of_bombers"){
                         instance->number_of_bombers = property_dict.Get("value").AsInt();
+                    }
+                    if(property_dict.Get("name").AsString() == "number_of_builders"){
+                        instance->number_of_builders = property_dict.Get("value").AsInt();
                     }
                     if(property_dict.Get("name").AsString() == "number_of_parachutes"){
                         instance->number_of_parachutes = property_dict.Get("value").AsInt();
