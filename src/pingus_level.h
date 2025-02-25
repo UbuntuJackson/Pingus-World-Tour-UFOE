@@ -14,6 +14,7 @@ class Label;
 class WidgetSpriteReference;
 class HoneyCoin;
 class ItemSelectMenu;
+class Button;
 
 class PingusLevel : public Level{
 public:
@@ -36,6 +37,7 @@ public:
     int required_pingus = 0;
     int maximum_rescuable_pingus = 100;
     bool pingu_selected_this_frame = false;
+    Button* end_level_button = nullptr;
     Label* rescued_pingus_label = nullptr;
     Label* released_pingus_label = nullptr;
     Label* max_pingus_label = nullptr;

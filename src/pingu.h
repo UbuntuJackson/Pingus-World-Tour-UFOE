@@ -501,6 +501,8 @@ public:
             }
         }
 
+        if(local_position.y > level->level_size.y) QueueForPurge();
+
         for(const auto& honey_coin : level->honey_coin_handles){
             if(ufoMaths::RectangleVsCircle(ufo::Rectangle(local_position, Vector2f(12.0f,24.0f)),honey_coin->shape)){
                 level->honey_coin_hud->current_frame_index = 0.0f;

@@ -63,6 +63,8 @@ void PingusLevel::OnLoad(JsonDictionary& _j){
     GetActiveCamera()->clamp = true;
     Console::Out("Level size", level_size);
 
+    end_level_button = NewActor<Button>(Vector2f(180.0f,480.0f-25.0f), Vector2f(90.0f,32.0f), "Abort mission");
+
     rescued_pingus_label = NewActor<Label>(Vector2f(180.0f, 4.0f), Vector2f(100.0f, 10.0f), "Rescued Pingus");
     released_pingus_label = NewActor<Label>(Vector2f(175.0f, 21.0f), Vector2f(100.0f, 10.0f), "Released Pingus");
     max_pingus_label = NewActor<Label>(Vector2f(135.0f, 38.0f), Vector2f(100.0f, 10.0f), "Max. Rescuable Pingus");
@@ -75,6 +77,11 @@ void PingusLevel::OnLoad(JsonDictionary& _j){
         0
     );
     honey_coin_hud->current_frame_index = 1.0f;
+    end_level_button->theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_grey", 3,4,3,4);
+    end_level_button->hovered_theme = std::make_unique<NinePatchTheme>("pwt_theme_grey_light", 3,4,3,4);
+    end_level_button->held_theme = std::make_unique<NinePatchTheme>("pwt_theme_grey_dark", 3,4,3,4);
+    end_level_button->visible = false;
+
     rescued_pingus_label->theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_grey", 3,4,3,4);
     released_pingus_label->theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_grey", 3,4,3,4);
     max_pingus_label->theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_grey", 3,4,3,4);
@@ -116,6 +123,7 @@ void PingusLevel::OnUpdate(){
     released_pingus_label->text = "Released Pingus:" + std::to_string(released_pingus) + "/" + std::to_string(total_number_of_pingus);
     max_pingus_label->text = "Max. Rescuable Pingus:" + std::to_string(maximum_rescuable_pingus);
 
+    end_level_button->local_position.x = Engine::Get().pixel_game_engine.GetWindowSizeInPixles().x - 8.0f*end_level_button->text.size() + 10.0f;
     rescued_pingus_label->local_position.x = Engine::Get().pixel_game_engine.GetWindowSizeInPixles().x - 8.0f*rescued_pingus_label->text.size() - 12.0f;
     released_pingus_label->local_position.x = Engine::Get().pixel_game_engine.GetWindowSizeInPixles().x - 8.0f*released_pingus_label->text.size() - 12.0f;
     max_pingus_label->local_position.x = Engine::Get().pixel_game_engine.GetWindowSizeInPixles().x - 8.0f*max_pingus_label->text.size() -12.0f;
@@ -125,6 +133,15 @@ void PingusLevel::OnUpdate(){
     max_pingus_label->rectangle.size.x = 8.0f*max_pingus_label->text.size()+8;
 
     //Console::Out("Are there pingus active?", at_least_one_pingu_active);
+
+    if(!is_menu){
+        end_level_button->visible = true;
+        if(end_level_button->IsReleased()){
+            NewActor<ResultScreen>(Vector2f(30.0f,30.0f));
+            level_finished = true;
+            paused = true;
+        }
+    }
 
     if(!at_least_one_pingu_active && released_pingus >= total_number_of_pingus){
         
