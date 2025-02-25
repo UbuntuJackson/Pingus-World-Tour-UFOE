@@ -93,6 +93,9 @@ void GeneratedActorJsonBridge(Level* _level, JsonDictionary& _actor_json, std::s
                     if(property_dict.Get("name").AsString() == "number_of_blockers"){
                         instance->number_of_blockers = property_dict.Get("value").AsInt();
                     }
+                    if(property_dict.Get("name").AsString() == "number_of_climbers"){
+                        instance->number_of_climbers = property_dict.Get("value").AsInt();
+                    }
                 }
             }
         }

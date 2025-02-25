@@ -14,7 +14,7 @@ ItemSelectMenu::ItemSelectMenu(Vector2f _local_position) : WrapMenu(Vector2f(4.0
 
 void ItemSelectMenu::OnStart(Level* _level){
 
-    std::function<void(Pingu* _pingu)> item_blow_up = [this](Pingu* _pingu){
+    item_blow_up = [this](Pingu* _pingu){
         if(number_of_bombers > 0){
             
             if(_pingu->item_blow_up()) number_of_bombers--;
@@ -22,7 +22,7 @@ void ItemSelectMenu::OnStart(Level* _level){
         }
     };
 
-    std::function<void(Pingu* _pingu)> item_build = [this](Pingu* _pingu){
+    item_build = [this](Pingu* _pingu){
         if(number_of_builders > 0){
             
             if(_pingu->item_build()) number_of_builders--;
@@ -30,7 +30,7 @@ void ItemSelectMenu::OnStart(Level* _level){
         }
     };
 
-    std::function<void(Pingu* _pingu)> item_parachute = [this](Pingu* _pingu){
+    item_parachute = [this](Pingu* _pingu){
         if(number_of_parachutes > 0){
             
             if(_pingu->item_parachute()) number_of_parachutes--;
@@ -38,11 +38,19 @@ void ItemSelectMenu::OnStart(Level* _level){
         }
     };
 
-    std::function<void(Pingu* _pingu)> item_blocker = [this](Pingu* _pingu){
+    item_blocker = [this](Pingu* _pingu){
         if(number_of_blockers > 0){
             
             if(_pingu->item_block()) number_of_blockers--;
             buttons[selected_index]->text = "Blocker : "+std::to_string(number_of_blockers);
+        }
+    };
+
+    item_blocker = [this](Pingu* _pingu){
+        if(number_of_climbers > 0){
+            
+            if(_pingu->item_climber()) number_of_climbers--;
+            buttons[selected_index]->text = "Blocker : "+std::to_string(number_of_climbers);
         }
     };
 
@@ -60,6 +68,10 @@ void ItemSelectMenu::OnStart(Level* _level){
     }
     if(number_of_blockers > 0){
         AddChild<Button>(Vector2f(0.0f, 0.0f), Vector2f(120.0f,20.0f), "Blocker : "+std::to_string(number_of_blockers));
+        items.push_back(item_blocker);
+    }
+    if(number_of_climbers > 0){
+        AddChild<Button>(Vector2f(0.0f, 0.0f), Vector2f(120.0f,20.0f), "Climber : "+std::to_string(number_of_climbers));
         items.push_back(item_blocker);
     }
 

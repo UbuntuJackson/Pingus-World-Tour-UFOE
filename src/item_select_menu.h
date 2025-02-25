@@ -13,6 +13,8 @@ public:
     int number_of_parachutes = 0;
     /// @export;
     int number_of_blockers = 0;
+    /// @export;
+    int number_of_climbers = 0;
 
     std::vector<std::function<void(Pingu* _pingu)>> items;
 
@@ -21,6 +23,8 @@ public:
     std::function<void(Pingu* _pingu)> item_build;
 
     std::function<void(Pingu* _pingu)> item_parachute;
+
+    std::function<void(Pingu* _pingu)> item_blocker;
     
     ItemSelectMenu(Vector2f _local_position);
 

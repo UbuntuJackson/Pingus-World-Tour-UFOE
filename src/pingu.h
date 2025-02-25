@@ -41,7 +41,9 @@ public:
         EXPLODE,
         DIE_BY_FALL,
         PARACHUTE,
-        BLOCKER
+        BLOCKER,
+        CLIMBER,
+        FALL_AFTER_CLIMBER
     };
 
     int what_is_current_state = States::WALK;
@@ -81,6 +83,16 @@ public:
     std::function<void()> state_blocker = [this](){
         what_is_current_state = States::BLOCKER;
         Blocker();
+    };
+
+    std::function<void()> state_climber = [this](){
+        what_is_current_state = States::CLIMBER;
+        Climber();
+    };
+
+    std::function<void()> state_fall_after_climber = [this](){
+        what_is_current_state = States::FALL_AFTER_CLIMBER;
+        FallAfterClimber();
     };
 
     std::function<void()> state = state_walk;
@@ -213,6 +225,16 @@ public:
     void Walk(){
         anim->current_animation_state->scale.x = face_direction;
         velocity.x = face_direction * 30.0f;
+
+        if(has_climber && hit_wall){
+            Console::Out("Climbing power activated!", face_direction);
+            climbing_direction = face_direction * -1.0f;
+            velocity.x = 0.0f;
+            state = state_climber;
+            is_in_special_state = true;
+            Console::Out(face_direction);
+            
+        }
         
         if(!has_parachute) anim->SetAnimation("pingu_walk");
         else anim->SetAnimation("pingu_walk_parachute");
@@ -374,6 +396,54 @@ public:
         }
         is_already_blocker = true;
     }
+
+    float climbing_direction = 1.0f;
+
+    void Climber(){
+        //Console::Out("Climber");
+
+        velocity.y = -50.0f;
+        velocity.x = 0.0f;
+
+        anim->current_animation_state->scale.x = climbing_direction;
+        anim->current_animation_state->rotation = climbing_direction*90.0f * 180.0f/3.1415f;
+
+        snap_to_ground_enabled = false;
+
+        if(hit_ceiling ||
+            (!IsOverlappingFeet(local_position + Vector2f(climbing_direction * 2.0f, 0.0f), olc::WHITE))
+        ){
+            anim->current_animation_state->rotation = 0.0f;
+            state = state_fall_after_climber;
+            velocity.x = 50.0f * climbing_direction;
+            has_climber = false;
+            snap_to_ground_enabled = true;
+            face_direction = climbing_direction;
+        }
+    }
+
+    void FallAfterClimber(){
+        velocity.y = 1.0f;
+        if(hit_floor){
+            state = state_walk;
+            is_in_special_state = false;
+        }
+    }
+
+    bool has_climber = false;
+
+    std::function<bool()> item_climber = [this](){
+        if(
+            what_is_current_state == States::BLOCKER ||
+            what_is_current_state == States::FALL ||
+            what_is_current_state == States::PARACHUTE ||
+            what_is_current_state == States::CLIMBER
+        ) return false;
+
+        has_climber = true;
+
+        return true;
+    };
 
     std::function<bool()> item_block = [this](){
         if(
