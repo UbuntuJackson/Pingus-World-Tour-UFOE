@@ -84,7 +84,7 @@ class ProjectManager:
                         if(custom_property["name"] == _arg_name):
                             del custom_property
 
-    def generate_project(self, _cmake_args, _generator_option, _make_or_ninja , _make_or_ninja_args):
+    def generate_project(self):
         
         type_index : int = 0
 
@@ -133,8 +133,19 @@ class ProjectManager:
         f.write(cmake_lists_dot_txt)
         f.close()
 
+    #build takes arguments
+    #_cmake_args - Arguments for cmake, such as debug flags like -ggdb to set optimisation level
+    # for debugging with GDB
+    #_generator_option - For example -G Ninja if Ninja should be used. Can be left empty if using make
+    #_make_or_ninja - ninja if using ninja. make if using make.
+    #_make_or_ninja_args - -j6 for using additional cores to compile. Works with both ninja and make.
 
-        os.system("cd build && cmake .." + " " + _generator_option + " " + "-DCMAKE_CXX_FLAGS=" + '\"' + _cmake_args + '\"' + "&&" + _make_or_ninja + " " + _make_or_ninja_args)
+    #Example
+    #project.generate_project("-ggdb", "-G Ninja", "ninja" ,"-j6")
+    def build(self,_cmake_args, _generator_option, _make_or_ninja , _make_or_ninja_args):
+        ret = os.system("cd build && cmake .." + " " + _generator_option + " " + "-DCMAKE_CXX_FLAGS=" + '\"' + _cmake_args + '\"' + "&&" + _make_or_ninja + " " + _make_or_ninja_args)
+        return (not ret)
+        
 
     def add_source(self,_str):
         self.source_files.append(_str)
