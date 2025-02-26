@@ -35,9 +35,14 @@ void JsonArray::Push(JsonVariant _value){
 JsonDictionary JsonVariant::Read(std::string _path){
     std::string s = File(_path).GetAsString();
     cJSON* member = ujson::JsonParse(s);
-    if(!member) Console::Out("[!]", "[Json::JsonRead()]" ,"Could not load json from path:", _path);
+    bool invalid_cjson = false;
+    if(!member){
+        invalid_cjson = true;
+        Console::Out("[!]", "[Json::JsonRead()]" ,"Could not load json from path:", _path);
+    }
     else Console::Out("[!]", "[Json::JsonRead()]","Json loaded successfully", _path);
     JsonDictionary j = JsonDictionary().GetAsTree(member);
+    j.is_null = invalid_cjson;
     cJSON_Delete(member);
     return j;
 }
@@ -55,11 +60,11 @@ JsonArray JsonArray::cJSON_ToArray(cJSON* member){
 
             if(/*(double)(iterator->valueint) == iterator->valuedouble*/ false){
                 j.Push(iterator->valueint);
-                Console::Out("Json::GetAsTree found number");
+                //Console::Out("Json::GetAsTree found number");
             }
             else{
                 j.Push(float(iterator->valuedouble));
-                Console::Out("Json::GetAsTree found double");
+                //Console::Out("Json::GetAsTree found double");
             }
 
         }
@@ -67,25 +72,25 @@ JsonArray JsonArray::cJSON_ToArray(cJSON* member){
         if(cJSON_IsBool(iterator)){
 
             j.Push(float(iterator->valueint));
-            Console::Out("Json::GetAsTree found double");
+            //Console::Out("Json::GetAsTree found double");
 
         }
 
         if(cJSON_IsString(iterator)){
             j.Push(iterator->valuestring);
-            Console::Out("JsonArray::cJSON_ToArray found number");
+            //Console::Out("JsonArray::cJSON_ToArray found number");
         }
         
         if(cJSON_IsArray(iterator)){
             j.Push(JsonArray::cJSON_ToArray(iterator));
             
-            Console::Out("Json::GetAsTree found object", iterator->string);
+            //Console::Out("Json::GetAsTree found object", iterator->string);
         }
 
         if(cJSON_IsObject(iterator)){
             j.Push(JsonDictionary().GetDictionaryAsTree(iterator));
             
-            Console::Out("JsonArray::cJSON_ToArray found object");
+            //Console::Out("JsonArray::cJSON_ToArray found object");
         }
 
         if(cJSON_IsNull(iterator)){

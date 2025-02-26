@@ -49,18 +49,26 @@ bool
 Engine::Start(){
     wave_engine.InitialiseAudio(44100, 2, 512, 512);
 
-    JsonDictionary engine_config = JsonVariant::Read("../UFO-Engine/res/engine_config/config.json");
+    JsonDictionary game_config = JsonVariant::Read("../game_config.json");
+    
+    if(game_config.IsNull()){
+        game_config = JsonVariant::Read("../UFO-Engine/res/engine_config/config.json");
+        Console::Out("../game_config.json", "not found.", "Using", "../UFO-Engine/res/engine_config/config.json", "instead.");
+    }
+    else{
+        Console::Out("../game_config.json was found.");
+    }
 
-    JsonDictionary& resolution = engine_config.Get("resolution").AsDictionary();
+    JsonDictionary& resolution = game_config.Get("resolution").AsDictionary();
     int res_width = resolution.Get("x").AsInt();
     int res_height = resolution.Get("y").AsInt();
-    JsonDictionary& pixel_size = engine_config.Get("pixel-size").AsDictionary();
+    JsonDictionary& pixel_size = game_config.Get("pixel-size").AsDictionary();
     int pixel_width = pixel_size.Get("x").AsInt();
     int pixel_height = pixel_size.Get("y").AsInt();
-    vsync = (bool)(engine_config.Get("vsync").AsInt());
-    edit_mode = (bool)(engine_config.Get("edit-mode").AsInt());
-    all_shapes_visible = (bool)(engine_config.Get("all-shapes-visible").AsInt());
-    modified_collision_lines_visible = (bool)(engine_config.Get("modified-collision-lines-visible").AsInt());
+    vsync = (bool)(game_config.Get("vsync").AsInt());
+    edit_mode = (bool)(game_config.Get("edit-mode").AsInt());
+    all_shapes_visible = (bool)(game_config.Get("all-shapes-visible").AsInt());
+    modified_collision_lines_visible = (bool)(game_config.Get("modified-collision-lines-visible").AsInt());
     if(edit_mode){
         pixel_width = 1;
         pixel_height = 1;

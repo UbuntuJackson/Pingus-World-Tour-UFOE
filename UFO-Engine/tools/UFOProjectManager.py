@@ -1,6 +1,6 @@
 import os
-import subprocess
 import importlib
+import json
 
 var_exporter_module = importlib.import_module("UFO-Engine.tools.UFO_variable_exporter")
 
@@ -132,6 +132,29 @@ class ProjectManager:
         f = open(self.project_path+"/CMakeLists.txt","w+")
         f.write(cmake_lists_dot_txt)
         f.close()
+
+        #Write a game_config file
+
+        game_config_dict = {
+            "resolution" : {
+                "x" : 680,
+                "y" : 480
+            },
+            "pixel-size" : {
+                "x" : 2,
+                "y" : 2    
+            },
+            "vsync" : True,
+            "start-level" : "../res/frogatto_jr/frogatto_level_1.json",
+            "all-shapes-visible" : False,
+            "edit-mode" : False,
+            "modified-collision-lines-visible" : False
+        }
+
+        if not os.path.exists(self.project_path+"/"+"game_config.json"):
+            game_config_file = open(self.project_path+"/"+"game_config.json", "x")
+            game_config_file.write(json.dumps(game_config_dict, indent=4))
+            game_config_file.close()
 
     #build takes arguments
     #_cmake_args - Arguments for cmake, such as debug flags like -ggdb to set optimisation level

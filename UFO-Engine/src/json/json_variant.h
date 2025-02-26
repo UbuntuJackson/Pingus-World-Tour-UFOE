@@ -14,6 +14,7 @@ class JsonArray;
 class JsonVariant{
 public:
     std::string path;
+    bool is_null = false;
 
     static JsonDictionary Read(std::string _path);
 
@@ -228,7 +229,8 @@ public:
     }
 
     bool IsNull(){
-        return false;
+        //Is not null by default but can be set to null if not read from JsonVariant::Read()
+        return is_null;
     }
 
     void Set(std::string _key, int _value){
@@ -284,11 +286,11 @@ public:
 
                 if(/*(double)(iterator->valueint) == iterator->valuedouble*/ false){
                     j.Set(iterator->string ,iterator->valueint);
-                    Console::Out("Json::GetAsTree found number");
+                    //Console::Out("Json::GetAsTree found number");
                 }
                 else{
                     j.Set(iterator->string ,float(iterator->valuedouble));
-                    Console::Out("Json::GetAsTree found double");
+                    //Console::Out("Json::GetAsTree found double");
                 }
 
             }
@@ -297,26 +299,26 @@ public:
 
                 
                 j.Set(iterator->string ,float(iterator->valueint));
-                Console::Out("Json::GetAsTree found double");
+                //Console::Out("Json::GetAsTree found double");
                 
 
             }
 
             if(cJSON_IsString(iterator)){
                 j.Set(iterator->string,iterator->valuestring);
-                Console::Out("Json::GetAsTree found number", iterator->string);
+                //Console::Out("Json::GetAsTree found number", iterator->string);
             }
             
             if(cJSON_IsObject(iterator)){
                 j.Set(iterator->string,GetAsTree(iterator));
                 
-                Console::Out("Json::GetAsTree found object", iterator->string);
+                //Console::Out("Json::GetAsTree found object", iterator->string);
             }
 
             if(cJSON_IsArray(iterator)){
                 j.Set(iterator->string,JsonArray::cJSON_ToArray(iterator));
                 
-                Console::Out("Json::GetAsTree found object", iterator->string);
+                //Console::Out("Json::GetAsTree found object", iterator->string);
             }
         }
         return j;
@@ -332,11 +334,11 @@ public:
 
                 if(/*(double)(iterator->valueint) == iterator->valuedouble*/ false){
                     j.Set(iterator->string ,iterator->valueint);
-                    Console::Out("Json::GetAsTree found number");
+                    //Console::Out("Json::GetAsTree found number");
                 }
                 else{
                     j.Set(iterator->string ,float(iterator->valuedouble));
-                    Console::Out("Json::GetAsTree found double");
+                    //Console::Out("Json::GetAsTree found double");
                 }
 
             }
@@ -345,25 +347,25 @@ public:
 
                 
                 j.Set(iterator->string ,float(iterator->valueint));
-                Console::Out("Json::GetAsTree found double");
+                //Console::Out("Json::GetAsTree found double");
                 
 
             }
             
             if(cJSON_IsString(iterator)){
                 j.Set(iterator->string,iterator->valuestring);
-                Console::Out("Json::GetAsTree found String", iterator->string);
+                //Console::Out("Json::GetAsTree found String", iterator->string);
             }
 
             if(cJSON_IsObject(iterator)){
                 j.Set(iterator->string,GetDictionaryAsTree(iterator));
-                Console::Out("Json::GetAsTree found object", iterator->string);
+                //Console::Out("Json::GetAsTree found object", iterator->string);
             }
 
             if(cJSON_IsArray(iterator)){
                 j.Set(iterator->string,JsonArray::cJSON_ToArray(iterator));
                 
-                Console::Out("Json::GetAsTree found object", iterator->string);
+                //Console::Out("Json::GetAsTree found object", iterator->string);
             }
         }
         return j;
