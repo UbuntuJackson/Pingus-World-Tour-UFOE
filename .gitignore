@@ -33,6 +33,8 @@
 
 /build
 
+/src/generated_actor_json_bridge.h
+
 /.vscode
 
 .vscode
