@@ -47,7 +47,7 @@ void Engine::GoToLevel(std::string _path, int _level_format){
 
 bool
 Engine::Start(){
-    wave_engine.InitialiseAudio();
+    wave_engine.InitialiseAudio(44100, 2, 512, 512);
 
     JsonDictionary engine_config = JsonVariant::Read("../UFO-Engine/res/engine_config/config.json");
 

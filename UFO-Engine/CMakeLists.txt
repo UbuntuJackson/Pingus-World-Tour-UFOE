@@ -11,8 +11,8 @@ option(USE_SDL2_MIXER "Force using SDL2_mixer as audio backend")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
-set(CMAKE_CXX_COMPILER "/usr/bin/g++")
-set(CMAKE_C_COMPILER "/usr/bin/gcc")
+#set(CMAKE_CXX_COMPILER "/usr/bin/g++")
+#set(CMAKE_C_COMPILER "/usr/bin/gcc")
 
 if(NOT WIN32)
 

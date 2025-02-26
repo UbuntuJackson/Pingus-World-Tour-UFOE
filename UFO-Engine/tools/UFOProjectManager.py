@@ -84,7 +84,7 @@ class ProjectManager:
                         if(custom_property["name"] == _arg_name):
                             del custom_property
 
-    def generate_project(self, _cmake_args = "", _make_args = ""):
+    def generate_project(self, _cmake_args, _generator_option, _make_or_ninja , _make_or_ninja_args):
         
         type_index : int = 0
 
@@ -133,7 +133,8 @@ class ProjectManager:
         f.write(cmake_lists_dot_txt)
         f.close()
 
-        os.system("cd build && cmake .." + " " + "-DCMAKE_CXX_FLAGS=" + '\"' + _cmake_args + '\"' + "&& make " + _make_args)
+
+        os.system("cd build && cmake .." + " " + _generator_option + " " + "-DCMAKE_CXX_FLAGS=" + '\"' + _cmake_args + '\"' + "&&" + _make_or_ninja + " " + _make_or_ninja_args)
 
     def add_source(self,_str):
         self.source_files.append(_str)

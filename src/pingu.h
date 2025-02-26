@@ -105,11 +105,11 @@ public:
     void OnLevelEnter(Level* _level){
         
         BitmapCollisionBody::OnLevelEnter(_level);
-        anim = AddChild<Animation>(Vector2f(8.0f, 10.0f));
+        anim = AddChild<Animation>(Vector2f(6.0f, 19.0f));
         anim->AddAnimationState(AnimatedSpriteReference(
             "pingu_walk",
             Vector2f(0.0f, 0.0f),
-            Vector2f(16.0f,16.0f),
+            Vector2f(16.0f,24.0f),
             Vector2f(32.0f, 32.0f),
             Vector2f(1.0f,1.0f),
             0.0f,
@@ -121,7 +121,7 @@ public:
         anim->AddAnimationState(AnimatedSpriteReference(
             "pingu_walk_parachute",
             Vector2f(0.0f, 0.0f),
-            Vector2f(16.0f,16.0f),
+            Vector2f(16.0f,24.0f),
             Vector2f(32.0f, 32.0f),
             Vector2f(1.0f,1.0f),
             0.0f,
@@ -132,7 +132,7 @@ public:
         anim->AddAnimationState(AnimatedSpriteReference(
             "pingu_explode",
             Vector2f(0.0f, 0.0f),
-            Vector2f(16.0f,16.0f),
+            Vector2f(16.0f,24.0f),
             Vector2f(32.0f, 32.0f),
             Vector2f(1.0f,1.0f),
             0.0f,
@@ -143,7 +143,7 @@ public:
         anim->AddAnimationState(AnimatedSpriteReference(
             "pingu_fall_death",
             Vector2f(0.0f, 0.0f),
-            Vector2f(16.0f,16.0f),
+            Vector2f(16.0f,24.0f),
             Vector2f(32.0f, 32.0f),
             Vector2f(1.0f,1.0f),
             0.0f,
@@ -154,7 +154,7 @@ public:
         anim->AddAnimationState(AnimatedSpriteReference(
             "pingu_fall",
             Vector2f(0.0f, 0.0f),
-            Vector2f(16.0f,16.0f),
+            Vector2f(16.0f,24.0f),
             Vector2f(32.0f, 32.0f),
             Vector2f(1.0f,1.0f),
             0.0f,
@@ -165,7 +165,7 @@ public:
         anim->AddAnimationState(AnimatedSpriteReference(
             "pingu_blocker",
             Vector2f(0.0f, 0.0f),
-            Vector2f(16.0f,16.0f),
+            Vector2f(16.0f,24.0f),
             Vector2f(32.0f, 32.0f),
             Vector2f(1.0f,1.0f),
             0.0f,
@@ -176,7 +176,7 @@ public:
         anim->AddAnimationState(AnimatedSpriteReference(
             "pingu_parachute",
             Vector2f(0.0f, 0.0f),
-            Vector2f(16.0f,16.0f),
+            Vector2f(16.0f,24.0f),
             Vector2f(32.0f, 32.0f),
             Vector2f(1.0f,1.0f),
             0.0f,
@@ -228,7 +228,6 @@ public:
 
         if(has_climber && hit_wall){
             Console::Out("Climbing power activated!", face_direction);
-            climbing_direction = face_direction * -1.0f;
             velocity.x = 0.0f;
             state = state_climber;
             is_in_special_state = true;
@@ -236,6 +235,8 @@ public:
             
         }
         
+        if(has_climber) anim->current_animation_state->scale.x = climbing_direction;
+
         if(!has_parachute) anim->SetAnimation("pingu_walk");
         else anim->SetAnimation("pingu_walk_parachute");
         
@@ -445,6 +446,7 @@ public:
         ) return false;
 
         has_climber = true;
+        climbing_direction = face_direction;
 
         return true;
     };

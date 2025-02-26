@@ -25,6 +25,8 @@ public:
     std::function<void(Pingu* _pingu)> item_parachute;
 
     std::function<void(Pingu* _pingu)> item_blocker;
+
+    std::function<void(Pingu* _pingu)> item_climber;
     
     ItemSelectMenu(Vector2f _local_position);
 

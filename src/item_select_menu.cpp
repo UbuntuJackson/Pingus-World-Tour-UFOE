@@ -46,7 +46,7 @@ void ItemSelectMenu::OnStart(Level* _level){
         }
     };
 
-    item_blocker = [this](Pingu* _pingu){
+    item_climber = [this](Pingu* _pingu){
         if(number_of_climbers > 0){
             
             if(_pingu->item_climber()) number_of_climbers--;
@@ -72,7 +72,7 @@ void ItemSelectMenu::OnStart(Level* _level){
     }
     if(number_of_climbers > 0){
         AddChild<Button>(Vector2f(0.0f, 0.0f), Vector2f(120.0f,20.0f), "Climber : "+std::to_string(number_of_climbers));
-        items.push_back(item_blocker);
+        items.push_back(item_climber);
     }
 
     dynamic_cast<PingusLevel*>(_level)->item_select_menu = this;
