@@ -219,7 +219,9 @@ public:
     void DieByFall(){
         velocity.x = 0.0f;
         if(anim->current_animation_state->key != "pingu_fall_death") anim->SetAnimation("pingu_fall_death");
-        if(anim->cycle_count > 0) QueueForPurge();
+        if(anim->cycle_count > 0){
+            QueueForPurge();
+        }
     }
 
     void Walk(){
@@ -241,10 +243,32 @@ public:
         else anim->SetAnimation("pingu_walk_parachute");
         
         if(fall_timer.GetTimeLeft() <= 0.0f){
-            if(IsOverlapping(level,mask_decal,solid_layer,local_position+Vector2f(0.0f,2.0f),olc::MAGENTA)) item_blow_up();
-            else{
-                state = die_by_fall;
+            if(IsOverlapping(level,mask_decal,solid_layer,local_position+Vector2f(0.0f,2.0f),olc::MAGENTA)){
+                
+                for(auto&& [k,v] : level->level_decals){
+                    Console::Out(k);
+                    if(k == "bg") continue;
+                    
+                    for(int yy = -32+12; yy < 32+12; yy++){
+                        for(int xx = -32+6; xx < 32+6; xx++){
+                            if(ufoMaths::Distance2(local_position+Vector2f(xx,yy), local_position+Vector2f(6.0f,12.0f)) <= 32.0f){
+                                if(ufoMaths::Distance2(local_position+Vector2f(xx,yy), local_position+Vector2f(6.0f,12.0f)) > 28.0f
+                                    && v->sprite->GetPixel(local_position+Vector2f(xx,yy)).a != 0
+                                ){
+                                    olc::Pixel c = v->sprite->GetPixel(local_position+Vector2f(xx,yy));
+                                    v->sprite->SetPixel(local_position+Vector2f(xx,yy),olc::Pixel(25,25,25));
+                                }
+                                else v->sprite->SetPixel(local_position+Vector2f(xx,yy),olc::Pixel(0,0,0,0));
+                            }
+                            
+                        }
+                    }
+                    v->Update();
+                }
+                
             }
+            
+            state = die_by_fall;
 
             is_in_special_state = true;
             
@@ -442,7 +466,8 @@ public:
             what_is_current_state == States::BLOCKER ||
             what_is_current_state == States::FALL ||
             what_is_current_state == States::PARACHUTE ||
-            what_is_current_state == States::CLIMBER
+            what_is_current_state == States::CLIMBER ||
+            has_climber
         ) return false;
 
         has_climber = true;
@@ -526,7 +551,7 @@ public:
 
     std::function<bool()> item_parachute = [this](){
         
-        if(has_parachute) return false;
+        if(has_parachute || what_is_current_state == States::PARACHUTE) return false;
 
         has_parachute = true;
 
@@ -589,6 +614,11 @@ public:
         state();
         
         bool is_already_overlapping_blue = IsOverlappingFeet(local_position,olc::BLUE);
+
+        //Attempt to create depth when pingus climb up semisolid and overlap pingu on lower level
+        if(int(former_position.y) != int(local_position.y)) level->should_resort_after_z_index = true;
+
+        former_position = local_position;
 
         PinguCollision();
 

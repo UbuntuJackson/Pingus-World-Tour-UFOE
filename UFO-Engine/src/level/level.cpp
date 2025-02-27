@@ -227,6 +227,7 @@ void Level::Load(){
                 0.0f);
             
             level_sprite_reference->visible = visible;
+            if(found_actor_layer) level_sprite_reference->SetZIndex(2);
         }
 
         if(layer_dictionary.Get("type").AsString() == "tilelayer" && layer_dictionary.Get("name").AsString() == "tilemap_collision"){

@@ -167,7 +167,7 @@
                         {
                          "name":"number_of_pingus",
                          "type":"int",
-                         "value":20
+                         "value":1
                         }],
                  "rotation":0,
                  "type":"",

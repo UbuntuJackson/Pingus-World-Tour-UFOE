@@ -87,39 +87,6 @@
         }, 
         {
          "draworder":"topdown",
-         "id":2,
-         "name":"collision_polygons",
-         "objects":[],
-         "opacity":1,
-         "type":"objectgroup",
-         "visible":true,
-         "x":0,
-         "y":0
-        }, 
-        {
-         "draworder":"topdown",
-         "id":3,
-         "name":"spawn_points",
-         "objects":[],
-         "opacity":1,
-         "type":"objectgroup",
-         "visible":true,
-         "x":0,
-         "y":0
-        }, 
-        {
-         "draworder":"topdown",
-         "id":4,
-         "name":"triggers",
-         "objects":[],
-         "opacity":1,
-         "type":"objectgroup",
-         "visible":true,
-         "x":0,
-         "y":0
-        }, 
-        {
-         "draworder":"topdown",
          "id":5,
          "name":"actors",
          "objects":[
@@ -132,7 +99,7 @@
                         {
                          "name":"number_of_climbers",
                          "type":"int",
-                         "value":20
+                         "value":30
                         }],
                  "rotation":0,
                  "type":"",
@@ -184,8 +151,8 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":275.833333333333,
-                 "y":920.5
+                 "x":276.833333333333,
+                 "y":901.75
                 }, 
                 {
                  "gid":5,
@@ -196,9 +163,42 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":438.333333333333,
-                 "y":841.833333333333
+                 "x":446.583333333333,
+                 "y":848.333333333333
                 }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":2,
+         "name":"collision_polygons",
+         "objects":[],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":3,
+         "name":"spawn_points",
+         "objects":[],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":4,
+         "name":"triggers",
+         "objects":[],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,

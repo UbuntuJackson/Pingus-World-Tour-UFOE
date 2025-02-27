@@ -28,6 +28,7 @@ public:
     bool is_menu = false;
     bool level_finished = false;
     bool at_least_one_pingu_active = true;
+    bool all_pingus_released = false;
 
     ItemSelectMenu* item_select_menu = nullptr;
     std::string pingus_level_path = "";

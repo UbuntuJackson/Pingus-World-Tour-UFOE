@@ -55,6 +55,8 @@ void PingusLevel::OnLoadActors(JsonDictionary& _actor_json){
 
 void PingusLevel::OnLoad(JsonDictionary& _j){
 
+    actor_sorting_method = actor_sorting_method_platformer;
+
     custom_level_size = asset_manager.GetDecal("solid.png")->sprite->Size();
     level_size = custom_level_size;
     Console::Out("Level Custom size =",level_size);
@@ -143,12 +145,16 @@ void PingusLevel::OnUpdate(){
         }
     }
 
-    if(!at_least_one_pingu_active && released_pingus >= total_number_of_pingus){
+    if(!at_least_one_pingu_active && all_pingus_released){
         
         NewActor<ResultScreen>(Vector2f(30.0f,30.0f));
         level_finished = true;
         paused = true;
     }
+
+    //This boolean is set after the if statement above, because the if statement above needs to be
+    //evaluated after the last pingu has had their OnUpdate function run.
+    all_pingus_released = released_pingus >= total_number_of_pingus;
 
     at_least_one_pingu_active = false;
 

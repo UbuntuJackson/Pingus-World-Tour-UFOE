@@ -46,13 +46,24 @@ public:
 
     bool paused = false;
     bool should_resort_after_z_index = false;
-    std::function<bool(const std::unique_ptr<Actor>& _a, const std::unique_ptr<Actor>& _b)> actor_sorting_method = [&](const std::unique_ptr<Actor>& _a, const std::unique_ptr<Actor>& _b){
+
+    std::function<bool(const std::unique_ptr<Actor>& _a, const std::unique_ptr<Actor>& _b)> actor_sorting_method_top_down = [&](const std::unique_ptr<Actor>& _a, const std::unique_ptr<Actor>& _b){
         if(_a->z_index == _b->z_index){
             return _a->GetGlobalPosition().y < _b->GetGlobalPosition().y;
         }
         
         return _a->z_index < _b->z_index;
     };
+
+    std::function<bool(const std::unique_ptr<Actor>& _a, const std::unique_ptr<Actor>& _b)> actor_sorting_method_platformer = [&](const std::unique_ptr<Actor>& _a, const std::unique_ptr<Actor>& _b){
+        Console::Out("actor_sorting_method_platformer");
+        if(_a->z_index == _b->z_index){
+            return _a->GetID() < _b->GetID();
+        }
+        return _a->z_index < _b->z_index;
+    };
+
+    std::function<bool(const std::unique_ptr<Actor>& _a, const std::unique_ptr<Actor>& _b)> actor_sorting_method = actor_sorting_method_top_down;
 
     olc::vf2d level_size; //level size in units, not tiles.
     Tilemap tilemap;
