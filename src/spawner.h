@@ -24,6 +24,7 @@ public:
     }
 
     void OnLevelEnter(Level* _level){
+        local_position.y = local_position.y -32.0f;
         
         spawn_timer.Start(interval_milliseconds);
         level = dynamic_cast<PingusLevel*>(_level);
@@ -44,7 +45,7 @@ public:
 
     void OnUpdate(){
         if((spawn_timer.GetTimeLeft() <= 0.0f) && (number_of_pingus > 0)){
-            level->NewActor<Pingu>(local_position);
+            level->NewActor<Pingu>(local_position+Vector2f(10.0f,0.0f));
             spawn_timer.Start(interval_milliseconds);
             number_of_pingus--;
         }

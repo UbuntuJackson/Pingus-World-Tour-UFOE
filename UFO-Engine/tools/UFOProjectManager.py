@@ -145,7 +145,7 @@ class ProjectManager:
                 "y" : 2    
             },
             "vsync" : True,
-            "start-level" : "../res/frogatto_jr/frogatto_level_1.json",
+            "start-level" : "",
             "all-shapes-visible" : False,
             "edit-mode" : False,
             "modified-collision-lines-visible" : False

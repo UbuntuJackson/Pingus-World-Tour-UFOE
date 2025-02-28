@@ -76,12 +76,23 @@
         }, 
         {
          "class":"SpriteReference",
+         "id":8,
+         "image":"mg.png",
+         "name":"mg",
+         "opacity":1,
+         "type":"imagelayer",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "class":"SpriteReference",
          "id":6,
          "image":"solid.png",
          "name":"solid",
          "opacity":1,
          "type":"imagelayer",
-         "visible":true,
+         "visible":false,
          "x":0,
          "y":0
         }, 
@@ -151,8 +162,8 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":276.833333333333,
-                 "y":901.75
+                 "x":264.333333333333,
+                 "y":938
                 }, 
                 {
                  "gid":5,
@@ -205,7 +216,7 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":8,
+ "nextlayerid":9,
  "nextobjectid":40,
  "orientation":"orthogonal",
  "properties":[
