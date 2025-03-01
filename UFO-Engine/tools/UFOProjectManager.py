@@ -88,31 +88,36 @@ class ProjectManager:
         
         type_index : int = 0
 
-        actor_json_bridge_dot_h = ""
+        generated_h = ""
 
-        actor_json_bridge_dot_h += "#include <json_variant.h>\n"
-        actor_json_bridge_dot_h += "#include <ufo_maths.h>\n"
-        actor_json_bridge_dot_h += "#include <console.h>\n"
+        generated_h += "#include <json_variant.h>\n"
+        generated_h += "#include <ufo_maths.h>\n"
+        generated_h += "#include <console.h>\n"
 
         for klass in self.classes:
             if klass == None: continue
-            actor_json_bridge_dot_h += "#include " + '"../' + klass.header_file + '"\n'
+            generated_h += "#include " + '"../' + klass.header_file + '"\n'
 
-        actor_json_bridge_dot_h += "void GeneratedActorJsonBridge(Level* _level, JsonDictionary& _actor_json, std::string _actor_sheet){\n"
+        #All generated functions should be in namespace Generated
+        generated_h += "namespace Generated{\n"
 
-        actor_json_bridge_dot_h += "    auto actors_tileset_data = _level->tilemap.GetTilesetData(_actor_sheet);\n"
-        actor_json_bridge_dot_h += "    int type_id = _actor_json.Get(\"gid\").AsInt() - actors_tileset_data.tileset_start_id+1;\n"
-        actor_json_bridge_dot_h += "    switch(type_id){\n"
+        generated_h += "void ActorJsonBridge(Level* _level, JsonDictionary& _actor_json, std::string _actor_sheet){\n"
+
+        generated_h += "    auto actors_tileset_data = _level->tilemap.GetTilesetData(_actor_sheet);\n"
+        generated_h += "    int type_id = _actor_json.Get(\"gid\").AsInt() - actors_tileset_data.tileset_start_id+1;\n"
+        generated_h += "    switch(type_id){\n"
 
         for klass in self.classes:
             type_index+=1
             if klass == None: continue
-            actor_json_bridge_dot_h += "    " + klass.generate_json_to_cpp_bridge(type_index)
+            generated_h += "    " + klass.generate_json_to_cpp_bridge(type_index)
         
-        actor_json_bridge_dot_h += "    }\n}\n"
+        generated_h += "    }\n}\n"
 
-        f = open(self.project_path+"/src/generated_actor_json_bridge.h","w+")
-        f.write(actor_json_bridge_dot_h)
+        generated_h += "}" #Ending namespace
+
+        f = open(self.project_path+"/src/generated.h","w+")
+        f.write(generated_h)
         f.close()
 
         cmake_lists_dot_txt = "cmake_minimum_required(VERSION 3.10)\nproject(OUT)\nadd_subdirectory(UFO-Engine) #CMakeLists.txt for engine is in folder called \"engine\"\nset(\n    SRC\n"

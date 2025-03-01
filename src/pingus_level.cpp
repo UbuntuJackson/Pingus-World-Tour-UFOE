@@ -20,7 +20,7 @@
 #include <wrap_menu.h>
 #include "level_select_menu.h"
 #include "pingus_main_menu.h"
-#include "generated_actor_json_bridge.h"
+#include "generated.h"
 #include "result_screen.h"
 
 void PingusLevel::OnResourceLoad(){
@@ -50,7 +50,7 @@ void PingusLevel::OnResourceLoad(){
 
 void PingusLevel::OnLoadActors(JsonDictionary& _actor_json){
     
-    GeneratedActorJsonBridge(this, _actor_json, "pingus_actor_sheet");
+    Generated::ActorJsonBridge(this, _actor_json, "pingus_actor_sheet");
 }
 
 void PingusLevel::OnLoad(JsonDictionary& _j){

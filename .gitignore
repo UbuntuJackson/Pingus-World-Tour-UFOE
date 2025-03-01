@@ -33,8 +33,9 @@
 
 /build
 
-/src/generated_actor_json_bridge.h
+/src/generated.h
 /game_config.json
+/CMakeLists.txt
 
 /.vscode
 
