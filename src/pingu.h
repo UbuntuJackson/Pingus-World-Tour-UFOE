@@ -279,7 +279,7 @@ public:
     }
 
     void Fall(){
-        if(!fall_timer.is_started) fall_timer.Start(3000.0f);
+        if(!fall_timer.is_started) fall_timer.Start(1975.0f);
         anim->SetAnimation("pingu_fall");
         velocity.x = 0.0f;
         velocity.y = 100.0f;

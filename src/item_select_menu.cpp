@@ -50,7 +50,7 @@ void ItemSelectMenu::OnStart(Level* _level){
         if(number_of_climbers > 0){
             
             if(_pingu->item_climber()) number_of_climbers--;
-            buttons[selected_index]->text = "Blocker : "+std::to_string(number_of_climbers);
+            buttons[selected_index]->text = "Climber : "+std::to_string(number_of_climbers);
         }
     };
 
