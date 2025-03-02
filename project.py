@@ -27,6 +27,9 @@ item_select_menu.export_variables_to_editor()
 
 honey_coin = tool.Class("HoneyCoin", "src/honey_coin.h")
 
+quad_tree = tool.Class("QuadTree","src/quad_tree_variating_depth.h")
+quad_tree.export_variables_to_editor()
+
 #Append all Actors that we want to implement
 project.classes.append(honey_coin)
 project.classes.append(pingu)
@@ -36,7 +39,7 @@ project.classes.append(goal)
 project.classes.append(main_menu)
 project.classes.append(item_select_menu)
 project.classes.append(None)
-project.classes.append(tool.Class("QuadTree","src/quad_tree.h"))
+project.classes.append(quad_tree)
 
 #Source-files that aren't Actors.
 project.source_files.append("game.cpp")

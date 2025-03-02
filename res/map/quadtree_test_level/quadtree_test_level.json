@@ -191,14 +191,20 @@
                 {
                  "gid":13,
                  "height":32,
-                 "id":39,
+                 "id":40,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"max_depth",
+                         "type":"int",
+                         "value":6
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":284.313120176406,
-                 "y":230.509371554576
+                 "x":178.666666666667,
+                 "y":158.333333333333
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -207,7 +213,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":40,
+ "nextobjectid":41,
  "orientation":"orthogonal",
  "properties":[
         {
