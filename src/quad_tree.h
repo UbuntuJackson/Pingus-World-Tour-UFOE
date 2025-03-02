@@ -1,21 +1,18 @@
-#ifndef QUAD_TREE_TEST
-#define QUAD_TREE_TEST
-
+#pragma once
 #include <vector>
-#include <memory>
-#include "../level/level.h"
-#include "../external/olcPixelGameEngine.h"
-#include "../shapes/raw_shape_base.h"
-#include "../shapes/shape.h"
-#include "../shapes/rectangle.h"
-#include "../camera/camera.h"
-#include "../ufo_maths/ufo_maths.h"
-#include "../ufo_engine/ufo_engine.h"
-#include "../console/console.h"
-#include "../mouse/mouse.h"
+#include <actor.h>
+#include <ufo_maths.h>
+#include <rectangle.h>
+#include <mouse.h>
+#include <olcPixelGameEngine.h>
+#include <ufo_engine.h>
+#include <level.h>
 
-class QuadTreeTest : public Level{
+class QuadTree : public Actor{
 public:
+    QuadTree(Vector2f _local_position) : Actor(Vector2f(0.0f,0.0f)){
+        
+    }
 
     std::vector<std::unique_ptr<ufo::Rectangle>> my_rectangles;
     ufo::Rectangle other_rectangle = ufo::Rectangle(olc::vf2d(410.0f, 410.0f), olc::vf2d(240.0f, 200.0f));
@@ -113,7 +110,10 @@ public:
 
     StaticQuadTree static_quad_tree;
 
-    void OnResourceLoad(){
+    void OnLevelEnter(Level* _level){
+        
+        SetZIndex(7);
+
         static_quad_tree = StaticQuadTree(0, olc::vf2d(0.0f, 0.0f), olc::vf2d(800.0f, 800.0f));
         my_rectangles.push_back(std::make_unique<ufo::Rectangle>(olc::vf2d(100.0f, 20.0f), olc::vf2d(200.0f, 100.0f)));
         my_rectangles.push_back(std::make_unique<ufo::Rectangle>(olc::vf2d(210.0f, 220.0f), olc::vf2d(50.0f, 90.0f)));
@@ -122,46 +122,50 @@ public:
         //Adding rects to quadtree
         for(auto&& r : my_rectangles) static_quad_tree.Insert(r.get());
     }
-    void OnUpdate(){
-        Level::OnUpdate();
+    void OnDraw(Camera* _camera){
 
         //Updating selection rectangle.
         if(Mouse::Get().GetLeftButton().is_pressed){
-            selection.position = GetActiveCamera()->TransformScreenToWorld(Mouse::Get().GetPosition());
+            selection.position = _camera->TransformScreenToWorld(Mouse::Get().GetPosition());
         }
         if(Mouse::Get().GetLeftButton().is_held){
-            selection.size = GetActiveCamera()->TransformScreenToWorld(Mouse::Get().GetPosition()) - selection.position;
+            selection.size = _camera->TransformScreenToWorld(Mouse::Get().GetPosition()) - selection.position;
         }
 
         //Clamping the camera every frame, this could be done in a better way
-        GetActiveCamera()->clamp = false;
+        //GetActiveCamera()->clamp = false;
 
         //Just testing the RectangleContainsRectangle function
-        if(ufoMaths::RectangleContainsRectangle(selection, other_rectangle)){
-            auto transformed_rect = GetActiveCamera()->Transform(other_rectangle);
+        /*if(ufoMaths::RectangleContainsRectangle(selection, other_rectangle)){
+            auto transformed_rect = _camera->Transform(other_rectangle);
             Engine::Get().pixel_game_engine.DrawRectDecal(transformed_rect.position, transformed_rect.size, olc::GREEN);
         }
         else{
-            auto transformed_rect = GetActiveCamera()->Transform(other_rectangle);
+            auto transformed_rect = _camera->Transform(other_rectangle);
             Engine::Get().pixel_game_engine.DrawRectDecal(transformed_rect.position, transformed_rect.size, olc::RED);
-        }
+        }*/
 
-        static_quad_tree.Draw(GetActiveCamera());
+        static_quad_tree.Draw(_camera);
 
         std::vector<ufo::Rectangle*> v = static_quad_tree.Search(&selection);
         Console::Out("Found",v.size());
 
+        Console::Out("Drawing QuadTree");
+
         for(const auto& rect : my_rectangles){
-            auto trec = GetActiveCamera()->Transform(*(rect.get()));
+            auto trec = _camera->Transform(*(rect.get()));
             Engine::Get().pixel_game_engine.DrawRectDecal(trec.position, trec.size, olc::BLUE);
         }
 
-        auto selecrec = GetActiveCamera()->Transform(selection);
+        for(const auto& rect : v){
+            auto trec = _camera->Transform(*(rect));
+            Engine::Get().pixel_game_engine.DrawRectDecal(trec.position, trec.size, olc::RED);
+        }
+
+        auto selecrec = _camera->Transform(selection);
         Engine::Get().pixel_game_engine.DrawRectDecal(selecrec.position, selecrec.size, olc::GREEN);
 
 
         
     }
 };
-
-#endif

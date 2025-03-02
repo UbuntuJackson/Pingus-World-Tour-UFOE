@@ -8,7 +8,7 @@
 #include "../ufo_maths/ufo_maths.h"
 #include "../widgets/button.h"
 #include "../level/level.h"
-#include "../drawing_system/drawing_system.h"
+#include "../graphics/graphics.h"
 #include "../external/olcPixelGameEngine.h"
 #include "../keyboard/single_keyboard.h"
 
@@ -130,7 +130,7 @@ public:
 
     void OnWidgetDraw(){
         Widget::OnWidgetDraw();
-        Engine::Get().pixel_game_engine.DrawStringDecal(buttons[selected_index]->GetGlobalPosition()-Vector2f(16.0f,0.0f),">");
+        Graphics::Get().DrawString(buttons[selected_index]->GetGlobalPosition()-Vector2f(16.0f,0.0f),">",Graphics::WHITE,{1.0f,1.0f});
     }
 
 };

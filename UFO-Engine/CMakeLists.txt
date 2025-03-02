@@ -46,6 +46,7 @@ set(
     src/json/json_variant.cpp
     #src/widgets/menu_system.cpp
     src/graphics/graphics.cpp
+    src/graphics/graphics_engine_pge.cpp
     src/widgets/widget.cpp
     src/widgets/theme.cpp
     src/widgets/colour_rectangle_theme.cpp

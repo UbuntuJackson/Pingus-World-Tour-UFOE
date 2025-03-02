@@ -1,9 +1,10 @@
+#include <string>
 #include "button.h"
 #include "widget.h"
 #include "../external/olcPixelGameEngine.h"
 #include "../ufo_maths/ufo_maths.h"
 #include "../mouse/mouse.h"
-#include "../drawing_system/drawing_system.h"
+#include "../graphics/graphics.h"
 
 Button::Button(
     olc::vf2d _local_position, olc::vf2d _size,
@@ -46,7 +47,7 @@ void Button::OnWidgetDraw(){
     if(!IsHovered() && !IsHeld()) theme->OnDraw(this);
     if((IsHovered() && !IsHeld()) || is_selected) hovered_theme->OnDraw(this);
     if(IsHeld()) held_theme->OnDraw(this);
-    DrawingSystem::DrawString(GetGlobalPosition() + Vector2f(3.0f,3.0f), GetWrappedTextWrapOnSpace(text).text, text_colour, {1.0f,1.0f});
+    Graphics::Get().DrawString(GetGlobalPosition() + Vector2f(3.0f,3.0f), GetWrappedTextWrapOnSpace(text).text, text_colour, {1.0f,1.0f});
     
 }
 

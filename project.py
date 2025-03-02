@@ -35,6 +35,8 @@ project.classes.append(spawner)
 project.classes.append(goal)
 project.classes.append(main_menu)
 project.classes.append(item_select_menu)
+project.classes.append(None)
+project.classes.append(tool.Class("QuadTree","src/quad_tree.h"))
 
 #Source-files that aren't Actors.
 project.source_files.append("game.cpp")

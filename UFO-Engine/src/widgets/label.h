@@ -22,7 +22,7 @@ public:
         if(!visible) return;
         theme->OnDraw(this);
         WrappedText wrapped_text = GetWrappedTextWrapOnCharMeetsBorder(text);
-        Engine::Get().pixel_game_engine.DrawStringDecal(GetGlobalPosition(), wrapped_text.text, colour, scale);
+        Graphics::Get().DrawString(GetGlobalPosition(), wrapped_text.text, colour, scale);
     }
 };
 

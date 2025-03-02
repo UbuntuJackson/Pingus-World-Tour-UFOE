@@ -65,120 +65,11 @@
         }, 
         {
          "class":"SpriteReference",
-         "id":7,
-         "image":"bg.png",
-         "name":"bg",
-         "opacity":1,
-         "type":"imagelayer",
-         "visible":true,
-         "x":0,
-         "y":0
-        }, 
-        {
-         "class":"SpriteReference",
-         "id":8,
-         "image":"mg.png",
-         "name":"mg",
-         "opacity":1,
-         "type":"imagelayer",
-         "visible":true,
-         "x":0,
-         "y":0
-        }, 
-        {
-         "class":"SpriteReference",
          "id":6,
          "image":"solid.png",
          "name":"solid",
          "opacity":1,
          "type":"imagelayer",
-         "visible":false,
-         "x":0,
-         "y":0
-        }, 
-        {
-         "draworder":"topdown",
-         "id":5,
-         "name":"actors",
-         "objects":[
-                {
-                 "gid":11,
-                 "height":32,
-                 "id":35,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"number_of_climbers",
-                         "type":"int",
-                         "value":30
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":153.666666666667,
-                 "y":504
-                }, 
-                {
-                 "gid":9,
-                 "height":32,
-                 "id":36,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"maximum_rescuable_pingus",
-                         "type":"int",
-                         "value":20
-                        }, 
-                        {
-                         "name":"number_of_pingus",
-                         "type":"int",
-                         "value":10
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":15.3333333333334,
-                 "x":216.583333333333,
-                 "y":448
-                }, 
-                {
-                 "gid":8,
-                 "height":32,
-                 "id":37,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"interval_milliseconds",
-                         "type":"float",
-                         "value":1000
-                        }, 
-                        {
-                         "name":"number_of_pingus",
-                         "type":"int",
-                         "value":20
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":312.333333333333,
-                 "y":937.666666666667
-                }, 
-                {
-                 "gid":5,
-                 "height":32,
-                 "id":38,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":585.25,
-                 "y":787.333333333333
-                }],
-         "opacity":1,
-         "type":"objectgroup",
          "visible":true,
          "x":0,
          "y":0
@@ -215,9 +106,108 @@
          "visible":true,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":5,
+         "name":"actors",
+         "objects":[
+                {
+                 "gid":11,
+                 "height":32,
+                 "id":35,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"number_of_builders",
+                         "type":"int",
+                         "value":20
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":91.6666666666666,
+                 "y":495
+                }, 
+                {
+                 "gid":9,
+                 "height":32,
+                 "id":36,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"maximum_rescuable_pingus",
+                         "type":"int",
+                         "value":20
+                        }, 
+                        {
+                         "name":"number_of_pingus",
+                         "type":"int",
+                         "value":10
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":1.33333333333337,
+                 "x":551.333333333333,
+                 "y":545
+                }, 
+                {
+                 "gid":8,
+                 "height":32,
+                 "id":37,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"interval_milliseconds",
+                         "type":"float",
+                         "value":1000
+                        }, 
+                        {
+                         "name":"number_of_pingus",
+                         "type":"int",
+                         "value":2000000
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":128.333333333333,
+                 "y":534
+                }, 
+                {
+                 "gid":5,
+                 "height":32,
+                 "id":38,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":639.333333333333,
+                 "y":541.833333333333
+                }, 
+                {
+                 "gid":13,
+                 "height":32,
+                 "id":39,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":284.313120176406,
+                 "y":230.509371554576
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":9,
- "nextobjectid":41,
+ "nextlayerid":8,
+ "nextobjectid":40,
  "orientation":"orthogonal",
  "properties":[
         {
@@ -228,7 +218,7 @@
         {
          "name":"relative path",
          "type":"string",
-         "value":"..\/res\/map\/tic_tac_tower"
+         "value":"..\/res\/map\/quadtree_test_level"
         }],
  "renderorder":"right-down",
  "tiledversion":"1.11.0",
