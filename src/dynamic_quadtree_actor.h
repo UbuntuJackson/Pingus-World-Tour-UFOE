@@ -9,12 +9,15 @@
 #include <level.h>
 #include <random_number_generator.h>
 
-class QuadTree : public Actor{
+class DynamicQuadTreeActor : public Actor{
 public:
     /// @export;
     int max_depth = 2;
 
-    QuadTree(Vector2f _local_position) : Actor(Vector2f(0.0f,0.0f)){
+    /// @export;
+    int number_of_rectangles = 10;
+
+    DynamicQuadTreeActor(Vector2f _local_position) : Actor(Vector2f(0.0f,0.0f)){
         
     }
 
@@ -23,21 +26,21 @@ public:
 
     ufo::Rectangle selection = ufo::Rectangle(olc::vf2d(0.0f, 0.0f), olc::vf2d(0.0f, 0.0f));
 
-    class StaticQuadTree{
+    class DynamicQuadTree{
     public:
         int depth = -1;
 
-        int MAX_DEPTH = 6;
+        DynamicQuadTreeActor* actor = nullptr;
 
         olc::vf2d position;
         olc::vf2d size;
         std::vector<ufo::Rectangle*> rectangle_handles;
 
-        std::vector<StaticQuadTree> subdivisions;
+        std::vector<DynamicQuadTree> subdivisions;
 
-        StaticQuadTree() = default;
+        DynamicQuadTree() = default;
 
-        StaticQuadTree(int _depth, olc::vf2d _position, olc::vf2d _size) : position{_position}, size{_size}{
+        DynamicQuadTree(DynamicQuadTreeActor* _actor ,int _depth, olc::vf2d _position, olc::vf2d _size) : actor{_actor}, position{_position}, size{_size}{
             //Sets depth and increases it for the next number of children
             depth = _depth;
             depth++;
@@ -56,13 +59,12 @@ public:
             Console::Out("Insertion at depth:", depth);
 
             rectangle_handles.push_back(_rectangle);
-            Console::Out("MAX_DEPTH is:", MAX_DEPTH);
 
-            if(rectangle_handles.size() == 4 && depth < MAX_DEPTH){
-                subdivisions.push_back(StaticQuadTree(depth, position,size/2.0f));
-                subdivisions.push_back(StaticQuadTree(depth, position+olc::vf2d(0.0f,size.y/2.0f),size/2.0f));
-                subdivisions.push_back(StaticQuadTree(depth, position+olc::vf2d(size.x/2.0f, 0.0f),size/2.0f));
-                subdivisions.push_back(StaticQuadTree(depth, position+size/2.0f,size/2.0f));
+            if(rectangle_handles.size() == 4 && depth < actor->max_depth){
+                subdivisions.push_back(DynamicQuadTree(actor, depth, position,size/2.0f));
+                subdivisions.push_back(DynamicQuadTree(actor, depth, position+olc::vf2d(0.0f,size.y/2.0f),size/2.0f));
+                subdivisions.push_back(DynamicQuadTree(actor, depth, position+olc::vf2d(size.x/2.0f, 0.0f),size/2.0f));
+                subdivisions.push_back(DynamicQuadTree(actor, depth, position+size/2.0f,size/2.0f));
                 for(auto&& subdivision : subdivisions){
                     for(auto&& rectangle_handle : rectangle_handles){
                         if(ufoMaths::RectangleVsRectangle(ufo::Rectangle(subdivision.position, subdivision.size), *rectangle_handle)){
@@ -111,7 +113,7 @@ public:
                 }
             }
 
-            if(depth == MAX_DEPTH || !is_in_subdivision){
+            if(depth == actor->max_depth || !is_in_subdivision){
                 for(auto&& i : rectangle_handles){
                     _rectangles.push_back(i);
                     Console::Out("rectangle at depth", depth);
@@ -128,30 +130,29 @@ public:
         }
     };
 
-    StaticQuadTree static_quad_tree;
+    DynamicQuadTree quad_tree;
 
     void OnStart(Level* _level){
         
         SetZIndex(7);
 
-        static_quad_tree = StaticQuadTree(0, olc::vf2d(0.0f, 0.0f), olc::vf2d(800.0f, 800.0f));
-        static_quad_tree.MAX_DEPTH = max_depth;
+        quad_tree = DynamicQuadTree(this, 0, olc::vf2d(0.0f, 0.0f), _level->level_size);
         //Console::Out("MAX_DEPTH",static_quad_tree.MAX_DEPTH);
 
-        my_rectangles.push_back(std::make_unique<ufo::Rectangle>(olc::vf2d(100.0f, 20.0f), olc::vf2d(200.0f, 100.0f)));
-        my_rectangles.push_back(std::make_unique<ufo::Rectangle>(olc::vf2d(210.0f, 220.0f), olc::vf2d(50.0f, 90.0f)));
-        my_rectangles.push_back(std::make_unique<ufo::Rectangle>(olc::vf2d(290.0f, 260.0f), olc::vf2d(10.0f, 10.0f)));
+        //my_rectangles.push_back(std::make_unique<ufo::Rectangle>(olc::vf2d(100.0f, 20.0f), olc::vf2d(200.0f, 100.0f)));
+        //my_rectangles.push_back(std::make_unique<ufo::Rectangle>(olc::vf2d(210.0f, 220.0f), olc::vf2d(50.0f, 90.0f)));
+        //my_rectangles.push_back(std::make_unique<ufo::Rectangle>(olc::vf2d(290.0f, 260.0f), olc::vf2d(10.0f, 10.0f)));
         
-        for(int i = 0; i < 100; i++){
-            int xx = RandomNumberGenerator::Get().RandomInt(0,static_quad_tree.size.x);
-            int yy = RandomNumberGenerator::Get().RandomInt(0,static_quad_tree.size.y);
+        for(int i = 0; i < number_of_rectangles; i++){
+            int xx = RandomNumberGenerator::Get().RandomInt(0,quad_tree.size.x);
+            int yy = RandomNumberGenerator::Get().RandomInt(0,quad_tree.size.y);
             int ww = RandomNumberGenerator::Get().RandomInt(0,200);
             int hh = RandomNumberGenerator::Get().RandomInt(0,200);
             my_rectangles.push_back(std::make_unique<ufo::Rectangle>(olc::vf2d(xx,yy), olc::vf2d(ww, hh)));
         }
 
         //Adding rects to quadtree
-        for(auto&& r : my_rectangles) static_quad_tree.Insert(r.get());
+        for(auto&& r : my_rectangles) quad_tree.Insert(r.get());
 
     }
     void OnDraw(Camera* _camera){
@@ -177,9 +178,9 @@ public:
             Engine::Get().pixel_game_engine.DrawRectDecal(transformed_rect.position, transformed_rect.size, olc::RED);
         }*/
 
-        static_quad_tree.Draw(_camera);
+        quad_tree.Draw(_camera);
 
-        std::vector<ufo::Rectangle*> v = static_quad_tree.Search(&selection);
+        std::vector<ufo::Rectangle*> v = quad_tree.Search(&selection);
         Console::Out("Found",v.size());
 
         Console::Out("Drawing QuadTree");

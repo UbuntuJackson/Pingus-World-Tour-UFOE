@@ -162,7 +162,7 @@
                         {
                          "name":"interval_milliseconds",
                          "type":"float",
-                         "value":1000
+                         "value":1000000000
                         }, 
                         {
                          "name":"number_of_pingus",
@@ -198,13 +198,28 @@
                          "name":"max_depth",
                          "type":"int",
                          "value":6
+                        }, 
+                        {
+                         "name":"max_height",
+                         "type":"int",
+                         "value":200
+                        }, 
+                        {
+                         "name":"max_width",
+                         "type":"int",
+                         "value":200
+                        }, 
+                        {
+                         "name":"number_of_rectangles",
+                         "type":"int",
+                         "value":200
                         }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":178.666666666667,
-                 "y":158.333333333333
+                 "x":176.666666666667,
+                 "y":148.666666666666
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -247,12 +262,12 @@
          "columns":3,
          "firstgid":5,
          "image":"..\/..\/assets\/pingus_actor_sheet.png",
-         "imageheight":96,
+         "imageheight":128,
          "imagewidth":96,
          "margin":0,
          "name":"pingus_actor_sheet",
          "spacing":0,
-         "tilecount":9,
+         "tilecount":12,
          "tileheight":32,
          "tilewidth":32
         }],

@@ -56,7 +56,7 @@ public:
     };
 
     std::function<bool(const std::unique_ptr<Actor>& _a, const std::unique_ptr<Actor>& _b)> actor_sorting_method_platformer = [&](const std::unique_ptr<Actor>& _a, const std::unique_ptr<Actor>& _b){
-        Console::Out("actor_sorting_method_platformer");
+        //Console::Out("actor_sorting_method_platformer");
         if(_a->z_index == _b->z_index){
             return _a->GetID() < _b->GetID();
         }
