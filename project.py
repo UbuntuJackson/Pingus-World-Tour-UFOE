@@ -55,5 +55,5 @@ project.generate_project()
 build_succeed = project.build("-ggdb", "", "make" ,"-j6")
 
 #This should only run if build succeeds though?
-if build_succeed: project.run()
+if build_succeed: project.debug()
 else: print("Build failed.")

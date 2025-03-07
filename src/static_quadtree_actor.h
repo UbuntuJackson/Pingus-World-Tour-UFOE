@@ -25,9 +25,6 @@ public:
     /// @export;
     int max_height = 200;
 
-    /// @export;
-    std::string subdivision_mode = "split_four";
-
     int number_of_subdivision_containment_checks = 0;
 
     bool with_quad_tree = true;
@@ -75,22 +72,11 @@ public:
             rectangle_handles.push_back(_rectangle);
 
             if(rectangle_handles.size() == 4 && depth < actor->max_depth){
-                if(actor->subdivision_mode == "split_four"){
-                    subdivisions.push_back(StaticQuadTree(actor, depth, rectangle.position,rectangle.size/2.0f));
-                    subdivisions.push_back(StaticQuadTree(actor, depth, rectangle.position+olc::vf2d(0.0f,rectangle.size.y/2.0f),rectangle.size/2.0f));
-                    subdivisions.push_back(StaticQuadTree(actor, depth, rectangle.position+olc::vf2d(rectangle.size.x/2.0f, 0.0f),rectangle.size/2.0f));
-                    subdivisions.push_back(StaticQuadTree(actor, depth, rectangle.position+rectangle.size/2.0f,rectangle.size/2.0f));
-                }
-                /*if(actor->subdivision_mode == "split_half"){
-                    if(depth%2){
-                        subdivisions.push_back(StaticQuadTree(actor, depth, rectangle.position,olc::vf2d(rectangle.size.x/2.0f, rectangle.size.y)));
-                        subdivisions.push_back(StaticQuadTree(actor, depth, rectangle.position+olc::vf2d(rectangle.size.x/2.0f, 0.0f),olc::vf2d(rectangle.size.x/2.0f, rectangle.size.y)));
-                    }
-                    else{
-                        subdivisions.push_back(StaticQuadTree(actor, depth, rectangle.position,olc::vf2d(rectangle.size.x, rectangle.size.y/2.0f)));
-                        subdivisions.push_back(StaticQuadTree(actor, depth, rectangle.position+olc::vf2d(0.0f, rectangle.size.y/2.0f),olc::vf2d(rectangle.size.x, rectangle.size.y/2.0f)));
-                    }
-                }*/
+                
+                subdivisions.push_back(StaticQuadTree(actor, depth, rectangle.position,rectangle.size/2.0f));
+                subdivisions.push_back(StaticQuadTree(actor, depth, rectangle.position+olc::vf2d(0.0f,rectangle.size.y/2.0f),rectangle.size/2.0f));
+                subdivisions.push_back(StaticQuadTree(actor, depth, rectangle.position+olc::vf2d(rectangle.size.x/2.0f, 0.0f),rectangle.size/2.0f));
+                subdivisions.push_back(StaticQuadTree(actor, depth, rectangle.position+rectangle.size/2.0f,rectangle.size/2.0f));
 
                 //For all the rectangles that weren't added yet
                 for(auto&& subdivision : subdivisions){
@@ -109,6 +95,22 @@ public:
                     subdivision.Insert(_rectangle);
                 }
             }
+        }
+
+        void FindAndRemoveObjects(){
+            
+            for(int i = int(rectangle_handles.size())-1; i >= 0; i--){
+
+                if(rectangle_handles[i]->to_be_removed){
+                    rectangle_handles.erase(rectangle_handles.begin()+i);
+                }
+
+            }
+
+            for(auto&& subdivision : subdivisions){
+                subdivision.FindAndRemoveObjects();
+            }
+            
         }
 
         void Resize(olc::vf2d _size){
@@ -170,9 +172,9 @@ public:
                 return;
             }
 
-            /*for(auto&& subdivision : subdivisions){
+            for(auto&& subdivision : subdivisions){
                 subdivision.SearchOverlappingSubdivisions(_area, _rectangles);
-            }*/
+            }
         }
 
         void Draw(Camera* _camera){
@@ -250,7 +252,14 @@ public:
                 if(ufoMaths::RectangleVsRectangle(rect->GetRectangle(), selection)){
                     rect->colour = olc::RED;
                 }
+
+                if(SingleKeyboard::Get().GetKey(olc::DEL).is_pressed){
+                    rect->to_be_removed = true;
+                }
             }
+
+            quad_tree.FindAndRemoveObjects();
+            
         }
         else{
             for(const auto& rect : my_rectangles){

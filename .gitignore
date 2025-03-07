@@ -33,6 +33,8 @@
 
 /build
 
+/CMakeLists.txt
+
 /src/generated.h
 /game_config.json
 
