@@ -6,9 +6,6 @@ tool = importlib.import_module("UFO-Engine.tools.UFOProjectManager")
 
 project = tool.ProjectManager()
 
-#Creating variables for data about the Actor-classes
-pingu = tool.Class("Pingu", "src/pingu.h")
-
 goal = tool.Class("Goal", "src/goal.h", "src/goal.cpp")
 
 #width and height are treated a bit weirdly for now, but it works.
@@ -18,9 +15,6 @@ goal.editor_attributes.append(("Int", "height"))
 goal.export_variables_to_editor()
 
 main_menu = tool.Class("PingusMainMenu", "src/pingus_main_menu.h", "src/pingus_main_menu.cpp")
-
-spawner = tool.Class("Spawner", "src/spawner.h")
-spawner.export_variables_to_editor()
 
 item_select_menu = tool.Class("ItemSelectMenu", "src/item_select_menu.h", "src/item_select_menu.cpp")
 item_select_menu.export_variables_to_editor()
@@ -35,9 +29,9 @@ dynamic_quadtree_actor.export_variables_to_editor()
 
 #Append all Actors that we want to implement
 project.classes.append(honey_coin)
-project.classes.append(pingu)
+project.import_actor("src/pingu.h")
 project.classes.append(None)
-project.classes.append(spawner)
+project.import_actor("src/spawner.h")
 project.classes.append(goal)
 project.classes.append(main_menu)
 project.classes.append(item_select_menu)
@@ -55,5 +49,5 @@ project.generate_project()
 build_succeed = project.build("-ggdb", "", "make" ,"-j6")
 
 #This should only run if build succeeds though?
-if build_succeed: project.debug()
+if build_succeed: project.run()
 else: print("Build failed.")

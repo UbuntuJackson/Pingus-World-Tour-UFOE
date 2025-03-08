@@ -17,9 +17,18 @@ class Class:
         for constructor_parameter in args:
             self.constructor_parameters.append(constructor_parameter)
 
+    def add_exported_variables_to_project(self, _variables):
+        var_exporter_module.add_exported_variables_to_project(self,_variables)
+
     def export_variables_to_editor(self):
-        exported_variables = var_exporter_module.export_variables(self.header_file)
-        var_exporter_module.add_exported_variables_to_project(self,exported_variables)
+        #Check if classname is user specified
+        class_name_was_user_specified = self.name != None
+        source_file_data = var_exporter_module.export_variables(self.header_file,class_name_was_user_specified)
+        self.add_exported_variables_to_project(source_file_data.variables)
+        
+        #If classname is just an empty string, then use the class found in the
+        #source file via the @spawn keyword.
+        if not class_name_was_user_specified: self.name = source_file_data.klass
 
     def add_attribute(self, _arg_type, _arg_name):
         self.editor_attributes.append((_arg_type,_arg_name))        
@@ -50,7 +59,9 @@ class Class:
         #For attributes that are in the properties object.
         for arg in self.editor_attributes:
             if not arg[1] in default_actor_attributes:
-                code += '                    if(property_dict.Get(\"name\").AsString() == "' +arg[1] +'"){\n'
+                #                                                                           Use the alias, utilises index 2
+                if len(arg) == 3: code += '                    if(property_dict.Get(\"name\").AsString() == "' +arg[2] +'"){\n'
+                if len(arg) == 2: code += '                    if(property_dict.Get(\"name\").AsString() == "' +arg[1] +'"){\n'
                 code += '                        instance->'+ arg[1]+ ' = property_dict.Get(\"value\").As'+arg[0]+'();\n'
                 code += '                    }\n'
 
@@ -72,6 +83,13 @@ class ProjectManager:
         self.images = []
         self.audio_tracks = []
         self.source_files = []
+
+    def import_actor(self,_path : str):
+        klass = Class(None, _path)
+
+        klass.export_variables_to_editor()
+
+        self.classes.append(klass)
 
     def purge_attribute(_klass_name, _arg_name):
 

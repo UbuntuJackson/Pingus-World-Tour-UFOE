@@ -75,6 +75,17 @@
          "y":0
         }, 
         {
+         "class":"SpriteReference",
+         "id":7,
+         "image":"bg.png",
+         "name":"bg",
+         "opacity":1,
+         "type":"imagelayer",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
          "draworder":"topdown",
          "id":2,
          "name":"collision_polygons",
@@ -119,31 +130,26 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"number_of_bombers",
-                         "type":"int",
-                         "value":7
-                        }, 
-                        {
-                         "name":"number_of_builders",
-                         "type":"int",
-                         "value":20
-                        }, 
-                        {
-                         "name":"number_of_climbers",
+                         "name":"number_of_blockers",
                          "type":"int",
                          "value":2
                         }, 
                         {
+                         "name":"number_of_bombers",
+                         "type":"int",
+                         "value":20
+                        }, 
+                        {
                          "name":"number_of_parachutes",
                          "type":"int",
-                         "value":5
+                         "value":20
                         }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":70.6666666666666,
-                 "y":360
+                 "x":208.785402071732,
+                 "y":40.8954553619544
                 }, 
                 {
                  "gid":9,
@@ -154,19 +160,19 @@
                         {
                          "name":"maximum_rescuable_pingus",
                          "type":"int",
-                         "value":1
+                         "value":15
                         }, 
                         {
                          "name":"number_of_pingus",
                          "type":"int",
-                         "value":1
+                         "value":10
                         }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":1.33333333333337,
-                 "x":490.333333333333,
-                 "y":441
+                 "x":368.829291659182,
+                 "y":459.496137955811
                 }, 
                 {
                  "gid":8,
@@ -182,7 +188,7 @@
                         {
                          "name":"face_right",
                          "type":"int",
-                         "value":0
+                         "value":1
                         }, 
                         {
                          "name":"interval_milliseconds",
@@ -192,14 +198,14 @@
                         {
                          "name":"number_of_pingus",
                          "type":"int",
-                         "value":1
+                         "value":20
                         }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":107.333333333333,
-                 "y":399
+                 "x":276.348422250164,
+                 "y":41.0953835099695
                 }, 
                 {
                  "gid":5,
@@ -210,56 +216,20 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":370.333333333333,
-                 "y":457.833333333333
+                 "x":644.362972277109,
+                 "y":452.73687204359
                 }, 
                 {
-                 "gid":6,
+                 "gid":9,
                  "height":32,
-                 "id":40,
+                 "id":39,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":32,
-                 "x":393.5,
-                 "y":296
-                }, 
-                {
-                 "gid":6,
-                 "height":32,
-                 "id":41,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":565.5,
-                 "y":391
-                }, 
-                {
-                 "gid":6,
-                 "height":32,
-                 "id":42,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":591,
-                 "y":333
-                }, 
-                {
-                 "gid":6,
-                 "height":32,
-                 "id":43,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":536,
-                 "y":277.5
+                 "width":1.33333,
+                 "x":42.6301435743368,
+                 "y":446.978564157835
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -268,7 +238,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":44,
+ "nextobjectid":40,
  "orientation":"orthogonal",
  "properties":[
         {
@@ -279,7 +249,7 @@
         {
          "name":"relative path",
          "type":"string",
-         "value":"..\/res\/map\/smallest_test_level"
+         "value":"..\/res\/map\/many_responsibilities"
         }],
  "renderorder":"right-down",
  "tiledversion":"1.11.0",

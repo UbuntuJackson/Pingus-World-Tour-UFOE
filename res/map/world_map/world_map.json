@@ -108,6 +108,17 @@
          "y":0
         }, 
         {
+         "class":"SpriteReference",
+         "id":8,
+         "image":"world.png",
+         "name":"world_map",
+         "opacity":1,
+         "type":"imagelayer",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
          "draworder":"topdown",
          "id":5,
          "name":"actors",
@@ -119,147 +130,16 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"number_of_bombers",
-                         "type":"int",
-                         "value":7
-                        }, 
-                        {
                          "name":"number_of_builders",
                          "type":"int",
                          "value":20
-                        }, 
-                        {
-                         "name":"number_of_climbers",
-                         "type":"int",
-                         "value":2
-                        }, 
-                        {
-                         "name":"number_of_parachutes",
-                         "type":"int",
-                         "value":5
                         }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":70.6666666666666,
-                 "y":360
-                }, 
-                {
-                 "gid":9,
-                 "height":32,
-                 "id":36,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"maximum_rescuable_pingus",
-                         "type":"int",
-                         "value":1
-                        }, 
-                        {
-                         "name":"number_of_pingus",
-                         "type":"int",
-                         "value":1
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":1.33333333333337,
-                 "x":490.333333333333,
-                 "y":441
-                }, 
-                {
-                 "gid":8,
-                 "height":32,
-                 "id":37,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"face_left",
-                         "type":"int",
-                         "value":1
-                        }, 
-                        {
-                         "name":"face_right",
-                         "type":"int",
-                         "value":0
-                        }, 
-                        {
-                         "name":"interval_milliseconds",
-                         "type":"float",
-                         "value":1000
-                        }, 
-                        {
-                         "name":"number_of_pingus",
-                         "type":"int",
-                         "value":1
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":107.333333333333,
-                 "y":399
-                }, 
-                {
-                 "gid":5,
-                 "height":32,
-                 "id":38,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":370.333333333333,
-                 "y":457.833333333333
-                }, 
-                {
-                 "gid":6,
-                 "height":32,
-                 "id":40,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":393.5,
-                 "y":296
-                }, 
-                {
-                 "gid":6,
-                 "height":32,
-                 "id":41,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":565.5,
-                 "y":391
-                }, 
-                {
-                 "gid":6,
-                 "height":32,
-                 "id":42,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":591,
-                 "y":333
-                }, 
-                {
-                 "gid":6,
-                 "height":32,
-                 "id":43,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":536,
-                 "y":277.5
+                 "x":20.5332016046943,
+                 "y":448.296209807796
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -267,8 +147,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":8,
- "nextobjectid":44,
+ "nextlayerid":9,
+ "nextobjectid":41,
  "orientation":"orthogonal",
  "properties":[
         {
@@ -279,7 +159,7 @@
         {
          "name":"relative path",
          "type":"string",
-         "value":"..\/res\/map\/smallest_test_level"
+         "value":"..\/res\/map\/world_map"
         }],
  "renderorder":"right-down",
  "tiledversion":"1.11.0",

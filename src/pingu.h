@@ -18,6 +18,7 @@
 #include "honey_coin.h"
 #include "item_select_menu.h"
 
+/// @spawn;
 class Pingu : public BitmapCollisionBody{
 public:
     Animation* anim = nullptr;
