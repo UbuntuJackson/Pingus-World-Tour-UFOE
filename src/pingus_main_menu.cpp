@@ -45,8 +45,11 @@ void PingusMainMenu::OnLevelEnter(Level* _level){
 
     WrapMenu::OnLevelEnter(_level);
 
-    local_position.x = Engine::Get().pixel_game_engine.GetWindowSizeInPixles().x/2.0f-150.0f/2.0f;
-    local_position.y = Engine::Get().pixel_game_engine.GetWindowSizeInPixles().y-50.0f;
+    //local_position.x = Engine::Get().pixel_game_engine.GetWindowSizeInPixles().x/2.0f-150.0f/2.0f;
+    //local_position.y = Engine::Get().pixel_game_engine.GetWindowSizeInPixles().y-50.0f;
+
+    local_position.x = 40.0f;
+    local_position.y = 300.0f;
 
     for(auto&& button : buttons){
         button->theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_grey", 3,4,3,4);
@@ -66,6 +69,7 @@ void PingusMainMenu::OnUpdate(){
         SingleKeyboard::Get().GetKey(olc::ENTER).is_pressed
     );
 
-    level->GetActiveCamera()->local_position = Vector2f(800.0f, 400.0f);
+    //level->GetActiveCamera()->local_position = Vector2f(1100.0f, 200.0f);
+    //level->GetActiveCamera()->scale = 0.5f;
     
 }

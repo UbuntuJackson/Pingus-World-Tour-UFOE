@@ -55,8 +55,8 @@ Camera::ClampLocalPosition(){
 
 void
 Camera::EarlyUpdate(){
-    
-    local_position = original_local_position;
+    //Temporarily commented out
+    //local_position = original_local_position;
 }
 
 void

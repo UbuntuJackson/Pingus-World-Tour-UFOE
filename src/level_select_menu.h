@@ -12,7 +12,7 @@
 #include "pingus_main_menu.h"
 #include <file_menu.h>
 #include <nine_patch_theme.h>
-#include <level_sprite_reference.h>
+#include <level_widget_sprite_reference.h>
 
 class LevelSelectMenu : public FileMenu{
 public:
@@ -58,9 +58,9 @@ public:
         level->asset_manager.LoadDecal(_path+"/"+"preview.png",_path+"/"+"preview.png");
         if(level->asset_manager.GetDecal(_path+"/"+"preview.png")){
             Console::Out("preview.png");
-            AddChild<LevelSpriteReference>(
+            AddChild<LevelWidgetSpriteReference>(
                 _path+"/"+"preview.png",
-                Vector2f(800.0f,157.0f),
+                Vector2f(340.0f,0.0f),
                 Vector2f(0.0f,0.0f),
                 Vector2f(200.0f,200.0f),
                 Vector2f(1.0f,1.0f),
@@ -111,7 +111,7 @@ public:
             SingleKeyboard::Get().GetKey(olc::ENTER).is_pressed
         );
 
-        level->GetActiveCamera()->local_position = Vector2f(800.0f, 400.0f);
+        //level->GetActiveCamera()->local_position = Vector2f(800.0f, 400.0f);
         
         //Console::Out("LevelSelectMenu::OnUpdate");
     }

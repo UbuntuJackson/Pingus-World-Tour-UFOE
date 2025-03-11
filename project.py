@@ -21,10 +21,10 @@ item_select_menu.export_variables_to_editor()
 
 honey_coin = tool.Class("HoneyCoin", "src/honey_coin.h")
 
-static_quadtree_actor = tool.Class("StaticQuadTreeActor","src/static_quadtree_actor.h")
+static_quadtree_actor = tool.Class("StaticQuadTreeActor","src/test/static_quadtree_actor.h")
 static_quadtree_actor.export_variables_to_editor()
 
-dynamic_quadtree_actor = tool.Class("DynamicQuadTreeActor","src/dynamic_quadtree_actor.h")
+dynamic_quadtree_actor = tool.Class("DynamicQuadTreeActor","src/test/dynamic_quadtree_actor.h")
 dynamic_quadtree_actor.export_variables_to_editor()
 
 #Append all Actors that we want to implement
@@ -38,6 +38,8 @@ project.classes.append(item_select_menu)
 project.classes.append(None)
 project.classes.append(static_quadtree_actor)
 project.classes.append(dynamic_quadtree_actor)
+project.classes.append(None)
+project.import_actor("src/test/movable_camera.h", "src/test/movable_camera.cpp")
 
 #Source-files that aren't Actors.
 project.source_files.append("game.cpp")

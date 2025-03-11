@@ -75,6 +75,7 @@ set(
     src/sprite_reference/sprite_reference.cpp
     src/sprite_reference/widget_sprite_reference.cpp
     src/sprite_reference/level_sprite_reference.cpp
+    src/sprite_reference/level_widget_sprite_reference.cpp
     src/player_body/player_body.cpp
     src/level/tcollision_system.cpp
     src/animation/animation.cpp

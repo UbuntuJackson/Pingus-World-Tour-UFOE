@@ -1,0 +1,82 @@
+UFO-Engine Coding Conventions
+
+### When to apply these conventions ###
+It's upto each and every developer how to design their code, we're not your parents. However when
+making code for the UFO-Engine, please do apply these conventions as it provides a consensus for how
+the code should look and work.
+
+### Classes, Functions and Namespaces ###
+Classnames functions and namespaces are always pascalcase. Pascalcase is when each word starts with a capital
+letter. Example:
+
+Actor* GetClosestEnemy();
+
+### Variables ###
+
+Variablenames are snake-case to distinguish them from functions. Snakecase places a space between each new word.
+Example:
+
+Vector2f former_position;
+
+There is no discrimination between member variables and local variables. However, variables that are parameters
+to functions are marked with an underscore. For example:
+
+MyActor(Vector2f _local_position) : Actor(_local_position){}
+
+### Naming conventions ###
+Do not use shorthands for names. Examples
+
+Dir FindDir(); //No!
+Directory FindDirectory(); //Yes.
+
+### Filenames ###
+Filenames are snakecase. Example:
+lazy_frog.cpp
+
+### Global variables ###
+Just do not use them. Instead make it a value from a gullibly accessible singleton, or storing it in the current
+level is another approach.
+
+### Editor interface ###
+
+For the UFO-Engine to instantiate your class in the editor it can not have more than one default parameter, being
+the local position. If you wish to pass a value to each instance, give the parameter a default value, or alternatively
+Expose the variable to the editor. Example:
+
+//Default parameter
+MyActor(Vector2f _local_position, std::string _sprite_name) : Actor(_local_position){}
+
+//Exposing the variable to the editor with the @export keyword
+///@export("sprite");
+std::string sprite_name = "ufo";
+
+### Constructors ###
+So far there has not been a need for having multiple constructors, so only one constructor per class. Add default
+values for parameters should the instantiation process become lengthy.
+
+### Editor interface keywords ###
+If user wish to make the actor spawnable in the editor, add the @spawn keyword above the class. Example:
+
+/// @spawn;
+class Frog : public Actor{
+
+It is recommended to put the comment directly above the line with the classname, as it needs to be a newline between
+them. Semicolon is optional. Usage of the spawn keyword requires calling import_actor(_path) and passing in the
+path to the class. Unline other methods of exposing actors, no further calls to UFO-ProjectManager are required.
+Example:
+
+tool = importlib.import_module("UFO-Engine.tools.UFOProjectManager")
+project = tool.ProjectManager()
+project.import_actor("src/frog.h") #Adds frog to index 1 on the sprite-sheet.
+
+import_actor will also automatically scan for variables being exposed to the level editor. Example:
+
+//This attribute will be referred to as 'sprite' in the level editor.
+///@export("sprite");
+std::string sprite_name = "ufo";
+
+### Miscellaneous ###
+Do not use std::cout if you do not need to. Instead use Console::Print and Console::PrintLine. Example:
+
+Console::Print("Print requires a newline and doesn't flush", "\n");
+Console::PrintLine("PrintLine does not requirqe a newline and flushes every time.", 3, 2, 1.0f, false);

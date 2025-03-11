@@ -209,6 +209,9 @@ void Level::Load(){
             std::string background_path = layer_dictionary.Get("image").AsString();
             bool visible = layer_dictionary.Get("visible").AsInt();
 
+            float image_x = layer_dictionary.Get("x").AsFloat();
+            float image_y = layer_dictionary.Get("y").AsFloat();
+
             Console::Out("Found SpriteReference: ",background_path);
 
             if(background_path == "") continue;
@@ -220,7 +223,7 @@ void Level::Load(){
 
             auto level_sprite_reference = NewActor<LevelSpriteReference>(
                 background_path,
-                olc::vf2d(0.0f,0.0f),
+                olc::vf2d(image_x, image_y),
                 olc::vf2d(0.0f,0.0f),
                 image_size,
                 olc::vf2d(1.0f, 1.0f),
@@ -443,7 +446,8 @@ void Level::ActiveCameraLookAround(bool _condition_move, bool _condition_zoom){
     if(_condition_move){
         GetActiveCamera()->local_position-=Mouse::GetDeltaPosition()/GetActiveCamera()->scale;
     }
-    GetActiveCamera()->original_local_position = GetActiveCamera()->local_position;
+    //Temporarily commented out
+    //GetActiveCamera()->original_local_position = GetActiveCamera()->local_position;
     if(!_condition_zoom) return;
     if(Mouse::GetScrollDirection() > 0) GetActiveCamera()->scale *= 1.05f;
     if(Mouse::GetScrollDirection() < 0) GetActiveCamera()->scale *= (1/1.05f);

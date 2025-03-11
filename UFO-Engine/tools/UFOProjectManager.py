@@ -84,8 +84,8 @@ class ProjectManager:
         self.audio_tracks = []
         self.source_files = []
 
-    def import_actor(self,_path : str):
-        klass = Class(None, _path)
+    def import_actor(self,_header_file : str, _source_file : str = None):
+        klass = Class(None, _header_file, _source_file)
 
         klass.export_variables_to_editor()
 

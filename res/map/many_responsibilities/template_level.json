@@ -188,7 +188,7 @@
                         {
                          "name":"face_right",
                          "type":"int",
-                         "value":1
+                         "value":3
                         }, 
                         {
                          "name":"interval_milliseconds",

@@ -77,7 +77,7 @@
         {
          "class":"SpriteReference",
          "id":8,
-         "image":"title_screen.png",
+         "image":"cover.png",
          "name":"bg",
          "opacity":1,
          "type":"imagelayer",
@@ -142,7 +142,7 @@
          "y":0
         }],
  "nextlayerid":9,
- "nextobjectid":36,
+ "nextobjectid":42,
  "orientation":"orthogonal",
  "properties":[
         {
@@ -176,12 +176,12 @@
          "columns":3,
          "firstgid":5,
          "image":"..\/..\/assets\/pingus_actor_sheet.png",
-         "imageheight":96,
+         "imageheight":128,
          "imagewidth":96,
          "margin":0,
          "name":"pingus_actor_sheet",
          "spacing":0,
-         "tilecount":9,
+         "tilecount":12,
          "tileheight":32,
          "tilewidth":32
         }],
