@@ -35,6 +35,8 @@ public:
     int steps = 0;
     Vector2f build_location;
 
+    bool is_rescued = false;
+
     enum States{
         WALK,
         FALL,
@@ -593,8 +595,7 @@ public:
                 state = state_walk;
                 for(const auto& goal : level->goals){
                     if(ufoMaths::RectangleVsRectangle(ufo::Rectangle(local_position, Vector2f(12.0f,24.0f)),goal->shape)){
-                        level->rescued_pingus++;
-                        QueueForPurge();
+                        is_rescued = true;
                     }
                 }
             }
@@ -662,6 +663,11 @@ public:
         }*/
 
         PinguUpdate();
+
+        if(is_rescued){
+            level->rescued_pingus++;
+            QueueForPurge();
+        }
 
         //Draft for way of speeding up pingus when holding space
         //This requires accounting for spawners though which have a fixed time interval between spawns.
