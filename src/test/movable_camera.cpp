@@ -22,21 +22,26 @@ void MovableCamera::OnLevelEnter(Level* _level){
 
 void MovableCamera::OnUpdate(){
     //Move camera for x
+    camera->local_position = Vector2f(0.0f, 0.0f);
+
     {
         int dir_x = int(SingleKeyboard::Get().GetKey(olc::D).is_held) - int(SingleKeyboard::Get().GetKey(olc::A).is_held);
 
         local_position.x += Engine::Get().GetDeltaTime() * dir_x * horisontal_speed;
+        
         if(dir_x != 0){
-            camera->local_position.x+=10.0f*dir_x*Engine::Get().GetDeltaTime();
+            camera_offset.x+=10.0f*dir_x*Engine::Get().GetDeltaTime();
         }
-        else if(camera->local_position.x != 0.0f){
-            Vector2f camera_position_before_offset = camera->local_position;
-            camera->local_position.x += 0.9f * ufoMaths::Sign(0.0f-camera->local_position.x);
+        else if(camera_offset.x != 0.0f){
+            Vector2f camera_position_before_offset = camera_offset;
+            camera_offset.x += 0.9f * ufoMaths::Sign(0.0f-camera_offset.x);
 
-            if((0.0f-camera->local_position.x) * (0.0f-camera_position_before_offset.x) < 0){
-                camera->local_position.x = 0.0f;
+            if((0.0f-camera_offset.x) * (0.0f-camera_position_before_offset.x) < 0){
+                camera_offset.x = 0.0f;
             }
         }
+
+        camera->local_position.x = camera_offset.x;
     }
 
     //Move camera for y
@@ -45,15 +50,17 @@ void MovableCamera::OnUpdate(){
 
         local_position.y += Engine::Get().GetDeltaTime() * dir_y * horisontal_speed;
         if(dir_y != 0){
-            camera->local_position.y+=10.0f*dir_y*Engine::Get().GetDeltaTime();
+            camera_offset.y+=10.0f*dir_y*Engine::Get().GetDeltaTime();
         }
-        else if(camera->local_position.y != 0.0f){
-            Vector2f camera_position_before_offset = camera->local_position;
-            camera->local_position.y += 0.9f * ufoMaths::Sign(0.0f-camera->local_position.y);
+        else if(camera_offset.y != 0.0f){
+            Vector2f camera_position_before_offset = camera_offset;
+            camera_offset.y += 0.9f * ufoMaths::Sign(0.0f-camera_offset.y);
 
-            if((0.0f-camera->local_position.y) * (0.0f-camera_position_before_offset.y) < 0){
-                camera->local_position.y = 0.0f;
+            if((0.0f-camera_offset.y) * (0.0f-camera_position_before_offset.y) < 0){
+                camera_offset.y = 0.0f;
             }
         }
+
+        camera->local_position.y = camera_offset.y;
     }
 }

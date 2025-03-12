@@ -9,6 +9,7 @@ class Camera;
 class MovableCamera : public Actor{
 public:
     const float horisontal_speed = 200.0f;
+    Vector2f camera_offset;
 
     Camera* camera = nullptr;
 

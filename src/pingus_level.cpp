@@ -84,6 +84,20 @@ void PingusLevel::OnLoad(JsonDictionary& _j){
     end_level_button->held_theme = std::make_unique<NinePatchTheme>("pwt_theme_grey_dark", 3,4,3,4);
     end_level_button->visible = false;
 
+    fast_forward_button = NewActor<Button>(Vector2f(180.0f,480.0f-25.0f-36.0f), Vector2f(90.0f,32.0f), "Fast forward >>");
+
+    fast_forward_button->theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_grey", 3,4,3,4);
+    fast_forward_button->hovered_theme = std::make_unique<NinePatchTheme>("pwt_theme_grey_light", 3,4,3,4);
+    fast_forward_button->held_theme = std::make_unique<NinePatchTheme>("pwt_theme_grey_dark", 3,4,3,4);
+    fast_forward_button->visible = false;
+
+    pause_button = NewActor<Button>(Vector2f(180.0f,480.0f-25.0f-36.0f-36.0f), Vector2f(90.0f,32.0f), "Pause | |");
+
+    pause_button->theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_grey", 3,4,3,4);
+    pause_button->hovered_theme = std::make_unique<NinePatchTheme>("pwt_theme_grey_light", 3,4,3,4);
+    pause_button->held_theme = std::make_unique<NinePatchTheme>("pwt_theme_grey_dark", 3,4,3,4);
+    pause_button->visible = false;
+
     rescued_pingus_label->theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_grey", 3,4,3,4);
     released_pingus_label->theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_grey", 3,4,3,4);
     max_pingus_label->theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_grey", 3,4,3,4);
@@ -100,6 +114,15 @@ void PingusLevel::OnUpdate(){
     pingu_selected_this_frame = false;
 
     if(paused){
+        if(pause_button->IsReleased()){
+            paused = false;
+        }
+
+        if(end_level_button->IsReleased()){
+            NewActor<ResultScreen>(Vector2f(30.0f,30.0f));
+            level_finished = true;
+            paused = true;
+        }
         
         return;
     }
@@ -126,6 +149,9 @@ void PingusLevel::OnUpdate(){
     max_pingus_label->text = "Max. Rescuable Pingus:" + std::to_string(maximum_rescuable_pingus);
 
     end_level_button->local_position.x = Engine::Get().pixel_game_engine.GetWindowSizeInPixles().x - 8.0f*end_level_button->text.size() + 10.0f;
+    fast_forward_button->local_position.x = end_level_button->local_position.x;
+    pause_button->local_position.x = end_level_button->local_position.x;
+    
     rescued_pingus_label->local_position.x = Engine::Get().pixel_game_engine.GetWindowSizeInPixles().x - 8.0f*rescued_pingus_label->text.size() - 12.0f;
     released_pingus_label->local_position.x = Engine::Get().pixel_game_engine.GetWindowSizeInPixles().x - 8.0f*released_pingus_label->text.size() - 12.0f;
     max_pingus_label->local_position.x = Engine::Get().pixel_game_engine.GetWindowSizeInPixles().x - 8.0f*max_pingus_label->text.size() -12.0f;
@@ -141,6 +167,15 @@ void PingusLevel::OnUpdate(){
         if(end_level_button->IsReleased()){
             NewActor<ResultScreen>(Vector2f(30.0f,30.0f));
             level_finished = true;
+            paused = true;
+        }
+        fast_forward_button->visible = true;
+        fast_forward = false;
+        if(fast_forward_button->IsHeld() || SingleKeyboard::Get().GetKey(olc::SPACE).is_held){
+            fast_forward = true;
+        }
+        pause_button->visible = true;
+        if(pause_button->IsReleased()){
             paused = true;
         }
     }

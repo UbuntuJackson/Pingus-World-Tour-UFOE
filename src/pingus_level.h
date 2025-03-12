@@ -29,6 +29,10 @@ public:
     bool level_finished = false;
     bool at_least_one_pingu_active = true;
     bool all_pingus_released = false;
+    int number_of_updates_when_fast_forward = 3;
+    bool fast_forward;
+    Button* fast_forward_button = nullptr;
+    Button* pause_button = nullptr;
 
     ItemSelectMenu* item_select_menu = nullptr;
     std::string pingus_level_path = "";

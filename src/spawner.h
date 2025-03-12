@@ -53,6 +53,10 @@ public:
     }
 
     void OnUpdate(){
+        if(level->fast_forward){
+            spawn_timer.FastForward(level->number_of_updates_when_fast_forward);
+        }
+
         if((spawn_timer.GetTimeLeft() <= 0.0f) && (number_of_pingus > 0)){
             Pingu* pingu = level->NewActor<Pingu>(local_position+Vector2f(10.0f,0.0f));
 

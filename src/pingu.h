@@ -275,6 +275,7 @@ public:
             
         }
 
+        //To make sure the timer does not reach below zero when entering fall state again.
         fall_timer.Start(5000000.0f);
         fall_timer.Stop();
     }
@@ -305,7 +306,7 @@ public:
 
         snap_to_ground_enabled = false;
 
-        if(steps == number_of_steps || hit_wall || velocity.x == 0.0f || IsOverlappingHead(local_position,olc::WHITE)){
+        if(steps == number_of_steps || hit_wall || hit_slope || velocity.x == 0.0f || IsOverlappingHead(local_position,olc::WHITE)){
             is_in_special_state = false;
             steps = 0;
             snap_to_ground_enabled = true;
@@ -567,8 +568,7 @@ public:
 
     int current_item = 2;
 
-    void OnUpdate(){
-
+    void PinguUpdate(){
         bool should_set_pingu_selected = false;
         level->at_least_one_pingu_active = true;
 
@@ -643,6 +643,36 @@ public:
         }
 
         if(hit_wall) face_direction *= -1.0f;
+    }
+
+    void OnPaused(){
+        
+        build_timer.Pause();
+        fall_timer.Pause();
+        
+    }
+
+    void OnUpdate(){
+        build_timer.Resume();
+        fall_timer.Resume();
+
+        /*if(level->fast_forward){
+            build_timer.FastForward(level->number_of_updates_when_fast_forward);
+            fall_timer.FastForward(level->number_of_updates_when_fast_forward);
+        }*/
+
+        PinguUpdate();
+
+        //Draft for way of speeding up pingus when holding space
+        //This requires accounting for spawners though which have a fixed time interval between spawns.
+        if(level->fast_forward){
+            for(int _ = 0; _ < level->number_of_updates_when_fast_forward; _++)
+            {
+                build_timer.FastForward(1.0f);
+                fall_timer.FastForward(1.0f);
+                PinguUpdate();
+            }
+        }
 
     }
 

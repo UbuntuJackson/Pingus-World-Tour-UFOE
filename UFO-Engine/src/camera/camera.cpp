@@ -24,7 +24,7 @@ original_local_position{_position}
 }
 
 void Camera::OnStart(Level* _level){
-    Console::Out("Initial camera position:", local_position);
+    //Console::Print("Initial camera position:", local_position);
     //_level->ActiveCameraLookAround(true,true);
 }
 

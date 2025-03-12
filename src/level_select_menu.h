@@ -57,7 +57,7 @@ public:
         Console::Out(_path);
         level->asset_manager.LoadDecal(_path+"/"+"preview.png",_path+"/"+"preview.png");
         if(level->asset_manager.GetDecal(_path+"/"+"preview.png")){
-            Console::Out("preview.png");
+            
             AddChild<LevelWidgetSpriteReference>(
                 _path+"/"+"preview.png",
                 Vector2f(340.0f,0.0f),
@@ -67,10 +67,10 @@ public:
                 0.0f
             )->SetZIndex(2);
         }
+
+        //Need a buton to go back when file menu does not have a previous path.
         if(path_stack.size() == 0){
             auto bback = std::make_unique<FileMenuButton>(Vector2f(0.0f, 0.0f),Vector2f(250.0f, 150.0f), "Back", path);
-
-            bback->background_colour = olc::Pixel(200,90,0);
 
             bback->on_pressed = [](Widget* _w, Button* _button){
                 _w->QueueForPurge();
@@ -94,6 +94,7 @@ public:
 
             original_position = local_position;
 
+            //Themes need to be added manually.
             for(auto button : buttons){
                 button->theme = OnSetButtonTheme();
                 button->hovered_theme = OnSetButtonHoveredTheme();

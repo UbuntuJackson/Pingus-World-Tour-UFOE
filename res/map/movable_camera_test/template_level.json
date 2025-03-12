@@ -77,8 +77,8 @@
         {
          "class":"SpriteReference",
          "id":7,
-         "image":"bg.png",
-         "name":"bg",
+         "image":"mg.png",
+         "name":"mg",
          "opacity":1,
          "type":"imagelayer",
          "visible":true,
@@ -130,17 +130,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"number_of_blockers",
-                         "type":"int",
-                         "value":2
-                        }, 
-                        {
-                         "name":"number_of_bombers",
-                         "type":"int",
-                         "value":20
-                        }, 
-                        {
-                         "name":"number_of_parachutes",
+                         "name":"number_of_builders",
                          "type":"int",
                          "value":20
                         }],
@@ -148,8 +138,8 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":208.785402071732,
-                 "y":40.8954553619544
+                 "x":91.6666666666666,
+                 "y":495
                 }, 
                 {
                  "gid":9,
@@ -160,7 +150,7 @@
                         {
                          "name":"maximum_rescuable_pingus",
                          "type":"int",
-                         "value":15
+                         "value":20
                         }, 
                         {
                          "name":"number_of_pingus",
@@ -171,8 +161,8 @@
                  "type":"",
                  "visible":true,
                  "width":1.33333333333337,
-                 "x":368.829291659182,
-                 "y":459.496137955811
+                 "x":551.333333333333,
+                 "y":545
                 }, 
                 {
                  "gid":8,
@@ -181,19 +171,9 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"face_left",
-                         "type":"int",
-                         "value":1
-                        }, 
-                        {
-                         "name":"face_right",
-                         "type":"int",
-                         "value":3
-                        }, 
-                        {
                          "name":"interval_milliseconds",
                          "type":"float",
-                         "value":5000
+                         "value":1000
                         }, 
                         {
                          "name":"number_of_pingus",
@@ -204,8 +184,8 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":276.348422250164,
-                 "y":41.0953835099695
+                 "x":128.333333333333,
+                 "y":534
                 }, 
                 {
                  "gid":5,
@@ -216,20 +196,8 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":644.362972277109,
-                 "y":452.73687204359
-                }, 
-                {
-                 "gid":9,
-                 "height":32,
-                 "id":39,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":1.33333,
-                 "x":42.6301435743368,
-                 "y":446.978564157835
+                 "x":639.333333333333,
+                 "y":541.833333333333
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -238,7 +206,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":40,
+ "nextobjectid":39,
  "orientation":"orthogonal",
  "properties":[
         {
@@ -249,7 +217,7 @@
         {
          "name":"relative path",
          "type":"string",
-         "value":"..\/res\/map\/many_responsibilities"
+         "value":"..\/res\/map\/template_level"
         }],
  "renderorder":"right-down",
  "tiledversion":"1.11.0",
@@ -272,12 +240,12 @@
          "columns":3,
          "firstgid":5,
          "image":"..\/..\/assets\/pingus_actor_sheet.png",
-         "imageheight":128,
+         "imageheight":96,
          "imagewidth":96,
          "margin":0,
          "name":"pingus_actor_sheet",
          "spacing":0,
-         "tilecount":12,
+         "tilecount":9,
          "tileheight":32,
          "tilewidth":32
         }],
