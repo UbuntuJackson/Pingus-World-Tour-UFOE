@@ -188,12 +188,12 @@
                         {
                          "name":"face_right",
                          "type":"int",
-                         "value":3
+                         "value":1
                         }, 
                         {
                          "name":"interval_milliseconds",
                          "type":"float",
-                         "value":5000
+                         "value":2000
                         }, 
                         {
                          "name":"number_of_pingus",
