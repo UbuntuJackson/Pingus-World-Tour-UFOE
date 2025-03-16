@@ -61,6 +61,15 @@ public:
 
         rank_icon->current_frame_index = rank;
 
+        JsonDictionary clear_data = JsonDictionary();
+
+        clear_data.Set("rank", rank);
+        
+        clear_data.Set("most_rescued_pingus", level->rescued_pingus);
+
+        Engine::Get().GetActiveProfile()->save_file.Get("cleared_levels").AsDictionary().Set(_level->path, clear_data);
+        Engine::Get().GetActiveProfile()->Save();
+
         Vector2f window_size = Engine::Get().pixel_game_engine.GetWindowSizeInPixles();
         local_position = window_size/2 - GetRectangle().size/2;
     }

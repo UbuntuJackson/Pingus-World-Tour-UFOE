@@ -130,17 +130,17 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"number_of_blockers",
+                         "name":"blocker",
                          "type":"int",
                          "value":2
                         }, 
                         {
-                         "name":"number_of_bombers",
+                         "name":"bomber",
                          "type":"int",
                          "value":20
                         }, 
                         {
-                         "name":"number_of_parachutes",
+                         "name":"parachute",
                          "type":"int",
                          "value":20
                         }],

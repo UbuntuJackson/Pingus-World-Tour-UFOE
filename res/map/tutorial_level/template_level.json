@@ -130,12 +130,12 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"number_of_bombers",
+                         "name":"bomber",
                          "type":"int",
                          "value":20
                         }, 
                         {
-                         "name":"number_of_builders",
+                         "name":"builder",
                          "type":"int",
                          "value":1
                         }],
@@ -245,12 +245,12 @@
          "columns":3,
          "firstgid":5,
          "image":"..\/..\/assets\/pingus_actor_sheet.png",
-         "imageheight":96,
+         "imageheight":128,
          "imagewidth":96,
          "margin":0,
          "name":"pingus_actor_sheet",
          "spacing":0,
-         "tilecount":9,
+         "tilecount":12,
          "tileheight":32,
          "tilewidth":32
         }],

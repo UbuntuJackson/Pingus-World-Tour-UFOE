@@ -5,15 +5,15 @@ class Pingu;
 
 class ItemSelectMenu : public WrapMenu{
 public:
-    /// @export;
+    /// @export("bomber");
     int number_of_bombers = 0;
-    /// @export;
+    /// @export("builder");
     int number_of_builders = 0;
-    /// @export;
+    /// @export("parachute");
     int number_of_parachutes = 0;
-    /// @export;
+    /// @export("blocker");
     int number_of_blockers = 0;
-    /// @export;
+    /// @export("climber");
     int number_of_climbers = 0;
 
     std::vector<std::function<void(Pingu* _pingu)>> items;

@@ -124,22 +124,153 @@
          "name":"actors",
          "objects":[
                 {
-                 "gid":11,
+                 "gid":18,
                  "height":32,
-                 "id":35,
+                 "id":41,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":22,
+                 "y":56
+                }, 
+                {
+                 "gid":17,
+                 "height":32,
+                 "id":42,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":85,
+                 "y":60
+                }, 
+                {
+                 "gid":15,
+                 "height":32,
+                 "id":49,
                  "name":"",
                  "properties":[
                         {
-                         "name":"number_of_builders",
-                         "type":"int",
-                         "value":20
+                         "name":"name",
+                         "type":"string",
+                         "value":"Antarctica"
                         }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":20.5332016046943,
-                 "y":448.296209807796
+                 "x":224,
+                 "y":458
+                }, 
+                {
+                 "gid":15,
+                 "height":32,
+                 "id":50,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"You are going to Brazil!"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":119,
+                 "y":321
+                }, 
+                {
+                 "gid":15,
+                 "height":32,
+                 "id":51,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":330,
+                 "y":280.5
+                }, 
+                {
+                 "gid":15,
+                 "height":32,
+                 "id":52,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"Australia?"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":544.5,
+                 "y":368
+                }, 
+                {
+                 "gid":15,
+                 "height":32,
+                 "id":54,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"London"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":297,
+                 "y":177.5
+                }, 
+                {
+                 "gid":15,
+                 "height":32,
+                 "id":55,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"The Great Canyon (USA)"
+                        }, 
+                        {
+                         "name":"path",
+                         "type":"string",
+                         "value":"..\/res\/map\/bomber_test_level\/bomber_test_level.json"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":100.5,
+                 "y":193
+                }, 
+                {
+                 "gid":15,
+                 "height":32,
+                 "id":56,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"Greenland"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":255.5,
+                 "y":70
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -148,7 +279,7 @@
          "y":0
         }],
  "nextlayerid":9,
- "nextobjectid":41,
+ "nextobjectid":57,
  "orientation":"orthogonal",
  "properties":[
         {
@@ -182,12 +313,12 @@
          "columns":3,
          "firstgid":5,
          "image":"..\/..\/assets\/pingus_actor_sheet.png",
-         "imageheight":128,
+         "imageheight":160,
          "imagewidth":96,
          "margin":0,
          "name":"pingus_actor_sheet",
          "spacing":0,
-         "tilecount":12,
+         "tilecount":15,
          "tileheight":32,
          "tilewidth":32
         }],

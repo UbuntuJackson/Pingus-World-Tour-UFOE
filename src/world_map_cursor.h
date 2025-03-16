@@ -1,21 +1,22 @@
+#pragma once
 #include <actor.h>
 #include <ufo_maths.h>
 #include <sprite_reference.h>
+#include <mouse.h>
 
 class Level;
 class PingusLevel;
+class SpriteReference;
 
 /// @spawn;
-class WorldMap : public Actor{
+class WorldMapCursor : public Actor{
 public:
-
-    int currently_selected_location = 0;
-
+    SpriteReference* spr = nullptr;
     PingusLevel* level = nullptr;
-    WorldMap(Vector2f _) : Actor(Vector2f(0.0f,0.0f)){}
+    WorldMapCursor(Vector2f _) : Actor(_){}
 
     void OnLevelEnter(Level* _level);
 
-    
+    void OnUpdate();
 
 };

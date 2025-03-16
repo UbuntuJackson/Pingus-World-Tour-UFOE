@@ -8,12 +8,16 @@
 #include <level.h>
 #include <asset_manager.h>
 #include "level_select_menu.h"
+#include "new_game_menu.h"
 
 PingusMainMenu::PingusMainMenu(Vector2f _local_position) : WrapMenu(_local_position,Vector2f(250.0f,200.0f)){
     spacing = 8;
 }
 
 void PingusMainMenu::OnLevelEnter(Level* _level){
+
+    Engine::Get().active_profile = "Default";
+
     if(AssetManager::Get().current_music_track != "Pingus_New_theme.wav"){
         AssetManager::Get().LoadAudio("../res/audio/Pingus_New_theme.wav", "Pingus_New_theme.wav");
         AssetManager::Get().PlayAudio("Pingus_New_theme.wav", true);
@@ -27,11 +31,21 @@ void PingusMainMenu::OnLevelEnter(Level* _level){
     level = dynamic_cast<PingusLevel*>(_level);
     dynamic_cast<PingusLevel*>(_level)->is_menu = true;
 
+    auto b_new_game = AddChild<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 150.0f), "New Game");
+
+    b_new_game->on_pressed = [](Widget* _parent_widget, Button* _button){
+        Console::PrintLine("New Game pressed");
+        _parent_widget->level->NewActor<NewGameMenu>(_parent_widget->local_position);
+        _parent_widget->QueueForPurge();
+    };
+
+    auto b_load_game = AddChild<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 150.0f), "Load Game");
     auto b_level_select = std::make_unique<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 150.0f), "Level Select");
+    auto b_options = AddChild<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 150.0f), "Options");
     auto b_quit = std::make_unique<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 150.0f), "Quit");
 
     b_level_select->on_pressed = [](Widget* _parent_widget, Button* _button){
-        Console::Out("Level select pressed");
+        Console::PrintLine("Level select pressed");
         _parent_widget->level->NewActor<LevelSelectMenu>();
         _parent_widget->QueueForPurge();
     };

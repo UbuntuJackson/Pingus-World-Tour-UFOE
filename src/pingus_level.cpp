@@ -45,6 +45,8 @@ void PingusLevel::OnResourceLoad(){
     AssetManager::Get().LoadDecal("../res/assets/theme_grey_light.png", "pwt_theme_grey_light");
     AssetManager::Get().LoadDecal("../res/assets/theme_grey_dark.png", "pwt_theme_grey_dark");
     AssetManager::Get().LoadDecal("../res/assets/ranks.png", "ranks");
+    AssetManager::Get().LoadDecal("../res/assets/pin.png","pin");
+    AssetManager::Get().LoadDecal("../res/assets/red_x.png","red_x");
     Engine::Get().pixel_game_engine.LoadFontSprite("../res/assets/pwt_grey_font.png");
 }
 
@@ -207,4 +209,5 @@ void PingusLevel::OnUpdate(){
 
 void PingusLevel::OnHandlePurge(){
     PurgeHandles(honey_coin_handles);
+    PurgeHandles(world_map_location_handles);
 }

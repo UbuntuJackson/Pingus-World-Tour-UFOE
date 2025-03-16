@@ -303,8 +303,8 @@ public:
     }
 
     void Build(){
-        float step_width = 5.0f;
-        int number_of_steps = 18;
+        float step_width = 3.0f;
+        int number_of_steps = 25;
 
         snap_to_ground_enabled = false;
 
@@ -332,7 +332,7 @@ public:
             
             build_timer.Start(200.0f);
             for(int yy = 0; yy < 2; yy++){
-                for(int xx = 6; xx < 6+(int)step_width; xx++){
+                for(int xx = 6; xx < 6+(int)step_width*2; xx++){
                     
                     auto dec = level->level_decals.at("solid");
                     dec->sprite->SetPixel(build_location+Vector2f(xx+step_width*steps*face_direction,yy+24.0f-2.0f-steps*2),olc::Pixel(255,0,0,255));
@@ -445,11 +445,12 @@ public:
             anim->current_animation_state->rotation = 0.0f;
             if(!hit_ceiling) state = state_fall_after_climber;
             else{
+                climbing_direction *= -1.0f;
                 is_in_special_state = false;
                 state = state_walk;
             }
             velocity.x = 50.0f * climbing_direction;
-            has_climber = false;
+            //has_climber = false;
             snap_to_ground_enabled = true;
             face_direction = climbing_direction;
         }

@@ -15,11 +15,13 @@ class WidgetSpriteReference;
 class HoneyCoin;
 class ItemSelectMenu;
 class Button;
+class WorldMapLocation;
 
 class PingusLevel : public Level{
 public:
     std::vector<Goal*> goals;
     std::vector<HoneyCoin*> honey_coin_handles;
+    std::vector<WorldMapLocation*> world_map_location_handles;
     std::vector<olc::Decal*> level_decals_in_draw_order;
     olc::Decal* solid_decal;
     Vector2f custom_level_size;

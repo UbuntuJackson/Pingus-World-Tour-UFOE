@@ -1,29 +1,24 @@
 #pragma once
+
 #include <actor.h>
 #include <ufo_maths.h>
-#include <level.h>
-#include "pingus_level.h"
-#include <sprite_reference.h>
 
+class Camera;
+
+///@spawn;
 class WorldMapLocation : public Actor{
 public:
+    bool selected = false;
 
-    PingusLevel* level = nullptr;
-    WorldMapLocation(Vector2f _) : Actor(Vector2f(0.0f,0.0f)){}
+    ///@export("name");
+    std::string name_of_location = "";
 
-    void OnLevelEnter(Level* _level){
-        level = dynamic_cast<PingusLevel*>(_level); 
-        level->is_menu = true;
+    ///@export("path");
+    std::string level_path = "";
 
-        AddChild<SpriteReference>(
-            "world_map_pin.png",
-            Vector2f(0.0f,0.0f),
-            Vector2f(0.0f,0.0f),
-            Vector2f(680.0f,480.0f),
-            Vector2f(1.0f,1.0f),
-            0.0f
-        );
-        
-    }
+    WorldMapLocation(Vector2f _location) : Actor(_location){}
+
+    void OnLevelEnter(Level*);
+    void OnDraw(Camera*);
 
 };

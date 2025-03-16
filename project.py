@@ -38,18 +38,21 @@ project.classes.append(item_select_menu)
 project.classes.append(None)
 project.classes.append(static_quadtree_actor)
 project.classes.append(dynamic_quadtree_actor)
-project.classes.append(None)
+project.import_actor("src/world_map_location.h","src/world_map_location.cpp")
 project.import_actor("src/test/movable_camera.h", "src/test/movable_camera.cpp")
+project.import_actor("src/world_map_cursor.h","src/world_map_cursor.cpp")
+project.import_actor("src/world_map.h","src/world_map.cpp")
 
 #Source-files that aren't Actors.
 project.source_files.append("game.cpp")
 project.source_files.append("src/level_select_menu.cpp")
 project.source_files.append("src/pingus_level.cpp")
+project.source_files.append("src/new_game_menu.cpp")
 
 #Generate generated_actor_json_bridge.h and CMakeLists.txt.
 project.generate_project()
 build_succeed = project.build("-ggdb", "", "make" ,"-j6")
 
 #This should only run if build succeeds though?
-if build_succeed: project.run()
+if build_succeed: project.debug()
 else: print("Build failed.")
