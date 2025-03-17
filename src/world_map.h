@@ -5,6 +5,7 @@
 
 class Level;
 class PingusLevel;
+class WidgetSpriteReference;
 
 /// @spawn;
 class WorldMap : public Actor{
@@ -14,11 +15,16 @@ public:
 
     std::string last_played_level = "?";
 
+    WidgetSpriteReference* backdrop = nullptr;
+    float backdrop_velocity = 0.0f;
+    float backdrop_acceleration = 5000.0f;
+
     PingusLevel* level = nullptr;
     WorldMap(Vector2f _) : Actor(Vector2f(0.0f,0.0f)){}
 
     void OnLevelEnter(Level* _level);
 
     void OnStart(Level* _level);
+    void OnUpdate();
 
 };

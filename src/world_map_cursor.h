@@ -6,12 +6,12 @@
 
 class Level;
 class PingusLevel;
-class SpriteReference;
+class WidgetSpriteReference;
 
 /// @spawn;
 class WorldMapCursor : public Actor{
 public:
-    SpriteReference* spr = nullptr;
+    WidgetSpriteReference* spr = nullptr;
     PingusLevel* level = nullptr;
     WorldMapCursor(Vector2f _) : Actor(_){}
 

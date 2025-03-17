@@ -164,6 +164,11 @@
                          "value":"..\/res\/map\/builder_test_level\/test_level_builder_tiled.json"
                         }, 
                         {
+                         "name":"preview",
+                         "type":"string",
+                         "value":"..\/res\/map\/builder_test_level\/i_want_you_to.png"
+                        }, 
+                        {
                          "name":"unlocked",
                          "type":"bool",
                          "value":true
@@ -271,6 +276,11 @@
                          "name":"path",
                          "type":"string",
                          "value":"..\/res\/map\/bomber_test_level\/bomber_test_level.json"
+                        }, 
+                        {
+                         "name":"preview",
+                         "type":"string",
+                         "value":"..\/res\/map\/bomber_test_level\/preview.png"
                         }, 
                         {
                          "name":"unlocks_other_level",

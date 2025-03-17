@@ -47,6 +47,7 @@ void PingusLevel::OnResourceLoad(){
     AssetManager::Get().LoadDecal("../res/assets/ranks.png", "ranks");
     AssetManager::Get().LoadDecal("../res/assets/pin.png","pin");
     AssetManager::Get().LoadDecal("../res/assets/red_x.png","red_x");
+    AssetManager::Get().LoadDecal("../res/assets/backdrop.png","backdrop");
     Engine::Get().pixel_game_engine.LoadFontSprite("../res/assets/pwt_grey_font.png");
 }
 
