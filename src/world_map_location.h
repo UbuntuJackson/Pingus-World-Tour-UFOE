@@ -8,6 +8,7 @@ class SpriteReference;
 class Level;
 class PingusLevel;
 class LevelWidgetSpriteReference;
+class Label;
 
 ///@spawn;
 class WorldMapLocation : public Actor{
@@ -35,6 +36,10 @@ public:
     ///@export;
     std::string preview = "";
 
+    ///@export;
+    std::string description = "";
+    Label* description_label = nullptr;
+
     WorldMapLocation* other_location = nullptr;
 
     WorldMapLocation(Vector2f _location) : Actor(_location){}
@@ -43,6 +48,7 @@ public:
     void OnStart(Level* _level);
     void OnUpdate();
     void OnDraw(Camera*);
+    void OnWidgetDraw();
 
     void Unlock();
 

@@ -154,6 +154,11 @@
                  "name":"",
                  "properties":[
                         {
+                         "name":"description",
+                         "type":"string",
+                         "value":"I want YOU to join the forces to fight the destruction of Antarctica. This is where your journey begins, and your mission is to build your way up."
+                        }, 
+                        {
                          "name":"name",
                          "type":"string",
                          "value":"Antarctica"
@@ -267,6 +272,11 @@
                  "id":55,
                  "name":"",
                  "properties":[
+                        {
+                         "name":"description",
+                         "type":"string",
+                         "value":"So far you have been able to rescue everyone, but the truth is, some missions can't be cleared without sacrifice."
+                        }, 
                         {
                          "name":"name",
                          "type":"string",

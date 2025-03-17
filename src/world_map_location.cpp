@@ -8,6 +8,8 @@
 #include <ufo_engine.h>
 #include <widget_sprite_reference.h>
 #include <level_widget_sprite_reference.h>
+#include <label.h>
+#include <colour_rectangle_theme.h>
 #include "world_map_location.h"
 #include "pingus_level.h"
 
@@ -38,7 +40,10 @@ void WorldMapLocation::OnStart(Level* _level){
         }
     }
 
-    
+    description_label = AddChild<Label>(Vector2f(460.0f,260.0f)-local_position, Vector2f(680.0f-480.0f, 480.0f-240.0f), description);
+    ColourRectangleTheme* label_theme = dynamic_cast<ColourRectangleTheme*>(description_label->theme.get());
+    label_theme->colour = Colour(0,0,0,0);
+    description_label->text_wrapping_mode = Widget::TextWrappingModes::WORD_MEETS_BORDER;
 }
 
 void WorldMapLocation::OnUpdate(){
@@ -91,10 +96,21 @@ void WorldMapLocation::OnDraw(Camera* _camera){
     }
     if(selected && unlocked){
         spr->tint = olc::WHITE;
-        Graphics::Get().DrawString(_camera->Transform(GetGlobalPosition()), name_of_location, Graphics::WHITE ,{1.0f,1.0f});
+        
     }
     else{
         spr->tint = olc::DARK_RED;
+    }
+}
+
+void WorldMapLocation::OnWidgetDraw(){
+    if(selected && unlocked){
+        Graphics::Get().DrawString(Vector2f(460.0f,240.0f), name_of_location, Graphics::WHITE ,{1.0f,1.0f});
+        description_label->visible = true;
+        //Graphics::Get().DrawString(Vector2f(480.0f,240.0f), description, Graphics::WHITE ,{1.0f,1.0f});
+    }
+    else{
+        description_label->visible = false;
     }
 }
 
