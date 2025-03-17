@@ -12,6 +12,7 @@ public:
 
     Button* try_again = nullptr;
     Button* back_to_level_select = nullptr;
+    Button* back_to_world_map = nullptr;
     enum Ranks{
         S,
         A,
@@ -38,12 +39,18 @@ public:
 
         try_again = AddChild<Button>(Vector2f(50.0f,200.0f-65.0f),Vector2f(100.0f,20.0f),"Try again");
 
-        back_to_level_select = AddChild<Button>(Vector2f(50.0f,200.0f-40.0f),Vector2f(100.0f,20.0f),"Back to level select");
+        back_to_world_map = AddChild<Button>(Vector2f(50.0f,200.0f-40.0f),Vector2f(100.0f,20.0f),"Back to World Map");
+
+        back_to_level_select = AddChild<Button>(Vector2f(50.0f,200.0f-15.0f),Vector2f(100.0f,20.0f),"Back to level select");
 
         //Set the themes
         try_again->theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_grey", 3,4,3,4);
         try_again->hovered_theme = std::make_unique<NinePatchTheme>("pwt_theme_grey_light", 3,4,3,4);
         try_again->held_theme = std::make_unique<NinePatchTheme>("pwt_theme_grey_dark", 3,4,3,4);
+
+        back_to_world_map->theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_grey", 3,4,3,4);
+        back_to_world_map->hovered_theme = std::make_unique<NinePatchTheme>("pwt_theme_grey_light", 3,4,3,4);
+        back_to_world_map->held_theme = std::make_unique<NinePatchTheme>("pwt_theme_grey_dark", 3,4,3,4);
 
         back_to_level_select->theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_grey", 3,4,3,4);
         back_to_level_select->hovered_theme = std::make_unique<NinePatchTheme>("pwt_theme_grey_light", 3,4,3,4);
@@ -61,13 +68,31 @@ public:
 
         rank_icon->current_frame_index = rank;
 
-        JsonDictionary clear_data = JsonDictionary();
+        JsonDictionary& cleared_levels = Engine::Get().GetActiveProfile()->save_file.Get("cleared_levels").AsDictionary();
 
-        clear_data.Set("rank", rank);
-        
-        clear_data.Set("most_rescued_pingus", level->rescued_pingus);
+        JsonVariant& previous_level_high_score_data = cleared_levels.Get(_level->path);
 
-        Engine::Get().GetActiveProfile()->save_file.Get("cleared_levels").AsDictionary().Set(_level->path, clear_data);
+        if(previous_level_high_score_data.IsNull()){
+
+            JsonDictionary level_high_score_data = JsonDictionary();
+
+            level_high_score_data.Set("rank", rank);
+            
+            level_high_score_data.Set("most_rescued_pingus", level->rescued_pingus);
+
+            cleared_levels.Set(_level->path, level_high_score_data);
+        }
+        else{
+
+            int last_rank = previous_level_high_score_data.AsDictionary().Get("rank").AsInt();
+            if(rank < last_rank) previous_level_high_score_data.AsDictionary().Set("rank", rank);
+
+            int rescued_pingus_high_score = previous_level_high_score_data.AsDictionary().Get("most_rescued_pingus").AsInt();
+            if(rescued_pingus_high_score < level->released_pingus) previous_level_high_score_data.AsDictionary().Set("most_rescued_pingus", level->released_pingus);
+        }
+
+        Engine::Get().GetActiveProfile()->save_file.Set("last_played_level", _level->path);
+
         Engine::Get().GetActiveProfile()->Save();
 
         Vector2f window_size = Engine::Get().pixel_game_engine.GetWindowSizeInPixles();
@@ -80,6 +105,12 @@ public:
         if(back_to_level_select->IsReleased()){
             Console::Out("Back to level select");
             Engine::Get().GoToLevel(std::make_unique<PingusLevel>(),"../res/map/title_screen/title_screen.json");
+            return;
+        }
+
+        if(back_to_world_map->IsReleased()){
+            
+            Engine::Get().GoToLevel(std::make_unique<PingusLevel>(),"../res/map/world_map/world_map.json");
             return;
         }
 

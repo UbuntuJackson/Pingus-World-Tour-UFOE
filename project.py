@@ -48,11 +48,12 @@ project.source_files.append("game.cpp")
 project.source_files.append("src/level_select_menu.cpp")
 project.source_files.append("src/pingus_level.cpp")
 project.source_files.append("src/new_game_menu.cpp")
+project.source_files.append("src/load_game_menu.cpp")
 
 #Generate generated_actor_json_bridge.h and CMakeLists.txt.
 project.generate_project()
 build_succeed = project.build("-ggdb", "", "make" ,"-j6")
 
 #This should only run if build succeeds though?
-if build_succeed: project.debug()
+if build_succeed: project.run()
 else: print("Build failed.")

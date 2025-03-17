@@ -8,14 +8,14 @@
 #include <json.h>
 #include <profile.h>
 #include "pingus_level.h"
-#include "new_game_menu.h"
+#include "load_game_menu.h"
 #include "pingus_main_menu.h"
 
-NewGameMenu::NewGameMenu(Vector2f _local_position) : WrapMenu(_local_position,Vector2f(250.0f,200.0f)){
+LoadGameMenu::LoadGameMenu(Vector2f _local_position) : WrapMenu(_local_position,Vector2f(250.0f,200.0f)){
     spacing = 8;
 }
 
-void NewGameMenu::OnLevelEnter(Level* _level){
+void LoadGameMenu::OnLevelEnter(Level* _level){
     Console::PrintLine("NewGameMenu::OnLevelEnter");
 
     has_modified_controls = true;
@@ -36,21 +36,15 @@ void NewGameMenu::OnLevelEnter(Level* _level){
     };
 
     b_save1->on_pressed = [](Widget* _parent_widget, Button* _button){
-        dynamic_cast<NewGameMenu*>(_parent_widget)->WriteNewSave("../res/save/save1.json", "save1");
-
-        Engine::Get().GoToLevel(std::make_unique<PingusLevel>(), "../res/map/world_map/world_map.json");
+        dynamic_cast<LoadGameMenu*>(_parent_widget)->LoadSave("../res/save/save1.json", "save1");
     };
 
     b_save2->on_pressed = [](Widget* _parent_widget, Button* _button){
-        dynamic_cast<NewGameMenu*>(_parent_widget)->WriteNewSave("../res/save/save2.json", "save2");
-
-        Engine::Get().GoToLevel(std::make_unique<PingusLevel>(), "../res/map/world_map/world_map.json");
+        dynamic_cast<LoadGameMenu*>(_parent_widget)->LoadSave("../res/save/save2.json", "save2");
     };
 
     b_save3->on_pressed = [](Widget* _parent_widget, Button* _button){
-        dynamic_cast<NewGameMenu*>(_parent_widget)->WriteNewSave("../res/save/save3.json", "save3");
-
-        Engine::Get().GoToLevel(std::make_unique<PingusLevel>(), "../res/map/world_map/world_map.json");
+        dynamic_cast<LoadGameMenu*>(_parent_widget)->LoadSave("../res/save/save3.json", "save3");
     };
 
     WrapMenu::OnLevelEnter(_level);
@@ -64,7 +58,7 @@ void NewGameMenu::OnLevelEnter(Level* _level){
     }
 }
 
-void NewGameMenu::OnUpdate(){
+void LoadGameMenu::OnUpdate(){
     ControlWithMouse();
     ControlWithKeys(
         SingleKeyboard::Get().GetKey(olc::UP).is_pressed, SingleKeyboard::Get().GetKey(olc::DOWN).is_pressed,
@@ -72,25 +66,20 @@ void NewGameMenu::OnUpdate(){
     );
 }
 
-void NewGameMenu::WriteNewSave(std::string _path, std::string _profile_name){
+void LoadGameMenu::LoadSave(std::string _path, std::string _profile_name){
     std::string save_file_path = _path;
     JsonDictionary potentially_existing_save_json = JsonVariant::Read(save_file_path);
     
     if(!potentially_existing_save_json.IsNull()){
-        Console::PrintLine("Overwriting", save_file_path, "...");
+        
+        Console::PrintLine("Reading from file", save_file_path, "...");
+
+        Engine::Get().NewProfile(_profile_name,save_file_path);
+        Engine::Get().active_profile = _profile_name;
+        Engine::Get().GetActiveProfile()->save_file = JsonVariant::Read(save_file_path);
+        Engine::Get().GoToLevel(std::make_unique<PingusLevel>(), "../res/map/world_map/world_map.json");
     }
     else{
-        Console::PrintLine("Writing new savefile",save_file_path,"...");
+        Console::PrintLine("File",save_file_path,"does not exist.");
     }
-
-    JsonDictionary new_save_json = JsonDictionary();
-
-    new_save_json.Set("cleared_levels", JsonDictionary());
-    new_save_json.Set("unlocked_levels", JsonDictionary());
-
-    new_save_json.Write(save_file_path);
-
-    Engine::Get().NewProfile(_profile_name,save_file_path);
-    Engine::Get().active_profile = _profile_name;
-    Engine::Get().GetActiveProfile()->save_file = JsonVariant::Read(save_file_path);
 }

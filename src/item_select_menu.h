@@ -7,12 +7,16 @@ class ItemSelectMenu : public WrapMenu{
 public:
     /// @export("bomber");
     int number_of_bombers = 0;
+
     /// @export("builder");
     int number_of_builders = 0;
+
     /// @export("parachute");
     int number_of_parachutes = 0;
+
     /// @export("blocker");
     int number_of_blockers = 0;
+    
     /// @export("climber");
     int number_of_climbers = 0;
 

@@ -1,5 +1,7 @@
 #include <actor.h>
+#include <cmath>
 #include <ufo_maths.h>
+#include <ufo_engine.h>
 #include <level.h>
 #include "pingus_level.h"
 #include <sprite_reference.h>
@@ -29,10 +31,12 @@ void WorldMapCursor::OnUpdate(){
     if(local_position.x > 340.0f) spr->scale.x = -1.0f;
     else spr->scale.x = 1.0f;
 
+    spr->local_position = Vector2f(spr->scale.x,1.0f) * 3.0f * std::sin(Engine::Get().GetTime()*3.0f);
+
     for(const auto& location : level->world_map_location_handles){
         if(ufoMaths::Distance2(GetGlobalPosition(),location->GetGlobalPosition()) < 32.0f){
             location->selected = true;
-            if(location->level_path != "" && Mouse::Get().GetLeftButton().is_pressed){
+            if(location->level_path != "" && Mouse::Get().GetLeftButton().is_pressed && location->unlocked){
                 //Would be nice to have a way to error handle should the level path be faulty, instead of downright crashing.
                 Engine::Get().GoToLevel(std::make_unique<PingusLevel>(), location->level_path);
             }

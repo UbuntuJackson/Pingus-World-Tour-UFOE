@@ -9,6 +9,7 @@
 #include <asset_manager.h>
 #include "level_select_menu.h"
 #include "new_game_menu.h"
+#include "load_game_menu.h"
 
 PingusMainMenu::PingusMainMenu(Vector2f _local_position) : WrapMenu(_local_position,Vector2f(250.0f,200.0f)){
     spacing = 8;
@@ -40,6 +41,13 @@ void PingusMainMenu::OnLevelEnter(Level* _level){
     };
 
     auto b_load_game = AddChild<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 150.0f), "Load Game");
+
+    b_load_game->on_pressed = [](Widget* _parent_widget, Button* _button){
+        Console::PrintLine("Load Game pressed");
+        _parent_widget->level->NewActor<LoadGameMenu>(_parent_widget->local_position);
+        _parent_widget->QueueForPurge();
+    };
+
     auto b_level_select = std::make_unique<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 150.0f), "Level Select");
     auto b_options = AddChild<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 150.0f), "Options");
     auto b_quit = std::make_unique<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 150.0f), "Quit");
