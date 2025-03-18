@@ -88,7 +88,7 @@ public:
             if(rank < last_rank) previous_level_high_score_data.AsDictionary().Set("rank", rank);
 
             int rescued_pingus_high_score = previous_level_high_score_data.AsDictionary().Get("most_rescued_pingus").AsInt();
-            if(rescued_pingus_high_score < level->released_pingus) previous_level_high_score_data.AsDictionary().Set("most_rescued_pingus", level->released_pingus);
+            if(rescued_pingus_high_score < level->released_pingus) previous_level_high_score_data.AsDictionary().Set("most_rescued_pingus", level->rescued_pingus);
         }
 
         Engine::Get().GetActiveProfile()->save_file.Set("last_played_level", _level->path);

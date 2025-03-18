@@ -30,6 +30,30 @@ void WorldMapLocation::OnStart(Level* _level){
     JsonDictionary& unlocked_levels = Engine::Get().GetActiveProfile()->save_file.Get("unlocked_levels").AsDictionary();
     if(!unlocked_levels.Get(level_path).IsNull()) unlocked = true;
     
+    if(unlocked){
+        JsonVariant& level_data = Engine::Get().GetActiveProfile()->save_file.Get("cleared_levels").AsDictionary().Get(level_path);
+
+        if(!level_data.IsNull()){
+            switch(level_data.AsDictionary().Get("rank").AsInt()){
+                case 0:
+                    best_rank = "S";
+                    break;
+                case 1:
+                    best_rank = "A";
+                    break;
+                case 2:
+                    best_rank = "B";
+                    break;
+                case 3:
+                    best_rank = "L";
+                    break;
+            }
+
+            most_rescued_pingus = level_data.AsDictionary().Get("most_rescued_pingus").AsInt();
+        }
+
+    }
+
     Console::PrintLine("Location",_level->path,unlocked);
 
     spr->visible = unlocked;
@@ -40,7 +64,7 @@ void WorldMapLocation::OnStart(Level* _level){
         }
     }
 
-    description_label = AddChild<Label>(Vector2f(460.0f,260.0f)-local_position, Vector2f(680.0f-480.0f, 480.0f-240.0f), description);
+    description_label = AddChild<Label>(Vector2f(460.0f,290.0f)-local_position, Vector2f(680.0f-480.0f, 480.0f-240.0f), description);
     ColourRectangleTheme* label_theme = dynamic_cast<ColourRectangleTheme*>(description_label->theme.get());
     label_theme->colour = Colour(0,0,0,0);
     description_label->text_wrapping_mode = Widget::TextWrappingModes::WORD_MEETS_BORDER;
@@ -89,7 +113,7 @@ void WorldMapLocation::OnDraw(Camera* _camera){
 
                 //Console::PrintLine("Line:", _camera->Transform(p0 + offset), _camera->Transform(p1 + offset));
 
-                Graphics::Get().DrawLine( _camera->Transform(p0 + offset), _camera->Transform(p1 + offset), Graphics::RED);
+                if(other_location->unlocked) Graphics::Get().DrawLine( _camera->Transform(p0 + offset), _camera->Transform(p1 + offset), Graphics::RED);
             }
         }
         //Graphics::Get().DrawLine(GetGlobalPosition(), other_location->GetGlobalPosition(),Graphics::RED);
@@ -107,7 +131,8 @@ void WorldMapLocation::OnWidgetDraw(){
     if(selected && unlocked){
         Graphics::Get().DrawString(Vector2f(460.0f,240.0f), name_of_location, Graphics::WHITE ,{1.0f,1.0f});
         description_label->visible = true;
-        //Graphics::Get().DrawString(Vector2f(480.0f,240.0f), description, Graphics::WHITE ,{1.0f,1.0f});
+        Graphics::Get().DrawString(Vector2f(460.0f,260.0f), "Best rank: "+best_rank, Graphics::WHITE ,{1.0f,1.0f});
+        Graphics::Get().DrawString(Vector2f(460.0f,270.0f), "Most rescued pingus: "+std::to_string(most_rescued_pingus), Graphics::WHITE ,{1.0f,1.0f});
     }
     else{
         description_label->visible = false;

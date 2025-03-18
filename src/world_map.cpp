@@ -13,9 +13,15 @@
 void WorldMap::OnLevelEnter(Level* _level){
     level = dynamic_cast<PingusLevel*>(_level); 
     level->is_menu = true;
-    
+
     JsonVariant& last_played_level_json = Engine::Get().GetActiveProfile()->save_file.Get("last_played_level");
-    if(!last_played_level_json.IsNull()) last_played_level = last_played_level_json.AsString();
+    if(!last_played_level_json.IsNull()){
+        last_played_level = last_played_level_json.AsString();
+        
+        JsonVariant& last_played_level_clear_data = Engine::Get().GetActiveProfile()->save_file.Get("cleared_levels").AsDictionary().Get(last_played_level);
+
+        if(!last_played_level_clear_data.IsNull()) last_played_level_rank = last_played_level_clear_data.AsDictionary().Get("rank").AsInt();
+    }
     Console::PrintLine("Last played level:",last_played_level);
 
     backdrop = level->NewActor<WidgetSpriteReference>("backdrop",
@@ -28,19 +34,13 @@ void WorldMap::OnLevelEnter(Level* _level){
 
 void WorldMap::OnStart(Level* _level){
     Console::PrintLine("WorldMap::OnStart");
-
-    std::string level_to_unlock = "";
-    for(const auto& location : level->world_map_location_handles){
-        if(location->level_path == last_played_level){
-            JsonDictionary& unlocked_levels = Engine::Get().GetActiveProfile()->save_file.Get("unlocked_levels").AsDictionary();
-            unlocked_levels.Set(location->unlocks_other_level, true);
-            level_to_unlock = location->unlocks_other_level;
-            Console::PrintLine("Should unlock level:", level_to_unlock);
-        }
-    }
-    for(const auto& location : level->world_map_location_handles){
-        if(location->level_path == last_played_level){
-            location->Unlock();
+    if(last_played_level_rank < 3){
+        for(const auto& location : level->world_map_location_handles){
+            if(location->level_path == last_played_level){
+                JsonDictionary& unlocked_levels = Engine::Get().GetActiveProfile()->save_file.Get("unlocked_levels").AsDictionary();
+                unlocked_levels.Set(location->unlocks_other_level, true);
+                location->Unlock();
+            }
         }
     }
 }

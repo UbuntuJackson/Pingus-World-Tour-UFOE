@@ -14,6 +14,7 @@ public:
     int currently_selected_location = 0;
 
     std::string last_played_level = "?";
+    int last_played_level_rank = 3;
 
     WidgetSpriteReference* backdrop = nullptr;
     float backdrop_velocity = 0.0f;

@@ -40,6 +40,9 @@ public:
     std::string description = "";
     Label* description_label = nullptr;
 
+    std::string best_rank = "L";
+    int most_rescued_pingus = 0;
+
     WorldMapLocation* other_location = nullptr;
 
     WorldMapLocation(Vector2f _location) : Actor(_location){}
