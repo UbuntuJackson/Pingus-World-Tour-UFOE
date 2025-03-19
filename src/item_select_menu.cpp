@@ -54,6 +54,14 @@ void ItemSelectMenu::OnStart(Level* _level){
         }
     };
 
+    item_driller = [this](Pingu* _pingu){
+        if(number_of_drillers > 0){
+            
+            if(_pingu->item_driller()) number_of_drillers--;
+            buttons[selected_index]->text = "Climber : "+std::to_string(number_of_drillers);
+        }
+    };
+
     if(number_of_bombers > 0){
         AddChild<Button>(Vector2f(0.0f, 0.0f), Vector2f(120.0f,20.0f), "Bomber : "+std::to_string(number_of_bombers));
         items.push_back(item_blow_up);
@@ -73,6 +81,10 @@ void ItemSelectMenu::OnStart(Level* _level){
     if(number_of_climbers > 0){
         AddChild<Button>(Vector2f(0.0f, 0.0f), Vector2f(120.0f,20.0f), "Climber : "+std::to_string(number_of_climbers));
         items.push_back(item_climber);
+    }
+    if(number_of_drillers > 0){
+        AddChild<Button>(Vector2f(0.0f, 0.0f), Vector2f(120.0f,20.0f), "Driller : "+std::to_string(number_of_drillers));
+        items.push_back(item_driller);
     }
 
     dynamic_cast<PingusLevel*>(_level)->item_select_menu = this;

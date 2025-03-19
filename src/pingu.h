@@ -29,6 +29,7 @@ public:
 
     Timer build_timer;
     Timer fall_timer;
+    Timer driller_timer;
 
     bool is_in_special_state = false;
     bool exploded = false;
@@ -46,7 +47,8 @@ public:
         PARACHUTE,
         BLOCKER,
         CLIMBER,
-        FALL_AFTER_CLIMBER
+        FALL_AFTER_CLIMBER,
+        DRILLER
     };
 
     int what_is_current_state = States::WALK;
@@ -96,6 +98,10 @@ public:
     std::function<void()> state_fall_after_climber = [this](){
         what_is_current_state = States::FALL_AFTER_CLIMBER;
         FallAfterClimber();
+    };
+
+    std::function<void()> state_driller = [this](){
+        Driller();
     };
 
     std::function<void()> state = state_walk;
@@ -464,6 +470,39 @@ public:
         }
     }
 
+    void Driller(){
+        velocity.x = 0.0f;
+        velocity.y = 10.0f;
+        if(driller_timer.GetTimeLeft() < 0.0f){
+            driller_timer.Start(driller_pace);
+            for(auto&& [k,v] : level->level_decals){
+                
+                if(k == "bg") continue;
+                
+                for(int yy = -32+12; yy < 32+12; yy++){
+                    for(int xx = -32+6; xx < 32+6; xx++){
+                        if(ufoMaths::Distance2(local_position+Vector2f(xx,yy), local_position+Vector2f(6.0f,12.0f)) <= 14.0f){
+                            if(ufoMaths::Distance2(local_position+Vector2f(xx,yy), local_position+Vector2f(6.0f,12.0f)) > 10.0f
+                                && v->sprite->GetPixel(local_position+Vector2f(xx,yy)).a != 0
+                            ){
+                                olc::Pixel c = v->sprite->GetPixel(local_position+Vector2f(xx,yy));
+                                v->sprite->SetPixel(local_position+Vector2f(xx,yy),olc::Pixel(25,25,25));
+                            }
+                            else v->sprite->SetPixel(local_position+Vector2f(xx,yy),olc::Pixel(0,0,0,0));
+                        }
+                        
+                    }
+                }
+                v->Update();
+            }
+        }
+        if(!hit_floor || IsOverlappingFeet(local_position+Vector2f(0.0f,1.0f),olc::VERY_DARK_GREY)){
+            state = state_walk;
+            is_in_special_state = false;
+            snap_to_ground_enabled = true;
+        }
+    }
+
     bool has_climber = false;
 
     std::function<bool()> item_climber = [this](){
@@ -560,6 +599,17 @@ public:
 
         has_parachute = true;
 
+        return true;
+    };
+
+    float driller_pace = 50.0f;
+
+    std::function<bool()> item_driller = [this](){
+        if(!hit_floor && what_is_current_state == States::DRILLER) return false;
+        is_in_special_state = true;
+        state = state_driller;
+        driller_timer.Start(driller_pace);
+        //snap_to_ground_enabled = false;
         return true;
     };
 
@@ -847,6 +897,10 @@ public:
             
         }
         
+    }
+
+    bool IsOverlappingSolid(Vector2f _check_location){
+        return IsOverlapping(game, mask_decal, solid_layer, _check_location, olc::VERY_DARK_GREY) || IsOverlapping(game, mask_decal, solid_layer, _check_location, olc::WHITE);
     }
 
     void OnDraw(Camera* _camera){

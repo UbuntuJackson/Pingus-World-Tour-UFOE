@@ -67,34 +67,35 @@ public:
         );
 
         rank_icon->current_frame_index = rank;
+        JsonVariant variant_cleared_levels = Engine::Get().GetActiveProfile()->save_file.Get("cleared_levels");
+        if(!variant_cleared_levels.IsNull()){
+            JsonDictionary& cleared_levels = variant_cleared_levels.AsDictionary();
 
-        JsonDictionary& cleared_levels = Engine::Get().GetActiveProfile()->save_file.Get("cleared_levels").AsDictionary();
+            JsonVariant& previous_level_high_score_data = cleared_levels.Get(_level->path);
 
-        JsonVariant& previous_level_high_score_data = cleared_levels.Get(_level->path);
+            if(previous_level_high_score_data.IsNull()){
 
-        if(previous_level_high_score_data.IsNull()){
+                JsonDictionary level_high_score_data = JsonDictionary();
 
-            JsonDictionary level_high_score_data = JsonDictionary();
+                level_high_score_data.Set("rank", rank);
+                
+                level_high_score_data.Set("most_rescued_pingus", level->rescued_pingus);
 
-            level_high_score_data.Set("rank", rank);
-            
-            level_high_score_data.Set("most_rescued_pingus", level->rescued_pingus);
+                cleared_levels.Set(_level->path, level_high_score_data);
+            }
+            else{
 
-            cleared_levels.Set(_level->path, level_high_score_data);
+                int last_rank = previous_level_high_score_data.AsDictionary().Get("rank").AsInt();
+                if(rank < last_rank) previous_level_high_score_data.AsDictionary().Set("rank", rank);
+
+                int rescued_pingus_high_score = previous_level_high_score_data.AsDictionary().Get("most_rescued_pingus").AsInt();
+                if(rescued_pingus_high_score < level->released_pingus) previous_level_high_score_data.AsDictionary().Set("most_rescued_pingus", level->rescued_pingus);
+            }
+
+            Engine::Get().GetActiveProfile()->save_file.Set("last_played_level", _level->path);
+
+            Engine::Get().GetActiveProfile()->Save();
         }
-        else{
-
-            int last_rank = previous_level_high_score_data.AsDictionary().Get("rank").AsInt();
-            if(rank < last_rank) previous_level_high_score_data.AsDictionary().Set("rank", rank);
-
-            int rescued_pingus_high_score = previous_level_high_score_data.AsDictionary().Get("most_rescued_pingus").AsInt();
-            if(rescued_pingus_high_score < level->released_pingus) previous_level_high_score_data.AsDictionary().Set("most_rescued_pingus", level->rescued_pingus);
-        }
-
-        Engine::Get().GetActiveProfile()->save_file.Set("last_played_level", _level->path);
-
-        Engine::Get().GetActiveProfile()->Save();
-
         Vector2f window_size = Engine::Get().pixel_game_engine.GetWindowSizeInPixles();
         local_position = window_size/2 - GetRectangle().size/2;
     }
