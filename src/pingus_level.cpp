@@ -36,6 +36,7 @@ void PingusLevel::OnResourceLoad(){
     AssetManager::Get().LoadDecal("../res/assets/spawner.png", "spawner");
     AssetManager::Get().LoadDecal("../res/assets/pingu_fall.png", "pingu_fall");
     AssetManager::Get().LoadDecal("../res/assets/pingu_parachute.png", "pingu_parachute");
+    AssetManager::Get().LoadDecal("../res/assets/driller-Sheet.png", "pingu_driller");
     AssetManager::Get().LoadDecal("../res/assets/parachute.png", "parachute");
     AssetManager::Get().LoadDecal("../res/assets/honey_coint-Sheet.png", "honey_coin");
     AssetManager::Get().LoadDecal("../res/assets/pingu_blowing_up-Sheet.png", "pingu_explode");

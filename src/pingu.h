@@ -16,6 +16,7 @@
 #include <widget_sprite_reference.h>
 #include "goal.h"
 #include "honey_coin.h"
+#include <colour_utils.h>
 #include "item_select_menu.h"
 
 /// @spawn;
@@ -191,6 +192,17 @@ public:
             0.0f,
             0,
             10.6f
+        ));
+
+        anim->AddAnimationState(AnimatedSpriteReference(
+            "pingu_driller",
+            Vector2f(0.0f, 0.0f),
+            Vector2f(16.0f,24.0f),
+            Vector2f(32.0f, 32.0f),
+            Vector2f(1.0f,1.0f),
+            0.0f,
+            0,
+            20.0f
         ));
 
         if(Engine::Get().all_shapes_visible){
@@ -473,14 +485,17 @@ public:
     void Driller(){
         velocity.x = 0.0f;
         velocity.y = 10.0f;
+        anim->SetAnimation("pingu_driller");
         if(driller_timer.GetTimeLeft() < 0.0f){
             driller_timer.Start(driller_pace);
-            for(auto&& [k,v] : level->level_decals){
-                
-                if(k == "bg") continue;
-                
-                for(int yy = -32+12; yy < 32+12; yy++){
-                    for(int xx = -32+6; xx < 32+6; xx++){
+            
+            for(int yy = -32+12; yy < 32+12; yy++){
+                for(int xx = -32+6; xx < 32+6; xx++){
+                    auto solid_decal = level->level_decals.at(solid_layer);
+                    if(CompareColour(solid_decal->sprite->GetPixel(local_position+Vector2f(xx,yy)), olc::VERY_DARK_GREY)) continue;
+
+                    for(auto&& [k,v] : level->level_decals){
+                        if(k == "bg") continue;
                         if(ufoMaths::Distance2(local_position+Vector2f(xx,yy), local_position+Vector2f(6.0f,12.0f)) <= 14.0f){
                             if(ufoMaths::Distance2(local_position+Vector2f(xx,yy), local_position+Vector2f(6.0f,12.0f)) > 10.0f
                                 && v->sprite->GetPixel(local_position+Vector2f(xx,yy)).a != 0
@@ -490,11 +505,15 @@ public:
                             }
                             else v->sprite->SetPixel(local_position+Vector2f(xx,yy),olc::Pixel(0,0,0,0));
                         }
-                        
                     }
+                    
                 }
+            }
+
+            for(auto&& [k,v] : level->level_decals){
                 v->Update();
             }
+            
         }
         if(!hit_floor || IsOverlappingFeet(local_position+Vector2f(0.0f,1.0f),olc::VERY_DARK_GREY)){
             state = state_walk;
@@ -727,6 +746,7 @@ public:
             {
                 build_timer.FastForward(1.0f);
                 fall_timer.FastForward(1.0f);
+                driller_timer.FastForward(1.0f);
                 PinguUpdate();
             }
         }
@@ -773,11 +793,11 @@ public:
         //Console::Out("");
 
         //Normal slope and walls
-        if(IsOverlapping(game, mask_decal,solid_layer,local_position)){
+        if(IsOverlappingSolid(local_position)){
             bool slope_resolved = false;
             Vector2f incrementing_position = local_position;
 
-            while(IsOverlapping(game, mask_decal,solid_layer,incrementing_position)){
+            while(IsOverlappingSolid(incrementing_position)){
                 incrementing_position.x -= ufoMaths::Sign(velocity.x);
             }
             
@@ -785,7 +805,7 @@ public:
 
                 Vector2f position_before_slope_incrementation = incrementing_position;
 
-                while(IsOverlapping(game, mask_decal,solid_layer,incrementing_position)){
+                while(IsOverlappingSolid(incrementing_position)){
                     
                     incrementing_position.y-=1.0f;
 
@@ -825,7 +845,7 @@ public:
             hit_slope = false;
         }
 
-        if(IsOverlapping(game, mask_decal,solid_layer,local_position)) Console::Out("Is still overlapping after resolution");
+        if(IsOverlappingSolid(local_position)) Console::Out("Is still overlapping after resolution");
 
         //Semi solid slope
 
@@ -844,7 +864,7 @@ public:
                     
                 incrementing_position.y-=1.0f;
 
-                if(IsOverlapping(game, mask_decal, solid_layer, incrementing_position)){
+                if(IsOverlappingSolid(incrementing_position)){
                     
                     incrementing_position.y+=1.0f;
                     
@@ -863,8 +883,8 @@ public:
 
         local_position.y += velocity.y * Engine::Get().GetDeltaTime();
 
-        if(IsOverlapping(game, mask_decal,solid_layer,local_position)){
-            while(IsOverlapping(game, mask_decal,solid_layer,local_position)){
+        if(IsOverlappingSolid(local_position)){
+            while(IsOverlappingSolid(local_position)){
                 local_position.y-=ufoMaths::Sign(velocity.y);
             }
             if(velocity.y > 0.0f) hit_floor = true;
@@ -872,7 +892,7 @@ public:
             velocity.y = 0.0f;
         }
 
-        if(IsOverlapping(game, mask_decal,solid_layer,local_position+Vector2f(0.0f, 1.0f)) || IsOverlappingFeet(local_position+Vector2f(0.0f, 1.0f), olc::RED)){
+        if(IsOverlappingSolid(local_position+Vector2f(0.0f, 1.0f)) || IsOverlappingFeet(local_position+Vector2f(0.0f, 1.0f), olc::RED)){
             hit_floor = true;
         }
 
@@ -881,7 +901,7 @@ public:
             bool found_slope = true;
             Vector2f temporary_position = local_position;
 
-            while(!IsOverlapping(game, mask_decal, solid_layer, temporary_position) && !IsOverlapping(game, mask_decal, solid_layer, temporary_position, olc::RED)){
+            while(!IsOverlappingSolid(temporary_position) && !IsOverlapping(game, mask_decal, solid_layer, temporary_position, olc::RED)){
                 temporary_position.y += 1.0f;
                 if(std::abs(temporary_position.y - local_position.y) > max_slope_height*2.0f){
                     
