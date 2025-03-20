@@ -58,7 +58,7 @@ void ItemSelectMenu::OnStart(Level* _level){
         if(number_of_drillers > 0){
             
             if(_pingu->item_driller()) number_of_drillers--;
-            buttons[selected_index]->text = "Climber : "+std::to_string(number_of_drillers);
+            buttons[selected_index]->text = "Driller : "+std::to_string(number_of_drillers);
         }
     };
 

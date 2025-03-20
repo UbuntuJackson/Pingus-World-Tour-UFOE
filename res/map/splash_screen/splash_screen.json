@@ -75,17 +75,6 @@
          "y":0
         }, 
         {
-         "class":"SpriteReference",
-         "id":7,
-         "image":"mg.png",
-         "name":"mg",
-         "opacity":1,
-         "type":"imagelayer",
-         "visible":true,
-         "x":0,
-         "y":0
-        }, 
-        {
          "draworder":"topdown",
          "id":2,
          "name":"collision_polygons",
@@ -124,90 +113,16 @@
          "name":"actors",
          "objects":[
                 {
-                 "gid":11,
+                 "gid":19,
                  "height":32,
-                 "id":35,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"driller",
-                         "type":"int",
-                         "value":20
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":9.91740834340541,
-                 "y":44.0605427974947
-                }, 
-                {
-                 "gid":9,
-                 "height":32,
-                 "id":36,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"maximum_rescuable_pingus",
-                         "type":"int",
-                         "value":20
-                        }, 
-                        {
-                         "name":"number_of_pingus",
-                         "type":"int",
-                         "value":10
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":543.333333333333,
-                 "y":433
-                }, 
-                {
-                 "gid":8,
-                 "height":32,
-                 "id":37,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"face_left",
-                         "type":"int",
-                         "value":1
-                        }, 
-                        {
-                         "name":"face_right",
-                         "type":"int",
-                         "value":0
-                        }, 
-                        {
-                         "name":"interval_milliseconds",
-                         "type":"float",
-                         "value":1000
-                        }, 
-                        {
-                         "name":"number_of_pingus",
-                         "type":"int",
-                         "value":20
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":520.378163571768,
-                 "y":98.8829798923194
-                }, 
-                {
-                 "gid":5,
-                 "height":32,
-                 "id":38,
+                 "id":39,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":198.063143244332,
-                 "y":417.011885140827
+                 "x":52.5638940775739,
+                 "y":67.8624326997033
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -227,7 +142,7 @@
         {
          "name":"relative path",
          "type":"string",
-         "value":"..\/res\/map\/digging_test_level"
+         "value":"..\/res\/map\/template_level"
         }],
  "renderorder":"right-down",
  "tiledversion":"1.11.0",

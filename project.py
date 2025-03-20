@@ -42,6 +42,7 @@ project.import_actor("src/world_map_location.h","src/world_map_location.cpp")
 project.import_actor("src/test/movable_camera.h", "src/test/movable_camera.cpp")
 project.import_actor("src/world_map_cursor.h","src/world_map_cursor.cpp")
 project.import_actor("src/world_map.h","src/world_map.cpp")
+project.import_actor("src/pingus_splash_screen.h")
 
 #Source-files that aren't Actors.
 project.source_files.append("game.cpp")
