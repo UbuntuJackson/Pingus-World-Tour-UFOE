@@ -65,6 +65,7 @@ void NewGameMenu::OnLevelEnter(Level* _level){
 }
 
 void NewGameMenu::OnUpdate(){
+    WrapMenu::OnUpdate();
     ControlWithMouse();
     ControlWithKeys(
         SingleKeyboard::Get().GetKey(olc::UP).is_pressed, SingleKeyboard::Get().GetKey(olc::DOWN).is_pressed,
