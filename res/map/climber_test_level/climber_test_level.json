@@ -130,7 +130,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"number_of_climbers",
+                         "name":"climber",
                          "type":"int",
                          "value":20
                         }],
@@ -264,12 +264,12 @@
          "columns":3,
          "firstgid":5,
          "image":"..\/..\/assets\/pingus_actor_sheet.png",
-         "imageheight":96,
+         "imageheight":160,
          "imagewidth":96,
          "margin":0,
          "name":"pingus_actor_sheet",
          "spacing":0,
-         "tilecount":9,
+         "tilecount":15,
          "tileheight":32,
          "tilewidth":32
         }],

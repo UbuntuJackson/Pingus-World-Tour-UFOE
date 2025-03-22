@@ -250,11 +250,9 @@ public:
         velocity.x = face_direction * 30.0f;
 
         if(has_climber && hit_wall){
-            Console::Out("Climbing power activated!", face_direction);
-            velocity.x = 0.0f;
+            
             state = state_climber;
             is_in_special_state = true;
-            Console::Out(face_direction);
             
         }
         
@@ -267,7 +265,7 @@ public:
             if(IsOverlapping(level,mask_decal,solid_layer,local_position+Vector2f(0.0f,2.0f),olc::MAGENTA)){
                 
                 for(auto&& [k,v] : level->level_decals){
-                    Console::Out(k);
+                    
                     if(k == "bg") continue;
                     
                     for(int yy = -32+12; yy < 32+12; yy++){
@@ -376,10 +374,10 @@ public:
         velocity.x = 0.0f;
 
         if(anim->current_animation_state->key == "pingu_explode"){
-            //Console::Out("Frame index",anim->current_animation_state->frame_counter);
+            
             if(anim->current_animation_state->current_frame_index > 4.9 && !exploded){
                 for(auto&& [k,v] : level->level_decals){
-                    Console::Out(k);
+                    
                     if(k == "bg") continue;
                     
                     for(int yy = -32+12; yy < 32+12; yy++){
@@ -420,7 +418,7 @@ public:
             && Mouse::Get().GetLeftButton().is_pressed && is_already_blocker
         )
         {
-            Console::Out("removed stuff");
+            
             for(int yy = 0; yy < 6; yy++){
                 for(int xx = 5; xx < 5+width; xx++){
                     
@@ -429,7 +427,7 @@ public:
                     Vector2f place_pos = local_position+Vector2f(xx,24.0f-yy);
                     if(dec->sprite->GetPixel(place_pos) == olc::BLUE) dec->sprite->SetPixel(place_pos,olc::Pixel(0,0,0,0));
                     dec->Update();
-                    Console::Out("made blue",xx,yy);
+                    
                     
                     //level->level_decals.at("mg")->sprite->SetPixel(local_position+Vector2f(xx,yy),olc::Pixel(255,0,0,255));
                     
@@ -447,22 +445,25 @@ public:
     float climbing_direction = 1.0f;
 
     void Climber(){
-        //Console::Out("Climber");
 
         velocity.y = -50.0f;
-        velocity.x = 0.0f;
 
         anim->current_animation_state->scale.x = climbing_direction;
         anim->current_animation_state->rotation = climbing_direction*90.0f * 180.0f/3.1415f;
 
         snap_to_ground_enabled = false;
 
-        if(hit_ceiling ||
+        if(
+            hit_ceiling ||
             (!IsOverlappingFeet(local_position + Vector2f(climbing_direction * 2.0f, 0.0f), olc::WHITE))
         ){
             anim->current_animation_state->rotation = 0.0f;
-            if(!hit_ceiling) state = state_fall_after_climber;
+            if(!hit_ceiling){
+                Console::PrintLine("Climber hit wall", hit_wall);
+                state = state_fall_after_climber;
+            }
             else{
+                Console::PrintLine("Climber hit ceiling.");
                 climbing_direction *= -1.0f;
                 is_in_special_state = false;
                 state = state_walk;
@@ -475,7 +476,7 @@ public:
     }
 
     void FallAfterClimber(){
-        velocity.y = 1.0f;
+        velocity.y = 10.0f;
         if(hit_floor){
             state = state_walk;
             is_in_special_state = false;
@@ -550,7 +551,6 @@ public:
         //anim->current_animation_state->visible = false;
         
         int width = 2;
-        Console::Out("Item block");
 
         auto dec = level->level_decals.at("solid");
 
@@ -562,18 +562,10 @@ public:
                 olc::Pixel p = dec->sprite->GetPixel(place_pos);
                 
                 //This is not {0,0,0,0} for some reason but instead {115,121,121,0}
-                Console::Out(
-                    int(p.r),
-                    int(p.g),
-                    int(p.b),
-                    int(p.a));
                 
                 if(dec->sprite->GetPixel(place_pos).a == 0){
-                    //Console::Out("made blue",xx,yy);
                     dec->sprite->SetPixel(place_pos,olc::BLUE);
                 }
-                
-                //level->level_decals.at("mg")->sprite->SetPixel(local_position+Vector2f(xx,yy),olc::Pixel(255,0,0,255));
                 
             }
         }
@@ -694,26 +686,14 @@ public:
 
         PinguCollision();
 
-        /*if(hit_slope || hit_wall || hit_ceiling || hit_floor){
-            Console::Out("Hit slope",hit_slope);
-            Console::Out("Hit wall",hit_wall);
-            Console::Out("Hit ceiling",hit_ceiling);
-            Console::Out("Hit floor",hit_floor);
-            Console::Out("---");
-        }*/
-        /*for(int i = 0; i++; i < 3){
-            if(IsOverlappingFeet(local_position-Vector2f(0.0f,i),olc::BLUE) && !is_already_overlapping_blue){
-                face_direction *= -1.0f;
-            }
-        }*/
-
-        if(is_already_overlapping_blue) Console::Out("is_already_overlapping_blue");
-
         if(IsOverlappingFeet(local_position,olc::BLUE) && !is_already_overlapping_blue){
             face_direction *= -1.0f;
         }
 
-        if(hit_wall) face_direction *= -1.0f;
+        if(hit_wall && !has_climber){
+            face_direction *= -1.0f;
+            
+        }
     }
 
     void OnPaused(){
@@ -767,31 +747,6 @@ public:
 
         local_position.x += velocity.x * Engine::Get().GetDeltaTime();
 
-        /*if(IsOverlapping(game,mask_decal,solid_layer,local_position)){
-            Vector2f position_before_ceiling_slide = local_position;
-            bool slope_resolved = false;
-            while(!slope_resolved){
-                local_position.x += ufoMaths::Sign(velocity.x);
-
-                while(IsOverlapping(game, mask_decal,solid_layer, local_position)){
-                    local_position.y+=1.0f;
-
-                    if(std::abs(position_before_ceiling_slide.y-local_position.y) > max_slope_height){
-                        slope_resolved = true;
-                        local_position = position_before_ceiling_slide;
-                        break;
-                    }
-                }
-                if(std::abs(local_position.x - position_before_ceiling_slide.x) > std::abs(velocity.x * Engine::Get().GetDeltaTime())){
-                    Console::Out(std::abs(position_before_ceiling_slide.y-local_position.y));
-                    slope_resolved = true;
-                    attempt_free_from_semisolid = true;
-                }
-            }
-        }*/
-
-        //Console::Out("");
-
         //Normal slope and walls
         if(IsOverlappingSolid(local_position)){
             bool slope_resolved = false;
@@ -823,19 +778,17 @@ public:
 
                 if(!hit_wall) incrementing_position.x += ufoMaths::Sign(velocity.x);
 
-                Console::Out("Less than max slope height", std::abs(incrementing_position.y - position_before_slope_incrementation.y));
-
                 if(std::abs(local_position.x - incrementing_position.x) >= std::abs(velocity.x * Engine::Get().GetDeltaTime())){
                     slope_resolved = true;
-                    Console::Out("Slope still not resolved", velocity.x * Engine::Get().GetDeltaTime());
+                    
                 }
             }
             if(hit_slope){
                 local_position.y = incrementing_position.y;
-                Console::Out("Hit slope confirmed", std::abs(velocity.x * Engine::Get().GetDeltaTime()));
+                
             }
             if(hit_wall){
-                Console::Out("Hit wall confirmed", std::abs(velocity.x * Engine::Get().GetDeltaTime()));
+                
                 local_position = incrementing_position;
                 velocity.x = 0.0f;
             }
@@ -845,7 +798,7 @@ public:
             hit_slope = false;
         }
 
-        if(IsOverlappingSolid(local_position)) Console::Out("Is still overlapping after resolution");
+        if(IsOverlappingSolid(local_position)) Console::Print("Is still overlapping after resolution\n");
 
         //Semi solid slope
 
@@ -873,8 +826,6 @@ public:
                 }
 
             }
-
-            Console::Out(local_position.y - incrementing_position.y);
             
             local_position = incrementing_position;
             velocity.y = 0.0f;      

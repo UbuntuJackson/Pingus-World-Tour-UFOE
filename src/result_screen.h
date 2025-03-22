@@ -67,7 +67,7 @@ public:
         );
 
         rank_icon->current_frame_index = rank;
-        JsonVariant variant_cleared_levels = Engine::Get().GetActiveProfile()->save_file.Get("cleared_levels");
+        JsonVariant& variant_cleared_levels = Engine::Get().GetActiveProfile()->save_file.Get("cleared_levels");
         if(!variant_cleared_levels.IsNull()){
             JsonDictionary& cleared_levels = variant_cleared_levels.AsDictionary();
 

@@ -1,12 +1,16 @@
 {
 	"cleared_levels":	{
 		"../res/map/bomber_test_level/bomber_test_level.json":	{
-			"most_rescued_pingus":	5,
-			"rank":	0
+			"most_rescued_pingus":	8,
+			"rank":	1
 		},
 		"../res/map/builder_test_level/test_level_builder_tiled.json":	{
-			"most_rescued_pingus":	9,
-			"rank":	2
+			"most_rescued_pingus":	12,
+			"rank":	1
+		},
+		"../res/map/tic_tac_tower/tic_tac_tower.json":	{
+			"most_rescued_pingus":	0,
+			"rank":	3
 		}
 	},
 	"last_played_level":	"../res/map/builder_test_level/test_level_builder_tiled.json",

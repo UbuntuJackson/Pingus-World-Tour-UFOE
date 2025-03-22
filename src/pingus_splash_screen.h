@@ -5,6 +5,7 @@
 #include <timer.h>
 #include <memory>
 #include "pingus_level.h"
+#include <mouse.h>
 /// @spawn;
 class PingusSplashScreen : public WidgetSpriteReference{
 public:
@@ -31,7 +32,7 @@ public:
 
     void OnUpdate(){
         if(duration_timer.GetTimeLeft() <= 2000.0f) current_frame_index = 1.0f;
-        if(duration_timer.GetTimeLeft() <= 0.0f || SingleKeyboard::Get().GetKey(olc::ENTER).is_pressed){
+        if(duration_timer.GetTimeLeft() <= 0.0f || SingleKeyboard::Get().GetKey(olc::ENTER).is_pressed || Mouse::Get().GetLeftButton().is_pressed){
             Engine::Get().GoToLevel(std::make_unique<PingusLevel>(), "../res/map/title_screen/title_screen.json");
         }
     }
