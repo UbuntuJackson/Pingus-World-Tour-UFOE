@@ -9,11 +9,11 @@
 			"rank":	1
 		},
 		"../res/map/tic_tac_tower/tic_tac_tower.json":	{
-			"most_rescued_pingus":	0,
-			"rank":	3
+			"most_rescued_pingus":	19,
+			"rank":	1
 		}
 	},
-	"last_played_level":	"../res/map/builder_test_level/test_level_builder_tiled.json",
+	"last_played_level":	"../res/map/tic_tac_tower/tic_tac_tower.json",
 	"unlocked_levels":	{
 		"../res/map/bomber_test_level/bomber_test_level.json":	1,
 		"../res/map/tic_tac_tower/tic_tac_tower.json":	1
