@@ -38,19 +38,19 @@ void NewGameMenu::OnLevelEnter(Level* _level){
     b_save1->on_pressed = [](Widget* _parent_widget, Button* _button){
         dynamic_cast<NewGameMenu*>(_parent_widget)->WriteNewSave("../res/save/save1.json", "save1");
 
-        Engine::Get().GoToLevel(std::make_unique<PingusLevel>(), "../res/map/world_map/world_map.json");
+        Engine::Get().GoToLevel(std::make_unique<PingusLevel>(), "../res/map/story_mode_intro/story_mode_intro.json");
     };
 
     b_save2->on_pressed = [](Widget* _parent_widget, Button* _button){
         dynamic_cast<NewGameMenu*>(_parent_widget)->WriteNewSave("../res/save/save2.json", "save2");
 
-        Engine::Get().GoToLevel(std::make_unique<PingusLevel>(), "../res/map/world_map/world_map.json");
+        Engine::Get().GoToLevel(std::make_unique<PingusLevel>(), "../res/map/story_mode_intro/story_mode_intro.json");
     };
 
     b_save3->on_pressed = [](Widget* _parent_widget, Button* _button){
         dynamic_cast<NewGameMenu*>(_parent_widget)->WriteNewSave("../res/save/save3.json", "save3");
 
-        Engine::Get().GoToLevel(std::make_unique<PingusLevel>(), "../res/map/world_map/world_map.json");
+        Engine::Get().GoToLevel(std::make_unique<PingusLevel>(), "../res/map/story_mode_intro/story_mode_intro.json");
     };
 
     WrapMenu::OnLevelEnter(_level);

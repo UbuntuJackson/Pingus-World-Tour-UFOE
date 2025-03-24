@@ -50,6 +50,9 @@ void PingusLevel::OnResourceLoad(){
     AssetManager::Get().LoadDecal("../res/assets/red_x.png","red_x");
     AssetManager::Get().LoadDecal("../res/assets/backdrop.png","backdrop");
     AssetManager::Get().LoadDecal("../res/assets/pingus_splash_screen.png","pingus_splash_screen");
+    AssetManager::Get().LoadDecal("../res/assets/pwt_intro_cutscene.png","pwt_intro_cutscene");
+    AssetManager::Get().LoadDecal("../res/assets/pwt_intro_cutscene3.png","pwt_intro_cutscene3");
+    AssetManager::Get().LoadDecal("../res/assets/cover_for_intro.png","cover_for_intro");
     Engine::Get().pixel_game_engine.LoadFontSprite("../res/assets/pwt_grey_font.png");
 }
 
