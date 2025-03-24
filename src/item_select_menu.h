@@ -3,6 +3,7 @@
 
 class Pingu;
 
+/// @spawn;
 class ItemSelectMenu : public WrapMenu{
 public:
     /// @export("bomber");

@@ -16,9 +16,6 @@ goal.export_variables_to_editor()
 
 main_menu = tool.Class("PingusMainMenu", "src/pingus_main_menu.h", "src/pingus_main_menu.cpp")
 
-item_select_menu = tool.Class("ItemSelectMenu", "src/item_select_menu.h", "src/item_select_menu.cpp")
-item_select_menu.export_variables_to_editor()
-
 honey_coin = tool.Class("HoneyCoin", "src/honey_coin.h")
 
 static_quadtree_actor = tool.Class("StaticQuadTreeActor","src/test/static_quadtree_actor.h")
@@ -34,7 +31,7 @@ project.classes.append(None)
 project.import_actor("src/spawner.h")
 project.classes.append(goal)
 project.classes.append(main_menu)
-project.classes.append(item_select_menu)
+project.import_actor("src/item_select_menu.h", "src/item_select_menu.cpp")
 project.classes.append(None)
 project.classes.append(static_quadtree_actor)
 project.classes.append(dynamic_quadtree_actor)
@@ -53,8 +50,3 @@ project.source_files.append("src/load_game_menu.cpp")
 
 #Generate generated_actor_json_bridge.h and CMakeLists.txt.
 project.generate_project()
-build_succeed = project.build("-ggdb", "", "make" ,"-j6")
-
-#This should only run if build succeeds though?
-if build_succeed: project.run()
-else: print("Build failed.")
