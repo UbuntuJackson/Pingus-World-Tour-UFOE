@@ -181,14 +181,14 @@
                         {
                          "name":"unlocks_other_level",
                          "type":"string",
-                         "value":"..\/res\/map\/bomber_test_level\/bomber_test_level.json"
+                         "value":"..\/res\/map\/digging_test_level\/digging_test_level.json"
                         }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":224,
-                 "y":458
+                 "x":219.5,
+                 "y":461
                 }, 
                 {
                  "gid":15,
@@ -321,6 +321,39 @@
                  "width":32,
                  "x":255.5,
                  "y":70
+                }, 
+                {
+                 "gid":15,
+                 "height":32,
+                 "id":59,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"description",
+                         "type":"string",
+                         "value":"You have only scratched the surface. It's time to dig deeper..."
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"Dig Yourself In"
+                        }, 
+                        {
+                         "name":"path",
+                         "type":"string",
+                         "value":"..\/res\/map\/digging_test_level\/digging_test_level.json"
+                        }, 
+                        {
+                         "name":"unlocks_other_level",
+                         "type":"string",
+                         "value":"..\/res\/map\/bomber_test_level\/bomber_test_level.json"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":273,
+                 "y":431
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -329,7 +362,7 @@
          "y":0
         }],
  "nextlayerid":9,
- "nextobjectid":59,
+ "nextobjectid":60,
  "orientation":"orthogonal",
  "properties":[
         {
@@ -363,12 +396,12 @@
          "columns":3,
          "firstgid":5,
          "image":"..\/..\/assets\/pingus_actor_sheet.png",
-         "imageheight":160,
+         "imageheight":192,
          "imagewidth":96,
          "margin":0,
          "name":"pingus_actor_sheet",
          "spacing":0,
-         "tilecount":15,
+         "tilecount":18,
          "tileheight":32,
          "tilewidth":32
         }],

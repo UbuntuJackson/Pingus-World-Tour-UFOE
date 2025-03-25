@@ -35,10 +35,10 @@ public:
         u_text_box->text_queue.push_back("Or so they used to...");
         
         u_text_box->text_queue.push_back("One day things started to change. The climate got hotter. The icesheets melted away. Chaos ensued.");
-        u_text_box->text_queue.push_back("The pingus assembled and trained a team of pingus to set out into the world to find out what was happening.");
-        u_text_box->text_queue.push_back("They are off to a good start, but something is missing. They are too prone to walk off edges...");
-        u_text_box->text_queue.push_back("What they need is leadership, and it is upto YOU, the player to guide them on their grand new WORLD TOUR.");
-        u_text_box->text_queue.push_back("~ The Pingus' World Tour ~ \n (c) UFO-Engine Studios 2025");
+        u_text_box->text_queue.push_back("The pingus assembled a team to set out into the world to find out what was happening.");
+        u_text_box->text_queue.push_back("They are off to a good start, but something is missing. They are prone to walk off ledges");
+        u_text_box->text_queue.push_back("What they need is leadership, and it is up to YOU, the player to guide them on their WORLD TOUR.");
+        u_text_box->text_queue.push_back("~ The Pingus' World Tour ~ (c) UFO-Engine Studios 2025");
 
         std::reverse(u_text_box->text_queue.begin(), u_text_box->text_queue.end());
 
@@ -81,7 +81,7 @@ public:
 
                 }
 
-                if(text_box_counter == 5){
+                if(text_box_counter == 4){
                     text_box->local_position.y = 20.0f;
 
                     image->key = "cover_for_intro";

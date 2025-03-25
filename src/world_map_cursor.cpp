@@ -34,7 +34,7 @@ void WorldMapCursor::OnUpdate(){
     spr->local_position = Vector2f(spr->scale.x,1.0f) * 3.0f * std::sin(Engine::Get().GetTime()*1.5f);
 
     for(const auto& location : level->world_map_location_handles){
-        if(ufoMaths::Distance2(level->GetActiveCamera()->TransformScreenToWorld(GetGlobalPosition()),location->GetGlobalPosition()) < 32.0f){
+        if(ufoMaths::Distance2(level->GetActiveCamera()->TransformScreenToWorld(GetGlobalPosition()),location->GetGlobalPosition() + Vector2f(16.0f,-16.0f)) < 28.0f){
             location->selected = true;
             if(location->level_path != "" && Mouse::Get().GetLeftButton().is_pressed && location->unlocked){
                 //Would be nice to have a way to error handle should the level path be faulty, instead of downright crashing.
