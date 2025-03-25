@@ -65,12 +65,23 @@
         }, 
         {
          "class":"SpriteReference",
+         "id":8,
+         "image":"bg.png",
+         "name":"bg",
+         "opacity":1,
+         "type":"imagelayer",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "class":"SpriteReference",
          "id":6,
          "image":"solid.png",
          "name":"solid",
          "opacity":1,
          "type":"imagelayer",
-         "visible":true,
+         "visible":false,
          "x":0,
          "y":0
         }, 
@@ -215,7 +226,7 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":8,
+ "nextlayerid":9,
  "nextobjectid":40,
  "orientation":"orthogonal",
  "properties":[
@@ -250,12 +261,12 @@
          "columns":3,
          "firstgid":5,
          "image":"..\/..\/assets\/pingus_actor_sheet.png",
-         "imageheight":160,
+         "imageheight":192,
          "imagewidth":96,
          "margin":0,
          "name":"pingus_actor_sheet",
          "spacing":0,
-         "tilecount":15,
+         "tilecount":18,
          "tileheight":32,
          "tilewidth":32
         }],

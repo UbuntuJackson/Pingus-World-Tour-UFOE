@@ -17,7 +17,7 @@ PingusMainMenu::PingusMainMenu(Vector2f _local_position) : WrapMenu(_local_posit
 
 void PingusMainMenu::OnLevelEnter(Level* _level){
 
-    Engine::Get().active_profile = "Default";
+    Engine::Get().active_profile = "default";
 
     if(AssetManager::Get().current_music_track != "Pingus_New_theme.wav"){
         AssetManager::Get().LoadAudio("../res/audio/Pingus_New_theme.wav", "Pingus_New_theme.wav");
