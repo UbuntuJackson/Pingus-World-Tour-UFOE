@@ -6,10 +6,12 @@
 class Level;
 class PingusLevel;
 class WidgetSpriteReference;
+class Button;
 
 /// @spawn;
 class WorldMap : public Actor{
 public:
+    Button* back_to_main_menu = nullptr;
 
     int currently_selected_location = 0;
 
@@ -27,5 +29,6 @@ public:
 
     void OnStart(Level* _level);
     void OnUpdate();
+    void OnWidgetDraw();
 
 };

@@ -26,6 +26,7 @@
 void PingusLevel::OnResourceLoad(){
     Engine::Get().wave_engine.StopAll();
     AssetManager::Get().current_music_track = "";
+    AssetManager::Get().LoadDecal("../res/assets/loading.png","pwt_loading_screen");
 
     AssetManager::Get().LoadDecal("../res/assets/pingu_hitbox.png","pill");
     AssetManager::Get().LoadDecal("../res/assets/box_12_24.png","box_12_24");
@@ -53,7 +54,9 @@ void PingusLevel::OnResourceLoad(){
     AssetManager::Get().LoadDecal("../res/assets/pwt_intro_cutscene.png","pwt_intro_cutscene");
     AssetManager::Get().LoadDecal("../res/assets/pwt_intro_cutscene3.png","pwt_intro_cutscene3");
     AssetManager::Get().LoadDecal("../res/assets/cover_for_intro.png","cover_for_intro");
+    
     Engine::Get().pixel_game_engine.LoadFontSprite("../res/assets/pwt_grey_font.png");
+
 }
 
 void PingusLevel::OnLoadActors(JsonDictionary& _actor_json){
@@ -216,4 +219,8 @@ void PingusLevel::OnUpdate(){
 void PingusLevel::OnHandlePurge(){
     PurgeHandles(honey_coin_handles);
     PurgeHandles(world_map_location_handles);
+}
+
+void PingusLevel::OnExit(){
+    Graphics::Get().DrawDecal("pwt_loading_screen",Vector2f(0.0f,0.0f),Vector2f(0.0f,0.0f),Vector2f(0.0f,0.0f),Vector2f(680.0f,480.0f),Vector2f(1.0f,1.0f),0.0f, Graphics::WHITE);
 }

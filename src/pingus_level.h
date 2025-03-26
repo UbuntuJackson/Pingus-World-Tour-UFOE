@@ -62,4 +62,6 @@ public:
 
     void OnHandlePurge();
 
+    void OnExit();
+
 };

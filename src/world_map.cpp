@@ -7,6 +7,9 @@
 #include <json_variant.h>
 #include <console.h>
 #include <widget_sprite_reference.h>
+#include <button.h>
+#include <nine_patch_theme.h>
+#include <graphics.h>
 #include "world_map.h"
 #include "world_map_location.h"
 
@@ -29,6 +32,11 @@ void WorldMap::OnLevelEnter(Level* _level){
         Vector2f(0.0f,0.0f),
         Vector2f(680.0f,480.0f),
         Vector2f(1.0f,1.0f),0.0f,0);
+    
+    back_to_main_menu = AddChild<Button>(Vector2f(680.0f-64.0f,480.0f-64.0f), Vector2f(56.0f,56.0f), "Back to main menu");
+    back_to_main_menu->theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_grey", 3,4,3,4);
+    back_to_main_menu->hovered_theme = std::make_unique<NinePatchTheme>("pwt_theme_grey_light", 3,4,3,4);
+    back_to_main_menu->held_theme = std::make_unique<NinePatchTheme>("pwt_theme_grey_dark", 3,4,3,4);
 
 }
 
@@ -48,6 +56,10 @@ void WorldMap::OnStart(Level* _level){
 void WorldMap::OnUpdate(){
 
     bool level_was_selected = false;
+
+    if(back_to_main_menu->IsReleased()){
+        Engine::Get().GoToLevel(std::make_unique<PingusLevel>(), "../res/map/title_screen/title_screen.json");
+    }
     
     //WorldMapLocation* selected_level = nullptr;
 
@@ -74,4 +86,8 @@ void WorldMap::OnUpdate(){
             backdrop_velocity = 0.0f;
         }
     }
+}
+
+void WorldMap::OnWidgetDraw(){
+    
 }

@@ -455,7 +455,8 @@ public:
 
         if(
             hit_ceiling ||
-            (!IsOverlappingFeet(local_position + Vector2f(climbing_direction * 2.0f, 0.0f), olc::WHITE))
+            (!IsOverlappingFeet(local_position + Vector2f(climbing_direction * 1.0f, 0.0f), olc::WHITE))
+            //!IsOverlappingSolid(local_position + Vector2f(climbing_direction * 1.0f, 0.0f))
         ){
             anim->current_animation_state->rotation = 0.0f;
             if(!hit_ceiling){
@@ -467,19 +468,33 @@ public:
                 climbing_direction *= -1.0f;
                 is_in_special_state = false;
                 state = state_walk;
+                snap_to_ground_enabled = true;
             }
-            velocity.x = 50.0f * climbing_direction;
-            //has_climber = false;
-            snap_to_ground_enabled = true;
+            velocity.y = 0.0f;
+            
             face_direction = climbing_direction;
         }
     }
 
     void FallAfterClimber(){
-        velocity.y = 10.0f;
+        
+        velocity.x = face_direction * 30.0f;
+        
+        Console::Print("FallAfterClimber\n");
+
+        if(hit_wall){
+            climbing_direction *= -1.0f;
+            face_direction = climbing_direction;
+            state = state_fall;
+            is_in_special_state = false;
+            snap_to_ground_enabled = true;
+            return;
+        }
+
         if(hit_floor){
             state = state_walk;
             is_in_special_state = false;
+            snap_to_ground_enabled = true;
         }
     }
 
