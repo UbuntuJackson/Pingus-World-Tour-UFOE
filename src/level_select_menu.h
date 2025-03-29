@@ -70,41 +70,39 @@ public:
 
         //Need a buton to go back when file menu does not have a previous path.
         if(path_stack.size() == 0){
-            auto bback = std::make_unique<FileMenuButton>(Vector2f(0.0f, 0.0f),Vector2f(250.0f, 150.0f), "Back", path);
+            Console::Print("Back button spawned\n");
+            auto bback = std::make_unique<FileMenuButton>(Vector2f(0.0f, 0.0f),Vector2f(250.0f, 20.0f), "Back", path);
 
             bback->on_pressed = [](Widget* _w, Button* _button){
                 _w->QueueForPurge();
                 _w->level->NewActor<PingusMainMenu>(Vector2f(0.0f,0.0f));
             };
 
-            buttons.push_back(bback.get());
+            bback->adjust_height_after_text_rows = true;
 
             AddChild(std::move(bback));
 
-            float total_height = 0.0f;
-
             for(const auto& button : buttons){
-                button->local_position.y = total_height;
-                total_height+=button->rectangle.size.y;
-                total_height+=spacing;
+                button->adjust_height_after_text_rows = true;
             }
 
-            rectangle.size.y = total_height;
-            rectangle.size.x = 0.0f;
+        }
 
-            original_position = local_position;
+        Refresh();
 
-            //Themes need to be added manually.
-            for(auto button : buttons){
-                button->theme = OnSetButtonTheme();
-                button->hovered_theme = OnSetButtonHoveredTheme();
-                button->held_theme = OnSetButtonHeldTheme();
-            }
+        //Themes need to be added manually.
+        for(auto button : buttons){
+            button->theme = OnSetButtonTheme();
+            button->hovered_theme = OnSetButtonHoveredTheme();
+            button->held_theme = OnSetButtonHeldTheme();
         }
     }
 
     void OnUpdate(){
         FileMenu::OnUpdate();
+
+        Console::PrintLine("Global Position of selected button:", selected_index, buttons[selected_index]->GetGlobalPosition());
+        if(SingleKeyboard::Get().GetKey(olc::ESCAPE).is_pressed) Engine::Get().Quit();
 
         ControlWithMouse();
         ControlWithKeys(

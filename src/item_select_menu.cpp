@@ -7,18 +7,19 @@
 #include "item_select_menu.h"
 #include <nine_patch_theme.h>
 
-ItemSelectMenu::ItemSelectMenu(Vector2f _local_position) : WrapMenu(Vector2f(4.0f,4.0f), Vector2f(50.0f,20.0f)){
+ItemSelectMenu::ItemSelectMenu(Vector2f _local_position) : WrapMenu(Vector2f(6.0f,-4.0f), Vector2f(50.0f,200.0f)){
     has_modified_controls = true;
     spacing = 8;
 }
 
 void ItemSelectMenu::OnStart(Level* _level){
+    WrapMenu::OnStart(_level);
 
     item_blow_up = [this](Pingu* _pingu){
         if(number_of_bombers > 0){
             
             if(_pingu->item_blow_up()) number_of_bombers--;
-            buttons[selected_index]->text = "Bomber : "+std::to_string(number_of_bombers);
+            buttons[selected_index]->text = "    x"+std::to_string(number_of_bombers);
         }
     };
 
@@ -26,7 +27,7 @@ void ItemSelectMenu::OnStart(Level* _level){
         if(number_of_builders > 0){
             
             if(_pingu->item_build()) number_of_builders--;
-            buttons[selected_index]->text = "Builder : "+std::to_string(number_of_builders);
+            buttons[selected_index]->text = "    x"+std::to_string(number_of_builders);
         }
     };
 
@@ -34,7 +35,7 @@ void ItemSelectMenu::OnStart(Level* _level){
         if(number_of_parachutes > 0){
             
             if(_pingu->item_parachute()) number_of_parachutes--;
-            buttons[selected_index]->text = "Parachute : "+std::to_string(number_of_parachutes);
+            buttons[selected_index]->text = "    x"+std::to_string(number_of_parachutes);
         }
     };
 
@@ -58,20 +59,44 @@ void ItemSelectMenu::OnStart(Level* _level){
         if(number_of_drillers > 0){
             
             if(_pingu->item_driller()) number_of_drillers--;
-            buttons[selected_index]->text = "Driller : "+std::to_string(number_of_drillers);
+            buttons[selected_index]->text = "    x"+std::to_string(number_of_drillers);
         }
     };
 
     if(number_of_bombers > 0){
-        AddChild<Button>(Vector2f(0.0f, 0.0f), Vector2f(120.0f,20.0f), "Bomber : "+std::to_string(number_of_bombers));
+        Button* b = AddChild<Button>(Vector2f(0.0f, 0.0f), Vector2f(68.0f,20.0f), "    x"+std::to_string(number_of_bombers));
+        b->AddChild<WidgetSpriteReference>(
+            "bomber_icon",
+            Vector2f(4.0f,-3.0f),
+            Vector2f(0.0f,0.0f),
+            Vector2f(20.0f,20.0f),
+            Vector2f(1.0f,1.0f),
+            0.0f,0
+        );
         items.push_back(item_blow_up);
     }
     if(number_of_builders > 0){
-        AddChild<Button>(Vector2f(0.0f, 0.0f), Vector2f(120.0f,20.0f), "Builder : "+std::to_string(number_of_builders));
+        Button* b = AddChild<Button>(Vector2f(0.0f, 0.0f), Vector2f(68.0f,20.0f), "    x"+std::to_string(number_of_builders));
+        b->AddChild<WidgetSpriteReference>(
+            "builder_icon",
+            Vector2f(4.0f,-3.0f),
+            Vector2f(0.0f,0.0f),
+            Vector2f(24.0f,20.0f),
+            Vector2f(1.0f,1.0f),
+            0.0f,0
+        );
         items.push_back(item_build);
     }
     if(number_of_parachutes > 0){
-        AddChild<Button>(Vector2f(0.0f, 0.0f), Vector2f(120.0f,20.0f), "Parachute : "+std::to_string(number_of_parachutes));
+        Button* b = AddChild<Button>(Vector2f(0.0f, 0.0f), Vector2f(68.0f,20.0f), "    x"+std::to_string(number_of_parachutes));
+        b->AddChild<WidgetSpriteReference>(
+            "parachute_icon",
+            Vector2f(4.0f,-3.0f),
+            Vector2f(0.0f,0.0f),
+            Vector2f(24.0f,20.0f),
+            Vector2f(1.0f,1.0f),
+            0.0f,0
+        );
         items.push_back(item_parachute);
     }
     if(number_of_blockers > 0){
@@ -83,13 +108,19 @@ void ItemSelectMenu::OnStart(Level* _level){
         items.push_back(item_climber);
     }
     if(number_of_drillers > 0){
-        AddChild<Button>(Vector2f(0.0f, 0.0f), Vector2f(120.0f,20.0f), "Driller : "+std::to_string(number_of_drillers));
+        Button* b = AddChild<Button>(Vector2f(0.0f, 0.0f), Vector2f(68.0f,20.0f), "    x"+std::to_string(number_of_drillers));
+        b->AddChild<WidgetSpriteReference>(
+            "driller_icon",
+            Vector2f(0.0f,0.0f),
+            Vector2f(0.0f,0.0f),
+            Vector2f(24.0f,20.0f),
+            Vector2f(1.0f,1.0f),
+            0.0f,0
+        );
         items.push_back(item_driller);
     }
 
     dynamic_cast<PingusLevel*>(_level)->item_select_menu = this;
-
-    WrapMenu::OnLevelEnter(_level);
 
     for(auto&& button : buttons){
         button->theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_grey", 3,4,3,4);

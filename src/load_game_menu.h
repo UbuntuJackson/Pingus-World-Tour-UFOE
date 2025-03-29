@@ -9,6 +9,7 @@ class LoadGameMenu : public WrapMenu{
 public:
     LoadGameMenu(Vector2f _local_position);
     void OnLevelEnter(Level* _level);
+    void OnStart(Level* _level);
     void OnUpdate();
 
     void LoadSave(std::string _path, std::string _profile_name);

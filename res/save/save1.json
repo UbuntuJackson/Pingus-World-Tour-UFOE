@@ -1,6 +1,21 @@
 {
 	"cleared_levels":	{
+		"../res/map/bomber_test_level/bomber_test_level.json":	{
+			"most_rescued_pingus":	0,
+			"rank":	3
+		},
+		"../res/map/builder_test_level/test_level_builder_tiled.json":	{
+			"most_rescued_pingus":	12,
+			"rank":	1
+		},
+		"../res/map/digging_test_level/digging_test_level.json":	{
+			"most_rescued_pingus":	20,
+			"rank":	0
+		}
 	},
+	"last_played_level":	"../res/map/digging_test_level/digging_test_level.json",
 	"unlocked_levels":	{
+		"../res/map/bomber_test_level/bomber_test_level.json":	1,
+		"../res/map/digging_test_level/digging_test_level.json":	1
 	}
 }

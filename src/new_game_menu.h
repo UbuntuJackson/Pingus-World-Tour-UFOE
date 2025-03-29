@@ -9,6 +9,7 @@ class NewGameMenu : public WrapMenu{
 public:
     NewGameMenu(Vector2f _local_position);
     void OnLevelEnter(Level* _level);
+    void OnStart(Level* _level);
     void OnUpdate();
 
     void WriteNewSave(std::string _path, std::string _profile_name);

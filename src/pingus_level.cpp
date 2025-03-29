@@ -54,6 +54,10 @@ void PingusLevel::OnResourceLoad(){
     AssetManager::Get().LoadDecal("../res/assets/pwt_intro_cutscene.png","pwt_intro_cutscene");
     AssetManager::Get().LoadDecal("../res/assets/pwt_intro_cutscene3.png","pwt_intro_cutscene3");
     AssetManager::Get().LoadDecal("../res/assets/cover_for_intro.png","cover_for_intro");
+    AssetManager::Get().LoadDecal("../res/assets/pingu_build_icon.png","builder_icon");
+    AssetManager::Get().LoadDecal("../res/assets/bomber_icon.png","bomber_icon");
+    AssetManager::Get().LoadDecal("../res/assets/parachute_icon.png","parachute_icon");
+    AssetManager::Get().LoadDecal("../res/assets/driller_icon.png","driller_icon");
     
     Engine::Get().pixel_game_engine.LoadFontSprite("../res/assets/pwt_grey_font.png");
 

@@ -8,5 +8,6 @@ class PingusMainMenu : public WrapMenu{
 public:
     PingusMainMenu(Vector2f _local_position);
     void OnLevelEnter(Level* _level);
+    void OnStart(Level* _level);
     void OnUpdate();
 };

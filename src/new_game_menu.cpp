@@ -16,19 +16,19 @@ NewGameMenu::NewGameMenu(Vector2f _local_position) : WrapMenu(_local_position,Ve
 }
 
 void NewGameMenu::OnLevelEnter(Level* _level){
-    Console::PrintLine("NewGameMenu::OnLevelEnter");
+    WrapMenu::OnLevelEnter(_level);
 
     has_modified_controls = true;
 
     level = _level;
 
-    auto b_save1 = AddChild<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 150.0f), "Save 1");
+    auto b_save1 = AddChild<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 0.0f), "Save 1");
 
-    auto b_save2 = AddChild<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 150.0f), "Save 2");
+    auto b_save2 = AddChild<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 0.0f), "Save 2");
 
-    auto b_save3 = AddChild<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 150.0f), "Save 3");
+    auto b_save3 = AddChild<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 0.0f), "Save 3");
 
-    auto b_back = AddChild<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 150.0f), "Back");
+    auto b_back = AddChild<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 0.0f), "Back");
 
     b_back->on_pressed = [](Widget* _parent_widget, Button* _button){
         _parent_widget->QueueForPurge();
@@ -53,15 +53,16 @@ void NewGameMenu::OnLevelEnter(Level* _level){
         Engine::Get().GoToLevel(std::make_unique<PingusLevel>(), "../res/map/story_mode_intro/story_mode_intro.json");
     };
 
-    WrapMenu::OnLevelEnter(_level);
-
     for(auto&& button : buttons){
+        button->adjust_height_after_text_rows = true;
         button->theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_grey", 3,4,3,4);
-        
         button->hovered_theme = std::make_unique<NinePatchTheme>("pwt_theme_grey_light", 3,4,3,4);
-
         button->held_theme = std::make_unique<NinePatchTheme>("pwt_theme_grey_dark", 3,4,3,4);
     }
+}
+
+void NewGameMenu::OnStart(Level* _level){
+    
 }
 
 void NewGameMenu::OnUpdate(){

@@ -16,6 +16,7 @@ PingusMainMenu::PingusMainMenu(Vector2f _local_position) : WrapMenu(_local_posit
 }
 
 void PingusMainMenu::OnLevelEnter(Level* _level){
+    WrapMenu::OnLevelEnter(_level);
 
     Engine::Get().active_profile = "default";
 
@@ -32,7 +33,7 @@ void PingusMainMenu::OnLevelEnter(Level* _level){
     level = dynamic_cast<PingusLevel*>(_level);
     dynamic_cast<PingusLevel*>(_level)->is_menu = true;
 
-    auto b_new_game = AddChild<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 150.0f), "New Game");
+    auto b_new_game = AddChild<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 0.0f), "New Game");
 
     b_new_game->on_pressed = [](Widget* _parent_widget, Button* _button){
         Console::PrintLine("New Game pressed");
@@ -40,7 +41,7 @@ void PingusMainMenu::OnLevelEnter(Level* _level){
         _parent_widget->QueueForPurge();
     };
 
-    auto b_load_game = AddChild<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 150.0f), "Load Game");
+    auto b_load_game = AddChild<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 0.0f), "Load Game");
 
     b_load_game->on_pressed = [](Widget* _parent_widget, Button* _button){
         Console::PrintLine("Load Game pressed");
@@ -48,9 +49,9 @@ void PingusMainMenu::OnLevelEnter(Level* _level){
         _parent_widget->QueueForPurge();
     };
 
-    auto b_level_select = std::make_unique<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 150.0f), "Level Select");
-    auto b_options = AddChild<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 150.0f), "Options");
-    auto b_quit = std::make_unique<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 150.0f), "Quit");
+    auto b_level_select = std::make_unique<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 0.0f), "Level Select");
+    auto b_options = AddChild<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 0.0f), "Options");
+    auto b_quit = std::make_unique<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 0.0f), "Quit");
 
     b_level_select->on_pressed = [](Widget* _parent_widget, Button* _button){
         Console::PrintLine("Level select pressed");
@@ -62,26 +63,26 @@ void PingusMainMenu::OnLevelEnter(Level* _level){
         Engine::Get().Quit();
     };
 
+    b_new_game->adjust_height_after_text_rows = true;
+    b_load_game->adjust_height_after_text_rows = true;
+    b_level_select->adjust_height_after_text_rows = true;
+    b_options->adjust_height_after_text_rows = true;
+    b_quit->adjust_height_after_text_rows = true;
+
     AddChild(std::move(b_level_select));
     AddChild(std::move(b_quit));
 
-    WrapMenu::OnLevelEnter(_level);
-
-    //local_position.x = Engine::Get().pixel_game_engine.GetWindowSizeInPixles().x/2.0f-150.0f/2.0f;
-    //local_position.y = Engine::Get().pixel_game_engine.GetWindowSizeInPixles().y-50.0f;
-
     local_position.x = 40.0f;
     local_position.y = 300.0f;
+    
+}
 
+void PingusMainMenu::OnStart(Level* _level){
     for(auto&& button : buttons){
         button->theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_grey", 3,4,3,4);
-        
         button->hovered_theme = std::make_unique<NinePatchTheme>("pwt_theme_grey_light", 3,4,3,4);
-
         button->held_theme = std::make_unique<NinePatchTheme>("pwt_theme_grey_dark", 3,4,3,4);
     }
-    
-    
 }
 
 void PingusMainMenu::OnUpdate(){
