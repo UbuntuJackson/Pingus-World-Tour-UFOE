@@ -22,6 +22,8 @@
 /// @spawn;
 class Pingu : public BitmapCollisionBody{
 public:
+    bool is_anti_matter = false;
+
     Animation* anim = nullptr;
     float face_direction = 1.0f;
     bool hit_floor_last_frame = false;
@@ -115,6 +117,7 @@ public:
     void OnLevelEnter(Level* _level){
         
         BitmapCollisionBody::OnLevelEnter(_level);
+
         anim = AddChild<Animation>(Vector2f(6.0f, 19.0f));
         anim->AddAnimationState(AnimatedSpriteReference(
             "pingu_walk",
@@ -219,6 +222,12 @@ public:
         
         level->released_pingus++;
         
+    }
+
+    void OnStart(Level* _level){
+        if(is_anti_matter){
+            level->anti_matter_pingus.push_back(this);
+        }
     }
 
     bool has_parachute = false;
@@ -376,12 +385,15 @@ public:
         if(anim->current_animation_state->key == "pingu_explode"){
             
             if(anim->current_animation_state->current_frame_index > 4.9 && !exploded){
-                for(auto&& [k,v] : level->level_decals){
                     
-                    if(k == "bg") continue;
-                    
-                    for(int yy = -32+12; yy < 32+12; yy++){
-                        for(int xx = -32+6; xx < 32+6; xx++){
+                for(int yy = -32+12; yy < 32+12; yy++){
+                    for(int xx = -32+6; xx < 32+6; xx++){
+                        for(auto&& [k,v] : level->level_decals){
+                            if(k == "bg") continue;
+
+                            auto solid_decal = level->level_decals.at(solid_layer);
+                            if(CompareColour(solid_decal->sprite->GetPixel(local_position+Vector2f(xx,yy)), olc::VERY_DARK_GREY)) continue;
+
                             if(ufoMaths::Distance2(local_position+Vector2f(xx,yy), local_position+Vector2f(6.0f,12.0f)) <= 33.0f){
                                 if(ufoMaths::Distance2(local_position+Vector2f(xx,yy), local_position+Vector2f(6.0f,12.0f)) > 28.0f
                                     && v->sprite->GetPixel(local_position+Vector2f(xx,yy)).a != 0
@@ -391,11 +403,14 @@ public:
                                 }
                                 else v->sprite->SetPixel(local_position+Vector2f(xx,yy),olc::Pixel(0,0,0,0));
                             }
-                            
                         }
+                        
                     }
+                }
+                for(auto&& [k,v] : level->level_decals){
                     v->Update();
                 }
+                
                 exploded = true;
             
             }
@@ -667,6 +682,19 @@ public:
 
         if(should_set_pingu_selected) level->pingu_selected_this_frame = true;
 
+        if(!is_anti_matter && what_is_current_state != States::EXPLODE){
+            for(const auto& anti_matter_pingu : level->anti_matter_pingus){
+                if(RectangleVsRectangle(ufo::Rectangle(local_position, Vector2f(12.0f,24.0f)), ufo::Rectangle(anti_matter_pingu->local_position, Vector2f(12.0f,24.0f)))){
+                    item_blow_up();
+                    anti_matter_pingu->item_blow_up();
+                    anim->current_animation_state->current_frame_index = 4.9f;
+                    anim->frame_counter = 4.9f;
+                    anti_matter_pingu->anim->current_animation_state->current_frame_index = 4.9f;
+                    anti_matter_pingu->anim->frame_counter = 4.9f;
+                }
+            }
+        }
+
         if(!is_in_special_state){
             if(hit_floor){
                 state = state_walk;
@@ -744,6 +772,10 @@ public:
                 driller_timer.FastForward(1.0f);
                 PinguUpdate();
             }
+        }
+
+        if(is_anti_matter){
+            anim->current_animation_state->tint = olc::BLACK;
         }
 
     }

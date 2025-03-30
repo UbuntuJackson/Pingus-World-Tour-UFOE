@@ -16,6 +16,7 @@ class HoneyCoin;
 class ItemSelectMenu;
 class Button;
 class WorldMapLocation;
+class Pingu;
 
 class PingusLevel : public Level{
 public:
@@ -26,6 +27,8 @@ public:
     olc::Decal* solid_decal;
     Vector2f custom_level_size;
     Widget* current_menu = nullptr;
+
+    std::vector<Pingu*> anti_matter_pingus;
 
     bool is_menu = false;
     bool level_finished = false;

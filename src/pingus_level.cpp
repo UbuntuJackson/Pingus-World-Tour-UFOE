@@ -58,6 +58,7 @@ void PingusLevel::OnResourceLoad(){
     AssetManager::Get().LoadDecal("../res/assets/bomber_icon.png","bomber_icon");
     AssetManager::Get().LoadDecal("../res/assets/parachute_icon.png","parachute_icon");
     AssetManager::Get().LoadDecal("../res/assets/driller_icon.png","driller_icon");
+    AssetManager::Get().LoadDecal("../res/assets/anti_matter_spawner.png","anti_matter_spawner");
     
     Engine::Get().pixel_game_engine.LoadFontSprite("../res/assets/pwt_grey_font.png");
 
@@ -223,6 +224,7 @@ void PingusLevel::OnUpdate(){
 void PingusLevel::OnHandlePurge(){
     PurgeHandles(honey_coin_handles);
     PurgeHandles(world_map_location_handles);
+    PurgeHandles(anti_matter_pingus);
 }
 
 void PingusLevel::OnExit(){
