@@ -250,6 +250,11 @@
                  "name":"",
                  "properties":[
                         {
+                         "name":"description",
+                         "type":"string",
+                         "value":"It's a Tic, it's a Tac, it's a tower"
+                        }, 
+                        {
                          "name":"name",
                          "type":"string",
                          "value":"Tic Tac Tower"
@@ -258,6 +263,11 @@
                          "name":"path",
                          "type":"string",
                          "value":"..\/res\/map\/tic_tac_tower\/tic_tac_tower.json"
+                        }, 
+                        {
+                         "name":"unlocks_other_level",
+                         "type":"string",
+                         "value":"..\/res\/map\/a_short_visit_at_cern\/a_short_visit_at_cern.json"
                         }],
                  "rotation":0,
                  "type":"",
@@ -379,7 +389,7 @@
                         {
                          "name":"unlocked",
                          "type":"bool",
-                         "value":true
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",

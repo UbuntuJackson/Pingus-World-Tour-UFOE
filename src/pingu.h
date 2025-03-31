@@ -22,25 +22,37 @@
 /// @spawn;
 class Pingu : public BitmapCollisionBody{
 public:
+    //In some levels pingus can be antimatter
     bool is_anti_matter = false;
 
     Animation* anim = nullptr;
+
+    //Which direction the pingu is facing. This will dictate the velocity in the x-axis
     float face_direction = 1.0f;
+
+    //Did the pingu hit floor last frame?
     bool hit_floor_last_frame = false;
     bool snap_to_ground_enabled = true;
-    PingusLevel* level;
+    PingusLevel* level = nullptr;
 
     Timer build_timer;
     Timer fall_timer;
     Timer driller_timer;
 
+    //Unless the pingu is in a special state it will either be state_walk or state_fall
     bool is_in_special_state = false;
+
+    //Did the pingu explode?
     bool exploded = false;
     int steps = 0;
+
+    //Used for Builder
     Vector2f build_location;
 
+    //Did the pingu reach the goal?
     bool is_rescued = false;
 
+    //These are all possible states the pingu can have
     enum States{
         WALK,
         FALL,
@@ -54,55 +66,68 @@ public:
         DRILLER
     };
 
+    //This variable is used to identify which state the pingu is in, however it does not SET the state
+    //If you want to set the state you better use one of the already existing methods and set state = state_SOMETHING
     int what_is_current_state = States::WALK;
 
+    //This runs whenever the pingu is walking
     std::function<void()> state_walk = [this](){
         what_is_current_state = States::WALK;
         Walk();
     };
 
+    //This runs whenever the pingu is falling
     std::function<void()> state_fall = [this](){
         what_is_current_state = States::FALL;
         Fall();
     };
 
+    //This runs whenever the pingu is building a staircase
     std::function<void()> state_build = [this](){
         what_is_current_state = States::BUILD;
         Build();
     };
 
+    //This runs when the pingu explodes
     std::function<void()> state_explode = [this](){
         what_is_current_state = States::EXPLODE;
         Explode();
     };
 
+    //This runs when you fall from too high
     std::function<void()> die_by_fall = [this](){
         what_is_current_state = States::DIE_BY_FALL;
         DieByFall();
     };
 
+    //This is so you can remove the parachute sprite once the parachuter lands
     int parachute_sprite_id = -1;
 
+    //This runs whenever the pingu falls with a parachute on
     std::function<void()> state_parachute = [this](){
         what_is_current_state = States::PARACHUTE;
         Parachute();
     };
 
+    //This runs when a pingu has a blocker
     std::function<void()> state_blocker = [this](){
         what_is_current_state = States::BLOCKER;
         Blocker();
     };
 
+    //This runs whenever a pingu that has a climber action detects a wall in it's climbing direction
     std::function<void()> state_climber = [this](){
         what_is_current_state = States::CLIMBER;
         Climber();
     };
 
+    //Pingu will enter this state when the wall abruptly ends during a climb, but didn't hit a ceiling
     std::function<void()> state_fall_after_climber = [this](){
         what_is_current_state = States::FALL_AFTER_CLIMBER;
         FallAfterClimber();
     };
 
+    //This runs whenever a pingu drills
     std::function<void()> state_driller = [this](){
         Driller();
     };
@@ -333,7 +358,7 @@ public:
 
         snap_to_ground_enabled = false;
 
-        if(steps == number_of_steps || hit_wall || hit_slope || velocity.x == 0.0f || IsOverlappingHead(local_position,olc::WHITE)){
+        if(steps == number_of_steps || hit_wall || hit_slope || IsOverlappingHead(local_position,olc::WHITE)){
             is_in_special_state = false;
             steps = 0;
             snap_to_ground_enabled = true;
@@ -393,6 +418,7 @@ public:
 
                             auto solid_decal = level->level_decals.at(solid_layer);
                             if(CompareColour(solid_decal->sprite->GetPixel(local_position+Vector2f(xx,yy)), olc::VERY_DARK_GREY)) continue;
+                            if(CompareColour(solid_decal->sprite->GetPixel(local_position+Vector2f(xx,yy)), olc::BLUE)) continue;
 
                             if(ufoMaths::Distance2(local_position+Vector2f(xx,yy), local_position+Vector2f(6.0f,12.0f)) <= 33.0f){
                                 if(ufoMaths::Distance2(local_position+Vector2f(xx,yy), local_position+Vector2f(6.0f,12.0f)) > 28.0f
@@ -426,34 +452,11 @@ public:
     void Blocker(){
         velocity.x = 0.0f;
 
-        int width = 2;
-
-        if(
-            RectangleVsPoint(ufo::Rectangle(local_position, Vector2f(12.0f,24.0f)),level->GetActiveCamera()->TransformScreenToWorld(Mouse::Get().GetPosition()))
-            && Mouse::Get().GetLeftButton().is_pressed && is_already_blocker
-        )
-        {
-            
-            for(int yy = 0; yy < 6; yy++){
-                for(int xx = 5; xx < 5+width; xx++){
-                    
-                    auto dec = level->level_decals.at("solid");
-
-                    Vector2f place_pos = local_position+Vector2f(xx,24.0f-yy);
-                    if(dec->sprite->GetPixel(place_pos) == olc::BLUE) dec->sprite->SetPixel(place_pos,olc::Pixel(0,0,0,0));
-                    dec->Update();
-                    
-                    
-                    //level->level_decals.at("mg")->sprite->SetPixel(local_position+Vector2f(xx,yy),olc::Pixel(255,0,0,255));
-                    
-                }
-            }
-
-            state = state_walk;
-            is_already_blocker = false;
-            is_in_special_state = false;
-            return;
+        if(!hit_floor){
+            ResetBlocker();
+            item_walk();
         }
+
         is_already_blocker = true;
     }
 
@@ -524,6 +527,7 @@ public:
                 for(int xx = -32+6; xx < 32+6; xx++){
                     auto solid_decal = level->level_decals.at(solid_layer);
                     if(CompareColour(solid_decal->sprite->GetPixel(local_position+Vector2f(xx,yy)), olc::VERY_DARK_GREY)) continue;
+                    if(CompareColour(solid_decal->sprite->GetPixel(local_position+Vector2f(xx,yy)), olc::BLUE)) continue;
 
                     for(auto&& [k,v] : level->level_decals){
                         if(k == "bg") continue;
@@ -553,6 +557,15 @@ public:
         }
     }
 
+    std::function<bool()> item_walk = [this](){
+        what_is_current_state = States::WALK;
+        is_in_special_state = false;
+        snap_to_ground_enabled = true;
+        state = state_walk;
+        
+        return true;  
+    };
+
     bool has_climber = false;
 
     std::function<bool()> item_climber = [this](){
@@ -576,9 +589,11 @@ public:
             what_is_current_state == States::FALL ||
             what_is_current_state == States::PARACHUTE
         ) return false;
+        
+        what_is_current_state = States::BLOCKER;
+        
         anim->SetAnimation("pingu_blocker");
         anim->frame_counter = 0.0f;
-        //anim->current_animation_state->visible = false;
         
         int width = 2;
 
@@ -610,6 +625,7 @@ public:
 
     std::function<bool()> item_blow_up = [this](){
         if(what_is_current_state == States::EXPLODE) return false;
+        what_is_current_state = States::EXPLODE;
         anim->SetAnimation("pingu_explode");
         anim->frame_counter = 0.0f;
         
@@ -621,6 +637,10 @@ public:
 
     std::function<bool()> item_build = [this](){
         if(!hit_floor || what_is_current_state == States::BUILD || what_is_current_state == States::EXPLODE) return false;
+
+        what_is_current_state = States::BUILD;
+
+        Console::PrintLine("Pingu::item_build");
 
         anim->SetAnimation("pingu_walk");
 
@@ -647,6 +667,9 @@ public:
 
     std::function<bool()> item_driller = [this](){
         if(!hit_floor && what_is_current_state == States::DRILLER) return false;
+
+        what_is_current_state = States::DRILLER;
+
         is_in_special_state = true;
         state = state_driller;
         driller_timer.Start(driller_pace);
@@ -662,6 +685,39 @@ public:
 
     int current_item = 2;
 
+    //Resets from blocker state
+    void ResetBlocker(){
+        int width = 2;
+        for(int yy = 0; yy < 6; yy++){
+            for(int xx = 5; xx < 5+width; xx++){
+
+                auto dec = level->level_decals.at("solid");
+
+                Vector2f place_pos = local_position+Vector2f(xx,24.0f-yy);
+                if(dec->sprite->GetPixel(place_pos) == olc::BLUE) dec->sprite->SetPixel(place_pos,olc::Pixel(0,0,0,0));
+                dec->Update();
+                
+            }
+        }
+    }
+
+    //Runs whenever another action is forcibly activated via the UI, for example you use a builder on a blocker
+    void ResetAction(int _former_state, int _what_is_current_state){
+        
+        switch(_former_state){
+            case States::BLOCKER :{
+                
+                ResetBlocker();
+
+                if(_former_state == _what_is_current_state) item_walk();
+                Console::PrintLine("ResetAction - BLOCKER");
+                
+            }
+            break;
+        }
+
+    }
+
     void PinguUpdate(){
         bool should_set_pingu_selected = false;
         level->at_least_one_pingu_active = true;
@@ -676,25 +732,42 @@ public:
         
         if(!level->pingu_selected_this_frame && RectangleVsPoint(ufo::Rectangle(local_position, Vector2f(12.0f,24.0f)),level->GetActiveCamera()->TransformScreenToWorld(Mouse::Get().GetPosition())) && Mouse::Get().GetLeftButton().is_pressed){
 
-            if(level->item_select_menu != nullptr) level->item_select_menu->items[level->item_select_menu->selected_index](this);
+            if(level->item_select_menu != nullptr){
+                
+                int former_state = what_is_current_state;
+                level->item_select_menu->items[level->item_select_menu->selected_index](this);
+                
+                ResetAction(former_state, what_is_current_state);
+            
+            }
 
         }
 
         if(should_set_pingu_selected) level->pingu_selected_this_frame = true;
 
+        //Checking against antimatter pingus
         if(!is_anti_matter && what_is_current_state != States::EXPLODE){
             for(const auto& anti_matter_pingu : level->anti_matter_pingus){
-                if(RectangleVsRectangle(ufo::Rectangle(local_position, Vector2f(12.0f,24.0f)), ufo::Rectangle(anti_matter_pingu->local_position, Vector2f(12.0f,24.0f)))){
+                if(
+                    RectangleVsRectangle(
+                        ufo::Rectangle(local_position, Vector2f(12.0f,24.0f)),
+                        ufo::Rectangle(anti_matter_pingu->local_position, Vector2f(12.0f,24.0f))
+                    ) &&
+                    anti_matter_pingu->what_is_current_state != States::EXPLODE
+                ){
+                    
                     item_blow_up();
                     anti_matter_pingu->item_blow_up();
                     anim->current_animation_state->current_frame_index = 4.9f;
                     anim->frame_counter = 4.9f;
                     anti_matter_pingu->anim->current_animation_state->current_frame_index = 4.9f;
                     anti_matter_pingu->anim->frame_counter = 4.9f;
+                    
                 }
             }
         }
 
+        //If pingu is not in special state it will always switch between state_walk and state_fall
         if(!is_in_special_state){
             if(hit_floor){
                 state = state_walk;
@@ -709,6 +782,7 @@ public:
             }
         }
 
+        //If the pingu falls off level
         if(local_position.y > level->level_size.y) QueueForPurge();
 
         for(const auto& honey_coin : level->honey_coin_handles){
@@ -718,6 +792,7 @@ public:
             }
         }
 
+        //Runs the current state
         state();
         
         bool is_already_overlapping_blue = IsOverlappingFeet(local_position,olc::BLUE);
@@ -729,10 +804,12 @@ public:
 
         PinguCollision();
 
+        //Checking against BLUE which means there's a blocker pingu in the way
         if(IsOverlappingFeet(local_position,olc::BLUE) && !is_already_overlapping_blue){
             face_direction *= -1.0f;
         }
 
+        //If hitting wall under normal circumstances.
         if(hit_wall && !has_climber){
             face_direction *= -1.0f;
             
@@ -774,6 +851,7 @@ public:
             }
         }
 
+        //Antimatter pingus are black
         if(is_anti_matter){
             anim->current_animation_state->tint = olc::BLACK;
         }
@@ -783,15 +861,19 @@ public:
     void PinguCollision(){
         hit_floor_last_frame = hit_floor;
 
+        //Resetting all collision related booleans
         hit_wall = false;
         hit_slope = true;
         hit_floor = false;
         hit_ceiling = false;
 
+        //Currently unused
         bool attempt_free_from_semisolid = false;
 
+        //Is the pingu still in semisolid after it's last check?
         is_already_in_semi_solid = IsOverlappingFeet(local_position, olc::RED);
 
+        //This is the only time the pingu moves in the x-axis
         local_position.x += velocity.x * Engine::Get().GetDeltaTime();
 
         //Normal slope and walls
@@ -917,6 +999,7 @@ public:
         
     }
 
+    //olc::VERY_DARK_GREY and olc::WHITE count as normal solid
     bool IsOverlappingSolid(Vector2f _check_location){
         return IsOverlapping(game, mask_decal, solid_layer, _check_location, olc::VERY_DARK_GREY) || IsOverlapping(game, mask_decal, solid_layer, _check_location, olc::WHITE);
     }
@@ -926,6 +1009,7 @@ public:
         //DrawingSystem::DrawString({0.0f, 0.0f}, "Hello world", olc::WHITE, {1.0f,1.0f});
     }
 
+    //To detect if the furthest down row of pixles overlap with solid layer
     bool IsOverlappingFeet(Vector2f _position, olc::Pixel _colour){
         for(int i = 0; i < 12; i++){
             if(game->level_decals[solid_layer]->sprite->GetPixel(_position.x+(float)i,_position.y + 23.0f) == _colour){
@@ -935,6 +1019,7 @@ public:
         return false;
     }
 
+    //To detect if the furtherest top row of pixles overlap with solid layer
     bool IsOverlappingHead(Vector2f _position, olc::Pixel _colour){
         for(int i = 0; i < 12; i++){
             if(game->level_decals[solid_layer]->sprite->GetPixel(_position.x+(float)i,_position.y) == _colour){

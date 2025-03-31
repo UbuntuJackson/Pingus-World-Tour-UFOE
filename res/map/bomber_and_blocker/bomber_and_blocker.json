@@ -65,28 +65,6 @@
         }, 
         {
          "class":"SpriteReference",
-         "id":8,
-         "image":"bg.png",
-         "name":"bg",
-         "opacity":1,
-         "type":"imagelayer",
-         "visible":true,
-         "x":0,
-         "y":0
-        }, 
-        {
-         "class":"SpriteReference",
-         "id":7,
-         "image":"mg.png",
-         "name":"mg",
-         "opacity":1,
-         "type":"imagelayer",
-         "visible":true,
-         "x":0,
-         "y":0
-        }, 
-        {
-         "class":"SpriteReference",
          "id":6,
          "image":"solid.png",
          "name":"solid",
@@ -143,10 +121,10 @@
                         {
                          "name":"blocker",
                          "type":"int",
-                         "value":10
+                         "value":20
                         }, 
                         {
-                         "name":"builder",
+                         "name":"bomber",
                          "type":"int",
                          "value":20
                         }],
@@ -154,8 +132,8 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":312.301761711168,
-                 "y":342.928799033074
+                 "x":201.22391148765,
+                 "y":217.393083038357
                 }, 
                 {
                  "gid":9,
@@ -171,14 +149,14 @@
                         {
                          "name":"number_of_pingus",
                          "type":"int",
-                         "value":30
+                         "value":10
                         }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":27.704061824708,
-                 "x":706.041607149397,
-                 "y":436.000988902319
+                 "width":21.7592603338555,
+                 "x":211.520184142827,
+                 "y":505.076597226252
                 }, 
                 {
                  "gid":8,
@@ -192,11 +170,6 @@
                          "value":1000
                         }, 
                         {
-                         "name":"is_anti_matter_spawner",
-                         "type":"bool",
-                         "value":true
-                        }, 
-                        {
                          "name":"number_of_pingus",
                          "type":"int",
                          "value":20
@@ -205,31 +178,20 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":220.630883053144,
-                 "y":374.896604768707
+                 "x":237.890578154316,
+                 "y":256.393083038357
                 }, 
                 {
-                 "gid":8,
+                 "gid":5,
                  "height":32,
-                 "id":39,
+                 "id":38,
                  "name":"",
-                 "properties":[
-                        {
-                         "name":"interval_milliseconds",
-                         "type":"float",
-                         "value":1000
-                        }, 
-                        {
-                         "name":"number_of_pingus",
-                         "type":"int",
-                         "value":20
-                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":972.902318426547,
-                 "y":545.172618393583
+                 "x":303.233989052012,
+                 "y":342.216319464593
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -237,8 +199,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":9,
- "nextobjectid":40,
+ "nextlayerid":8,
+ "nextobjectid":39,
  "orientation":"orthogonal",
  "properties":[
         {
@@ -249,7 +211,7 @@
         {
          "name":"relative path",
          "type":"string",
-         "value":"..\/res\/map\/a_short_visit_at_cern"
+         "value":"..\/res\/map\/bomber_and_blocker"
         }],
  "renderorder":"right-down",
  "tiledversion":"1.11.0",
