@@ -7,6 +7,7 @@
 #include <file.h>
 #include <json.h>
 #include <profile.h>
+#include <level.h>
 #include "pingus_level.h"
 #include "new_game_menu.h"
 #include "pingus_main_menu.h"
@@ -23,16 +24,13 @@ void NewGameMenu::OnLevelEnter(Level* _level){
     level = _level;
 
     auto b_save1 = AddChild<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 0.0f), "Save 1");
-
     auto b_save2 = AddChild<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 0.0f), "Save 2");
-
     auto b_save3 = AddChild<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 0.0f), "Save 3");
-
     auto b_back = AddChild<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 0.0f), "Back");
 
     b_back->on_pressed = [](Widget* _parent_widget, Button* _button){
         _parent_widget->QueueForPurge();
-        _parent_widget->level->NewActor<PingusMainMenu>(_parent_widget->local_position);
+        Engine::Get().current_level->NewActor<PingusMainMenu>(_parent_widget->local_position);
     };
 
     b_save1->on_pressed = [](Widget* _parent_widget, Button* _button){

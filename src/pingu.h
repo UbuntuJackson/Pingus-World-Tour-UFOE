@@ -558,7 +558,10 @@ public:
     }
 
     std::function<bool()> item_walk = [this](){
+        int former_state = what_is_current_state;
         what_is_current_state = States::WALK;
+        ResetAction(former_state, what_is_current_state);
+
         is_in_special_state = false;
         snap_to_ground_enabled = true;
         state = state_walk;
@@ -585,12 +588,15 @@ public:
 
     std::function<bool()> item_block = [this](){
         if(
-            what_is_current_state == States::BLOCKER ||
             what_is_current_state == States::FALL ||
             what_is_current_state == States::PARACHUTE
         ) return false;
-        
+
+        int former_state = what_is_current_state;
         what_is_current_state = States::BLOCKER;
+        ResetAction(former_state, what_is_current_state);
+
+        if(what_is_current_state != States::BLOCKER) return false;
         
         anim->SetAnimation("pingu_blocker");
         anim->frame_counter = 0.0f;
@@ -625,7 +631,11 @@ public:
 
     std::function<bool()> item_blow_up = [this](){
         if(what_is_current_state == States::EXPLODE) return false;
+        
+        int former_state = what_is_current_state;
         what_is_current_state = States::EXPLODE;
+        ResetAction(former_state, what_is_current_state);
+
         anim->SetAnimation("pingu_explode");
         anim->frame_counter = 0.0f;
         
@@ -638,7 +648,9 @@ public:
     std::function<bool()> item_build = [this](){
         if(!hit_floor || what_is_current_state == States::BUILD || what_is_current_state == States::EXPLODE) return false;
 
+        int former_state = what_is_current_state;
         what_is_current_state = States::BUILD;
+        ResetAction(former_state, what_is_current_state);
 
         Console::PrintLine("Pingu::item_build");
 
@@ -668,7 +680,9 @@ public:
     std::function<bool()> item_driller = [this](){
         if(!hit_floor && what_is_current_state == States::DRILLER) return false;
 
+        int former_state = what_is_current_state;
         what_is_current_state = States::DRILLER;
+        ResetAction(former_state, what_is_current_state);
 
         is_in_special_state = true;
         state = state_driller;
@@ -734,10 +748,7 @@ public:
 
             if(level->item_select_menu != nullptr){
                 
-                int former_state = what_is_current_state;
                 level->item_select_menu->items[level->item_select_menu->selected_index](this);
-                
-                ResetAction(former_state, what_is_current_state);
             
             }
 

@@ -16,13 +16,17 @@
 
 class LevelSelectMenu : public FileMenu{
 public:
+
+    Level* level = nullptr;
+
     LevelSelectMenu() : FileMenu(Vector2f(40.0f, 40.0f),Vector2f(250.0f, 400.0f), "../res/map"){
         has_modified_controls = true;
         spacing = 8;
     }
 
-    void OnFileMenuCreated(){
-        
+    void OnLevelEnter(Level* _level){
+        FileMenu::OnLevelEnter(_level);
+        level = _level;
     }
 
     void OnFileOpen(FileMenuButton* _button,std::string _file_extension){
@@ -75,7 +79,7 @@ public:
 
             bback->on_pressed = [](Widget* _w, Button* _button){
                 _w->QueueForPurge();
-                _w->level->NewActor<PingusMainMenu>(Vector2f(0.0f,0.0f));
+                Engine::Get().current_level->NewActor<PingusMainMenu>(Vector2f(0.0f,0.0f));
             };
 
             bback->adjust_height_after_text_rows = true;
@@ -110,13 +114,6 @@ public:
             SingleKeyboard::Get().GetKey(olc::ENTER).is_pressed
         );
 
-        //level->GetActiveCamera()->local_position = Vector2f(800.0f, 400.0f);
-        
-        //Console::Out("LevelSelectMenu::OnUpdate");
-    }
-
-    void OnPurge(){
-        Console::Out("Purged");
     }
 
 };

@@ -23,20 +23,13 @@ void LoadGameMenu::OnLevelEnter(Level* _level){
     level = _level;
 
     auto b_save1 = AddChild<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 0.0f), "Save 1");
-    b_save1->adjust_height_after_text_rows = true;
-
     auto b_save2 = AddChild<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 0.0f), "Save 2");
-    b_save2->adjust_height_after_text_rows = true;
-
     auto b_save3 = AddChild<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 0.0f), "Save 3");
-    b_save3->adjust_height_after_text_rows = true;
-
     auto b_back = AddChild<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 0.0f), "Back");
-    b_back->adjust_height_after_text_rows = true;
 
     b_back->on_pressed = [](Widget* _parent_widget, Button* _button){
         _parent_widget->QueueForPurge();
-        _parent_widget->level->NewActor<PingusMainMenu>(_parent_widget->local_position);
+        Engine::Get().current_level->NewActor<PingusMainMenu>(_parent_widget->local_position);
     };
 
     b_save1->on_pressed = [](Widget* _parent_widget, Button* _button){
@@ -52,6 +45,7 @@ void LoadGameMenu::OnLevelEnter(Level* _level){
     };
 
     for(auto&& button : buttons){
+        button->adjust_height_after_text_rows = true;
         button->theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_grey", 3,4,3,4);
         button->hovered_theme = std::make_unique<NinePatchTheme>("pwt_theme_grey_light", 3,4,3,4);
         button->held_theme = std::make_unique<NinePatchTheme>("pwt_theme_grey_dark", 3,4,3,4);

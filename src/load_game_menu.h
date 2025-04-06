@@ -5,8 +5,11 @@
 #include <button.h>
 #include <wrap_menu.h>
 
+class Level;
+
 class LoadGameMenu : public WrapMenu{
 public:
+    Level* level = nullptr;
     LoadGameMenu(Vector2f _local_position);
     void OnLevelEnter(Level* _level);
     void OnStart(Level* _level);

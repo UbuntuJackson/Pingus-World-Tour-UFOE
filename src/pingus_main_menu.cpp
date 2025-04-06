@@ -37,7 +37,7 @@ void PingusMainMenu::OnLevelEnter(Level* _level){
 
     b_new_game->on_pressed = [](Widget* _parent_widget, Button* _button){
         Console::PrintLine("New Game pressed");
-        _parent_widget->level->NewActor<NewGameMenu>(_parent_widget->local_position);
+        Engine::Get().current_level->NewActor<NewGameMenu>(_parent_widget->local_position);
         _parent_widget->QueueForPurge();
     };
 
@@ -45,7 +45,7 @@ void PingusMainMenu::OnLevelEnter(Level* _level){
 
     b_load_game->on_pressed = [](Widget* _parent_widget, Button* _button){
         Console::PrintLine("Load Game pressed");
-        _parent_widget->level->NewActor<LoadGameMenu>(_parent_widget->local_position);
+        Engine::Get().current_level->NewActor<LoadGameMenu>(_parent_widget->local_position);
         _parent_widget->QueueForPurge();
     };
 
@@ -55,7 +55,7 @@ void PingusMainMenu::OnLevelEnter(Level* _level){
 
     b_level_select->on_pressed = [](Widget* _parent_widget, Button* _button){
         Console::PrintLine("Level select pressed");
-        _parent_widget->level->NewActor<LevelSelectMenu>();
+        Engine::Get().current_level->NewActor<LevelSelectMenu>();
         _parent_widget->QueueForPurge();
     };
 

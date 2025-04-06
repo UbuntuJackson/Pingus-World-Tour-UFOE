@@ -1,0 +1,72 @@
+{
+    "activeFile": "/home/uj/Documents/C++/ufoe_sta/res/map/u-ice.json",
+    "expandedProjectPaths": [
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "": {
+            "scaleInDock": 1
+        },
+        "/home/uj/Documents/C++/ufoe_sta/res/map/u-ice.json": {
+            "scale": 1.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 293.66666666666663,
+                "y": 359
+            }
+        },
+        "/home/uj/Documents/C++/ufoe_sta/res/map/u-ice.json#actors": {
+            "scaleInDock": 1
+        },
+        "/home/uj/Documents/C++/ufoe_sta/res/map/u-ice.json#goal": {
+            "scaleInDock": 1
+        },
+        "/home/uj/Documents/C++/ufoe_sta/res/map/u-ice.json#grass": {
+            "scaleInDock": 1
+        },
+        "/home/uj/Documents/C++/ufoe_sta/res/map/u-ice.json#icecave": {
+            "scaleInDock": 1
+        },
+        "/home/uj/Documents/C++/ufoe_sta/res/map/u-ice.json#igloo": {
+            "scaleInDock": 1
+        },
+        "/home/uj/Documents/C++/ufoe_sta/res/map/u-ice.json#new snow tileset 2": {
+            "scaleInDock": 1
+        },
+        "/home/uj/Documents/C++/ufoe_sta/res/map/u-ice.json#pipes": {
+            "scaleInDock": 1
+        },
+        "/home/uj/Documents/C++/ufoe_sta/res/map/u-ice.json#snow": {
+            "scaleInDock": 1
+        },
+        "/home/uj/Documents/C++/ufoe_sta/res/map/u-ice.json#solid": {
+            "scaleInDock": 1
+        },
+        "/home/uj/Documents/C++/ufoe_sta/res/map/u-ice.json#woodplat": {
+            "scaleInDock": 1
+        },
+        "res/map/a_short_visit_at_cern/a_short_visit_at_cern.json": {
+            "scale": 1.5,
+            "selectedLayer": 7,
+            "viewCenter": {
+                "x": 501.66666666666663,
+                "y": 319
+            }
+        },
+        "res/map/a_short_visit_at_cern/a_short_visit_at_cern.json#actors": {
+            "scaleInDock": 1
+        },
+        "res/map/a_short_visit_at_cern/a_short_visit_at_cern.json#pingus_actor_sheet": {
+            "scaleInDock": 1
+        }
+    },
+    "openFiles": [
+        "res/map/a_short_visit_at_cern/a_short_visit_at_cern.json",
+        "/home/uj/Documents/C++/ufoe_sta/res/map/u-ice.json"
+    ],
+    "project": "pingus_world_tour.tiled-project",
+    "recentFiles": [
+        "res/map/a_short_visit_at_cern/a_short_visit_at_cern.json",
+        "/home/uj/Documents/C++/ufoe_sta/res/map/u-ice.json"
+    ]
+}
