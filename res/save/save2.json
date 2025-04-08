@@ -13,15 +13,15 @@
 			"rank":	1
 		},
 		"../res/map/digging_test_level/digging_test_level.json":	{
-			"most_rescued_pingus":	16,
-			"rank":	2
+			"most_rescued_pingus":	20,
+			"rank":	1
 		},
 		"../res/map/tic_tac_tower/tic_tac_tower.json":	{
 			"most_rescued_pingus":	10,
 			"rank":	1
 		}
 	},
-	"last_played_level":	"../res/map/a_short_visit_at_cern/a_short_visit_at_cern.json",
+	"last_played_level":	"../res/map/digging_test_level/digging_test_level.json",
 	"unlocked_levels":	{
 		"../res/map/a_short_visit_at_cern/a_short_visit_at_cern.json":	1,
 		"../res/map/bomber_test_level/bomber_test_level.json":	1,

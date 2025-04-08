@@ -162,6 +162,6 @@ public:
 
         WrappedText wrapped_result_screen_text = GetWrappedTextWrapOnSpace(result_screen_text);
 
-        Engine::Get().pixel_game_engine.DrawStringDecal(GetGlobalPosition() + Vector2f(20.0f,try_again->local_position.y-8.0f*wrapped_result_screen_text.rows-8.0f), wrapped_result_screen_text.text);
+        Engine::Get().pixel_game_engine.DrawStringDecal(GetGlobalPosition() + Vector2f(0.0f,try_again->local_position.y-8.0f*wrapped_result_screen_text.rows-8.0f), wrapped_result_screen_text.text);
     }
 };

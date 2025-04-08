@@ -38,7 +38,7 @@ public:
         u_text_box->text_queue.push_back("The pingus assembled a team to set out into the world to find out what was happening.");
         u_text_box->text_queue.push_back("They are off to a good start, but something is missing. They are prone to walk off ledges");
         u_text_box->text_queue.push_back("What they need is leadership, and it is up to YOU, the player to guide them on their WORLD TOUR.");
-        u_text_box->text_queue.push_back("~ The Pingus' World Tour ~ (c) UFO-Engine Studios 2025");
+        u_text_box->text_queue.push_back("~ The Pingus' World Tour ~\n(c) UFO-Engine Studios 2025");
 
         std::reverse(u_text_box->text_queue.begin(), u_text_box->text_queue.end());
 
