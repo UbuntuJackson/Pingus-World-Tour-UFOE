@@ -121,7 +121,13 @@ void PingusLevel::OnLoad(JsonDictionary& _j){
 }
 
 void PingusLevel::OnCameraManipulation(){
-    ActiveCameraLookAround(Mouse::Get().GetMiddleButton().is_held, SingleKeyboard::Get().GetKey(olc::SHIFT).is_held);
+    ControlActiveCameraWithMouse(Mouse::Get().GetMiddleButton().is_held, SingleKeyboard::Get().GetKey(olc::SHIFT).is_held);
+    ControlActiveCameraWithKeyboard(
+        SingleKeyboard::Get().GetKey(olc::D).is_held,
+        SingleKeyboard::Get().GetKey(olc::A).is_held,
+        SingleKeyboard::Get().GetKey(olc::W).is_held,
+        SingleKeyboard::Get().GetKey(olc::S).is_held,
+        160.0f);
 }
 
 void PingusLevel::OnUpdate(){

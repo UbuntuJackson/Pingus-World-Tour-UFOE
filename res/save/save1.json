@@ -1,11 +1,6 @@
 {
 	"cleared_levels":	{
-		"../res/map/builder_test_level/test_level_builder_tiled.json":	{
-			"most_rescued_pingus":	0,
-			"rank":	3
-		}
 	},
-	"last_played_level":	"../res/map/builder_test_level/test_level_builder_tiled.json",
 	"unlocked_levels":	{
 	}
 }

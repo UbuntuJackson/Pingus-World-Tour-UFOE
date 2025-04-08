@@ -156,7 +156,7 @@
                         {
                          "name":"description",
                          "type":"string",
-                         "value":"I want YOU to join the forces to fight the destruction of Antarctica. This is where your journey begins, and your mission is to build your way up."
+                         "value":"I want YOU to join the forces to fight the destruction of Antarctica. In this  mission you need to build stairs to make it to the light house, i.e your goal. Click on a pingu to build a staircase!"
                         }, 
                         {
                          "name":"name",
@@ -252,7 +252,7 @@
                         {
                          "name":"description",
                          "type":"string",
-                         "value":"It's a Tic, it's a Tac, it's a tower"
+                         "value":"In this level you command your pingus to climb to the top."
                         }, 
                         {
                          "name":"name",
@@ -285,7 +285,7 @@
                         {
                          "name":"description",
                          "type":"string",
-                         "value":"So far you have been able to rescue everyone, but the truth is, some missions can't be cleared without sacrifice."
+                         "value":"So far you have been able to rescue everyone, but the truth is, some missions can't be cleared without sacrifice. To get through this one you need to blow up some of your pingus to get through blockades."
                         }, 
                         {
                          "name":"name",
@@ -341,7 +341,7 @@
                         {
                          "name":"description",
                          "type":"string",
-                         "value":"You have only scratched the surface. It's time to dig deeper..."
+                         "value":"Your previous training only scratched the surface. It's time to dig deeper... Click on a pingu to drill a hole in the ground."
                         }, 
                         {
                          "name":"name",

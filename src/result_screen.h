@@ -37,11 +37,14 @@ public:
 
         theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_grey", 3,4,3,4);
 
-        try_again = AddChild<Button>(Vector2f(50.0f,200.0f-65.0f),Vector2f(100.0f,20.0f),"Try again");
+        try_again = AddChild<Button>(Vector2f(50.0f,200.0f-65.0f),Vector2f(100.0f,0.0f),"Try again");
+        try_again->adjust_height_after_text_rows = true;
 
-        back_to_world_map = AddChild<Button>(Vector2f(50.0f,200.0f-40.0f),Vector2f(100.0f,20.0f),"Back to World Map");
+        back_to_world_map = AddChild<Button>(Vector2f(50.0f,200.0f-40.0f),Vector2f(100.0f,0.0f),"Back to World Map");
+        back_to_world_map->adjust_height_after_text_rows = true;
 
-        back_to_level_select = AddChild<Button>(Vector2f(50.0f,200.0f-7.0f),Vector2f(100.0f,20.0f),"Back to level select");
+        back_to_level_select = AddChild<Button>(Vector2f(50.0f,200.0f-7.0f),Vector2f(100.0f,0.0f),"Back to level select");
+        back_to_level_select->adjust_height_after_text_rows = true;
 
         //Set the themes
         try_again->theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_grey", 3,4,3,4);
@@ -58,7 +61,7 @@ public:
 
         auto rank_icon = AddChild<WidgetSpriteReference>(
             "ranks",
-            Vector2f(0.0f,0.0f),
+            Vector2f(GetRectangle().size.x/2.0f-120.0f/2.0f+30.0f,15.0f),
             Vector2f(0.0f,0.0f),
             Vector2f(120.0f,120.0f),
             Vector2f(0.5f,0.5f),

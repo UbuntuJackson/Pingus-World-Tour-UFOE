@@ -66,11 +66,33 @@
         {
          "class":"SpriteReference",
          "id":6,
+         "image":"bg.png",
+         "name":"bg",
+         "opacity":1,
+         "type":"imagelayer",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "class":"SpriteReference",
+         "id":8,
+         "image":"mg.png",
+         "name":"mg",
+         "opacity":1,
+         "type":"imagelayer",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "class":"SpriteReference",
+         "id":7,
          "image":"solid.png",
          "name":"solid",
          "opacity":1,
          "type":"imagelayer",
-         "visible":true,
+         "visible":false,
          "x":0,
          "y":0
         }, 
@@ -139,8 +161,8 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":724.333333333333,
-                 "y":229.75
+                 "x":500.641939109612,
+                 "y":568.47921858965
                 }, 
                 {
                  "gid":9,
@@ -162,8 +184,8 @@
                  "type":"",
                  "visible":true,
                  "width":1.42424242424238,
-                 "x":620.787878787879,
-                 "y":156.666666666667
+                 "x":821.429817897491,
+                 "y":357.395885256317
                 }, 
                 {
                  "gid":8,
@@ -180,8 +202,8 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":80.5000000000004,
-                 "y":429.333333333334
+                 "x":302.168377070811,
+                 "y":612.297708058448
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -189,7 +211,7 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":7,
+ "nextlayerid":9,
  "nextobjectid":35,
  "orientation":"orthogonal",
  "properties":[
@@ -224,12 +246,12 @@
          "columns":3,
          "firstgid":5,
          "image":"..\/..\/assets\/pingus_actor_sheet.png",
-         "imageheight":128,
+         "imageheight":192,
          "imagewidth":96,
          "margin":0,
          "name":"pingus_actor_sheet",
          "spacing":0,
-         "tilecount":12,
+         "tilecount":18,
          "tileheight":32,
          "tilewidth":32
         }],
