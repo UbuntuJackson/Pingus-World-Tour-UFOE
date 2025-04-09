@@ -30,7 +30,7 @@ public:
     olc::Decal* visual_surface;
     SpriteReference* visual_surface_ref = nullptr;
 
-    float brush_radius = 10.0f;
+    float brush_radius = 20.0f;
 
     PingusLevel* level = nullptr;
 
@@ -196,23 +196,55 @@ public:
         }
 
         if(Mouse::Get().GetLeftButton().is_held && !SingleKeyboard::Get().GetKey(olc::F).is_held){
-            for(int yy = world_mouse_position.y - brush_radius; yy < world_mouse_position.y + brush_radius; yy++){
-                for(int xx = world_mouse_position.x - brush_radius; xx < world_mouse_position.x + brush_radius; xx++){
-                    float dist = ufoMaths::Distance2(Vector2f(xx,yy),world_mouse_position);
-                    if(dist < brush_radius){
-                        if(layer_separation_surface->sprite->GetPixel(xx,yy) != MANTLE && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST_DARK) layer_separation_surface->sprite->SetPixel(xx,yy,CRUST);
+            if(!SingleKeyboard::Get().GetKey(olc::E).is_held){
+                for(int yy = world_mouse_position.y - brush_radius; yy < world_mouse_position.y + brush_radius; yy++){
+                    for(int xx = world_mouse_position.x - brush_radius; xx < world_mouse_position.x + brush_radius; xx++){
+                        float dist = ufoMaths::Distance2(Vector2f(xx,yy),world_mouse_position);
+                        if(dist < brush_radius){
+                            if(layer_separation_surface->sprite->GetPixel(xx,yy) != MANTLE && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST_DARK) layer_separation_surface->sprite->SetPixel(xx,yy,CRUST);
 
-                        if(dist < brush_radius - 2.0f && layer_separation_surface->sprite->GetPixel(xx,yy) != MANTLE){
-                            layer_separation_surface->sprite->SetPixel(xx,yy,CRUST_DARK);
+                            if(dist < brush_radius - 2.0f && layer_separation_surface->sprite->GetPixel(xx,yy) != MANTLE){
+                                layer_separation_surface->sprite->SetPixel(xx,yy,CRUST_DARK);
+                            }
+
+                            if(dist < brush_radius-3.8f){
+                                layer_separation_surface->sprite->SetPixel(xx,yy,MANTLE);
+                            }
+
                         }
+                    
+                    }
+                }
+            }
+            else{
 
-                        if(dist < brush_radius-3.8f){
+                for(int yy = world_mouse_position.y - brush_radius-5.0f; yy < world_mouse_position.y + brush_radius+5.0f; yy++){
+                    for(int xx = world_mouse_position.x - brush_radius-5.0f; xx < world_mouse_position.x + brush_radius+5.0f; xx++){
+                        float dist = ufoMaths::Distance2(Vector2f(xx,yy),world_mouse_position);
+                        
+                        if(layer_separation_surface->sprite->GetPixel(xx,yy) == Colour(0,0,0,0)) continue;
+
+                        if(dist < brush_radius+5.0f && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST_DARK){
                             layer_separation_surface->sprite->SetPixel(xx,yy,MANTLE);
                         }
 
+                        if(dist < brush_radius+3.0f && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST){
+                            layer_separation_surface->sprite->SetPixel(xx,yy,CRUST_DARK);
+                        }
+
+                        if(dist < brush_radius+2.0f){
+                            layer_separation_surface->sprite->SetPixel(xx,yy,CRUST);
+                        }
+
+                        if(dist < brush_radius){
+                            layer_separation_surface->sprite->SetPixel(xx,yy,Colour(0,0,0,0));
+                        }
+
+                        
+                    
                     }
-                
                 }
+            
             }
 
             for(int yy = world_mouse_position.y - brush_radius*2; yy < world_mouse_position.y + brush_radius*2; yy++){
@@ -229,6 +261,9 @@ public:
                         visual_surface->sprite->SetPixel(xx,yy,MANTLE_VISUAL);
                         ApplyPattern(visual_surface,AssetManager::Get().GetDecal("sample_texture_grass"),xx,yy);
                     }
+                    if(layer_separation_surface->sprite->GetPixel(xx,yy) == Colour(0,0,0,0)){
+                        visual_surface->sprite->SetPixel(xx,yy,Colour(0,0,0,0));
+                    }
                 
                 }
             }
@@ -244,7 +279,7 @@ public:
         float one_degree = 2.0f*ufoMaths::PI/360.0f;
 
         for(int a = 0; a < 360; a++){
-            Graphics::Get().DrawLine(mouse_position + Vector2f(std::cos(a*one_degree),std::sin(a*one_degree))*brush_radius, mouse_position + Vector2f(std::cos((a+1)*one_degree),std::sin((a+1)*one_degree))*brush_radius,Graphics::WHITE);
+            Graphics::Get().DrawLine(mouse_position + Vector2f(std::cos(a*one_degree),std::sin(a*one_degree))*brush_radius*level->GetActiveCamera()->scale, mouse_position + Vector2f(std::cos((a+1)*one_degree),std::sin((a+1)*one_degree))*brush_radius*level->GetActiveCamera()->scale,Graphics::WHITE);
         }
 
     }
