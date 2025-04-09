@@ -51,6 +51,14 @@ void PingusMainMenu::OnLevelEnter(Level* _level){
 
     auto b_level_select = std::make_unique<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 0.0f), "Level Select");
     auto b_options = AddChild<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 0.0f), "Options");
+
+    auto b_level_editor = AddChild<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 0.0f), "Editor");
+    b_level_editor->adjust_height_after_text_rows = true;
+
+    b_level_editor->on_pressed = [](Widget* _parent_widget, Button* _button){
+        Engine::Get().GoToLevel(std::make_unique<PingusLevel>(), "../res/map/level_editor/level_editor.json");
+    };
+
     auto b_quit = std::make_unique<Button>(Vector2f(0.0f, 0.0f),Vector2f(150.0f, 0.0f), "Quit");
 
     b_level_select->on_pressed = [](Widget* _parent_widget, Button* _button){

@@ -49,8 +49,8 @@
             "scale": 1.5,
             "selectedLayer": 7,
             "viewCenter": {
-                "x": 501.66666666666663,
-                "y": 319
+                "x": 709.3333333333333,
+                "y": 339
             }
         },
         "res/map/a_short_visit_at_cern/a_short_visit_at_cern.json#actors": {
@@ -66,7 +66,7 @@
             "scale": 1.5,
             "selectedLayer": 7,
             "viewCenter": {
-                "x": 600.3333333333334,
+                "x": 600.3333333333333,
                 "y": 375
             }
         },
@@ -74,6 +74,20 @@
             "scaleInDock": 1
         },
         "res/map/builder_test_level/test_level_builder_tiled.json#pingus_actor_sheet": {
+            "scaleInDock": 1
+        },
+        "res/map/level_editor/level_editor.json": {
+            "scale": 1.2708702064896755,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 400.11953809551443,
+                "y": 338.7442697150815
+            }
+        },
+        "res/map/level_editor/level_editor.json#actors": {
+            "scaleInDock": 1
+        },
+        "res/map/level_editor/level_editor.json#pingus_actor_sheet": {
             "scaleInDock": 1
         },
         "res/map/title_screen/title_screen.json": {
@@ -113,10 +127,10 @@
     ],
     "project": "pingus_world_tour.tiled-project",
     "recentFiles": [
-        "res/map/a_short_visit_at_cern/a_short_visit_at_cern.json",
-        "res/map/builder_test_level/test_level_builder_tiled.json",
-        "res/map/world_map/world_map.json",
         "res/map/title_screen/title_screen.json",
+        "res/map/builder_test_level/test_level_builder_tiled.json",
+        "res/map/a_short_visit_at_cern/a_short_visit_at_cern.json",
+        "res/map/world_map/world_map.json",
         "/home/uj/Documents/C++/ufoe_sta/res/map/u-ice.json"
     ]
 }
