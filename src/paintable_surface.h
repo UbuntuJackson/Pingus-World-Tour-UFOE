@@ -8,6 +8,10 @@
 #include <graphics.h>
 #include <ufo_engine.h>
 #include <memory>
+#include <console.h>
+#define STB_IMAGE_IMPLEMENTATION
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "../external/stb_image_write.h"
 
 /// @spawn;
 class PaintableSurface : public Actor{
@@ -67,7 +71,37 @@ public:
         _visual_decal->sprite->SetPixel(_x,_y,_sampling_decal->sprite->GetPixel(_x%(_sampling_decal->sprite->Size().x),_y%(_sampling_decal->sprite->Size().x)));
     }
 
+    void SaveImage(const std::string& _path, olc::Decal* _decal){
+        int w = _decal->sprite->Size().x;
+        int h = _decal->sprite->Size().y;
+        unsigned char* data = new unsigned char[w*h*3];
+        int index = 0;
+        for(int yy = 0; yy < h; yy++){
+            for(int xx = 0; xx < w; xx++){
+                int r = _decal->sprite->GetPixel(xx,yy).r;
+                int g = _decal->sprite->GetPixel(xx,yy).g;
+                int b = _decal->sprite->GetPixel(xx,yy).b;
+                data[index++] = r;
+                data[index++] = g;
+                data[index++] = b;
+            }
+        }
+
+        delete[] data;
+
+        int save_success = stbi_write_png(
+            _path.c_str(),
+            _decal->sprite->Size().x,
+            _decal->sprite->Size().y, 3, (void*)(data), w * 3);
+        Console::PrintLine("PaintableSurface::OnUpdate: Saved",_path,"return value:",save_success);
+    }
+
     void OnUpdate(){
+        if(SingleKeyboard::Get().GetKey(olc::S).is_pressed){
+            SaveImage("../res/game_generated_terrain/drawn_terrain_example.png",visual_surface);
+            SaveImage("../res/game_generated_terrain/drawn_terrain_example_layer_separation.png",layer_separation_surface);
+        }
+
         if(SingleKeyboard::Get().GetKey(olc::V).is_pressed){
             visual_surface_ref->visible = !visual_surface_ref->visible;
             layer_separation_surface_ref->visible = !layer_separation_surface_ref->visible;
