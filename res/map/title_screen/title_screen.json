@@ -134,6 +134,18 @@
                  "width":32,
                  "x":22.4118190212373,
                  "y":49.9796860572484
+                }, 
+                {
+                 "gid":21,
+                 "height":32,
+                 "id":43,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":230,
+                 "y":161
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -142,7 +154,7 @@
          "y":0
         }],
  "nextlayerid":9,
- "nextobjectid":43,
+ "nextobjectid":44,
  "orientation":"orthogonal",
  "properties":[
         {
@@ -176,12 +188,12 @@
          "columns":3,
          "firstgid":5,
          "image":"..\/..\/assets\/pingus_actor_sheet.png",
-         "imageheight":128,
+         "imageheight":192,
          "imagewidth":96,
          "margin":0,
          "name":"pingus_actor_sheet",
          "spacing":0,
-         "tilecount":12,
+         "tilecount":18,
          "tileheight":32,
          "tilewidth":32
         }],
