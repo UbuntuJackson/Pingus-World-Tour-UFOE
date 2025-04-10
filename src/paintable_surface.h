@@ -8,13 +8,15 @@
 #include <graphics.h>
 #include <ufo_engine.h>
 #include <memory>
+#include <cmath>
 #include <console.h>
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "../external/stb_image_write.h"
 #include "pingus_level.h"
+#include <level_sprite_reference.h>
+#include "pingus_world_tour_editor.h"
 
-/// @spawn;
 class PaintableSurface : public Actor{
 public:
     Colour CRUST = Colour(250,250,250);
@@ -30,21 +32,31 @@ public:
     olc::Decal* visual_surface;
     SpriteReference* visual_surface_ref = nullptr;
 
-    float brush_radius = 20.0f;
-
     PingusLevel* level = nullptr;
+    std::string path = "";
+    std::string visual_suface_name = "";
+    std::string layer_separation_surface_name = "";
 
-    PaintableSurface(Vector2f _) : Actor(Vector2f(0.0f,0.0f)){
+    PingusWorldTourEditor* editor = nullptr;
+
+    PaintableSurface(PingusWorldTourEditor* _editor, std::string _visual_surface_name, std::string _path) :
+    Actor(Vector2f(0.0f,0.0f)),
+    editor{_editor},
+    visual_suface_name{_visual_surface_name},
+    layer_separation_surface_name{_visual_surface_name+"_layer_separation"},
+    path{_path}{
         
     }
 
     void OnStart(Level* _level){
 
+        level = dynamic_cast<PingusLevel*>(_level);
+
         //Instead of creating SpriteReference, create an actual PingusWorldTour LevelSpriteReference layer. Grab reference to that olcDecal
-        AssetManager::Get().sprites["layer_separation_surface"] = std::make_unique<olc::Sprite>(_level->level_size.x, _level->level_size.y);
-        AssetManager::Get().decals["layer_separation_surface"] = std::make_unique<olc::Decal>(AssetManager::Get().GetSprite("layer_separation_surface"));
-        layer_separation_surface = AssetManager::Get().GetDecal("layer_separation_surface");
-        layer_separation_surface_ref = AddChild<SpriteReference>("layer_separation_surface",
+        level->asset_manager.sprites[layer_separation_surface_name] = std::make_unique<olc::Sprite>(_level->level_size.x, _level->level_size.y);
+        level->asset_manager.decals[layer_separation_surface_name] = std::make_unique<olc::Decal>(level->asset_manager.GetSprite(layer_separation_surface_name));
+        layer_separation_surface = level->asset_manager.GetDecal(layer_separation_surface_name);
+        layer_separation_surface_ref = AddChild<LevelSpriteReference>(layer_separation_surface_name,
             Vector2f(0.0f,0.0f),
             Vector2f(0.0f,0.0f),
             Vector2f(_level->level_size.x, _level->level_size.y),
@@ -58,10 +70,10 @@ public:
             }
         }
 
-        AssetManager::Get().sprites["visual_surface"] = std::make_unique<olc::Sprite>(_level->level_size.x, _level->level_size.y);
-        AssetManager::Get().decals["visual_surface"] = std::make_unique<olc::Decal>(AssetManager::Get().GetSprite("visual_surface"));
-        visual_surface = AssetManager::Get().GetDecal("visual_surface");
-        visual_surface_ref = AddChild<SpriteReference>("visual_surface",
+        level->asset_manager.sprites[visual_suface_name] = std::make_unique<olc::Sprite>(_level->level_size.x, _level->level_size.y);
+        level->asset_manager.decals[visual_suface_name] = std::make_unique<olc::Decal>(level->asset_manager.GetSprite(visual_suface_name));
+        visual_surface = level->asset_manager.GetDecal(visual_suface_name);
+        visual_surface_ref = AddChild<LevelSpriteReference>(visual_suface_name,
             Vector2f(0.0f,0.0f),
             Vector2f(0.0f,0.0f),
             Vector2f(_level->level_size.x, _level->level_size.y),
@@ -74,8 +86,6 @@ public:
                 visual_surface->sprite->SetPixel(xx,yy,Colour(0,0,0,0));
             }
         }
-
-        level = dynamic_cast<PingusLevel*>(_level);
 
         visual_surface_ref->visible = false;
 
@@ -132,10 +142,6 @@ public:
         }
 
         Vector2f world_mouse_position = level->GetActiveCamera()->TransformScreenToWorld(Mouse::Get().GetPosition());
-
-        int scroll_direction = Mouse::Get().GetScrollDirection();
-        brush_radius += scroll_direction /** Engine::Get().GetDeltaTime()*/;
-        if(brush_radius < 1.0f) brush_radius = 1.0f;
 
         if(SingleKeyboard::Get().GetKey(olc::F).is_held && Mouse::Get().GetLeftButton().is_pressed){
             Vector2f marching_position = world_mouse_position;
@@ -199,17 +205,17 @@ public:
 
         if(Mouse::Get().GetLeftButton().is_held && !SingleKeyboard::Get().GetKey(olc::F).is_held){
             if(!SingleKeyboard::Get().GetKey(olc::E).is_held){
-                for(int yy = world_mouse_position.y - brush_radius; yy < world_mouse_position.y + brush_radius; yy++){
-                    for(int xx = world_mouse_position.x - brush_radius; xx < world_mouse_position.x + brush_radius; xx++){
+                for(int yy = world_mouse_position.y - editor->brush_radius; yy < world_mouse_position.y + editor->brush_radius; yy++){
+                    for(int xx = world_mouse_position.x - editor->brush_radius; xx < world_mouse_position.x + editor->brush_radius; xx++){
                         float dist = ufoMaths::Distance2(Vector2f(xx,yy),world_mouse_position);
-                        if(dist < brush_radius){
+                        if(dist < editor->brush_radius){
                             if(layer_separation_surface->sprite->GetPixel(xx,yy) != MANTLE && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST_DARK) layer_separation_surface->sprite->SetPixel(xx,yy,CRUST);
 
-                            if(dist < brush_radius - 2.0f && layer_separation_surface->sprite->GetPixel(xx,yy) != MANTLE){
+                            if(dist < editor->brush_radius - 2.0f && layer_separation_surface->sprite->GetPixel(xx,yy) != MANTLE){
                                 layer_separation_surface->sprite->SetPixel(xx,yy,CRUST_DARK);
                             }
 
-                            if(dist < brush_radius-3.8f){
+                            if(dist < editor->brush_radius-3.8f){
                                 layer_separation_surface->sprite->SetPixel(xx,yy,MANTLE);
                             }
 
@@ -220,25 +226,25 @@ public:
             }
             else{
 
-                for(int yy = world_mouse_position.y - brush_radius-5.0f; yy < world_mouse_position.y + brush_radius+5.0f; yy++){
-                    for(int xx = world_mouse_position.x - brush_radius-5.0f; xx < world_mouse_position.x + brush_radius+5.0f; xx++){
+                for(int yy = world_mouse_position.y - editor->brush_radius-5.0f; yy < world_mouse_position.y + editor->brush_radius+5.0f; yy++){
+                    for(int xx = world_mouse_position.x - editor->brush_radius-5.0f; xx < world_mouse_position.x + editor->brush_radius+5.0f; xx++){
                         float dist = ufoMaths::Distance2(Vector2f(xx,yy),world_mouse_position);
                         
                         if(layer_separation_surface->sprite->GetPixel(xx,yy) == Colour(0,0,0,0)) continue;
 
-                        if(dist < brush_radius+5.0f && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST_DARK){
+                        if(dist < editor->brush_radius+5.0f && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST_DARK){
                             layer_separation_surface->sprite->SetPixel(xx,yy,MANTLE);
                         }
 
-                        if(dist < brush_radius+3.0f && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST){
+                        if(dist < editor->brush_radius+3.0f && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST){
                             layer_separation_surface->sprite->SetPixel(xx,yy,CRUST_DARK);
                         }
 
-                        if(dist < brush_radius+2.0f){
+                        if(dist < editor->brush_radius+2.0f){
                             layer_separation_surface->sprite->SetPixel(xx,yy,CRUST);
                         }
 
-                        if(dist < brush_radius){
+                        if(dist < editor->brush_radius){
                             layer_separation_surface->sprite->SetPixel(xx,yy,Colour(0,0,0,0));
                         }
 
@@ -249,8 +255,8 @@ public:
             
             }
 
-            for(int yy = world_mouse_position.y - brush_radius*2; yy < world_mouse_position.y + brush_radius*2; yy++){
-                for(int xx = world_mouse_position.x - brush_radius*2; xx < world_mouse_position.x + brush_radius*2; xx++){
+            for(int yy = world_mouse_position.y - editor->brush_radius*2; yy < world_mouse_position.y + editor->brush_radius*2; yy++){
+                for(int xx = world_mouse_position.x - editor->brush_radius*2; xx < world_mouse_position.x + editor->brush_radius*2; xx++){
                     float dist = ufoMaths::Distance2(Vector2f(xx,yy),world_mouse_position);
                     
                     if(layer_separation_surface->sprite->GetPixel(xx,yy) == CRUST){
@@ -273,19 +279,6 @@ public:
 
         layer_separation_surface->Update();
         visual_surface->Update();
-    }
-
-    void OnWidgetDraw(){
-
-        //Move this to PingusWorldTour editor
-        Vector2f mouse_position = Mouse::Get().GetPosition();
-
-        float one_degree = 2.0f*ufoMaths::PI/360.0f;
-
-        for(int a = 0; a < 360; a++){
-            Graphics::Get().DrawLine(mouse_position + Vector2f(std::cos(a*one_degree),std::sin(a*one_degree))*brush_radius*level->GetActiveCamera()->scale, mouse_position + Vector2f(std::cos((a+1)*one_degree),std::sin((a+1)*one_degree))*brush_radius*level->GetActiveCamera()->scale,Graphics::WHITE);
-        }
-
     }
 
 };

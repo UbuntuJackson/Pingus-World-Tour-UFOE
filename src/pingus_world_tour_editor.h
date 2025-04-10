@@ -1,6 +1,14 @@
+#pragma once
 #include <widget.h>
+#include <mouse.h>
+#include <graphics.h>
+#include <ufo_maths.h>
+#include "pingus_level.h"
 
 class Button;
+class WrapMenu;
+class Level;
+class PingusLevel;
 class WrapMenu;
 
 /// @spawn;
@@ -9,5 +17,20 @@ public:
     Button* b_save = nullptr;
     Button* b_load = nullptr;
     Button* b_import_layer = nullptr;
+    WrapMenu* m_layers = nullptr;
+
+    PingusLevel* level = nullptr;
+
+    float brush_radius = 20.0f;
+
+    PingusWorldTourEditor(Vector2f _);
+
+    void OnLevelEnter(Level* _level);
+
+    void AddLayer(std::string _name, std::string _path);
+
+    void OnUpdate();
+
+    void OnWidgetDraw();
 
 };

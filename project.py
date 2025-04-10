@@ -41,7 +41,7 @@ project.import_actor("src/world_map_cursor.h","src/world_map_cursor.cpp")
 project.import_actor("src/world_map.h","src/world_map.cpp")
 project.import_actor("src/pingus_splash_screen.h")
 project.import_actor("src/story_mode_intro.h")
-project.import_actor("src/paintable_surface.h")
+project.import_actor("src/pingus_world_tour_editor.h","src/pingus_world_tour_editor.cpp")
 
 #Source-files that aren't Actors.
 project.source_files.append("game.cpp")
