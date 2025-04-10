@@ -39,6 +39,8 @@ public:
     }
 
     void OnStart(Level* _level){
+
+        //Instead of creating SpriteReference, create an actual PingusWorldTour LevelSpriteReference layer. Grab reference to that olcDecal
         AssetManager::Get().sprites["layer_separation_surface"] = std::make_unique<olc::Sprite>(_level->level_size.x, _level->level_size.y);
         AssetManager::Get().decals["layer_separation_surface"] = std::make_unique<olc::Decal>(AssetManager::Get().GetSprite("layer_separation_surface"));
         layer_separation_surface = AssetManager::Get().GetDecal("layer_separation_surface");
@@ -87,30 +89,29 @@ public:
         _visual_decal->sprite->SetPixel(_x,_y,_sampling_decal->sprite->GetPixel(_x%(_sampling_decal->sprite->Size().x),_y%(_sampling_decal->sprite->Size().x)));
     }
 
+    //Good as it is, since you can call SaveImage on each PaintableSurface
     void SaveImage(const std::string& _path, olc::Decal* _decal){
         int w = _decal->sprite->Size().x;
         int h = _decal->sprite->Size().y;
-        unsigned char* data = new unsigned char[w*h*3];
+        unsigned char* data = new unsigned char[w*h*4];
         int index = 0;
         for(int yy = 0; yy < h; yy++){
             for(int xx = 0; xx < w; xx++){
-                int r = _decal->sprite->GetPixel(xx,yy).r;
-                int g = _decal->sprite->GetPixel(xx,yy).g;
-                int b = _decal->sprite->GetPixel(xx,yy).b;
-                data[index++] = r;
-                data[index++] = g;
-                data[index++] = b;
+                Colour p = _decal->sprite->GetPixel(xx,yy);
+                data[index++] = p.r;
+                data[index++] = p.g;
+                data[index++] = p.b;
+                data[index++] = p.a;
             }
         }
 
-        delete[] data;
-
         int save_success = stbi_write_png(
             _path.c_str(),
-            _decal->sprite->Size().x,
-            _decal->sprite->Size().y, 3, (void*)(data), w * 3);
+            w,
+            h, 4, data, w * 4);
         Console::PrintLine("PaintableSurface::OnUpdate: Saved",_path,"return value:",save_success);
 
+        delete[] data;
         
     }
 
@@ -118,6 +119,7 @@ public:
         return layer_separation_surface->sprite->GetPixel(_marching_position) != MANTLE && ufoMaths::RectangleVsPoint(ufo::Rectangle(Vector2f(0.0f,0.0f),level->level_size), _marching_position);
     }
 
+    //Change this to LayerSelectedUpdate
     void OnUpdate(){
         if(SingleKeyboard::Get().GetKey(olc::S).is_pressed){
             SaveImage("../res/game_generated_terrain/drawn_terrain_example.png",visual_surface);
@@ -274,6 +276,8 @@ public:
     }
 
     void OnWidgetDraw(){
+
+        //Move this to PingusWorldTour editor
         Vector2f mouse_position = Mouse::Get().GetPosition();
 
         float one_degree = 2.0f*ufoMaths::PI/360.0f;
