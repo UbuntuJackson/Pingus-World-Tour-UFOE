@@ -278,10 +278,11 @@ public:
         }
 
         if(editor->colour_picker->SetHue()){
-            CRUST_VISUAL = editor->colour_picker->hue;
+            if(editor->b_upper_crust_colour->is_selected) CRUST_VISUAL = editor->colour_picker->hue;
+            if(editor->b_lower_crust_colour->is_selected) CRUST_DARK_VISUAL = editor->colour_picker->hue;
+            //if(editor->b_upper_crust_colour) CRUST_VISUAL = editor->colour_picker->hue;
             for(int yy = 0; yy < level->level_size.y; yy++){
                 for(int xx = 0; xx < level->level_size.x; xx++){
-                    float dist = ufoMaths::Distance2(Vector2f(xx,yy),world_mouse_position);
                     
                     if(layer_separation_surface->sprite->GetPixel(xx,yy) == CRUST){
                         visual_surface->sprite->SetPixel(xx,yy,CRUST_VISUAL);

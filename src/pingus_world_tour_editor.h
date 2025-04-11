@@ -19,7 +19,15 @@ public:
     Button* b_save = nullptr;
     Button* b_load = nullptr;
     Button* b_import_layer = nullptr;
+
+    //Colour and texture settings
+    Button* b_upper_crust_colour = nullptr;
+    Button* b_lower_crust_colour = nullptr;
+    Button* b_mantle_texture = nullptr;
+
     WrapMenu* m_layers = nullptr;
+
+    WrapMenu* m_colour_settings = nullptr;
 
     PingusLevel* level = nullptr;
     PaintableSurface* selected_layer = nullptr;

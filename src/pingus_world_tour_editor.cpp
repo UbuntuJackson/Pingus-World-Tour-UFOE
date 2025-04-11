@@ -22,10 +22,22 @@ void PingusWorldTourEditor::OnLevelEnter(Level* _level){
     b_load->adjust_height_after_text_rows = true;
     b_import_layer = AddChild<Button>(Vector2f(32.0f*2,0.0f),Vector2f(56.0f,0.0f),"Import Layer");
     b_import_layer->adjust_height_after_text_rows = true;
+
+    m_colour_settings = AddChild<WrapMenu>(Vector2f(GetRectangle().size.x-200.0f,100.0f),Vector2f(200.0f,200.0f));
+
+    b_upper_crust_colour = m_colour_settings->AddChild<Button>(Vector2f(0.0f,0.0f),Vector2f(64.0f,0.0f),"Upper crust colour");
+    b_upper_crust_colour->adjust_height_after_text_rows = true;
+    b_lower_crust_colour = m_colour_settings->AddChild<Button>(Vector2f(0.0f,0.0f),Vector2f(64.0f,0.0f),"Lower cust colour");
+    b_lower_crust_colour->adjust_height_after_text_rows = true;
+    b_mantle_texture = m_colour_settings->AddChild<Button>(Vector2f(0.0f,0.0f),Vector2f(64.0f,0.0f),"Mantle texture");
+    b_mantle_texture->adjust_height_after_text_rows = true;
+
     m_layers = AddChild<WrapMenu>(Vector2f(GetRectangle().size.x-200.0f,0.0f),Vector2f(200.0f,200.0f));
+
     AddChild<Button>(GetRectangle().size-Vector2f(32.0f,32.0f), Vector2f(32.0f,32.0f), "S");
     AddChild<Button>(GetRectangle().size-Vector2f(64.0f,32.0f), Vector2f(32.0f,32.0f), "P");
     AddChild<Button>(GetRectangle().size-Vector2f(96.0f,32.0f), Vector2f(32.0f,32.0f), "C");
+
     AddLayer("solid", "solid.png");
     AddLayer("mg", "mg.png");
     
