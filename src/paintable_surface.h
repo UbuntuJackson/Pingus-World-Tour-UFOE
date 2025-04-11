@@ -277,9 +277,9 @@ public:
             }
         }
 
-        if(editor->colour_picker->SetHue()){
-            if(editor->b_upper_crust_colour->is_selected) CRUST_VISUAL = editor->colour_picker->hue;
-            if(editor->b_lower_crust_colour->is_selected) CRUST_DARK_VISUAL = editor->colour_picker->hue;
+        if(editor->colour_picker->SetColour() || editor->colour_picker->SetHue()){
+            if(editor->b_upper_crust_colour->is_selected) CRUST_VISUAL = editor->colour_picker->GetColour();
+            if(editor->b_lower_crust_colour->is_selected) CRUST_DARK_VISUAL = editor->colour_picker->GetColour();
             //if(editor->b_upper_crust_colour) CRUST_VISUAL = editor->colour_picker->hue;
             for(int yy = 0; yy < level->level_size.y; yy++){
                 for(int xx = 0; xx < level->level_size.x; xx++){
