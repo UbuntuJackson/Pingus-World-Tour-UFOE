@@ -49,6 +49,8 @@ project.source_files.append("src/level_select_menu.cpp")
 project.source_files.append("src/pingus_level.cpp")
 project.source_files.append("src/new_game_menu.cpp")
 project.source_files.append("src/load_game_menu.cpp")
+project.source_files.append("src/pwt_editor_layer_button.cpp")
+project.source_files.append("external/stb_image_write_implementation.cpp")
 
 #Generate generated_actor_json_bridge.h and CMakeLists.txt.
 project.generate_project()

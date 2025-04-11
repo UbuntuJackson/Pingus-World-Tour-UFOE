@@ -7,15 +7,15 @@
 #include <ufo_maths.h>
 #include <graphics.h>
 #include <ufo_engine.h>
+#include <single_keyboard.h>
 #include <memory>
 #include <cmath>
 #include <console.h>
-#define STB_IMAGE_IMPLEMENTATION
-#define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "../external/stb_image_write.h"
 #include "pingus_level.h"
 #include <level_sprite_reference.h>
 #include "pingus_world_tour_editor.h"
+#include "colour_picker.h"
 
 class PaintableSurface : public Actor{
 public:
@@ -130,7 +130,7 @@ public:
     }
 
     //Change this to LayerSelectedUpdate
-    void OnUpdate(){
+    void SelectedUpdate(){
         if(SingleKeyboard::Get().GetKey(olc::S).is_pressed){
             SaveImage("../res/game_generated_terrain/drawn_terrain_example.png",visual_surface);
             SaveImage("../res/game_generated_terrain/drawn_terrain_example_layer_separation.png",layer_separation_surface);
@@ -277,8 +277,36 @@ public:
             }
         }
 
+        if(editor->colour_picker->SetHue()){
+            CRUST_VISUAL = editor->colour_picker->hue;
+            for(int yy = 0; yy < level->level_size.y; yy++){
+                for(int xx = 0; xx < level->level_size.x; xx++){
+                    float dist = ufoMaths::Distance2(Vector2f(xx,yy),world_mouse_position);
+                    
+                    if(layer_separation_surface->sprite->GetPixel(xx,yy) == CRUST){
+                        visual_surface->sprite->SetPixel(xx,yy,CRUST_VISUAL);
+                    }
+                    if(layer_separation_surface->sprite->GetPixel(xx,yy) == CRUST_DARK){
+                        visual_surface->sprite->SetPixel(xx,yy,CRUST_DARK_VISUAL);
+                    }
+                    if(layer_separation_surface->sprite->GetPixel(xx,yy) == MANTLE){
+                        visual_surface->sprite->SetPixel(xx,yy,MANTLE_VISUAL);
+                        ApplyPattern(visual_surface,AssetManager::Get().GetDecal("sample_texture_grass"),xx,yy);
+                    }
+                    if(layer_separation_surface->sprite->GetPixel(xx,yy) == Colour(0,0,0,0)){
+                        visual_surface->sprite->SetPixel(xx,yy,Colour(0,0,0,0));
+                    }
+                
+                }
+            }
+        }
+
         layer_separation_surface->Update();
         visual_surface->Update();
+    }
+
+    void OnUpdate(){
+        
     }
 
 };

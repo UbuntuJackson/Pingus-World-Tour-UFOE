@@ -10,6 +10,8 @@ class WrapMenu;
 class Level;
 class PingusLevel;
 class WrapMenu;
+class PaintableSurface;
+class ColourPicker;
 
 /// @spawn;
 class PingusWorldTourEditor : public Widget{
@@ -20,6 +22,9 @@ public:
     WrapMenu* m_layers = nullptr;
 
     PingusLevel* level = nullptr;
+    PaintableSurface* selected_layer = nullptr;
+
+    ColourPicker* colour_picker = nullptr;
 
     float brush_radius = 20.0f;
 
