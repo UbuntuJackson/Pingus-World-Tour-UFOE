@@ -54,7 +54,7 @@ void PingusWorldTourEditor::AddLayer(std::string _name, std::string _path){
 
 void PingusWorldTourEditor::OnUpdate(){
     int scroll_direction = Mouse::Get().GetScrollDirection();
-    brush_radius += scroll_direction*240.0f * Engine::Get().GetDeltaTime();
+    brush_radius += scroll_direction*1024.0f * Engine::Get().GetDeltaTime();
     if(brush_radius < 1.0f) brush_radius = 1.0f;
 
     selected_layer->SelectedUpdate();

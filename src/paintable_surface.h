@@ -32,6 +32,8 @@ public:
     olc::Decal* visual_surface;
     SpriteReference* visual_surface_ref = nullptr;
 
+    std::string current_texture_key = "light_house_rocks";
+
     PingusLevel* level = nullptr;
     std::string path = "";
     std::string visual_suface_name = "";
@@ -93,6 +95,7 @@ public:
 
         //Load patterned textures
         AssetManager::Get().LoadDecal("../res/assets/sample_texture_grass.png","sample_texture_grass");
+        AssetManager::Get().LoadDecal("../res/assets/lighthouse_rocks.png","light_house_rocks");
     }
 
     void ApplyPattern(olc::Decal* _visual_decal, olc::Decal* _sampling_decal, int _x, int _y){
@@ -196,7 +199,7 @@ public:
                     }
                     if(layer_separation_surface->sprite->GetPixel(xx,yy) == MANTLE){
                         visual_surface->sprite->SetPixel(xx,yy,MANTLE_VISUAL);
-                        ApplyPattern(visual_surface,AssetManager::Get().GetDecal("sample_texture_grass"),xx,yy);
+                        ApplyPattern(visual_surface,AssetManager::Get().GetDecal(current_texture_key),xx,yy);
                     }
                 
                 }
@@ -236,7 +239,7 @@ public:
                             layer_separation_surface->sprite->SetPixel(xx,yy,MANTLE);
                         }
 
-                        if(dist < editor->brush_radius+3.0f && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST){
+                        if(dist < editor->brush_radius+3.5f && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST){
                             layer_separation_surface->sprite->SetPixel(xx,yy,CRUST_DARK);
                         }
 
@@ -267,7 +270,7 @@ public:
                     }
                     if(layer_separation_surface->sprite->GetPixel(xx,yy) == MANTLE){
                         visual_surface->sprite->SetPixel(xx,yy,MANTLE_VISUAL);
-                        ApplyPattern(visual_surface,AssetManager::Get().GetDecal("sample_texture_grass"),xx,yy);
+                        ApplyPattern(visual_surface,AssetManager::Get().GetDecal(current_texture_key),xx,yy);
                     }
                     if(layer_separation_surface->sprite->GetPixel(xx,yy) == Colour(0,0,0,0)){
                         visual_surface->sprite->SetPixel(xx,yy,Colour(0,0,0,0));
@@ -292,7 +295,7 @@ public:
                     }
                     if(layer_separation_surface->sprite->GetPixel(xx,yy) == MANTLE){
                         visual_surface->sprite->SetPixel(xx,yy,MANTLE_VISUAL);
-                        ApplyPattern(visual_surface,AssetManager::Get().GetDecal("sample_texture_grass"),xx,yy);
+                        ApplyPattern(visual_surface,AssetManager::Get().GetDecal(current_texture_key),xx,yy);
                     }
                     if(layer_separation_surface->sprite->GetPixel(xx,yy) == Colour(0,0,0,0)){
                         visual_surface->sprite->SetPixel(xx,yy,Colour(0,0,0,0));
