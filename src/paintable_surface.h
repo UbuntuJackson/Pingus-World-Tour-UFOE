@@ -89,7 +89,7 @@ public:
             }
         }
 
-        visual_surface_ref->visible = false;
+        layer_separation_surface_ref->visible = false;
 
         level->is_menu = true;
 
@@ -134,7 +134,7 @@ public:
 
     //Change this to LayerSelectedUpdate
     void SelectedUpdate(){
-        if(SingleKeyboard::Get().GetKey(olc::S).is_pressed){
+        if(editor->b_save->IsReleased()){
             SaveImage("../res/game_generated_terrain/drawn_terrain_example.png",visual_surface);
             SaveImage("../res/game_generated_terrain/drawn_terrain_example_layer_separation.png",layer_separation_surface);
         }
@@ -279,7 +279,9 @@ public:
                 }
             }
         }
+    }
 
+    void OnUpdate(){
         if(editor->colour_picker->SetColour() || editor->colour_picker->SetHue()){
             if(editor->b_upper_crust_colour->is_selected) CRUST_VISUAL = editor->colour_picker->GetColour();
             if(editor->b_lower_crust_colour->is_selected) CRUST_DARK_VISUAL = editor->colour_picker->GetColour();
@@ -304,13 +306,8 @@ public:
                 }
             }
         }
-
         layer_separation_surface->Update();
         visual_surface->Update();
-    }
-
-    void OnUpdate(){
-        
     }
 
 };

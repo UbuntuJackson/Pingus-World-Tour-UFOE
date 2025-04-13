@@ -42,7 +42,7 @@ public:
 
     void AddLayer(std::string _name, std::string _path);
 
-    void OnUpdate();
+    void OnWidgetHovered();
 
     void OnWidgetDraw();
 

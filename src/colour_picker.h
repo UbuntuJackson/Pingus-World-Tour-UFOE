@@ -35,13 +35,15 @@ public:
     }
 
     void OnLevelEnter(Level* _level){
-        AssetManager::Get().sprites["colour_picker"] = std::make_unique<olc::Sprite>(GetRectangle().size.x, GetRectangle().size.y);
+        Widget::OnLevelEnter(_level);
+
+        AssetManager::Get().sprites["colour_picker"] = std::make_unique<olc::Sprite>(GetRectangle().size.x, 200.0f);
         AssetManager::Get().decals["colour_picker"] = std::make_unique<olc::Decal>(AssetManager::Get().GetSprite("colour_picker"));
         colour_picker_decal = AssetManager::Get().GetDecal("colour_picker");
         colour_picker_sprite_ref = AddChild<WidgetSpriteReference>("colour_picker",
             Vector2f(0.0f,0.0f),
             Vector2f(0.0f,0.0f),
-            GetRectangle().size,
+            Vector2f(GetRectangle().size.x, 200.0f),
             Vector2f(1.0f,1.0f),
             0.0f,0
         );

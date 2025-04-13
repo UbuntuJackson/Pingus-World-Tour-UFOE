@@ -10,10 +10,12 @@
 #include "paintable_surface.h"
 #include "pwt_editor_layer_button.h"
 #include "colour_picker.h"
+#include <text_field.h>
 
 PingusWorldTourEditor::PingusWorldTourEditor(Vector2f _) : Widget(Vector2f(0.0f,0.0f),Engine::Get().pixel_game_engine.GetWindowSizeInPixles()){}
 
 void PingusWorldTourEditor::OnLevelEnter(Level* _level){
+    Widget::OnLevelEnter(_level);
     level = dynamic_cast<PingusLevel*>(_level);
 
     b_save = AddChild<Button>(Vector2f(0.0f,0.0f),Vector2f(32.0f,0.0f),"Save");
@@ -43,7 +45,9 @@ void PingusWorldTourEditor::OnLevelEnter(Level* _level){
     
     level->is_menu = true;
 
-    colour_picker = AddChild<ColourPicker>(Vector2f(GetRectangle().size.x-200.0f,200.0f),Vector2f(200.0f,200.0f));
+    colour_picker = AddChild<ColourPicker>(Vector2f(GetRectangle().size.x-200.0f,200.0f),Vector2f(200.0f,232.0f));
+
+    //AddChild<TextField>(Vector2f(0.0f,200.0f),Vector2f(200.0f,32.0f));
 }
 
 void PingusWorldTourEditor::AddLayer(std::string _name, std::string _path){
@@ -52,7 +56,7 @@ void PingusWorldTourEditor::AddLayer(std::string _name, std::string _path){
     selected_layer = layer;
 }
 
-void PingusWorldTourEditor::OnUpdate(){
+void PingusWorldTourEditor::OnWidgetHovered(){
     int scroll_direction = Mouse::Get().GetScrollDirection();
     brush_radius += scroll_direction*1024.0f * Engine::Get().GetDeltaTime();
     if(brush_radius < 1.0f) brush_radius = 1.0f;
