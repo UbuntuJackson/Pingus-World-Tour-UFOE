@@ -96,6 +96,9 @@ public:
         //Load patterned textures
         AssetManager::Get().LoadDecal("../res/assets/sample_texture_grass.png","sample_texture_grass");
         AssetManager::Get().LoadDecal("../res/assets/lighthouse_rocks.png","light_house_rocks");
+
+        layer_separation_surface->Update();
+        visual_surface->Update();
     }
 
     void ApplyPattern(olc::Decal* _visual_decal, olc::Decal* _sampling_decal, int _x, int _y){
@@ -204,6 +207,8 @@ public:
                 
                 }
             }
+            layer_separation_surface->Update();
+            visual_surface->Update();
         }
 
         if(Mouse::Get().GetLeftButton().is_held && !SingleKeyboard::Get().GetKey(olc::F).is_held){
@@ -278,6 +283,9 @@ public:
                 
                 }
             }
+
+            layer_separation_surface->Update();
+            visual_surface->Update();
         }
     }
 
@@ -305,9 +313,9 @@ public:
                 
                 }
             }
+            layer_separation_surface->Update();
+            visual_surface->Update();
         }
-        layer_separation_surface->Update();
-        visual_surface->Update();
     }
 
 };

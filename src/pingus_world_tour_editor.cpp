@@ -11,6 +11,9 @@
 #include "pwt_editor_layer_button.h"
 #include "colour_picker.h"
 #include <text_field.h>
+#include <file_dialogue.h>
+#include <colour_rectangle_theme.h>
+#include <theme.h>
 
 PingusWorldTourEditor::PingusWorldTourEditor(Vector2f _) : Widget(Vector2f(0.0f,0.0f),Engine::Get().pixel_game_engine.GetWindowSizeInPixles()){}
 
@@ -46,8 +49,6 @@ void PingusWorldTourEditor::OnLevelEnter(Level* _level){
     level->is_menu = true;
 
     colour_picker = AddChild<ColourPicker>(Vector2f(GetRectangle().size.x-200.0f,200.0f),Vector2f(200.0f,232.0f));
-
-    //AddChild<TextField>(Vector2f(0.0f,200.0f),Vector2f(200.0f,32.0f));
 }
 
 void PingusWorldTourEditor::AddLayer(std::string _name, std::string _path){
@@ -62,6 +63,11 @@ void PingusWorldTourEditor::OnWidgetHovered(){
     if(brush_radius < 1.0f) brush_radius = 1.0f;
 
     selected_layer->SelectedUpdate();
+}
+void PingusWorldTourEditor::OnUpdate(){
+    if(b_save->IsPressed()){
+        AddChild<FileDialogue>(Vector2f(0.0f,0.0f),Vector2f(680.0f,480.0f), "../res/map");
+    }
 }
 
 void PingusWorldTourEditor::OnWidgetDraw(){
