@@ -32,7 +32,7 @@ public:
     olc::Decal* visual_surface;
     SpriteReference* visual_surface_ref = nullptr;
 
-    std::string current_texture_key = "light_house_rocks";
+    std::string current_texture_key = "autumn_texture";
 
     PingusLevel* level = nullptr;
     std::string path = "";
@@ -96,6 +96,7 @@ public:
         //Load patterned textures
         AssetManager::Get().LoadDecal("../res/assets/sample_texture_grass.png","sample_texture_grass");
         AssetManager::Get().LoadDecal("../res/assets/lighthouse_rocks.png","light_house_rocks");
+        AssetManager::Get().LoadDecal("../res/assets/autumn_texture.png","autumn_texture");
 
         layer_separation_surface->Update();
         visual_surface->Update();
