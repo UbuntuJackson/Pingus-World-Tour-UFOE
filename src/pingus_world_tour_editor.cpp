@@ -66,7 +66,7 @@ void PingusWorldTourEditor::OnWidgetHovered(){
 }
 void PingusWorldTourEditor::OnUpdate(){
     if(b_save->IsPressed()){
-        AddChild<FileDialogue>(Vector2f(0.0f,0.0f),Vector2f(680.0f,480.0f), "../res/map");
+        AddChild<FileDialogue>(FileDialogue::Modes::WRITE, Vector2f(0.0f,0.0f),Vector2f(680.0f,480.0f), "../res/map");
     }
 }
 

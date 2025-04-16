@@ -14,6 +14,7 @@
 #include "world_map_location.h"
 
 void WorldMap::OnLevelEnter(Level* _level){
+    Widget::OnLevelEnter(_level);
     level = dynamic_cast<PingusLevel*>(_level); 
     level->is_menu = true;
 
