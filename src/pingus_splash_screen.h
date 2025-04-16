@@ -17,8 +17,7 @@ public:
         Vector2f(0.0f,0.0f),
         Vector2f(680.0f,480.0f),
         Vector2f(1.0f,1.0f),
-        0.0f,
-        0)
+        0.0f)
     {
         duration_timer.Start(6000.0f);
     }

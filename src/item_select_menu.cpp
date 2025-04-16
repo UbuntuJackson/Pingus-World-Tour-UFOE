@@ -71,7 +71,7 @@ void ItemSelectMenu::OnStart(Level* _level){
             Vector2f(0.0f,0.0f),
             Vector2f(20.0f,20.0f),
             Vector2f(1.0f,1.0f),
-            0.0f,0
+            0.0f
         );
         items.push_back(item_blow_up);
     }
@@ -83,7 +83,7 @@ void ItemSelectMenu::OnStart(Level* _level){
             Vector2f(0.0f,0.0f),
             Vector2f(24.0f,20.0f),
             Vector2f(1.0f,1.0f),
-            0.0f,0
+            0.0f
         );
         items.push_back(item_build);
     }
@@ -95,7 +95,7 @@ void ItemSelectMenu::OnStart(Level* _level){
             Vector2f(0.0f,0.0f),
             Vector2f(24.0f,20.0f),
             Vector2f(1.0f,1.0f),
-            0.0f,0
+            0.0f
         );
         items.push_back(item_parachute);
     }
@@ -115,7 +115,7 @@ void ItemSelectMenu::OnStart(Level* _level){
             Vector2f(0.0f,0.0f),
             Vector2f(24.0f,20.0f),
             Vector2f(1.0f,1.0f),
-            0.0f,0
+            0.0f
         );
         items.push_back(item_driller);
     }

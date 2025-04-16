@@ -50,8 +50,7 @@ public:
             "pwt_intro_cutscene",
             Vector2f(0.0f,0.0f),Vector2f(0.0f,0.0f),
             Vector2f(680.0f,480.0f),Vector2f(1.0f,1.0f),
-            0.0f,
-            0
+            0.0f
         );
 
         dynamic_cast<PingusLevel*>(_level)->is_menu = true;

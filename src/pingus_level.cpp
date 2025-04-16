@@ -91,8 +91,7 @@ void PingusLevel::OnLoad(JsonDictionary& _j){
         Vector2f(0.0f, 0.0f),
         Vector2f(32.0f, 32.0f),
         Vector2f(1.0f, 1.0f),
-        0.0f,
-        0
+        0.0f
     );
     honey_coin_hud->current_frame_index = 1.0f;
     end_level_button->theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_grey", 3,4,3,4);
@@ -234,5 +233,5 @@ void PingusLevel::OnHandlePurge(){
 }
 
 void PingusLevel::OnExit(){
-    Graphics::Get().DrawDecal("pwt_loading_screen",Vector2f(0.0f,0.0f),Vector2f(0.0f,0.0f),Vector2f(0.0f,0.0f),Vector2f(680.0f,480.0f),Vector2f(1.0f,1.0f),0.0f, Graphics::WHITE);
+    Graphics::Get().DrawDecal(AssetManager::Get(),"pwt_loading_screen",Vector2f(0.0f,0.0f),Vector2f(0.0f,0.0f),Vector2f(0.0f,0.0f),Vector2f(680.0f,480.0f),Vector2f(1.0f,1.0f),0.0f, Graphics::WHITE);
 }

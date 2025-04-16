@@ -19,7 +19,7 @@ void WorldMapCursor::OnLevelEnter(Level* _level){
         Vector2f(32.0f,32.0f),
         Vector2f(32.0f,32.0f),
         Vector2f(1.0f,1.0f),
-        0.0f,0
+        0.0f
     );
 
     SetZIndex(3);

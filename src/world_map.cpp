@@ -32,7 +32,7 @@ void WorldMap::OnLevelEnter(Level* _level){
         Vector2f(340.0f,0.0f),
         Vector2f(0.0f,0.0f),
         Vector2f(680.0f,480.0f),
-        Vector2f(1.0f,1.0f),0.0f,0);
+        Vector2f(1.0f,1.0f),0.0f);
     
     back_to_main_menu = AddChild<Button>(Vector2f(0.0f+16.0f,480.0f-64.0f), Vector2f(56.0f,56.0f-8.0f), "Back to main menu");
     back_to_main_menu->theme = std::make_unique<NinePatchTheme>("pwt_widget_theme_grey", 3,4,3,4);

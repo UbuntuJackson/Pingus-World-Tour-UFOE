@@ -85,7 +85,7 @@ void WorldMapLocation::OnUpdate(){
             Vector2f(680-220.0f,20.0f),
             Vector2f(0.0f,0.0f),
             Vector2f(200.0f,200.0f),
-            Vector2f(1.0f,1.0f),0.0f,0);
+            Vector2f(1.0f,1.0f),0.0f);
             preview_image->tint.a = 0.0f;
             
         }

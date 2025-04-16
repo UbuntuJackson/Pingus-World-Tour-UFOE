@@ -45,7 +45,7 @@ public:
             Vector2f(0.0f,0.0f),
             Vector2f(GetRectangle().size.x, 200.0f),
             Vector2f(1.0f,1.0f),
-            0.0f,0
+            0.0f
         );
 
         for(int yy = 0; yy < GetRectangle().size.y; yy++){
@@ -68,7 +68,7 @@ public:
             Vector2f(0.0f,0.0f),
             hue_slider_decal->sprite->Size(),
             Vector2f(1.0f,1.0f),
-            0.0f,0
+            0.0f
         );
 
         float f_red = 255.0f;

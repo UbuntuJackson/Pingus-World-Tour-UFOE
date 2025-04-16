@@ -1,6 +1,6 @@
 #pragma once
 #include <actor.h>
-#include <sprite_reference.h>
+#include <level_sprite_reference.h>
 #include <olcPixelGameEngine.h>
 #include <level.h>
 #include <mouse.h>
@@ -28,9 +28,9 @@ public:
     Colour MANTLE_VISUAL = Colour(200,200,80);
 
     olc::Decal* layer_separation_surface;
-    SpriteReference* layer_separation_surface_ref = nullptr;
+    LevelSpriteReference* layer_separation_surface_ref = nullptr;
     olc::Decal* visual_surface;
-    SpriteReference* visual_surface_ref = nullptr;
+    LevelSpriteReference* visual_surface_ref = nullptr;
 
     std::string current_texture_key = "autumn_texture";
 

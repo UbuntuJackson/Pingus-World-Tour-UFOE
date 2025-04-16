@@ -1,5 +1,5 @@
 {
-    "activeFile": "res/map/level_editor/level_editor.json",
+    "activeFile": "res/map/bomber_test_level/bomber_test_level.json",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -59,6 +59,20 @@
         "res/map/a_short_visit_at_cern/a_short_visit_at_cern.json#pingus_actor_sheet": {
             "scaleInDock": 1
         },
+        "res/map/bomber_test_level/bomber_test_level.json": {
+            "scale": 0.7870384615384615,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 649.9047060548307,
+                "y": 300.4935737672873
+            }
+        },
+        "res/map/bomber_test_level/bomber_test_level.json#actors": {
+            "scaleInDock": 1
+        },
+        "res/map/bomber_test_level/bomber_test_level.json#pingus_actor_sheet": {
+            "scaleInDock": 1
+        },
         "res/map/builder_test_level/test_level_builder_tiled.json": {
             "expandedObjectLayers": [
                 5
@@ -83,8 +97,8 @@
             "scale": 1.2708702064896755,
             "selectedLayer": 5,
             "viewCenter": {
-                "x": 400.11953809551443,
-                "y": 338.7442697150815
+                "x": 680.2425578831312,
+                "y": 480.3795044391575
             }
         },
         "res/map/level_editor/level_editor.json#actors": {
@@ -111,8 +125,8 @@
             "scale": 1.2789374999999998,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 399.9413575722036,
-                "y": 239.65205492840744
+                "x": 411.2788936128623,
+                "y": 239.6520549284074
             }
         },
         "res/map/world_map/world_map.json#actors": {
@@ -124,12 +138,14 @@
     },
     "openFiles": [
         "res/map/world_map/world_map.json",
-        "res/map/level_editor/level_editor.json"
+        "res/map/level_editor/level_editor.json",
+        "res/map/bomber_test_level/bomber_test_level.json"
     ],
     "project": "pingus_world_tour.tiled-project",
     "recentFiles": [
         "res/map/world_map/world_map.json",
         "res/map/level_editor/level_editor.json",
+        "res/map/bomber_test_level/bomber_test_level.json",
         "res/map/title_screen/title_screen.json",
         "res/map/builder_test_level/test_level_builder_tiled.json",
         "res/map/a_short_visit_at_cern/a_short_visit_at_cern.json",

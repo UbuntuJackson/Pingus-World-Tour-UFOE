@@ -65,8 +65,7 @@ public:
             Vector2f(0.0f,0.0f),
             Vector2f(120.0f,120.0f),
             Vector2f(0.5f,0.5f),
-            0.0f,
-            0
+            0.0f
         );
 
         rank_icon->current_frame_index = rank;
