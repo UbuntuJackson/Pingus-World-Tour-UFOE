@@ -290,7 +290,7 @@ public:
         if(fall_timer.GetTimeLeft() <= 0.0f){
             if(IsOverlapping(level,mask_decal,solid_layer,local_position+Vector2f(0.0f,2.0f),olc::MAGENTA)){
                 
-                for(auto&& [k,v] : level->level_decals){
+                for(auto&& [k,v] : level->asset_manager.GetDecals()){
                     
                     if(k == "bg") continue;
                     
@@ -376,12 +376,12 @@ public:
             for(int yy = 0; yy < 2; yy++){
                 for(int xx = 6; xx < 6+(int)step_width*2; xx++){
                     
-                    auto dec = level->level_decals.at("solid");
+                    auto dec = level->asset_manager.GetDecal("solid");
                     dec->sprite->SetPixel(build_location+Vector2f(xx+step_width*steps*face_direction,yy+24.0f-2.0f-steps*2),olc::Pixel(255,0,0,255));
                     dec->Update();
 
-                    if(level->level_decals.count("mg")){
-                        auto dec_mg = level->level_decals.at("mg");
+                    if(level->asset_manager.decals.count("mg")){
+                        auto dec_mg = level->asset_manager.GetDecal("mg");
                         dec_mg->sprite->SetPixel(build_location+Vector2f(xx+step_width*steps*face_direction,yy+24.0f-2.0f-steps*2),olc::Pixel(200,50,50,255));
                         dec_mg->Update();
                     }
@@ -405,10 +405,10 @@ public:
                     
                 for(int yy = -32+12; yy < 32+12; yy++){
                     for(int xx = -32+6; xx < 32+6; xx++){
-                        for(auto&& [k,v] : level->level_decals){
+                        for(auto&& [k,v] : game->asset_manager.GetDecals()){
                             if(k == "bg") continue;
 
-                            auto solid_decal = level->level_decals.at(solid_layer);
+                            auto solid_decal = level->asset_manager.GetDecal(solid_layer);
                             if(CompareColour(solid_decal->sprite->GetPixel(local_position+Vector2f(xx,yy)), olc::VERY_DARK_GREY)) continue;
                             if(CompareColour(solid_decal->sprite->GetPixel(local_position+Vector2f(xx,yy)), olc::BLUE)) continue;
 
@@ -425,7 +425,7 @@ public:
                         
                     }
                 }
-                for(auto&& [k,v] : level->level_decals){
+                for(auto&& [k,v] : game->asset_manager.GetDecals()){
                     v->Update();
                 }
                 
@@ -517,11 +517,11 @@ public:
             
             for(int yy = -32+12; yy < 32+12; yy++){
                 for(int xx = -32+6; xx < 32+6; xx++){
-                    auto solid_decal = level->level_decals.at(solid_layer);
+                    auto solid_decal = level->asset_manager.GetDecal(solid_layer);
                     if(CompareColour(solid_decal->sprite->GetPixel(local_position+Vector2f(xx,yy)), olc::VERY_DARK_GREY)) continue;
                     if(CompareColour(solid_decal->sprite->GetPixel(local_position+Vector2f(xx,yy)), olc::BLUE)) continue;
 
-                    for(auto&& [k,v] : level->level_decals){
+                    for(auto&& [k,v] : game->asset_manager.GetDecals()){
                         if(k == "bg") continue;
                         if(ufoMaths::Distance2(local_position+Vector2f(xx,yy), local_position+Vector2f(6.0f,12.0f)) <= 14.0f){
                             if(ufoMaths::Distance2(local_position+Vector2f(xx,yy), local_position+Vector2f(6.0f,12.0f)) > 10.0f
@@ -537,7 +537,7 @@ public:
                 }
             }
 
-            for(auto&& [k,v] : level->level_decals){
+            for(auto&& [k,v] : game->asset_manager.GetDecals()){
                 v->Update();
             }
             
@@ -595,7 +595,7 @@ public:
         
         int width = 2;
 
-        auto dec = level->level_decals.at("solid");
+        auto dec = game->asset_manager.GetDecal(solid_layer);
 
         for(int yy = 0; yy < 6; yy++){
             for(int xx = 5; xx < 5+width; xx++){
@@ -697,7 +697,7 @@ public:
         for(int yy = 0; yy < 6; yy++){
             for(int xx = 5; xx < 5+width; xx++){
 
-                auto dec = level->level_decals.at("solid");
+                auto dec = level->asset_manager.GetDecal(solid_layer);
 
                 Vector2f place_pos = local_position+Vector2f(xx,24.0f-yy);
                 if(dec->sprite->GetPixel(place_pos) == olc::BLUE) dec->sprite->SetPixel(place_pos,olc::Pixel(0,0,0,0));
@@ -1015,7 +1015,7 @@ public:
     //To detect if the furthest down row of pixles overlap with solid layer
     bool IsOverlappingFeet(Vector2f _position, olc::Pixel _colour){
         for(int i = 0; i < 12; i++){
-            if(game->level_decals[solid_layer]->sprite->GetPixel(_position.x+(float)i,_position.y + 23.0f) == _colour){
+            if(game->asset_manager.GetDecal(solid_layer)->sprite->GetPixel(_position.x+(float)i,_position.y + 23.0f) == _colour){
                 return true;
             }
         }
@@ -1025,7 +1025,7 @@ public:
     //To detect if the furtherest top row of pixles overlap with solid layer
     bool IsOverlappingHead(Vector2f _position, olc::Pixel _colour){
         for(int i = 0; i < 12; i++){
-            if(game->level_decals[solid_layer]->sprite->GetPixel(_position.x+(float)i,_position.y) == _colour){
+            if(game->asset_manager.GetDecal(solid_layer)->sprite->GetPixel(_position.x+(float)i,_position.y) == _colour){
                 return true;
             }
         }

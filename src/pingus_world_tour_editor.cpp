@@ -43,8 +43,8 @@ void PingusWorldTourEditor::OnLevelEnter(Level* _level){
     AddChild<Button>(GetRectangle().size-Vector2f(64.0f,32.0f), Vector2f(32.0f,32.0f), "P");
     AddChild<Button>(GetRectangle().size-Vector2f(96.0f,32.0f), Vector2f(32.0f,32.0f), "C");
 
-    AddLayer("solid", "solid.png");
-    AddLayer("mg", "mg.png");
+    AddLayer("solid", "solid");
+    AddLayer("mg", "mg");
     
     level->is_menu = true;
 

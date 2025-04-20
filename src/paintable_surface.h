@@ -54,6 +54,8 @@ public:
 
         level = dynamic_cast<PingusLevel*>(_level);
 
+        level->paintable_surface_handles.emplace(visual_suface_name,this);
+
         //Instead of creating SpriteReference, create an actual PingusWorldTour LevelSpriteReference layer. Grab reference to that olcDecal
         level->asset_manager.sprites[layer_separation_surface_name] = std::make_unique<olc::Sprite>(_level->level_size.x, _level->level_size.y);
         level->asset_manager.decals[layer_separation_surface_name] = std::make_unique<olc::Decal>(level->asset_manager.GetSprite(layer_separation_surface_name));

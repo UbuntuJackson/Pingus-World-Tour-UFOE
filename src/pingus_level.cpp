@@ -73,7 +73,7 @@ void PingusLevel::OnLoad(JsonDictionary& _j){
 
     actor_sorting_method = actor_sorting_method_platformer;
 
-    custom_level_size = asset_manager.GetDecal("solid.png")->sprite->Size();
+    custom_level_size = asset_manager.GetDecal("solid")->sprite->Size();
     level_size = custom_level_size;
     Console::Out("Level Custom size =",level_size);
     GetActiveCamera()->world.x1 = custom_level_size.x;
@@ -230,6 +230,7 @@ void PingusLevel::OnHandlePurge(){
     PurgeHandles(honey_coin_handles);
     PurgeHandles(world_map_location_handles);
     PurgeHandles(anti_matter_pingus);
+    //PurgeHandles(paintable_surface_handles);
 }
 
 void PingusLevel::OnExit(){

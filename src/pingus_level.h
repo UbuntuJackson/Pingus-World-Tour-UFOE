@@ -3,6 +3,7 @@
 #include <vector>
 #include <memory>
 #include <olcPixelGameEngine.h>
+#include <unordered_map>
 #include <level.h>
 #include <json_variant.h>
 #include <ufo_maths.h>
@@ -17,6 +18,7 @@ class ItemSelectMenu;
 class Button;
 class WorldMapLocation;
 class Pingu;
+class PaintableSurface;
 
 class PingusLevel : public Level{
 public:
@@ -29,6 +31,7 @@ public:
     Widget* current_menu = nullptr;
 
     std::vector<Pingu*> anti_matter_pingus;
+    std::unordered_map<std::string,PaintableSurface*> paintable_surface_handles;
 
     bool is_menu = false;
     bool level_finished = false;
