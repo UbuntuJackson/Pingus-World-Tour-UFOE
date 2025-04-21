@@ -8,14 +8,29 @@ PWTEditorLayerButton::PWTEditorLayerButton(PingusWorldTourEditor* _editor, Paint
 Button(_local_position, _size, _text),
 editor{_editor},
 layer{_layer}{
+    
+}
 
+void PWTEditorLayerButton::OnStart(Level* _level){
+    SelectLayer();
+    Console::PrintLine("PWTEditorLayerButton::OnStart",editor->selected_layer->visual_suface_name);
+}
+
+void PWTEditorLayerButton::SelectLayer(){
+    if(editor->selected_layer != nullptr){
+        if(editor->selected_layer->visual_suface_name == "solid") editor->selected_layer->visual_surface_ref->tint.a = 0;
+    }
+    editor->selected_layer = layer;
+    is_selected = true;
+    if(editor->selected_layer->visual_suface_name == "solid"){
+        editor->selected_layer->visual_surface_ref->tint.a = 255;
+    }
 }
 
 void PWTEditorLayerButton::OnUpdate(){
     Button::OnUpdate();
 
-    if(is_selected){
-        //Console::PrintLine("PWTEditorLayerButton:", layer->visual_suface_name);
-        editor->selected_layer = layer;
+    if(IsPressed()){
+        SelectLayer();
     }
 }

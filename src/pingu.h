@@ -862,6 +862,11 @@ public:
     }
 
     void PinguCollision(){
+        while(IsOverlappingSolid(local_position)){
+            Console::PrintLine("PinguCollision: Unconventional conditions were met, resolving upwards before resuming with collision procedure");
+            local_position.y -= 1.0f;
+        }
+
         hit_floor_last_frame = hit_floor;
 
         //Resetting all collision related booleans

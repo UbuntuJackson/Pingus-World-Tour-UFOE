@@ -14,6 +14,7 @@
 #include <file_dialogue.h>
 #include <colour_rectangle_theme.h>
 #include <theme.h>
+#include "pingu.h"
 
 PingusWorldTourEditor::PingusWorldTourEditor(Vector2f _) : Widget(Vector2f(0.0f,0.0f),Engine::Get().pixel_game_engine.GetWindowSizeInPixles()){}
 
@@ -37,14 +38,23 @@ void PingusWorldTourEditor::OnLevelEnter(Level* _level){
     b_mantle_texture = m_colour_settings->AddChild<Button>(Vector2f(0.0f,0.0f),Vector2f(64.0f,0.0f),"Mantle texture");
     b_mantle_texture->adjust_height_after_text_rows = true;
 
+    m_solid_type = AddChild<WrapMenu>(Vector2f(GetRectangle().size.x-100.0f,100.0f),Vector2f(200.0f,200.0f));
+
+    b_solid = m_solid_type->AddChild<Button>(Vector2f(0.0f,0.0f),Vector2f(64.0f,0.0f),"Solid");
+    b_solid->adjust_height_after_text_rows = true;
+    b_semi_solid = m_solid_type->AddChild<Button>(Vector2f(0.0f,0.0f),Vector2f(64.0f,0.0f),"Semi solid");
+    b_semi_solid->adjust_height_after_text_rows = true;
+    b_indestructible_solid = m_solid_type->AddChild<Button>(Vector2f(0.0f,0.0f),Vector2f(64.0f,0.0f),"Indestructible");
+    b_indestructible_solid->adjust_height_after_text_rows = true;
+
     m_layers = AddChild<WrapMenu>(Vector2f(GetRectangle().size.x-200.0f,0.0f),Vector2f(200.0f,200.0f));
 
     AddChild<Button>(GetRectangle().size-Vector2f(32.0f,32.0f), Vector2f(32.0f,32.0f), "S");
-    AddChild<Button>(GetRectangle().size-Vector2f(64.0f,32.0f), Vector2f(32.0f,32.0f), "P");
+    b_spawn_pingu = AddChild<Button>(GetRectangle().size-Vector2f(64.0f,32.0f), Vector2f(32.0f,32.0f), "P");
     AddChild<Button>(GetRectangle().size-Vector2f(96.0f,32.0f), Vector2f(32.0f,32.0f), "C");
 
-    AddLayer("solid", "solid");
     AddLayer("mg", "mg");
+    AddLayer("solid", "solid");
     
     level->is_menu = true;
 
@@ -54,7 +64,6 @@ void PingusWorldTourEditor::OnLevelEnter(Level* _level){
 void PingusWorldTourEditor::AddLayer(std::string _name, std::string _path){
     auto layer = level->NewActor<PaintableSurface>(this,_name,_path);
     m_layers->AddChild<PWTEditorLayerButton>(this,layer,Vector2f(0.0f,0.0f),Vector2f(200.0f,32.0f),_name);
-    selected_layer = layer;
 }
 
 void PingusWorldTourEditor::OnWidgetHovered(){
@@ -62,9 +71,27 @@ void PingusWorldTourEditor::OnWidgetHovered(){
     brush_radius += scroll_direction*1024.0f * Engine::Get().GetDeltaTime();
     if(brush_radius < 1.0f) brush_radius = 1.0f;
 
-    selected_layer->SelectedUpdate();
+    if(selected_layer){
+        selected_layer->SelectedUpdate();
+    }
+    else if(Mouse::Get().GetLeftButton().is_pressed){
+        switch(spawn_mode){
+            case SpawnModes::PINGU:
+                level->NewActor<Pingu>(Engine::Get().current_level->GetActiveCamera()->TransformScreenToWorld(Mouse::Get().GetPosition()));
+                break;      
+        }
+    }
 }
 void PingusWorldTourEditor::OnUpdate(){
+
+    if(b_spawn_pingu->IsPressed()){
+        selected_layer = nullptr;
+    }
+
+    if(b_solid->IsPressed()) selected_solid_type = SOLID;
+    if(b_semi_solid->IsPressed()) selected_solid_type = SEMI_SOLID;
+    if(b_indestructible_solid->IsPressed()) selected_solid_type = INDESTRUCTIBLE;
+
     if(b_save->IsPressed()){
         AddChild<FileDialogue>(FileDialogue::Modes::WRITE, Vector2f(0.0f,0.0f),Vector2f(680.0f,480.0f), "../res/map");
     }

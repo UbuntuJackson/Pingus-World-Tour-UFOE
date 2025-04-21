@@ -140,10 +140,13 @@ public:
 
     //Change this to LayerSelectedUpdate
     void SelectedUpdate(){
+
         if(editor->b_save->IsReleased()){
             SaveImage("../res/game_generated_terrain/drawn_terrain_example.png",visual_surface);
             SaveImage("../res/game_generated_terrain/drawn_terrain_example_layer_separation.png",layer_separation_surface);
         }
+
+        if(visual_suface_name == "solid") return;
 
         if(SingleKeyboard::Get().GetKey(olc::V).is_pressed){
             visual_surface_ref->visible = !visual_surface_ref->visible;
@@ -215,54 +218,13 @@ public:
         }
 
         if(Mouse::Get().GetLeftButton().is_held && !SingleKeyboard::Get().GetKey(olc::F).is_held){
+            
             if(!SingleKeyboard::Get().GetKey(olc::E).is_held){
-                for(int yy = world_mouse_position.y - editor->brush_radius; yy < world_mouse_position.y + editor->brush_radius; yy++){
-                    for(int xx = world_mouse_position.x - editor->brush_radius; xx < world_mouse_position.x + editor->brush_radius; xx++){
-                        float dist = ufoMaths::Distance2(Vector2f(xx,yy),world_mouse_position);
-                        if(dist < editor->brush_radius){
-                            if(layer_separation_surface->sprite->GetPixel(xx,yy) != MANTLE && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST_DARK) layer_separation_surface->sprite->SetPixel(xx,yy,CRUST);
-
-                            if(dist < editor->brush_radius - 2.0f && layer_separation_surface->sprite->GetPixel(xx,yy) != MANTLE){
-                                layer_separation_surface->sprite->SetPixel(xx,yy,CRUST_DARK);
-                            }
-
-                            if(dist < editor->brush_radius-3.8f){
-                                layer_separation_surface->sprite->SetPixel(xx,yy,MANTLE);
-                            }
-
-                        }
-                    
-                    }
-                }
+                PaintMiddleGround(world_mouse_position,editor->brush_radius);
             }
             else{
 
-                for(int yy = world_mouse_position.y - editor->brush_radius-5.0f; yy < world_mouse_position.y + editor->brush_radius+5.0f; yy++){
-                    for(int xx = world_mouse_position.x - editor->brush_radius-5.0f; xx < world_mouse_position.x + editor->brush_radius+5.0f; xx++){
-                        float dist = ufoMaths::Distance2(Vector2f(xx,yy),world_mouse_position);
-                        
-                        if(layer_separation_surface->sprite->GetPixel(xx,yy) == Colour(0,0,0,0)) continue;
-
-                        if(dist < editor->brush_radius+5.0f && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST_DARK){
-                            layer_separation_surface->sprite->SetPixel(xx,yy,MANTLE);
-                        }
-
-                        if(dist < editor->brush_radius+3.5f && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST){
-                            layer_separation_surface->sprite->SetPixel(xx,yy,CRUST_DARK);
-                        }
-
-                        if(dist < editor->brush_radius+2.0f){
-                            layer_separation_surface->sprite->SetPixel(xx,yy,CRUST);
-                        }
-
-                        if(dist < editor->brush_radius){
-                            layer_separation_surface->sprite->SetPixel(xx,yy,Colour(0,0,0,0));
-                        }
-
-                        
-                    
-                    }
-                }
+                EraseMiddleGround(world_mouse_position,editor->brush_radius); 
             
             }
 
@@ -286,13 +248,100 @@ public:
                 
                 }
             }
+            
 
             layer_separation_surface->Update();
             visual_surface->Update();
         }
     }
 
+    void EraseMiddleGround(Vector2f _position, float _radius){
+        for(int yy = _position.y - _radius-5.0f; yy < _position.y + _radius+5.0f; yy++){
+            for(int xx = _position.x - _radius-5.0f; xx < _position.x + _radius+5.0f; xx++){
+                float dist = ufoMaths::Distance2(Vector2f(xx,yy),_position);
+                
+                if(layer_separation_surface->sprite->GetPixel(xx,yy) == Colour(0,0,0,0)) continue;
+
+                if(dist < _radius+5.0f && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST_DARK){
+                    layer_separation_surface->sprite->SetPixel(xx,yy,MANTLE);
+                }
+
+                if(dist < _radius+3.5f && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST){
+                    layer_separation_surface->sprite->SetPixel(xx,yy,CRUST_DARK);
+                }
+
+                if(dist < _radius+2.0f){
+                    layer_separation_surface->sprite->SetPixel(xx,yy,CRUST);
+                }
+
+                if(dist < _radius){
+                    layer_separation_surface->sprite->SetPixel(xx,yy,Colour(0,0,0,0));
+                }
+            
+            }
+        }
+
+        if(level->paintable_surface_handles.count("solid")){
+            olc::Decal* solid_dec = level->paintable_surface_handles.at("solid")->visual_surface;
+            for(int yy = _position.y - _radius; yy < _position.y + _radius; yy++){
+                for(int xx = _position.x - _radius; xx < _position.x + _radius; xx++){
+                    float dist = ufoMaths::Distance2(Vector2f(xx,yy),_position);
+                    if(dist < _radius){
+                        
+                        solid_dec->sprite->SetPixel(xx,yy,Colour(0,0,0,0));
+
+                    }
+                
+                }
+            }
+            solid_dec->Update();
+        }
+    }
+
+    void PaintSolid(Vector2f _position, float _radius){
+        
+    }
+
+    void PaintMiddleGround(Vector2f _position, float _radius){
+        for(int yy = _position.y - _radius; yy < _position.y + _radius; yy++){
+            for(int xx = _position.x - _radius; xx < _position.x + _radius; xx++){
+                float dist = ufoMaths::Distance2(Vector2f(xx,yy),_position);
+                if(dist < _radius){
+                    if(layer_separation_surface->sprite->GetPixel(xx,yy) != MANTLE && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST_DARK) layer_separation_surface->sprite->SetPixel(xx,yy,CRUST);
+
+                    if(dist < _radius - 2.0f && layer_separation_surface->sprite->GetPixel(xx,yy) != MANTLE){
+                        layer_separation_surface->sprite->SetPixel(xx,yy,CRUST_DARK);
+                    }
+
+                    if(dist < _radius-3.8f){
+                        layer_separation_surface->sprite->SetPixel(xx,yy,MANTLE);
+                    }
+
+                }
+            
+            }
+        }
+
+        if(level->paintable_surface_handles.count("solid")){
+            olc::Decal* solid_dec = level->paintable_surface_handles.at("solid")->visual_surface;
+            for(int yy = _position.y - _radius; yy < _position.y + _radius; yy++){
+                for(int xx = _position.x - _radius; xx < _position.x + _radius; xx++){
+                    float dist = ufoMaths::Distance2(Vector2f(xx,yy),_position);
+                    if(dist < _radius){
+                        
+                        solid_dec->sprite->SetPixel(xx,yy,editor->selected_solid_type);
+
+                    }
+                
+                }
+            }
+            solid_dec->Update();
+        }
+    }
+
     void OnUpdate(){
+        if(visual_suface_name == "solid") return;
+
         if(editor->colour_picker->SetColour() || editor->colour_picker->SetHue()){
             if(editor->b_upper_crust_colour->is_selected) CRUST_VISUAL = editor->colour_picker->GetColour();
             if(editor->b_lower_crust_colour->is_selected) CRUST_DARK_VISUAL = editor->colour_picker->GetColour();

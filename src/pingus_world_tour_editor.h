@@ -36,6 +36,28 @@ public:
 
     float brush_radius = 20.0f;
 
+    Colour SEMI_SOLID = Colour(255,0,0);
+    Colour SOLID = Colour(255,255,255);
+    Colour INDESTRUCTIBLE = Colour(0x40,0x40,0x40);
+
+    Colour selected_solid_type = SOLID;
+
+    WrapMenu* m_solid_type = nullptr;
+
+    Button* b_solid = nullptr;
+    Button* b_semi_solid = nullptr;
+    Button* b_indestructible_solid = nullptr;
+
+    enum SpawnModes{
+        PINGU,
+        SPAWNER,
+        COIN
+    };
+
+    int spawn_mode = SpawnModes::PINGU;
+
+    Button* b_spawn_pingu = nullptr;
+
     PingusWorldTourEditor(Vector2f _);
 
     void OnLevelEnter(Level* _level);

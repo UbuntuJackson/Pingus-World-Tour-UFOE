@@ -1,12 +1,12 @@
 {
 	"cleared_levels":	{
 		"../res/map/a_short_visit_at_cern/a_short_visit_at_cern.json":	{
-			"most_rescued_pingus":	22,
+			"most_rescued_pingus":	36,
 			"rank":	1
 		},
 		"../res/map/bomber_test_level/bomber_test_level.json":	{
-			"most_rescued_pingus":	8,
-			"rank":	1
+			"most_rescued_pingus":	9,
+			"rank":	0
 		},
 		"../res/map/builder_test_level/test_level_builder_tiled.json":	{
 			"most_rescued_pingus":	12,
@@ -17,7 +17,7 @@
 			"rank":	0
 		},
 		"../res/map/tic_tac_tower/tic_tac_tower.json":	{
-			"most_rescued_pingus":	19,
+			"most_rescued_pingus":	16,
 			"rank":	1
 		}
 	},
