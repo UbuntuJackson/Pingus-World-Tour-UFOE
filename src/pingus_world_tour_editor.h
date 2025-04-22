@@ -12,6 +12,7 @@ class PingusLevel;
 class WrapMenu;
 class PaintableSurface;
 class ColourPicker;
+class CheckBox;
 
 /// @spawn;
 class PingusWorldTourEditor : public Widget{
@@ -47,6 +48,8 @@ public:
     Button* b_solid = nullptr;
     Button* b_semi_solid = nullptr;
     Button* b_indestructible_solid = nullptr;
+
+    CheckBox* check_box_show_solids = nullptr;
 
     enum SpawnModes{
         PINGU,

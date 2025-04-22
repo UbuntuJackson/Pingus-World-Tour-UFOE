@@ -22,6 +22,9 @@ public:
     Colour CRUST = Colour(250,250,250);
     Colour CRUST_DARK = Colour(200,200,200);
     Colour MANTLE = Colour(150,150,150);
+    Colour CRUST_SEMI_SOLID = CRUST/2;
+    Colour CRUST_DARK_SEMI_SOLID = CRUST_DARK/2;
+    Colour MANTLE_SEMI_SOLID = MANTLE/2;
 
     Colour CRUST_VISUAL = Colour(0,200,80);
     Colour CRUST_DARK_VISUAL = Colour(0,100,40);
@@ -104,8 +107,9 @@ public:
         visual_surface->Update();
     }
 
-    void ApplyPattern(olc::Decal* _visual_decal, olc::Decal* _sampling_decal, int _x, int _y){
-        _visual_decal->sprite->SetPixel(_x,_y,_sampling_decal->sprite->GetPixel(_x%(_sampling_decal->sprite->Size().x),_y%(_sampling_decal->sprite->Size().x)));
+    void ApplyPattern(bool _semi_solid, olc::Decal* _visual_decal, olc::Decal* _sampling_decal, int _x, int _y){
+        if(!_semi_solid) _visual_decal->sprite->SetPixel(_x,_y,_sampling_decal->sprite->GetPixel(_x%(_sampling_decal->sprite->Size().x),_y%(_sampling_decal->sprite->Size().x)));
+        else _visual_decal->sprite->SetPixel(_x,_y,_sampling_decal->sprite->GetPixel(_x%(_sampling_decal->sprite->Size().x),_y%(_sampling_decal->sprite->Size().x))/2);
     }
 
     //Good as it is, since you can call SaveImage on each PaintableSurface
@@ -208,7 +212,7 @@ public:
                     }
                     if(layer_separation_surface->sprite->GetPixel(xx,yy) == MANTLE){
                         visual_surface->sprite->SetPixel(xx,yy,MANTLE_VISUAL);
-                        ApplyPattern(visual_surface,AssetManager::Get().GetDecal(current_texture_key),xx,yy);
+                        ApplyPattern(false ,visual_surface,AssetManager::Get().GetDecal(current_texture_key),xx,yy);
                     }
                 
                 }
@@ -220,7 +224,8 @@ public:
         if(Mouse::Get().GetLeftButton().is_held && !SingleKeyboard::Get().GetKey(olc::F).is_held){
             
             if(!SingleKeyboard::Get().GetKey(olc::E).is_held){
-                PaintMiddleGround(world_mouse_position,editor->brush_radius);
+                if(editor->selected_solid_type == editor->SOLID) PaintMiddleGround(world_mouse_position,editor->brush_radius);
+                if(editor->selected_solid_type == editor->SEMI_SOLID) PaintSemiSolid(world_mouse_position,editor->brush_radius);
             }
             else{
 
@@ -240,7 +245,23 @@ public:
                     }
                     if(layer_separation_surface->sprite->GetPixel(xx,yy) == MANTLE){
                         visual_surface->sprite->SetPixel(xx,yy,MANTLE_VISUAL);
-                        ApplyPattern(visual_surface,AssetManager::Get().GetDecal(current_texture_key),xx,yy);
+                        ApplyPattern(false, visual_surface,AssetManager::Get().GetDecal(current_texture_key),xx,yy);
+                    }
+                    if(layer_separation_surface->sprite->GetPixel(xx,yy) == Colour(0,0,0,0)){
+                        visual_surface->sprite->SetPixel(xx,yy,Colour(0,0,0,0));
+                    }
+
+                    //Semisolids
+
+                    if(layer_separation_surface->sprite->GetPixel(xx,yy) == CRUST_SEMI_SOLID){
+                        visual_surface->sprite->SetPixel(xx,yy,CRUST_VISUAL/2);
+                    }
+                    if(layer_separation_surface->sprite->GetPixel(xx,yy) == CRUST_DARK_SEMI_SOLID){
+                        visual_surface->sprite->SetPixel(xx,yy,CRUST_DARK_VISUAL/2);
+                    }
+                    if(layer_separation_surface->sprite->GetPixel(xx,yy) == MANTLE_SEMI_SOLID){
+                        visual_surface->sprite->SetPixel(xx,yy,MANTLE_VISUAL/2);
+                        ApplyPattern(true, visual_surface,AssetManager::Get().GetDecal(current_texture_key),xx,yy);
                     }
                     if(layer_separation_surface->sprite->GetPixel(xx,yy) == Colour(0,0,0,0)){
                         visual_surface->sprite->SetPixel(xx,yy,Colour(0,0,0,0));
@@ -261,21 +282,46 @@ public:
                 float dist = ufoMaths::Distance2(Vector2f(xx,yy),_position);
                 
                 if(layer_separation_surface->sprite->GetPixel(xx,yy) == Colour(0,0,0,0)) continue;
+                
+                olc::Decal* solid_dec = level->paintable_surface_handles.at("solid")->visual_surface;
+                
+                if(solid_dec->sprite->GetPixel(xx,yy) == editor->SOLID){
+                    if(dist < _radius+5.0f && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST_DARK){
+                        layer_separation_surface->sprite->SetPixel(xx,yy,MANTLE);
+                    }
 
-                if(dist < _radius+5.0f && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST_DARK){
-                    layer_separation_surface->sprite->SetPixel(xx,yy,MANTLE);
+                    if(dist < _radius+3.5f && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST){
+                        layer_separation_surface->sprite->SetPixel(xx,yy,CRUST_DARK);
+                    }
+
+                    if(dist < _radius+2.0f){
+                        layer_separation_surface->sprite->SetPixel(xx,yy,CRUST);
+                    }
+
+                    if(dist < _radius){
+                        layer_separation_surface->sprite->SetPixel(xx,yy,Colour(0,0,0,0));
+                    }
                 }
+                //Semisolid
+                if(layer_separation_surface->sprite->GetPixel(xx,yy) == CRUST_SEMI_SOLID
+                    || layer_separation_surface->sprite->GetPixel(xx,yy) == CRUST_DARK_SEMI_SOLID
+                    || layer_separation_surface->sprite->GetPixel(xx,yy) == MANTLE_SEMI_SOLID
+                ){
+                    if(dist < _radius+5.0f && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST_SEMI_SOLID && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST_DARK_SEMI_SOLID){
+                        layer_separation_surface->sprite->SetPixel(xx,yy,MANTLE_SEMI_SOLID);
+                    }
 
-                if(dist < _radius+3.5f && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST){
-                    layer_separation_surface->sprite->SetPixel(xx,yy,CRUST_DARK);
-                }
+                    if(dist < _radius+3.5f && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST_SEMI_SOLID){
+                        layer_separation_surface->sprite->SetPixel(xx,yy,CRUST_DARK_SEMI_SOLID);
+                    }
 
-                if(dist < _radius+2.0f){
-                    layer_separation_surface->sprite->SetPixel(xx,yy,CRUST);
-                }
+                    if(dist < _radius+2.0f){
+                        layer_separation_surface->sprite->SetPixel(xx,yy,CRUST_SEMI_SOLID);
+                    }
 
-                if(dist < _radius){
-                    layer_separation_surface->sprite->SetPixel(xx,yy,Colour(0,0,0,0));
+                    if(dist < _radius){
+                        layer_separation_surface->sprite->SetPixel(xx,yy,Colour(0,0,0,0));
+                    }
                 }
             
             }
@@ -329,8 +375,50 @@ public:
                     float dist = ufoMaths::Distance2(Vector2f(xx,yy),_position);
                     if(dist < _radius){
                         
-                        solid_dec->sprite->SetPixel(xx,yy,editor->selected_solid_type);
+                        solid_dec->sprite->SetPixel(xx,yy,editor->SOLID);
 
+                    }
+                
+                }
+            }
+            solid_dec->Update();
+        }
+    }
+
+    void PaintSemiSolid(Vector2f _position, float _radius){
+        for(int yy = _position.y - _radius; yy < _position.y + _radius; yy++){
+            for(int xx = _position.x - _radius; xx < _position.x + _radius; xx++){
+                float dist = ufoMaths::Distance2(Vector2f(xx,yy),_position);
+                
+                olc::Decal* solid_dec = level->paintable_surface_handles.at("solid")->visual_surface;
+
+                if(dist < _radius && solid_dec->sprite->GetPixel(xx,yy) != editor->SOLID){
+                    if(layer_separation_surface->sprite->GetPixel(xx,yy) != MANTLE_SEMI_SOLID && layer_separation_surface->sprite->GetPixel(xx,yy) != CRUST_DARK_SEMI_SOLID) layer_separation_surface->sprite->SetPixel(xx,yy,CRUST_SEMI_SOLID);
+
+                    if(dist < _radius - 2.0f && layer_separation_surface->sprite->GetPixel(xx,yy) != MANTLE_SEMI_SOLID){
+                        layer_separation_surface->sprite->SetPixel(xx,yy,CRUST_DARK_SEMI_SOLID);
+                    }
+
+                    if(dist < _radius-3.8f){
+                        layer_separation_surface->sprite->SetPixel(xx,yy,MANTLE_SEMI_SOLID);
+                    }
+
+                }
+            
+            }
+        }
+
+        if(level->paintable_surface_handles.count("solid")){
+            olc::Decal* solid_dec = level->paintable_surface_handles.at("solid")->visual_surface;
+            for(int yy = _position.y - _radius; yy < _position.y + _radius; yy++){
+                for(int xx = _position.x - _radius; xx < _position.x + _radius; xx++){
+                    float dist = ufoMaths::Distance2(Vector2f(xx,yy),_position);
+                    if(dist < _radius){
+                        bool is_crust = layer_separation_surface->sprite->GetPixel(xx,yy) == CRUST_SEMI_SOLID;
+
+                        if(is_crust && (yy < _position.y - std::sin(ufoMaths::PI/4) * _radius)) solid_dec->sprite->SetPixel(xx,yy,editor->SEMI_SOLID);
+                        else if(solid_dec->sprite->GetPixel(xx,yy) != Graphics::WHITE) solid_dec->sprite->SetPixel(xx,yy,Colour(0,0,0,0));
+                        
                     }
                 
                 }
@@ -348,7 +436,7 @@ public:
             //if(editor->b_upper_crust_colour) CRUST_VISUAL = editor->colour_picker->hue;
             for(int yy = 0; yy < level->level_size.y; yy++){
                 for(int xx = 0; xx < level->level_size.x; xx++){
-                    
+                    //Solid
                     if(layer_separation_surface->sprite->GetPixel(xx,yy) == CRUST){
                         visual_surface->sprite->SetPixel(xx,yy,CRUST_VISUAL);
                     }
@@ -357,7 +445,22 @@ public:
                     }
                     if(layer_separation_surface->sprite->GetPixel(xx,yy) == MANTLE){
                         visual_surface->sprite->SetPixel(xx,yy,MANTLE_VISUAL);
-                        ApplyPattern(visual_surface,AssetManager::Get().GetDecal(current_texture_key),xx,yy);
+                        ApplyPattern(false, visual_surface,AssetManager::Get().GetDecal(current_texture_key),xx,yy);
+                    }
+                    if(layer_separation_surface->sprite->GetPixel(xx,yy) == Colour(0,0,0,0)){
+                        visual_surface->sprite->SetPixel(xx,yy,Colour(0,0,0,0));
+                    }
+
+                    //Semisolid
+                    if(layer_separation_surface->sprite->GetPixel(xx,yy) == CRUST_SEMI_SOLID){
+                        visual_surface->sprite->SetPixel(xx,yy,CRUST_VISUAL/2);
+                    }
+                    if(layer_separation_surface->sprite->GetPixel(xx,yy) == CRUST_DARK_SEMI_SOLID){
+                        visual_surface->sprite->SetPixel(xx,yy,CRUST_DARK_VISUAL/2);
+                    }
+                    if(layer_separation_surface->sprite->GetPixel(xx,yy) == MANTLE_SEMI_SOLID){
+                        visual_surface->sprite->SetPixel(xx,yy,MANTLE_VISUAL/2);
+                        ApplyPattern(true, visual_surface,AssetManager::Get().GetDecal(current_texture_key),xx,yy);
                     }
                     if(layer_separation_surface->sprite->GetPixel(xx,yy) == Colour(0,0,0,0)){
                         visual_surface->sprite->SetPixel(xx,yy,Colour(0,0,0,0));

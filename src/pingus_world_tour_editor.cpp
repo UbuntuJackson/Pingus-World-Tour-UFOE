@@ -15,6 +15,7 @@
 #include <colour_rectangle_theme.h>
 #include <theme.h>
 #include "pingu.h"
+#include <checkbox.h>
 
 PingusWorldTourEditor::PingusWorldTourEditor(Vector2f _) : Widget(Vector2f(0.0f,0.0f),Engine::Get().pixel_game_engine.GetWindowSizeInPixles()){}
 
@@ -48,6 +49,8 @@ void PingusWorldTourEditor::OnLevelEnter(Level* _level){
     b_indestructible_solid->adjust_height_after_text_rows = true;
 
     m_layers = AddChild<WrapMenu>(Vector2f(GetRectangle().size.x-200.0f,0.0f),Vector2f(200.0f,200.0f));
+
+    check_box_show_solids = AddChild<CheckBox>(Vector2f(GetRectangle().size.x-200.0f,0.0f), Vector2f(120.0f,20.0f),"Show solids", false);
 
     AddChild<Button>(GetRectangle().size-Vector2f(32.0f,32.0f), Vector2f(32.0f,32.0f), "S");
     b_spawn_pingu = AddChild<Button>(GetRectangle().size-Vector2f(64.0f,32.0f), Vector2f(32.0f,32.0f), "P");
@@ -83,6 +86,9 @@ void PingusWorldTourEditor::OnWidgetHovered(){
     }
 }
 void PingusWorldTourEditor::OnUpdate(){
+
+    if(!check_box_show_solids->checked) level->paintable_surface_handles.at("solid")->visual_surface_ref->tint.a = 0;
+    else level->paintable_surface_handles.at("solid")->visual_surface_ref->tint.a = 255;
 
     if(b_spawn_pingu->IsPressed()){
         selected_layer = nullptr;
