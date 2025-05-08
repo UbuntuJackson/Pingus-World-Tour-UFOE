@@ -35,7 +35,7 @@ public:
     olc::Decal* visual_surface;
     LevelSpriteReference* visual_surface_ref = nullptr;
 
-    std::string current_texture_key = "autumn_texture";
+    std::string current_texture_key = "sample_texture_grass";
 
     PingusLevel* level = nullptr;
     std::string path = "";
@@ -416,7 +416,7 @@ public:
                     if(dist < _radius){
                         bool is_crust = layer_separation_surface->sprite->GetPixel(xx,yy) == CRUST_SEMI_SOLID;
 
-                        if(is_crust && (yy < _position.y - std::sin(ufoMaths::PI/4) * _radius)) solid_dec->sprite->SetPixel(xx,yy,editor->SEMI_SOLID);
+                        if(is_crust && (yy < _position.y - std::sin(ufoMaths::PI/6.0f) * _radius)) solid_dec->sprite->SetPixel(xx,yy,editor->SEMI_SOLID);
                         else if(solid_dec->sprite->GetPixel(xx,yy) != Graphics::WHITE) solid_dec->sprite->SetPixel(xx,yy,Colour(0,0,0,0));
                         
                     }
