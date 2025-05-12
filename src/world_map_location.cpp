@@ -4,6 +4,7 @@
 #include <sprite_reference.h>
 #include <graphics.h>
 #include <camera.h>
+#include <mouse.h>
 #include <json_variant.h>
 #include <ufo_engine.h>
 #include <widget_sprite_reference.h>
@@ -72,6 +73,11 @@ void WorldMapLocation::OnStart(Level* _level){
 
 void WorldMapLocation::OnUpdate(){
     if(selected && unlocked){
+        float text_x = 0.0f;
+        float screen_width_half = 340.0f;
+        if(Mouse::Get().GetPosition().x > screen_width_half) text_x = 20.0f;
+        else text_x = 460.0f;
+
         f_tint += 600.0f* Engine::Get().GetDeltaTime();
         if(f_tint > 255.0f) f_tint = 255.0f;
         if(preview_image){
@@ -82,7 +88,7 @@ void WorldMapLocation::OnUpdate(){
             Console::PrintLine("Instantiated preview image");
             level->asset_manager.LoadDecal(preview,preview);
             preview_image = level->NewActor<LevelWidgetSpriteReference>(preview,
-            Vector2f(680-220.0f,20.0f),
+            Vector2f(text_x,20.0f),
             Vector2f(0.0f,0.0f),
             Vector2f(200.0f,200.0f),
             Vector2f(1.0f,1.0f),0.0f);
@@ -128,11 +134,18 @@ void WorldMapLocation::OnDraw(Camera* _camera){
 }
 
 void WorldMapLocation::OnWidgetDraw(){
+    
     if(selected && unlocked){
-        Graphics::Get().DrawString(Vector2f(460.0f,240.0f), name_of_location, Graphics::WHITE ,{1.0f,1.0f});
+        float screen_width_half = 340.0f;
+        float text_x = 0.0f;
+        if(Mouse::Get().GetPosition().x > screen_width_half) text_x = 20.0f;
+        else text_x = 460.0f;
+
+        Graphics::Get().DrawString(Vector2f(text_x,240.0f), name_of_location, Graphics::WHITE ,{1.0f,1.0f});
         description_label->visible = true;
-        Graphics::Get().DrawString(Vector2f(460.0f,260.0f), "Best rank: "+best_rank, Graphics::WHITE ,{1.0f,1.0f});
-        Graphics::Get().DrawString(Vector2f(460.0f,270.0f), "Most rescued pingus: "+std::to_string(most_rescued_pingus), Graphics::WHITE ,{1.0f,1.0f});
+        description_label->local_position.x = text_x-local_position.x;
+        Graphics::Get().DrawString(Vector2f(text_x,260.0f), "Best rank: "+best_rank, Graphics::WHITE ,{1.0f,1.0f});
+        Graphics::Get().DrawString(Vector2f(text_x,270.0f), "Most rescued pingus: "+std::to_string(most_rescued_pingus), Graphics::WHITE ,{1.0f,1.0f});
     }
     else{
         description_label->visible = false;

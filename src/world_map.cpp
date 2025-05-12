@@ -10,6 +10,7 @@
 #include <button.h>
 #include <nine_patch_theme.h>
 #include <graphics.h>
+#include <mouse.h>
 #include "world_map.h"
 #include "world_map_location.h"
 
@@ -71,20 +72,46 @@ void WorldMap::OnUpdate(){
         }
     }
 
-    backdrop_velocity += backdrop_acceleration * Engine::Get().GetDeltaTime();
+    float screen_width_half = 340.0f;
 
-    if(level_was_selected){
-        if(backdrop->local_position.x > (0.0f+backdrop_velocity * Engine::Get().GetDeltaTime())) backdrop->local_position.x -= backdrop_velocity * Engine::Get().GetDeltaTime();
+    if(Mouse::Get().GetPosition().x < screen_width_half){
+        backdrop_velocity += backdrop_acceleration * Engine::Get().GetDeltaTime();
+        backdrop->scale.x = 1.0f;
+
+        if(level_was_selected){
+            if(backdrop->local_position.x > (0.0f+backdrop_velocity * Engine::Get().GetDeltaTime())) backdrop->local_position.x -= backdrop_velocity * Engine::Get().GetDeltaTime();
+            else{
+                backdrop->local_position.x = 0.0f;
+                backdrop_velocity = 0.0f;
+            }
+        }
         else{
-            backdrop->local_position.x = 0.0f;
-            backdrop_velocity = 0.0f;
+            if(backdrop->local_position.x < 340.0f-backdrop_velocity * Engine::Get().GetDeltaTime()) backdrop->local_position.x += backdrop_velocity * Engine::Get().GetDeltaTime();
+            else{
+                backdrop->local_position.x = 340.0f;
+                backdrop_velocity = 0.0f;
+            }
         }
     }
     else{
-        if(backdrop->local_position.x < 340.0f-backdrop_velocity * Engine::Get().GetDeltaTime()) backdrop->local_position.x += backdrop_velocity * Engine::Get().GetDeltaTime();
+
+        Console::PrintLine("Backdrop location:", backdrop->local_position);
+        backdrop->scale.x = -1.0f;
+        backdrop_velocity += backdrop_acceleration * Engine::Get().GetDeltaTime();
+
+        if(level_was_selected){
+            if(backdrop->local_position.x < (340.0f+screen_width_half-backdrop_velocity * Engine::Get().GetDeltaTime())) backdrop->local_position.x += backdrop_velocity * Engine::Get().GetDeltaTime();
+            else{
+                backdrop->local_position.x = 340.0f+screen_width_half;
+                backdrop_velocity = 0.0f+screen_width_half;
+            }
+        }
         else{
-            backdrop->local_position.x = 340.0f;
-            backdrop_velocity = 0.0f;
+            if(backdrop->local_position.x > 0.0f+screen_width_half+backdrop_velocity * Engine::Get().GetDeltaTime()) backdrop->local_position.x -= backdrop_velocity * Engine::Get().GetDeltaTime();
+            else{
+                backdrop->local_position.x = 0.0f+screen_width_half;
+                backdrop_velocity = 0.0f+screen_width_half;
+            }
         }
     }
 }

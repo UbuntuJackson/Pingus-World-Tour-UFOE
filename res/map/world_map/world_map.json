@@ -238,12 +238,12 @@
                         {
                          "name":"description",
                          "type":"string",
-                         "value":"Let's go skydiving. Crikey, I forgot the parachutes!"
+                         "value":"For this mission the crew goes skydiving. Click on a pingu to make it adequately prepared as it walks off a ledge, and a parachute will unfold! But it's not all fun and dandy, your pingus won't survive should they fall too high."
                         }, 
                         {
                          "name":"name",
                          "type":"string",
-                         "value":"Australia?"
+                         "value":"Skydive-high"
                         }, 
                         {
                          "name":"path",
