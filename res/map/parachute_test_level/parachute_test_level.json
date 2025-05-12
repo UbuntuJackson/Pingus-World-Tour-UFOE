@@ -117,6 +117,8 @@
          "class":"SpriteReference",
          "id":6,
          "image":"solid.png",
+         "imageheight":2598,
+         "imagewidth":1266,
          "name":"solid",
          "opacity":1,
          "type":"imagelayer",
@@ -187,6 +189,16 @@
                  "name":"",
                  "properties":[
                         {
+                         "name":"face_left",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"face_right",
+                         "type":"int",
+                         "value":0
+                        }, 
+                        {
                          "name":"number_of_pingus",
                          "type":"int",
                          "value":7
@@ -195,8 +207,8 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":182.151515151515,
-                 "y":559.181818181815
+                 "x":882.318181818182,
+                 "y":276.848484848482
                 }, 
                 {
                  "gid":5,
@@ -207,8 +219,8 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":864.666666666667,
-                 "y":2184.66666666667
+                 "x":679.333333333334,
+                 "y":2202
                 }, 
                 {
                  "gid":9,
@@ -229,9 +241,9 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":32,
-                 "x":1393.33333333333,
-                 "y":2210
+                 "width":2,
+                 "x":1201.33333333333,
+                 "y":2224.66666666667
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -254,7 +266,7 @@
          "value":"..\/res\/map\/parachute_test_level"
         }],
  "renderorder":"right-down",
- "tiledversion":"1.11.0",
+ "tiledversion":"1.11.2",
  "tileheight":8,
  "tilesets":[
         {
@@ -274,12 +286,12 @@
          "columns":3,
          "firstgid":5,
          "image":"..\/..\/assets\/pingus_actor_sheet.png",
-         "imageheight":128,
+         "imageheight":192,
          "imagewidth":96,
          "margin":0,
          "name":"pingus_actor_sheet",
          "spacing":0,
-         "tilecount":12,
+         "tilecount":18,
          "tileheight":32,
          "tilewidth":32
         }],

@@ -22,6 +22,7 @@
 #include "pingus_main_menu.h"
 #include "generated.h"
 #include "result_screen.h"
+#include "pingu_selection_manager.h"
 
 void PingusLevel::OnResourceLoad(){
     Engine::Get().wave_engine.StopAll();
@@ -80,6 +81,8 @@ void PingusLevel::OnLoad(JsonDictionary& _j){
     GetActiveCamera()->world.y1 = custom_level_size.y;
     GetActiveCamera()->clamp = true;
     Console::Out("Level size", level_size);
+
+    NewActor<PinguSelectionManager>();
 
     end_level_button = NewActor<Button>(Vector2f(180.0f,480.0f-25.0f), Vector2f(90.0f,32.0f), "Abort mission");
 
@@ -230,6 +233,7 @@ void PingusLevel::OnHandlePurge(){
     PurgeHandles(honey_coin_handles);
     PurgeHandles(world_map_location_handles);
     PurgeHandles(anti_matter_pingus);
+    PurgeHandles(pingu_handles_all_pingus);
     //PurgeHandles(paintable_surface_handles);
 }
 

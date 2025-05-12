@@ -31,6 +31,7 @@ public:
     Widget* current_menu = nullptr;
 
     std::vector<Pingu*> anti_matter_pingus;
+    std::vector<Pingu*> pingu_handles_all_pingus;
     std::unordered_map<std::string,PaintableSurface*> paintable_surface_handles;
 
     bool is_menu = false;

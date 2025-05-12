@@ -38,6 +38,7 @@ public:
     Timer build_timer;
     Timer fall_timer;
     Timer driller_timer;
+    Timer wait_timer;
 
     //Unless the pingu is in a special state it will either be state_walk or state_fall
     bool is_in_special_state = false;
@@ -63,7 +64,8 @@ public:
         BLOCKER,
         CLIMBER,
         FALL_AFTER_CLIMBER,
-        DRILLER
+        DRILLER,
+        WAIT
     };
 
     //This variable is used to identify which state the pingu is in, however it does not SET the state
@@ -130,6 +132,11 @@ public:
     //This runs whenever a pingu drills
     std::function<void()> state_driller = [this](){
         Driller();
+    };
+
+    std::function<void()> state_wait = [this](){
+        what_is_current_state = States::WAIT;
+        Wait();
     };
 
     std::function<void()> state = state_walk;
@@ -238,6 +245,7 @@ public:
         level = dynamic_cast<PingusLevel*>(_level);
         
         level->released_pingus++;
+        level->pingu_handles_all_pingus.push_back(this);
         
     }
 
@@ -344,6 +352,13 @@ public:
         }
     }
 
+    void SetStateWait(){
+        what_is_current_state = States::WAIT;
+        state = state_wait;
+        wait_timer.Start(3000.0f);
+        anim->SetAnimation("pingu_blocker");
+    }
+
     void Build(){
         float step_width = 3.0f;
         int number_of_steps = 25;
@@ -351,9 +366,14 @@ public:
         snap_to_ground_enabled = false;
 
         if(steps == number_of_steps || hit_wall || hit_slope || IsOverlappingHead(local_position,olc::WHITE)){
-            is_in_special_state = false;
+            
+            if(steps == number_of_steps) SetStateWait();
+            else{
+                is_in_special_state = false;
+                snap_to_ground_enabled = true;
+            }
             steps = 0;
-            snap_to_ground_enabled = true;
+
             return;
         }
 
@@ -549,6 +569,17 @@ public:
         }
     }
 
+    void Wait(){
+        
+        velocity.x = 0.0f;
+        if(!hit_floor || wait_timer.GetTimeLeft() < 0.0f){
+            state = state_walk;
+            wait_timer.Stop();
+            is_in_special_state = false;
+            snap_to_ground_enabled = true;
+        }
+    }
+
     std::function<bool()> item_walk = [this](){
         int former_state = what_is_current_state;
         what_is_current_state = States::WALK;
@@ -639,7 +670,10 @@ public:
 
     std::function<bool()> item_build = [this](){
         if(!hit_floor || what_is_current_state == States::BUILD || what_is_current_state == States::EXPLODE) return false;
-
+        
+        //Doesn't hurt to make sure the wait timer is stopped
+        wait_timer.Stop();
+        
         int former_state = what_is_current_state;
         what_is_current_state = States::BUILD;
         ResetAction(former_state, what_is_current_state);
@@ -724,7 +758,7 @@ public:
 
     }
 
-    void PinguUpdate(){
+    void OnSelectionIteration(){
         bool should_set_pingu_selected = false;
         level->at_least_one_pingu_active = true;
 
@@ -747,6 +781,9 @@ public:
         }
 
         if(should_set_pingu_selected) level->pingu_selected_this_frame = true;
+    }
+
+    void PinguUpdate(){
 
         //Checking against antimatter pingus
         if(!is_anti_matter && what_is_current_state != States::EXPLODE){
@@ -850,6 +887,7 @@ public:
                 build_timer.FastForward(1.0f);
                 fall_timer.FastForward(1.0f);
                 driller_timer.FastForward(1.0f);
+                wait_timer.FastForward(1.0f);
                 PinguUpdate();
             }
         }
@@ -878,11 +916,29 @@ public:
         //Currently unused
         bool attempt_free_from_semisolid = false;
 
-        //Is the pingu still in semisolid after it's last check?
-        is_already_in_semi_solid = IsOverlappingFeet(local_position, olc::RED);
+        //Is the pingu already in semisolid?
+        //To elaborate: the reason this is done, is to avoid pingus walking up a right-facing semisolid slope when coming to the left.
+
+        /* This is ascii art of a pingu walking towards a semisolid slope from the opposite way of the way the pingu faces.
+             ______
+            /      _
+           /      <*|
+          /  <-- <|0|>
+    _____/________- -_______
+        
+        */
+
+        //When the pingu is very close to the slope, the following line of code detects if there is a piece of slope right above it's feet.
+        //That way, it determines if its under that slope, which is likely. This can lead to a few oddities, but this will only happen with
+        //very steep slopes.
+
+        is_already_in_semi_solid = (IsOverlappingFeet(local_position+Vector2f(0.0f, -1.0f), olc::RED)
+            || IsOverlappingFeet(local_position+Vector2f(0.0f, -2.0f), olc::RED));
 
         //This is the only time the pingu moves in the x-axis
         local_position.x += velocity.x * Engine::Get().GetDeltaTime();
+
+        Vector2f local_position_before_resolving_wall = local_position;
 
         //Normal slope and walls
         if(IsOverlappingSolid(local_position)){
@@ -939,10 +995,11 @@ public:
 
         //Semi solid slope
 
-        bool hit_semisolid_slope = false;
+        //bool hit_semisolid_slope = false;
         
-        if(IsOverlappingFeet(local_position, olc::RED)){
-            hit_semisolid_slope = true;
+        //third boolean could be a parameter for this collision function perhaps
+        if(IsOverlappingFeet(local_position, olc::RED) && (!is_already_in_semi_solid || what_is_current_state == States::BUILD || velocity.y > 0.0f /*|| hit_slope*/)){
+            //hit_semisolid_slope = true;
             
             bool slope_resolved = false;
 
@@ -1013,8 +1070,16 @@ public:
     }
 
     void OnDraw(Camera* _camera){
+        
         //Engine::Get().pixel_game_engine.DrawDecal(_camera->Transform(local_position),mask_decal);
         //DrawingSystem::DrawString({0.0f, 0.0f}, "Hello world", olc::WHITE, {1.0f,1.0f});
+    }
+
+    void OnWidgetDraw(){
+        if(wait_timer.is_started){
+            Vector2f count_text_screen_coordinate = level->GetActiveCamera()->Transform(GetGlobalPosition()) - Vector2f(3.0f,3.0f);
+            Graphics::Get().DrawString(count_text_screen_coordinate, std::to_string(int(std::ceil(wait_timer.GetTimeLeft()/1000.0f))),Graphics::RED,Vector2f(1.0f,1.0f));
+        }
     }
 
     //To detect if the furthest down row of pixles overlap with solid layer

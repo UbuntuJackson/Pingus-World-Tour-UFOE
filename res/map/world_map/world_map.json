@@ -67,6 +67,8 @@
          "class":"SpriteReference",
          "id":6,
          "image":"solid.png",
+         "imageheight":480,
+         "imagewidth":680,
          "name":"solid",
          "opacity":1,
          "type":"imagelayer",
@@ -111,6 +113,8 @@
          "class":"SpriteReference",
          "id":8,
          "image":"world.png",
+         "imageheight":480,
+         "imagewidth":680,
          "name":"world_map",
          "opacity":1,
          "type":"imagelayer",
@@ -232,9 +236,24 @@
                  "name":"",
                  "properties":[
                         {
+                         "name":"description",
+                         "type":"string",
+                         "value":"Let's go skydiving. Crikey, I forgot the parachutes!"
+                        }, 
+                        {
                          "name":"name",
                          "type":"string",
                          "value":"Australia?"
+                        }, 
+                        {
+                         "name":"path",
+                         "type":"string",
+                         "value":"..\/res\/map\/parachute_test_level\/parachute_test_level.json"
+                        }, 
+                        {
+                         "name":"preview",
+                         "type":"string",
+                         "value":"..\/res\/map\/parachute_test_level\/preview.png"
                         }],
                  "rotation":0,
                  "type":"",
@@ -390,6 +409,11 @@
                          "name":"unlocked",
                          "type":"bool",
                          "value":false
+                        }, 
+                        {
+                         "name":"unlocks_other_level",
+                         "type":"string",
+                         "value":"..\/res\/map\/parachute_test_level\/parachute_test_level.json"
                         }],
                  "rotation":0,
                  "type":"",
@@ -419,7 +443,7 @@
          "value":"..\/res\/map\/world_map"
         }],
  "renderorder":"right-down",
- "tiledversion":"1.11.0",
+ "tiledversion":"1.11.2",
  "tileheight":8,
  "tilesets":[
         {
