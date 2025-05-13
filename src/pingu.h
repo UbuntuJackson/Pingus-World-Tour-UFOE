@@ -595,16 +595,24 @@ public:
     }
 
     void Jump(){
-        if(!hit_slope_when_jumping) velocity.x = initial_jump_velocity_x * face_direction;
+        /*if(!hit_slope_when_jumping) velocity.x = initial_jump_velocity_x * face_direction;
         else velocity.x = initial_jump_velocity_when_hitting_slope_x * face_direction;
 
         anim->current_animation_state->scale.x = face_direction;
 
-        if(hit_slope){
+        if((IsOverlappingFeet(local_position + Vector2f(face_direction, 0.0f), Graphics::WHITE) || 
+            IsOverlappingFeet(local_position + Vector2f(face_direction, 0.0f), Graphics::RED) || 
+            IsOverlappingFeet(local_position + Vector2f(face_direction, 0.0f), olc::VERY_DARK_GREY)
+            && hit_floor && velocity.y > 0.0f
+            ) 
+        )
+        {
             hit_slope_when_jumping = true;
             velocity.y = -initial_jump_velocity_when_hitting_slope_y;
             
-        }
+        }*/
+
+        velocity.x = initial_jump_velocity_x * face_direction;
 
         velocity.y += 500.0f * Engine::Get().GetDeltaTime();
         if(hit_floor && velocity.y > 0.0f){
