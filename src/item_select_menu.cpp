@@ -63,6 +63,14 @@ void ItemSelectMenu::OnStart(Level* _level){
         }
     };
 
+    item_jumper = [this](Pingu* _pingu){
+        if(number_of_jumpers > 0){
+            
+            if(_pingu->item_jump()) number_of_jumpers--;
+            buttons[selected_index]->text = "Jumper : "+std::to_string(number_of_jumpers);
+        }
+    };
+
     if(number_of_bombers > 0){
         Button* b = AddChild<Button>(Vector2f(0.0f, 0.0f), Vector2f(68.0f,20.0f), "    x"+std::to_string(number_of_bombers));
         b->AddChild<WidgetSpriteReference>(
@@ -118,6 +126,18 @@ void ItemSelectMenu::OnStart(Level* _level){
             0.0f
         );
         items.push_back(item_driller);
+    }
+    if(number_of_jumpers > 0){
+        Button* b = AddChild<Button>(Vector2f(0.0f, 0.0f), Vector2f(68.0f,20.0f), "Jumper : "+std::to_string(number_of_jumpers));
+        b->AddChild<WidgetSpriteReference>(
+            "driller_icon",
+            Vector2f(0.0f,0.0f),
+            Vector2f(0.0f,0.0f),
+            Vector2f(24.0f,20.0f),
+            Vector2f(1.0f,1.0f),
+            0.0f
+        );
+        items.push_back(item_jumper);
     }
 
     dynamic_cast<PingusLevel*>(_level)->item_select_menu = this;

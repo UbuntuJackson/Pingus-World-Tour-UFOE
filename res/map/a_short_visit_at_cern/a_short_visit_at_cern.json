@@ -67,6 +67,8 @@
          "class":"SpriteReference",
          "id":8,
          "image":"bg.png",
+         "imageheight":678,
+         "imagewidth":1400,
          "name":"bg",
          "opacity":1,
          "type":"imagelayer",
@@ -78,6 +80,8 @@
          "class":"SpriteReference",
          "id":7,
          "image":"mg.png",
+         "imageheight":678,
+         "imagewidth":1400,
          "name":"mg",
          "opacity":1,
          "type":"imagelayer",
@@ -89,6 +93,8 @@
          "class":"SpriteReference",
          "id":6,
          "image":"solid.png",
+         "imageheight":678,
+         "imagewidth":1400,
          "name":"solid",
          "opacity":1,
          "type":"imagelayer",
@@ -215,6 +221,11 @@
                  "name":"",
                  "properties":[
                         {
+                         "name":"grab_camera",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"interval_milliseconds",
                          "type":"float",
                          "value":1000
@@ -252,7 +263,7 @@
          "value":"..\/res\/map\/a_short_visit_at_cern"
         }],
  "renderorder":"right-down",
- "tiledversion":"1.11.0",
+ "tiledversion":"1.11.2",
  "tileheight":8,
  "tilesets":[
         {

@@ -27,6 +27,9 @@ public:
     /// @export("is_anti_matter_spawner");
     bool is_anti_matter_spawner = false;
 
+    /// @export("grab_camera");
+    bool grab_camera = true;
+
     int released_pingus = 0;
     
     Timer spawn_timer;
@@ -59,6 +62,8 @@ public:
         assert((spawn_left_frequency > 0 || spawn_right_frequency > 0) && "Both spawn_frequency_left and spawn_frequency_right are 0.");
 
         if(is_anti_matter_spawner) spr->key = "anti_matter_spawner";
+    
+        if(grab_camera) level->GetActiveCamera()->local_position = local_position;
     }
 
     void OnUpdate(){

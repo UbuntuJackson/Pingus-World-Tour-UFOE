@@ -67,6 +67,8 @@
          "class":"SpriteReference",
          "id":6,
          "image":"bg.png",
+         "imageheight":750,
+         "imagewidth":1200,
          "name":"bg",
          "opacity":1,
          "type":"imagelayer",
@@ -78,6 +80,8 @@
          "class":"SpriteReference",
          "id":8,
          "image":"mg.png",
+         "imageheight":750,
+         "imagewidth":1200,
          "name":"mg",
          "opacity":1,
          "type":"imagelayer",
@@ -89,6 +93,8 @@
          "class":"SpriteReference",
          "id":7,
          "image":"solid.png",
+         "imageheight":750,
+         "imagewidth":1200,
          "name":"solid",
          "opacity":1,
          "type":"imagelayer",
@@ -144,6 +150,11 @@
                          "name":"builder",
                          "type":"int",
                          "value":12
+                        }, 
+                        {
+                         "name":"jumper",
+                         "type":"int",
+                         "value":500
                         }],
                  "rotation":0,
                  "type":"",
@@ -226,7 +237,7 @@
          "value":"..\/res\/map\/builder_test_level"
         }],
  "renderorder":"right-down",
- "tiledversion":"1.11.0",
+ "tiledversion":"1.11.2",
  "tileheight":8,
  "tilesets":[
         {

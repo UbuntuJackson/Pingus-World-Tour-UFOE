@@ -24,6 +24,9 @@ public:
     /// @export("driller");
     int number_of_drillers = 0;
 
+    ///@export("jumper");
+    int number_of_jumpers = 0;
+
     std::vector<std::function<void(Pingu* _pingu)>> items;
 
     std::function<void(Pingu* _pingu)> item_blow_up;
@@ -37,6 +40,8 @@ public:
     std::function<void(Pingu* _pingu)> item_climber;
 
     std::function<void(Pingu* _pingu)> item_driller;
+    
+    std::function<void(Pingu* _pingu)> item_jumper;
     
     ItemSelectMenu(Vector2f _local_position);
 

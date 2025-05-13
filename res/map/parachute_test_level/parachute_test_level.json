@@ -171,6 +171,11 @@
                  "name":"",
                  "properties":[
                         {
+                         "name":"jumper",
+                         "type":"int",
+                         "value":20
+                        }, 
+                        {
                          "name":"parachute",
                          "type":"int",
                          "value":20
@@ -201,7 +206,7 @@
                         {
                          "name":"number_of_pingus",
                          "type":"int",
-                         "value":7
+                         "value":6
                         }],
                  "rotation":0,
                  "type":"",
@@ -231,7 +236,7 @@
                         {
                          "name":"max_rescuable_pingus",
                          "type":"int",
-                         "value":6
+                         "value":5
                         }, 
                         {
                          "name":"number_of_pingus",

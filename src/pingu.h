@@ -18,6 +18,7 @@
 #include "honey_coin.h"
 #include <colour_utils.h>
 #include "item_select_menu.h"
+#include <olcPixelGameEngine.h>
 
 /// @spawn;
 class Pingu : public BitmapCollisionBody{
@@ -29,6 +30,12 @@ public:
 
     //Which direction the pingu is facing. This will dictate the velocity in the x-axis
     float face_direction = 1.0f;
+
+    const float initial_jump_velocity_y = 300.0f;
+    const float initial_jump_velocity_x = 200.0f;
+    const float initial_jump_velocity_when_hitting_slope_y = 400.0f;
+    const float initial_jump_velocity_when_hitting_slope_x = 80.0f;
+    bool hit_slope_when_jumping = false;
 
     //Did the pingu hit floor last frame?
     bool hit_floor_last_frame = false;
@@ -65,7 +72,8 @@ public:
         CLIMBER,
         FALL_AFTER_CLIMBER,
         DRILLER,
-        WAIT
+        WAIT,
+        JUMP
     };
 
     //This variable is used to identify which state the pingu is in, however it does not SET the state
@@ -137,6 +145,12 @@ public:
     std::function<void()> state_wait = [this](){
         what_is_current_state = States::WAIT;
         Wait();
+    };
+
+    //This runs when you fall from too high
+    std::function<void()> state_jump = [this](){
+        what_is_current_state = States::JUMP;
+        Jump();
     };
 
     std::function<void()> state = state_walk;
@@ -580,6 +594,27 @@ public:
         }
     }
 
+    void Jump(){
+        if(!hit_slope_when_jumping) velocity.x = initial_jump_velocity_x * face_direction;
+        else velocity.x = initial_jump_velocity_when_hitting_slope_x * face_direction;
+
+        anim->current_animation_state->scale.x = face_direction;
+
+        if(hit_slope){
+            hit_slope_when_jumping = true;
+            velocity.y = -initial_jump_velocity_when_hitting_slope_y;
+            
+        }
+
+        velocity.y += 500.0f * Engine::Get().GetDeltaTime();
+        if(hit_floor && velocity.y > 0.0f){
+            hit_slope_when_jumping = false;
+            state = state_walk;
+            is_in_special_state = false;
+            snap_to_ground_enabled = true;
+        }
+    }
+
     std::function<bool()> item_walk = [this](){
         int former_state = what_is_current_state;
         what_is_current_state = States::WALK;
@@ -714,6 +749,24 @@ public:
         state = state_driller;
         driller_timer.Start(driller_pace);
         //snap_to_ground_enabled = false;
+        return true;
+    };
+
+    std::function<bool()> item_jump = [this](){
+        if(!hit_floor && what_is_current_state == States::JUMP) return false;
+
+        int former_state = what_is_current_state;
+        what_is_current_state = States::JUMP;
+        ResetAction(former_state,what_is_current_state);
+
+        is_in_special_state = true;
+        state = state_jump;
+
+        velocity.y = -initial_jump_velocity_y;
+        snap_to_ground_enabled = false;
+
+        anim->SetAnimation("pingu_fall");
+
         return true;
     };
 
@@ -1094,6 +1147,26 @@ public:
 
     //To detect if the furtherest top row of pixles overlap with solid layer
     bool IsOverlappingHead(Vector2f _position, olc::Pixel _colour){
+        for(int i = 0; i < 12; i++){
+            if(game->asset_manager.GetDecal(solid_layer)->sprite->GetPixel(_position.x+(float)i,_position.y) == _colour){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //To detect if the furthest down row of pixles overlap with solid layer
+    bool IsOverlappingFeetMovingSolid(Vector2f _position, olc::Pixel _colour, const std::string& _decal_name){
+        for(int i = 0; i < 12; i++){
+            if(game->asset_manager.GetDecal(_decal_name)->sprite->GetPixel(_position.x+(float)i,_position.y + 23.0f) == _colour){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //To detect if the furtherest top row of pixles overlap with solid layer
+    bool IsOverlappingHeadMovingSolid(Vector2f _position, olc::Pixel _colour, const std::string& _decal_name){
         for(int i = 0; i < 12; i++){
             if(game->asset_manager.GetDecal(solid_layer)->sprite->GetPixel(_position.x+(float)i,_position.y) == _colour){
                 return true;
