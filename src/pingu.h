@@ -18,6 +18,7 @@
 #include "honey_coin.h"
 #include <colour_utils.h>
 #include "item_select_menu.h"
+#include "moving_solid.h"
 #include <olcPixelGameEngine.h>
 
 /// @spawn;
@@ -32,7 +33,7 @@ public:
     float face_direction = 1.0f;
 
     const float initial_jump_velocity_y = 300.0f;
-    const float initial_jump_velocity_x = 200.0f;
+    const float initial_jump_velocity_x = 190.0f;
     const float initial_jump_velocity_when_hitting_slope_y = 400.0f;
     const float initial_jump_velocity_when_hitting_slope_x = 80.0f;
     bool hit_slope_when_jumping = false;
@@ -761,7 +762,7 @@ public:
     };
 
     std::function<bool()> item_jump = [this](){
-        if(!hit_floor && what_is_current_state == States::JUMP) return false;
+        if(!hit_floor || what_is_current_state == States::JUMP) return false;
 
         int former_state = what_is_current_state;
         what_is_current_state = States::JUMP;
@@ -1163,10 +1164,18 @@ public:
         return false;
     }
 
+    bool IsOverlappingMovingSolid(Vector2f _position, olc::Pixel _colour, MovingSolid* _moving_solid){
+        return (IsOverlappingOtherDecal(
+            mask_decal, local_position, level->asset_manager.GetDecal(_moving_solid->spr->key), _moving_solid->spr->GetGlobalPosition()
+        ) || IsOverlappingOtherDecal(
+            mask_decal, local_position, level->asset_manager.GetDecal(_moving_solid->spr->key), _moving_solid->spr->GetGlobalPosition(), olc::VERY_DARK_GREY)
+        );
+    }
+
     //To detect if the furthest down row of pixles overlap with solid layer
-    bool IsOverlappingFeetMovingSolid(Vector2f _position, olc::Pixel _colour, const std::string& _decal_name){
+    bool IsOverlappingFeetMovingSolid(Vector2f _position, olc::Pixel _colour, MovingSolid* _moving_solid){
         for(int i = 0; i < 12; i++){
-            if(game->asset_manager.GetDecal(_decal_name)->sprite->GetPixel(_position.x+(float)i,_position.y + 23.0f) == _colour){
+            if(game->asset_manager.GetDecal(_moving_solid->spr->key)->sprite->GetPixel(_position.x+(float)i,_position.y + 23.0f) == _colour){
                 return true;
             }
         }
@@ -1174,13 +1183,178 @@ public:
     }
 
     //To detect if the furtherest top row of pixles overlap with solid layer
-    bool IsOverlappingHeadMovingSolid(Vector2f _position, olc::Pixel _colour, const std::string& _decal_name){
+    bool IsOverlappingHeadMovingSolid(Vector2f _position, olc::Pixel _colour, const std::string& _decal_name, MovingSolid* _moving_solid){
         for(int i = 0; i < 12; i++){
-            if(game->asset_manager.GetDecal(solid_layer)->sprite->GetPixel(_position.x+(float)i,_position.y) == _colour){
+            if(game->asset_manager.GetDecal(_moving_solid->spr->key)->sprite->GetPixel(_position.x+(float)i,_position.y) == _colour){
                 return true;
             }
         }
         return false;
+    }
+
+    void PinguCollisionMovingSolid(Vector2f _velocity, MovingSolid* _moving_solid){
+        while(IsOverlappingSolid(local_position)){
+            Console::PrintLine("PinguCollision: Unconventional conditions were met, resolving upwards before resuming with collision procedure");
+            local_position.y -= 1.0f;
+        }
+
+        hit_floor_last_frame = hit_floor;
+
+        //Resetting all collision related booleans
+        hit_wall = false;
+        hit_slope = true;
+        hit_floor = false;
+        hit_ceiling = false;
+
+        //Currently unused
+        bool attempt_free_from_semisolid = false;
+
+        //Is the pingu already in semisolid?
+        //To elaborate: the reason this is done, is to avoid pingus walking up a right-facing semisolid slope when coming to the left.
+
+        /* This is ascii art of a pingu walking towards a semisolid slope from the opposite way of the way the pingu faces.
+             ______
+            /      _
+           /      <*|
+          /  <-- <|0|>
+    _____/________- -_______
+        
+        */
+
+        //When the pingu is very close to the slope, the following line of code detects if there is a piece of slope right above it's feet.
+        //That way, it determines if its under that slope, which is likely. This can lead to a few oddities, but this will only happen with
+        //very steep slopes.
+
+        is_already_in_semi_solid = (IsOverlappingFeet(local_position+Vector2f(0.0f, -1.0f), olc::RED)
+            || IsOverlappingFeet(local_position+Vector2f(0.0f, -2.0f), olc::RED));
+
+        //This is the only time the pingu moves in the x-axis
+        local_position.x += velocity.x * Engine::Get().GetDeltaTime();
+
+        Vector2f local_position_before_resolving_wall = local_position;
+
+        //Normal slope and walls
+        if(IsOverlappingSolid(local_position)){
+            bool slope_resolved = false;
+            Vector2f incrementing_position = local_position;
+
+            while(IsOverlappingSolid(incrementing_position)){
+                incrementing_position.x -= ufoMaths::Sign(velocity.x);
+            }
+            
+            while(!slope_resolved){
+
+                Vector2f position_before_slope_incrementation = incrementing_position;
+
+                while(IsOverlappingSolid(incrementing_position)){
+                    
+                    incrementing_position.y-=1.0f;
+
+                    if(std::abs(incrementing_position.y - position_before_slope_incrementation.y) > max_slope_height){
+                        
+                        hit_slope = false;
+                        hit_wall = true;
+                        incrementing_position = position_before_slope_incrementation;
+                        incrementing_position.x -= ufoMaths::Sign(velocity.x);
+                        slope_resolved = true;
+                        break;
+                        
+                    }
+                }
+
+                if(!hit_wall) incrementing_position.x += ufoMaths::Sign(velocity.x);
+
+                if(std::abs(local_position.x - incrementing_position.x) >= std::abs(velocity.x * Engine::Get().GetDeltaTime())){
+                    slope_resolved = true;
+                    
+                }
+            }
+            if(hit_slope){
+                local_position.y = incrementing_position.y;
+                
+            }
+            if(hit_wall){
+                
+                local_position = incrementing_position;
+                velocity.x = 0.0f;
+            }
+            
+        }
+        else{
+            hit_slope = false;
+        }
+
+        if(IsOverlappingSolid(local_position)) Console::Print("Is still overlapping after resolution\n");
+
+        //Semi solid slope
+
+        //bool hit_semisolid_slope = false;
+        
+        //third boolean could be a parameter for this collision function perhaps
+        if(IsOverlappingFeet(local_position, olc::RED) && (!is_already_in_semi_solid || what_is_current_state == States::BUILD || velocity.y > 0.0f /*|| hit_slope*/)){
+            //hit_semisolid_slope = true;
+            
+            bool slope_resolved = false;
+
+            Vector2f incrementing_position = local_position;
+
+            Vector2f original_position_before_slope_check = local_position;
+
+            while(IsOverlappingFeet(incrementing_position, olc::RED)){
+                    
+                incrementing_position.y-=1.0f;
+
+                if(IsOverlappingSolid(incrementing_position)){
+                    
+                    incrementing_position.y+=1.0f;
+                    
+                    face_direction *= -1.0f;
+                    break;
+                }
+
+            }
+            
+            local_position = incrementing_position;
+            velocity.y = 0.0f;      
+            
+        }
+
+        local_position.y += velocity.y * Engine::Get().GetDeltaTime();
+
+        if(IsOverlappingSolid(local_position)){
+            while(IsOverlappingSolid(local_position)){
+                local_position.y-=ufoMaths::Sign(velocity.y);
+            }
+            if(velocity.y > 0.0f) hit_floor = true;
+            if(velocity.y < 0.0f) hit_ceiling = true;
+            velocity.y = 0.0f;
+        }
+
+        if(IsOverlappingSolid(local_position+Vector2f(0.0f, 1.0f)) || IsOverlappingFeet(local_position+Vector2f(0.0f, 1.0f), olc::RED)){
+            hit_floor = true;
+        }
+
+        if(!hit_floor && hit_floor_last_frame && !hit_slope && snap_to_ground_enabled){
+
+            bool found_slope = true;
+            Vector2f temporary_position = local_position;
+
+            while(!IsOverlappingSolid(temporary_position) && !IsOverlapping(game, mask_decal, solid_layer, temporary_position, olc::RED)){
+                temporary_position.y += 1.0f;
+                if(std::abs(temporary_position.y - local_position.y) > max_slope_height*2.0f){
+                    
+                    found_slope = false;
+                    break;
+                }
+            }
+            if(found_slope){
+                hit_floor = true;
+                local_position.y = temporary_position.y-1.0f;
+                //velocity.y = 100.0f;
+            }
+            
+        }
+        
     }
 
 };

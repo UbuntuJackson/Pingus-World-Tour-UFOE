@@ -64,12 +64,49 @@
          "y":0
         }, 
         {
+         "id":8,
+         "image":"bg.png",
+         "imageheight":1000,
+         "imagewidth":800,
+         "name":"bg",
+         "opacity":1,
+         "type":"imagelayer",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
          "class":"SpriteReference",
          "id":6,
          "image":"solid.png",
-         "imageheight":480,
-         "imagewidth":680,
+         "imageheight":1000,
+         "imagewidth":800,
          "name":"solid",
+         "opacity":1,
+         "type":"imagelayer",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "id":9,
+         "image":"bbg.png",
+         "imageheight":1000,
+         "imagewidth":700,
+         "name":"bbg",
+         "opacity":1,
+         "type":"imagelayer",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "class":"SpriteReference",
+         "id":7,
+         "image":"mg.png",
+         "imageheight":1000,
+         "imagewidth":800,
+         "name":"mg",
          "opacity":1,
          "type":"imagelayer",
          "visible":true,
@@ -110,355 +147,100 @@
          "y":0
         }, 
         {
-         "class":"SpriteReference",
-         "id":8,
-         "image":"world.png",
-         "imageheight":480,
-         "imagewidth":680,
-         "name":"world_map",
-         "opacity":1,
-         "type":"imagelayer",
-         "visible":true,
-         "x":0,
-         "y":0
-        }, 
-        {
          "draworder":"topdown",
          "id":5,
          "name":"actors",
          "objects":[
                 {
-                 "gid":18,
+                 "gid":11,
                  "height":32,
-                 "id":41,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":22,
-                 "y":56
-                }, 
-                {
-                 "gid":17,
-                 "height":32,
-                 "id":42,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":85,
-                 "y":60
-                }, 
-                {
-                 "gid":15,
-                 "height":32,
-                 "id":49,
+                 "id":35,
                  "name":"",
                  "properties":[
                         {
-                         "name":"description",
-                         "type":"string",
-                         "value":"I want YOU to join the forces to fight the destruction of Antarctica. In this  mission you need to build stairs to make it to the light house, i.e your goal. Click on a pingu to build a staircase!"
+                         "name":"blocker",
+                         "type":"int",
+                         "value":6
                         }, 
                         {
-                         "name":"name",
-                         "type":"string",
-                         "value":"Antarctica"
-                        }, 
-                        {
-                         "name":"path",
-                         "type":"string",
-                         "value":"..\/res\/map\/builder_test_level\/test_level_builder_tiled.json"
-                        }, 
-                        {
-                         "name":"preview",
-                         "type":"string",
-                         "value":"..\/res\/map\/builder_test_level\/i_want_you_to.png"
-                        }, 
-                        {
-                         "name":"unlocked",
-                         "type":"bool",
-                         "value":true
-                        }, 
-                        {
-                         "name":"unlocks_other_level",
-                         "type":"string",
-                         "value":"..\/res\/map\/digging_test_level\/digging_test_level.json"
+                         "name":"jumper",
+                         "type":"int",
+                         "value":40
                         }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":219.5,
-                 "y":461
+                 "x":91.6666666666666,
+                 "y":495
                 }, 
                 {
-                 "gid":15,
+                 "gid":9,
                  "height":32,
-                 "id":50,
+                 "id":36,
                  "name":"",
                  "properties":[
                         {
-                         "name":"name",
-                         "type":"string",
-                         "value":"You are going to Brazil!"
+                         "name":"maximum_rescuable_pingus",
+                         "type":"int",
+                         "value":10
                         }, 
                         {
-                         "name":"unlocks_other_levels",
-                         "type":"string",
-                         "value":"[\t\n\"..\/res\/map\/bomber_test_level\/bomber_test_level.json\"\n\"..\/res\/map\/example\/example.json\"\n]"
+                         "name":"number_of_pingus",
+                         "type":"int",
+                         "value":8
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":1.33333333333337,
+                 "x":177.899225032615,
+                 "y":537.753665517846
+                }, 
+                {
+                 "gid":8,
+                 "height":32,
+                 "id":37,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"face_left",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"face_right",
+                         "type":"int",
+                         "value":0
+                        }, 
+                        {
+                         "name":"interval_milliseconds",
+                         "type":"float",
+                         "value":2000
+                        }, 
+                        {
+                         "name":"number_of_pingus",
+                         "type":"int",
+                         "value":15
                         }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":119.5,
-                 "y":321
+                 "x":599.155227135541,
+                 "y":796.865821601729
                 }, 
                 {
-                 "gid":15,
+                 "gid":5,
                  "height":32,
-                 "id":51,
+                 "id":38,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":330,
-                 "y":280.5
-                }, 
-                {
-                 "gid":15,
-                 "height":32,
-                 "id":52,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"description",
-                         "type":"string",
-                         "value":"For this mission the crew goes skydiving. Click on a pingu to make it adequately prepared as it walks off a ledge, and a parachute will unfold! But it's not all fun and dandy, your pingus won't survive should they fall too high."
-                        }, 
-                        {
-                         "name":"name",
-                         "type":"string",
-                         "value":"Skydive-high"
-                        }, 
-                        {
-                         "name":"path",
-                         "type":"string",
-                         "value":"..\/res\/map\/parachute_test_level\/parachute_test_level.json"
-                        }, 
-                        {
-                         "name":"preview",
-                         "type":"string",
-                         "value":"..\/res\/map\/parachute_test_level\/preview.png"
-                        }, 
-                        {
-                         "name":"unlocks_other_level",
-                         "type":"string",
-                         "value":"..\/res\/map\/olympics\/olympics.json"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":544.5,
-                 "y":368
-                }, 
-                {
-                 "gid":15,
-                 "height":32,
-                 "id":54,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"description",
-                         "type":"string",
-                         "value":"In this level you command your pingus to climb to the top."
-                        }, 
-                        {
-                         "name":"name",
-                         "type":"string",
-                         "value":"Tic Tac Tower"
-                        }, 
-                        {
-                         "name":"path",
-                         "type":"string",
-                         "value":"..\/res\/map\/tic_tac_tower\/tic_tac_tower.json"
-                        }, 
-                        {
-                         "name":"unlocks_other_level",
-                         "type":"string",
-                         "value":"..\/res\/map\/a_short_visit_at_cern\/a_short_visit_at_cern.json"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":297,
-                 "y":177.5
-                }, 
-                {
-                 "gid":15,
-                 "height":32,
-                 "id":55,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"description",
-                         "type":"string",
-                         "value":"So far you have been able to rescue everyone, but the truth is, some missions can't be cleared without sacrifice. To get through this one you need to blow up some of your pingus to get through blockades."
-                        }, 
-                        {
-                         "name":"name",
-                         "type":"string",
-                         "value":"The Great Canyon (USA)"
-                        }, 
-                        {
-                         "name":"path",
-                         "type":"string",
-                         "value":"..\/res\/map\/bomber_test_level\/bomber_test_level.json"
-                        }, 
-                        {
-                         "name":"preview",
-                         "type":"string",
-                         "value":"..\/res\/map\/bomber_test_level\/preview.png"
-                        }, 
-                        {
-                         "name":"unlocks_other_level",
-                         "type":"string",
-                         "value":"..\/res\/map\/tic_tac_tower\/tic_tac_tower.json"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":100.5,
-                 "y":193
-                }, 
-                {
-                 "gid":15,
-                 "height":32,
-                 "id":56,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"name",
-                         "type":"string",
-                         "value":"Greenland"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":255.5,
-                 "y":70
-                }, 
-                {
-                 "gid":15,
-                 "height":32,
-                 "id":59,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"description",
-                         "type":"string",
-                         "value":"Your previous training only scratched the surface. It's time to dig deeper... Click on a pingu to drill a hole in the ground."
-                        }, 
-                        {
-                         "name":"name",
-                         "type":"string",
-                         "value":"Dig Yourself In"
-                        }, 
-                        {
-                         "name":"path",
-                         "type":"string",
-                         "value":"..\/res\/map\/digging_test_level\/digging_test_level.json"
-                        }, 
-                        {
-                         "name":"unlocks_other_level",
-                         "type":"string",
-                         "value":"..\/res\/map\/bomber_test_level\/bomber_test_level.json"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":273,
-                 "y":431
-                }, 
-                {
-                 "gid":15,
-                 "height":32,
-                 "id":60,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"description",
-                         "type":"string",
-                         "value":"The pingus have taken interest in particle physics as of lately, so why not take a visit where it all happens? However, watch out for your anti-matter clones, as matter and antimatter annihilate on contact, leaving behind only pure energy."
-                        }, 
-                        {
-                         "name":"name",
-                         "type":"string",
-                         "value":"A Short Visit at CERN..."
-                        }, 
-                        {
-                         "name":"path",
-                         "type":"string",
-                         "value":"..\/res\/map\/a_short_visit_at_cern\/a_short_visit_at_cern.json"
-                        }, 
-                        {
-                         "name":"unlocked",
-                         "type":"bool",
-                         "value":false
-                        }, 
-                        {
-                         "name":"unlocks_other_level",
-                         "type":"string",
-                         "value":"..\/res\/map\/parachute_test_level\/parachute_test_level.json"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":328,
-                 "y":191.5
-                }, 
-                {
-                 "gid":15,
-                 "height":32,
-                 "id":61,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"description",
-                         "type":"string",
-                         "value":"Your pingu army are world class athletes, so they aren't so out of place at the Tokyo Olympics. For this event the pingus participate in long jump. Click on a pingu to make them jump."
-                        }, 
-                        {
-                         "name":"name",
-                         "type":"string",
-                         "value":"Tokyo Olympics"
-                        }, 
-                        {
-                         "name":"path",
-                         "type":"string",
-                         "value":"..\/res\/map\/olympics\/olympics.json"
-                        }, 
-                        {
-                         "name":"unlocked",
-                         "type":"bool",
-                         "value":false
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":606.666666666667,
-                 "y":172.333333333333
+                 "x":630.029265728137,
+                 "y":370.095128220105
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -466,8 +248,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":9,
- "nextobjectid":62,
+ "nextlayerid":10,
+ "nextobjectid":39,
  "orientation":"orthogonal",
  "properties":[
         {
@@ -478,7 +260,7 @@
         {
          "name":"relative path",
          "type":"string",
-         "value":"..\/res\/map\/world_map"
+         "value":"..\/res\/map\/olympics"
         }],
  "renderorder":"right-down",
  "tiledversion":"1.11.2",

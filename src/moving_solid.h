@@ -11,6 +11,7 @@ class MovingSolid : public Actor{
 public:
     Vector2f velocity;
     PingusLevel* level = nullptr;
+    LevelSpriteReference* spr = nullptr;
 
     MovingSolid(Vector2f _local_position);
 

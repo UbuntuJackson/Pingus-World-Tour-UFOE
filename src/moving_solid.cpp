@@ -18,7 +18,7 @@ void MovingSolid::OnUpdate(){
 
     for(auto&& pingu : level->pingu_handles_all_pingus){
         pingu->velocity = velocity;
-        pingu->PinguCollisionMovingSolid(this);
+        pingu->PinguCollisionMovingSolid(velocity,this);
     }
 
 }
