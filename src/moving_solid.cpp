@@ -33,14 +33,13 @@ void MovingSolid::OnLevelEnter(Level* _level){
 }
 
 void MovingSolid::OnStart(Level* _level){
-    local_position = level->GetActiveCamera()->TransformScreenToWorld(Mouse::GetPosition());
+    //local_position = level->GetActiveCamera()->TransformScreenToWorld(Mouse::GetPosition());
+    centre_position = local_position;
 }
 
 void MovingSolid::OnUpdate(){
 
-    Vector2f delta_mouse = Mouse::Get().GetDeltaPosition()/level->GetActiveCamera()->scale;
-
-    local_position.x += delta_mouse.x;
+    Vector2f delta_mouse = Vector2f(0.0f,0.0f);
 
     switch(movement_mode){
         case MovementModes::LEFT_RIGHT : {
@@ -49,47 +48,70 @@ void MovingSolid::OnUpdate(){
         }
         break;
         case MovementModes::CIRCLE : {
-            velocity.x = std::cos(angle) * 100.0f;
-            velocity.y = std::sin(angle) * 100.0f;
-            angle+=2.0f * Engine::Get().GetDeltaTime();
+            Vector2f new_position = centre_position + Vector2f(std::cos(angle), std::sin(angle)) * radius;
+            velocity = (new_position-local_position)/Engine::Get().GetDeltaTime();
+            angle+=angle_increment * Engine::Get().GetDeltaTime();
         }
         break;
-        case MovementModes::STATIC : {
-
+        case MovementModes::STATIC_MOUSE : {
+            Vector2f new_position = level->GetActiveCamera()->TransformScreenToWorld(Mouse::GetPosition());
+            delta_mouse = new_position - local_position;
+        }
+        break;
+        case MovementModes::CIRCLE_MOUSE : {
+            Vector2f new_position = level->GetActiveCamera()->TransformScreenToWorld(Mouse::GetPosition()) + Vector2f(std::cos(angle), std::sin(angle)) * radius;
+            velocity = (new_position-local_position)/Engine::Get().GetDeltaTime();
+            angle+=angle_increment * Engine::Get().GetDeltaTime();
         }
         break;
     }
-        
+
         //pingu->velocity = velocity;
         //pingu->PinguCollisionMovingSolid(velocity,this);
         //velocity.x += 0.0f * Engine::Get().GetDeltaTime();
-
+    {
+        float total_movement_x = delta_mouse.x + velocity.x * Engine::Get().GetDeltaTime();
+        local_position.x += total_movement_x;
         
-    local_position.x += velocity.x * Engine::Get().GetDeltaTime();
-    
-    for(auto&& pingu : level->pingu_handles_all_pingus){
-        if(pingu->IsOverlappingMovingSolid(Vector2f(pingu->local_position + Vector2f(0.0f,1.0f)), olc::WHITE, this)){
-            pingu->local_position.x += velocity.x * Engine::Get().GetDeltaTime() + delta_mouse.x;
+        for(auto&& pingu : level->pingu_handles_all_pingus){
+            if(pingu->IsOverlappingMovingSolid(Vector2f(pingu->local_position + Vector2f(0.0f,1.0f)), olc::WHITE, this)
+                && !pingu->IsOverlappingMovingSolid(pingu->local_position, olc::WHITE, this)
+            ){
+                pingu->local_position.x += total_movement_x;
+                if(pingu->IsOverlappingMovingSolid(pingu->local_position, olc::WHITE, this)){
+                    pingu->local_position.x -= ufoMaths::Sign(total_movement_x);
+                }
+            }
+
+            if(total_movement_x == 0.0f) continue;
+
+            while(pingu->IsOverlappingMovingSolid(pingu->local_position, olc::WHITE, this)) pingu->local_position.x += ufoMaths::Sign(total_movement_x);
             
         }
-
-        while(pingu->IsOverlappingMovingSolid(pingu->local_position, olc::WHITE, this)) pingu->local_position.x += ufoMaths::Sign(velocity.x+delta_mouse.x);
-        
     }
 
-    local_position.y += delta_mouse.y;
+    {
+        float total_movement_y = delta_mouse.y + velocity.y * Engine::Get().GetDeltaTime();
 
-    local_position.y += velocity.y * Engine::Get().GetDeltaTime();
+        local_position.y += total_movement_y;
 
-    for(auto&& pingu : level->pingu_handles_all_pingus){
-        
-        if(pingu->IsOverlappingMovingSolid(Vector2f(pingu->local_position + Vector2f(0.0f,1.0f)), olc::WHITE, this)){
-            pingu->local_position.y += velocity.y * Engine::Get().GetDeltaTime() + delta_mouse.y;
+        for(auto&& pingu : level->pingu_handles_all_pingus){
+            
+            if(pingu->IsOverlappingMovingSolid(Vector2f(pingu->local_position + Vector2f(0.0f,1.0f)), olc::WHITE, this)
+                && !pingu->IsOverlappingMovingSolid(pingu->local_position, olc::WHITE, this)
+            ){
+                pingu->local_position.y += total_movement_y;
+                if(pingu->IsOverlappingMovingSolid(pingu->local_position, olc::WHITE, this)){
+                    pingu->local_position.y -= ufoMaths::Sign(total_movement_y);
+                }
+            
+            }
+            if(total_movement_y == 0.0f) continue;
+
+            while(pingu->IsOverlappingMovingSolid(pingu->local_position, olc::WHITE, this)) pingu->local_position.y += ufoMaths::Sign(total_movement_y);
         }
-
-        while(pingu->IsOverlappingMovingSolid(pingu->local_position, olc::WHITE, this)) pingu->local_position.y += ufoMaths::Sign(velocity.y+delta_mouse.y);
     }
 
-    Console::Print("\n");
+    //Console::Print("\n");
 
 }

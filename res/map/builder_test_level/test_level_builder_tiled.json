@@ -216,12 +216,36 @@
                  "height":32,
                  "id":35,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"angle_increment",
+                         "type":"float",
+                         "value":2
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":386.666666666667,
-                 "y":617.333333333333
+                 "x":296,
+                 "y":608
+                }, 
+                {
+                 "gid":8,
+                 "height":32,
+                 "id":36,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"number_of_pingus",
+                         "type":"int",
+                         "value":12
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":134,
+                 "y":461.333333333333
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -230,7 +254,7 @@
          "y":0
         }],
  "nextlayerid":9,
- "nextobjectid":36,
+ "nextobjectid":39,
  "orientation":"orthogonal",
  "properties":[
         {
@@ -272,6 +296,19 @@
          "tilecount":18,
          "tileheight":32,
          "tilewidth":32
+        }, 
+        {
+         "columns":10,
+         "firstgid":23,
+         "image":"..\/..\/assets\/moving_solids.png",
+         "imageheight":1000,
+         "imagewidth":1000,
+         "margin":0,
+         "name":"moving_solids",
+         "spacing":0,
+         "tilecount":100,
+         "tileheight":100,
+         "tilewidth":100
         }],
  "tilewidth":8,
  "type":"map",
