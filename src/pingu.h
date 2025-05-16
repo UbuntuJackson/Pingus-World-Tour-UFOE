@@ -261,6 +261,8 @@ public:
         
         level->released_pingus++;
         level->pingu_handles_all_pingus.push_back(this);
+
+        SetZIndex(1);
         
     }
 
@@ -1128,7 +1130,15 @@ public:
 
     //olc::VERY_DARK_GREY and olc::WHITE count as normal solid
     bool IsOverlappingSolid(Vector2f _check_location){
-        return IsOverlapping(game, mask_decal, solid_layer, _check_location, olc::VERY_DARK_GREY) || IsOverlapping(game, mask_decal, solid_layer, _check_location, olc::WHITE);
+        bool is_overlapping_moving_solid = false;
+
+        for(auto&& moving_solid : level->moving_solids_handles){
+            if(IsOverlappingMovingSolid(_check_location, olc::WHITE, moving_solid)) is_overlapping_moving_solid = true;
+        }
+
+
+        return (IsOverlapping(game, mask_decal, solid_layer, _check_location, olc::VERY_DARK_GREY) || IsOverlapping(game, mask_decal, solid_layer, _check_location, olc::WHITE)
+            || is_overlapping_moving_solid);
     }
 
     void OnDraw(Camera* _camera){
@@ -1151,6 +1161,9 @@ public:
                 return true;
             }
         }
+        for(auto&& moving_solid : level->moving_solids_handles){
+            if(IsOverlappingFeetMovingSolid(_position, _colour, moving_solid)) return true;
+        }
         return false;
     }
 
@@ -1161,21 +1174,24 @@ public:
                 return true;
             }
         }
+        for(auto&& moving_solid : level->moving_solids_handles){
+            if(IsOverlappingHeadMovingSolid(_position, _colour, moving_solid)) return true;
+        }
         return false;
     }
 
     bool IsOverlappingMovingSolid(Vector2f _position, olc::Pixel _colour, MovingSolid* _moving_solid){
         return (IsOverlappingOtherDecal(
-            mask_decal, local_position, level->asset_manager.GetDecal(_moving_solid->spr->key), _moving_solid->spr->GetGlobalPosition()
+            mask_decal, _position, AssetManager::Get().GetDecal(_moving_solid->spr->key), _moving_solid->spr->GetGlobalPosition()
         ) || IsOverlappingOtherDecal(
-            mask_decal, local_position, level->asset_manager.GetDecal(_moving_solid->spr->key), _moving_solid->spr->GetGlobalPosition(), olc::VERY_DARK_GREY)
+            mask_decal, _position, AssetManager::Get().GetDecal(_moving_solid->spr->key), _moving_solid->spr->GetGlobalPosition(), olc::VERY_DARK_GREY)
         );
     }
 
     //To detect if the furthest down row of pixles overlap with solid layer
     bool IsOverlappingFeetMovingSolid(Vector2f _position, olc::Pixel _colour, MovingSolid* _moving_solid){
         for(int i = 0; i < 12; i++){
-            if(game->asset_manager.GetDecal(_moving_solid->spr->key)->sprite->GetPixel(_position.x+(float)i,_position.y + 23.0f) == _colour){
+            if(AssetManager::Get().GetDecal(_moving_solid->spr->key)->sprite->GetPixel(_position.x+(float)i,_position.y + 23.0f) == _colour){
                 return true;
             }
         }
@@ -1183,15 +1199,16 @@ public:
     }
 
     //To detect if the furtherest top row of pixles overlap with solid layer
-    bool IsOverlappingHeadMovingSolid(Vector2f _position, olc::Pixel _colour, const std::string& _decal_name, MovingSolid* _moving_solid){
+    bool IsOverlappingHeadMovingSolid(Vector2f _position, olc::Pixel _colour, MovingSolid* _moving_solid){
         for(int i = 0; i < 12; i++){
-            if(game->asset_manager.GetDecal(_moving_solid->spr->key)->sprite->GetPixel(_position.x+(float)i,_position.y) == _colour){
+            if(AssetManager::Get().GetDecal(_moving_solid->spr->key)->sprite->GetPixel(_position.x+(float)i,_position.y) == _colour){
                 return true;
             }
         }
         return false;
     }
 
+    //Might be unnecessary
     void PinguCollisionMovingSolid(Vector2f _velocity, MovingSolid* _moving_solid){
         while(IsOverlappingSolid(local_position)){
             Console::PrintLine("PinguCollision: Unconventional conditions were met, resolving upwards before resuming with collision procedure");

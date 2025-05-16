@@ -60,6 +60,7 @@ void PingusLevel::OnResourceLoad(){
     AssetManager::Get().LoadDecal("../res/assets/parachute_icon.png","parachute_icon");
     AssetManager::Get().LoadDecal("../res/assets/driller_icon.png","driller_icon");
     AssetManager::Get().LoadDecal("../res/assets/anti_matter_spawner.png","anti_matter_spawner");
+    AssetManager::Get().LoadDecal("../res/assets/moving_solid.png","moving_solid");
     
     Engine::Get().pixel_game_engine.LoadFontSprite("../res/assets/pwt_grey_font.png");
 

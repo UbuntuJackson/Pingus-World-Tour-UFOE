@@ -19,6 +19,7 @@ class Button;
 class WorldMapLocation;
 class Pingu;
 class PaintableSurface;
+class MovingSolid;
 
 class PingusLevel : public Level{
 public:
@@ -26,6 +27,7 @@ public:
     std::vector<HoneyCoin*> honey_coin_handles;
     std::vector<WorldMapLocation*> world_map_location_handles;
     std::vector<olc::Decal*> level_decals_in_draw_order;
+    std::vector<MovingSolid*> moving_solids_handles;
     olc::Decal* solid_decal;
     Vector2f custom_level_size;
     Widget* current_menu = nullptr;
