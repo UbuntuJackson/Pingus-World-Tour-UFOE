@@ -1,8 +1,6 @@
-import importlib
+import os
 
-tool = importlib.import_module("UFO-Engine.tools.UFOProjectManager")
+ret : int = os.system("git submodule update --init --recursive")
 
-project = tool.ProjectManager()
-
-if project.git_setup():
+if ret:
     print("Git repository fully set up")
