@@ -1,42 +1,22 @@
 {
 	"cleared_levels":	{
-		"../res/map/a_short_visit_at_cern/a_short_visit_at_cern.json":	{
-			"most_rescued_pingus":	38,
-			"rank":	1
-		},
 		"../res/map/bomber_test_level/bomber_test_level.json":	{
-			"most_rescued_pingus":	9,
+			"most_rescued_pingus":	0,
 			"rank":	0
 		},
 		"../res/map/builder_test_level/test_level_builder_tiled.json":	{
 			"most_rescued_pingus":	12,
-			"rank":	0
+			"rank":	1
 		},
 		"../res/map/digging_test_level/digging_test_level.json":	{
 			"most_rescued_pingus":	20,
 			"rank":	0
-		},
-		"../res/map/olympics/olympics.json":	{
-			"most_rescued_pingus":	2,
-			"rank":	3
-		},
-		"../res/map/parachute_test_level/parachute_test_level.json":	{
-			"most_rescued_pingus":	6,
-			"rank":	1
-		},
-		"../res/map/tic_tac_tower/tic_tac_tower.json":	{
-			"most_rescued_pingus":	19,
-			"rank":	2
 		}
 	},
-	"last_played_level":	"../res/map/olympics/olympics.json",
+	"last_played_level":	"../res/map/bomber_test_level/bomber_test_level.json",
 	"unlocked_levels":	{
-		"../res/map/a_short_visit_at_cern/a_short_visit_at_cern.json":	1,
 		"../res/map/bomber_test_level/bomber_test_level.json":	1,
 		"../res/map/digging_test_level/digging_test_level.json":	1,
-		"../res/map/olympics/olympics.json":	1,
-		"../res/map/parachute_test_level/parachute_test_level.json":	1,
-		"../res/map/tic_tac_tower/tic_tac_tower.json":	1,
-		"?":	1
+		"../res/map/tic_tac_tower/tic_tac_tower.json":	1
 	}
 }

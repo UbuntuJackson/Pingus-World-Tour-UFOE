@@ -150,11 +150,6 @@
                          "name":"builder",
                          "type":"int",
                          "value":12
-                        }, 
-                        {
-                         "name":"jumper",
-                         "type":"int",
-                         "value":500
                         }],
                  "rotation":0,
                  "type":"",
