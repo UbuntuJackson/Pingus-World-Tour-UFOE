@@ -11,24 +11,32 @@ class SpriteReference;
 class MovingSolid : public Actor{
 public:
     enum MovementModes{
+        STATIC_MOUSE,
         LEFT_RIGHT,
         CIRCLE,
-        STATIC_MOUSE,
         CIRCLE_MOUSE
     };
 
-    int movement_mode = CIRCLE;
+    ///@export;
+    int movement_mode = STATIC_MOUSE;
 
     /// @export;
     float max_travel_right = 0.0f;
 
     float max_left = 0.0f;
     float max_right = 0.0f;
+
     float angle = 0.0f;
+    
     /// @export;
-    float radius = 100.0f;
+    float radius_x = 100.0f;
+    /// @export;
+    float radius_y = 100.0f;
     /// @export;
     float angle_increment = 2.0f;
+
+    //Currently unused
+    int moving_solid_id = 0;
 
     Vector2f centre_position;
 

@@ -221,6 +221,21 @@
                          "name":"angle_increment",
                          "type":"float",
                          "value":2
+                        }, 
+                        {
+                         "name":"movement_mode",
+                         "type":"int",
+                         "value":3
+                        }, 
+                        {
+                         "name":"radius_x",
+                         "type":"float",
+                         "value":100
+                        }, 
+                        {
+                         "name":"radius_y",
+                         "type":"float",
+                         "value":0
                         }],
                  "rotation":0,
                  "type":"",

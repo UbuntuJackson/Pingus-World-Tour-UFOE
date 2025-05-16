@@ -48,7 +48,7 @@ void MovingSolid::OnUpdate(){
         }
         break;
         case MovementModes::CIRCLE : {
-            Vector2f new_position = centre_position + Vector2f(std::cos(angle), std::sin(angle)) * radius;
+            Vector2f new_position = centre_position + Vector2f(std::cos(angle) * radius_x, std::sin(angle) * radius_y);
             velocity = (new_position-local_position)/Engine::Get().GetDeltaTime();
             angle+=angle_increment * Engine::Get().GetDeltaTime();
         }
@@ -59,7 +59,7 @@ void MovingSolid::OnUpdate(){
         }
         break;
         case MovementModes::CIRCLE_MOUSE : {
-            Vector2f new_position = level->GetActiveCamera()->TransformScreenToWorld(Mouse::GetPosition()) + Vector2f(std::cos(angle), std::sin(angle)) * radius;
+            Vector2f new_position = level->GetActiveCamera()->TransformScreenToWorld(Mouse::GetPosition()) + Vector2f(std::cos(angle) * radius_x, std::sin(angle) * radius_y);
             velocity = (new_position-local_position)/Engine::Get().GetDeltaTime();
             angle+=angle_increment * Engine::Get().GetDeltaTime();
         }
