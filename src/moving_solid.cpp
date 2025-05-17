@@ -87,6 +87,11 @@ void MovingSolid::OnUpdate(){
 
             while(pingu->IsOverlappingMovingSolid(pingu->local_position, olc::WHITE, this)) pingu->local_position.x += ufoMaths::Sign(total_movement_x);
             
+            /*if(pingu->IsOverlappingSolid(pingu->local_position)){
+                pingu->state = pingu->die_by_fall;
+                pingu->is_in_special_state = true;
+                Console::PrintLine("Pingu got squashed");
+            }*/
         }
     }
 
