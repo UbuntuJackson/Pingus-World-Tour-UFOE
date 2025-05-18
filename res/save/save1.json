@@ -25,7 +25,7 @@
 			"rank":	1
 		}
 	},
-	"last_played_level":	"../res/map/parachute_test_level/parachute_test_level.json",
+	"last_played_level":	"../res/map/builder_test_level/test_level_builder_tiled.json",
 	"unlocked_levels":	{
 		"../res/map/a_short_visit_at_cern/a_short_visit_at_cern.json":	1,
 		"../res/map/bomber_test_level/bomber_test_level.json":	1,

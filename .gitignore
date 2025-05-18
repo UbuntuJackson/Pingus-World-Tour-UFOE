@@ -37,6 +37,7 @@
 
 /src/generated.h
 /game_config.json
+/start.py
 /__pycache__
 
 /.vscode

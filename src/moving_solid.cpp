@@ -131,6 +131,7 @@ void MovingSolid::OnUpdate(){
 
         for(auto&& pingu : level->pingu_handles_all_pingus){
             
+            //should probably be 0.0f, total_movement_y
             if(pingu->IsOverlappingMovingSolid(pingu->local_position + Vector2f(total_movement_x,total_movement_y) + Vector2f(0.0f,1.0f), olc::WHITE, this)
                 && !pingu->IsOverlappingMovingSolid(pingu->local_position, olc::WHITE, this)
             ){
