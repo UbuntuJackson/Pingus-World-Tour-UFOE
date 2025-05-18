@@ -8,7 +8,7 @@ int main(){
 
     Engine& ufo = Engine::Get();
 
-    ufo.GoToLevel(std::make_unique<PingusLevel>(), "../res/map/splash_screen/splash_screen.json");
+    ufo.GoToLevel(std::make_unique<PingusLevel>(), "../res/map/clownshow/template_level.json");
     ufo.Start();
 
     return 0;

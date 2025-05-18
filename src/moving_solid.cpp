@@ -89,12 +89,14 @@ void MovingSolid::OnUpdate(){
     }
 
     //X-axis
-    {
+    //{
         float total_movement_x = delta_mouse.x + velocity.x * Engine::Get().GetDeltaTime();
+        
+        //Vector2f former_position = local_position;
         local_position.x += total_movement_x;
         
         for(auto&& pingu : level->pingu_handles_all_pingus){
-            if(pingu->IsOverlappingMovingSolid(Vector2f(pingu->local_position + Vector2f(0.0f,1.0f)), olc::WHITE, this)
+            if(pingu->IsOverlappingMovingSolid(pingu->local_position + Vector2f(total_movement_x,0.0f) + Vector2f(0.0f,1.0f), olc::WHITE, this)
                 && !pingu->IsOverlappingMovingSolid(pingu->local_position, olc::WHITE, this)
             ){
                 pingu->local_position.x += total_movement_x;
@@ -105,7 +107,11 @@ void MovingSolid::OnUpdate(){
 
             if(total_movement_x == 0.0f) continue;
 
+            //Pushes pingu if NOT on the slope
             while(pingu->IsOverlappingMovingSolid(pingu->local_position, olc::WHITE, this)) pingu->local_position.x += ufoMaths::Sign(total_movement_x);
+
+            //If the pingu collides with ordinary solids
+            while(pingu->IsOverlapping(pingu->level, pingu->mask_decal, pingu->solid_layer, pingu->local_position, olc::WHITE)) pingu->local_position.x -= ufoMaths::Sign(total_movement_x);
             
             /*if(pingu->IsOverlappingSolid(pingu->local_position)){
                 pingu->state = pingu->die_by_fall;
@@ -113,17 +119,19 @@ void MovingSolid::OnUpdate(){
                 Console::PrintLine("Pingu got squashed");
             }*/
         }
-    }
+    //}
 
     //Y-axis
-    {
+    //{
         float total_movement_y = delta_mouse.y + velocity.y * Engine::Get().GetDeltaTime();
+
+        //Vector2f former_position = local_position;
 
         local_position.y += total_movement_y;
 
         for(auto&& pingu : level->pingu_handles_all_pingus){
             
-            if(pingu->IsOverlappingMovingSolid(Vector2f(pingu->local_position + Vector2f(0.0f,1.0f)), olc::WHITE, this)
+            if(pingu->IsOverlappingMovingSolid(pingu->local_position + Vector2f(total_movement_x,total_movement_y) + Vector2f(0.0f,1.0f), olc::WHITE, this)
                 && !pingu->IsOverlappingMovingSolid(pingu->local_position, olc::WHITE, this)
             ){
                 pingu->local_position.y += total_movement_y;
@@ -134,9 +142,12 @@ void MovingSolid::OnUpdate(){
             }
             if(total_movement_y == 0.0f) continue;
 
+            //Pushes pingu if NOT on the slope
             while(pingu->IsOverlappingMovingSolid(pingu->local_position, olc::WHITE, this)) pingu->local_position.y += ufoMaths::Sign(total_movement_y);
+
+            while(pingu->IsOverlapping(pingu->level, pingu->mask_decal, pingu->solid_layer, pingu->local_position, olc::WHITE)) pingu->local_position.y -= ufoMaths::Sign(total_movement_y);
         }
-    }
+    //}
 
     //Console::Print("\n");
 
