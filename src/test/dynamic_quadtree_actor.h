@@ -9,6 +9,7 @@
 #include <level.h>
 #include <random_number_generator.h>
 
+/// @spawn;
 class DynamicQuadTreeActor : public Actor{
 public:
     /// @export;

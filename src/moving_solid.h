@@ -2,10 +2,10 @@
 #include <actor.h>
 #include <ufo_maths.h>
 #include <functional>
-#include <sprite_reference.h>
+#include <level_sprite_reference.h>
 
 class PingusLevel;
-class SpriteReference;
+class LevelSpriteReference;
 
 ///@spawn;
 class MovingSolid : public Actor{
@@ -42,7 +42,7 @@ public:
 
     Vector2f velocity;
     PingusLevel* level = nullptr;
-    SpriteReference* spr = nullptr;
+    LevelSpriteReference* spr = nullptr;
 
     MovingSolid(Vector2f _local_position);
 

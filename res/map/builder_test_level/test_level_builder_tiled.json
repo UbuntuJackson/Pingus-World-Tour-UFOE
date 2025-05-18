@@ -196,57 +196,6 @@
                 {
                  "gid":8,
                  "height":32,
-                 "id":33,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"number_of_pingus",
-                         "type":"int",
-                         "value":1000000
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":386.835043737478,
-                 "y":512.297708058448
-                }, 
-                {
-                 "gid":22,
-                 "height":32,
-                 "id":35,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"angle_increment",
-                         "type":"float",
-                         "value":1
-                        }, 
-                        {
-                         "name":"movement_mode",
-                         "type":"int",
-                         "value":2
-                        }, 
-                        {
-                         "name":"radius_x",
-                         "type":"float",
-                         "value":50
-                        }, 
-                        {
-                         "name":"radius_y",
-                         "type":"float",
-                         "value":100
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":723.333333333333,
-                 "y":502.666666666667
-                }, 
-                {
-                 "gid":8,
-                 "height":32,
                  "id":36,
                  "name":"",
                  "properties":[
@@ -259,8 +208,8 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":875.333333333333,
-                 "y":512
+                 "x":295.333333333333,
+                 "y":600.666666666667
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -269,7 +218,7 @@
          "y":0
         }],
  "nextlayerid":9,
- "nextobjectid":39,
+ "nextobjectid":45,
  "orientation":"orthogonal",
  "properties":[
         {

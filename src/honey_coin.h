@@ -7,6 +7,8 @@
 #include <animation.h>
 #include "pingus_level.h"
 
+
+/// @spawn;
 class HoneyCoin : public Shape<Circle>{
 public:
     HoneyCoin(Vector2f _local_position) : Shape<Circle>(Circle(Vector2f(0.0f,0.0f),6.0f), _local_position, false, Vector2f(16.0f,16.0f)){

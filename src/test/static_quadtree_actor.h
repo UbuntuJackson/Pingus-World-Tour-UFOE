@@ -11,6 +11,7 @@
 #include <ufo_benchmarker.h>
 #include "quadtree_rectangle.h"
 
+/// @spawn;
 class StaticQuadTreeActor : public Actor{
 public:
     /// @export;

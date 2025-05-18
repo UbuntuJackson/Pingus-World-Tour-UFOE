@@ -1182,16 +1182,16 @@ public:
 
     bool IsOverlappingMovingSolid(Vector2f _position, olc::Pixel _colour, MovingSolid* _moving_solid){
         return (IsOverlappingOtherDecal(
-            mask_decal, _position, AssetManager::Get().GetDecal(_moving_solid->spr->key), _moving_solid->spr->GetGlobalPosition()
+            mask_decal, _position, level->asset_manager.GetDecal(_moving_solid->spr->key), _moving_solid->spr->GetGlobalPosition()
         ) || IsOverlappingOtherDecal(
-            mask_decal, _position, AssetManager::Get().GetDecal(_moving_solid->spr->key), _moving_solid->spr->GetGlobalPosition(), olc::VERY_DARK_GREY)
+            mask_decal, _position, level->asset_manager.GetDecal(_moving_solid->spr->key), _moving_solid->spr->GetGlobalPosition(), olc::VERY_DARK_GREY)
         );
     }
 
     //To detect if the furthest down row of pixles overlap with solid layer
     bool IsOverlappingFeetMovingSolid(Vector2f _position, olc::Pixel _colour, MovingSolid* _moving_solid){
         for(int i = 0; i < 12; i++){
-            if(AssetManager::Get().GetDecal(_moving_solid->spr->key)->sprite->GetPixel(_position.x+(float)i,_position.y + 23.0f) == _colour){
+            if(level->asset_manager.GetDecal(_moving_solid->spr->key)->sprite->GetPixel(_position.x+(float)i,_position.y + 23.0f) == _colour){
                 return true;
             }
         }
@@ -1201,7 +1201,7 @@ public:
     //To detect if the furtherest top row of pixles overlap with solid layer
     bool IsOverlappingHeadMovingSolid(Vector2f _position, olc::Pixel _colour, MovingSolid* _moving_solid){
         for(int i = 0; i < 12; i++){
-            if(AssetManager::Get().GetDecal(_moving_solid->spr->key)->sprite->GetPixel(_position.x+(float)i,_position.y) == _colour){
+            if(level->asset_manager.GetDecal(_moving_solid->spr->key)->sprite->GetPixel(_position.x+(float)i,_position.y) == _colour){
                 return true;
             }
         }

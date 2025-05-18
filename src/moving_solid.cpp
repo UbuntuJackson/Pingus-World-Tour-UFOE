@@ -1,7 +1,7 @@
 #include <actor.h>
 #include <ufo_maths.h>
 #include <functional>
-#include <sprite_reference.h>
+#include <level_sprite_reference.h>
 #include <ufo_maths.h>
 #include <ufo_engine.h>
 #include <mouse.h>
@@ -16,11 +16,12 @@ MovingSolid::MovingSolid(Vector2f _local_position) : Actor(_local_position){
 
 void MovingSolid::OnLevelEnter(Level* _level){
     level = dynamic_cast<PingusLevel*>(_level);
-    spr = AddChild<SpriteReference>(
+    level->asset_manager.LoadDecal("../res/assets/moving_solid.png","moving_solid");
+    spr = AddChild<LevelSpriteReference>(
         "moving_solid",
         Vector2f(0.0f,0.0f),
         Vector2f(0.0f,0.0f),
-        Vector2f(64.0f, 64.0f),
+        Vector2f(100.0f, 100.0f),
         Vector2f(1.0f, 1.0f),
         0.0f
     );
@@ -35,6 +36,28 @@ void MovingSolid::OnLevelEnter(Level* _level){
 void MovingSolid::OnStart(Level* _level){
     //local_position = level->GetActiveCamera()->TransformScreenToWorld(Mouse::GetPosition());
     centre_position = local_position;
+
+    if(is_instantiated_via_editor){
+
+        //Making sprite
+        ufo::Rectangle rect = AssetManager::Get().GetFrameFromSpriteSheet(GetEditorCategory(), GetEditorSlotID()-1, Vector2f(100.0f,100.0f));
+        
+        Console::PrintLine("rectangle",rect.position,rect.size);
+
+        std::unique_ptr<olc::Sprite> generated_sprite = std::make_unique<olc::Sprite>(rect.size.x, rect.size.y);
+        for(int yy = (int)rect.position.y; yy < (int)rect.position.y + (int)rect.size.y; yy++){
+            for(int xx = (int)rect.position.x; xx < (int)rect.position.x + (int)rect.size.x; xx++){
+                generated_sprite->SetPixel(Vector2i(xx-int(rect.position.x), yy-int(rect.position.y)),AssetManager::Get().GetDecal(GetEditorCategory())->sprite->GetPixel(xx,yy));
+                Colour c = generated_sprite->GetPixel(Vector2i(xx-int(rect.position.x), yy-int(rect.position.y)));
+            }
+        }
+
+        std::string name_plus_id = GetEditorCategory()+"_"+std::to_string(GetEditorSlotID());
+        spr->key = name_plus_id;
+        _level->asset_manager.sprites[name_plus_id] = std::move(generated_sprite);
+        _level->asset_manager.decals[name_plus_id] = std::make_unique<olc::Decal>(_level->asset_manager.sprites[name_plus_id].get());
+        _level->asset_manager.decals[name_plus_id]->Update();
+    }
 }
 
 void MovingSolid::OnUpdate(){

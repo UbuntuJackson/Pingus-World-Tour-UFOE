@@ -257,7 +257,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":43,
+ "nextobjectid":44,
  "orientation":"orthogonal",
  "properties":[
         {
@@ -299,6 +299,19 @@
          "tilecount":18,
          "tileheight":32,
          "tilewidth":32
+        }, 
+        {
+         "columns":10,
+         "firstgid":23,
+         "image":"..\/..\/assets\/moving_solids.png",
+         "imageheight":1000,
+         "imagewidth":1000,
+         "margin":0,
+         "name":"moving_solids",
+         "spacing":0,
+         "tilecount":100,
+         "tileheight":100,
+         "tilewidth":100
         }],
  "tilewidth":8,
  "type":"map",
