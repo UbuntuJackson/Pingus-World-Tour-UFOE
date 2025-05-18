@@ -1,3 +1,4 @@
+#include <cmath>
 #include <actor.h>
 #include <ufo_maths.h>
 #include <functional>
@@ -5,9 +6,10 @@
 #include <ufo_maths.h>
 #include <ufo_engine.h>
 #include <mouse.h>
+#include <asset_manager.h>
+#include <console.h>
 #include "pingus_level.h"
 #include "pingu.h"
-#include <console.h>
 #include "moving_solid.h"
 
 MovingSolid::MovingSolid(Vector2f _local_position) : Actor(_local_position){
@@ -34,21 +36,18 @@ void MovingSolid::OnLevelEnter(Level* _level){
 }
 
 void MovingSolid::OnStart(Level* _level){
-    //local_position = level->GetActiveCamera()->TransformScreenToWorld(Mouse::GetPosition());
+    
     centre_position = local_position;
 
     if(is_instantiated_via_editor){
 
         //Making sprite
         ufo::Rectangle rect = AssetManager::Get().GetFrameFromSpriteSheet(GetEditorCategory(), GetEditorSlotID()-1, Vector2f(100.0f,100.0f));
-        
-        Console::PrintLine("rectangle",rect.position,rect.size);
 
         std::unique_ptr<olc::Sprite> generated_sprite = std::make_unique<olc::Sprite>(rect.size.x, rect.size.y);
         for(int yy = (int)rect.position.y; yy < (int)rect.position.y + (int)rect.size.y; yy++){
             for(int xx = (int)rect.position.x; xx < (int)rect.position.x + (int)rect.size.x; xx++){
                 generated_sprite->SetPixel(Vector2i(xx-int(rect.position.x), yy-int(rect.position.y)),AssetManager::Get().GetDecal(GetEditorCategory())->sprite->GetPixel(xx,yy));
-                Colour c = generated_sprite->GetPixel(Vector2i(xx-int(rect.position.x), yy-int(rect.position.y)));
             }
         }
 
@@ -89,9 +88,7 @@ void MovingSolid::OnUpdate(){
         break;
     }
 
-        //pingu->velocity = velocity;
-        //pingu->PinguCollisionMovingSolid(velocity,this);
-        //velocity.x += 0.0f * Engine::Get().GetDeltaTime();
+    //X-axis
     {
         float total_movement_x = delta_mouse.x + velocity.x * Engine::Get().GetDeltaTime();
         local_position.x += total_movement_x;
@@ -118,6 +115,7 @@ void MovingSolid::OnUpdate(){
         }
     }
 
+    //Y-axis
     {
         float total_movement_y = delta_mouse.y + velocity.y * Engine::Get().GetDeltaTime();
 
