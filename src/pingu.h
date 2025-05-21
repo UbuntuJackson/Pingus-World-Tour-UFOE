@@ -120,6 +120,8 @@ public:
         Parachute();
     };
 
+    //bool is_already_overlapping_blue = false;
+    Vector2f blocker_collision_position;
     //This runs when a pingu has a blocker
     std::function<void()> state_blocker = [this](){
         what_is_current_state = States::BLOCKER;
@@ -356,6 +358,7 @@ public:
         velocity.y = 100.0f;
         if(has_parachute){
             state = state_parachute;
+            ResetAllStates();
 
             parachute_sprite_id = AddChild<SpriteReference>("parachute",
                 Vector2f(-22.0f, -48.0f),
@@ -370,7 +373,9 @@ public:
     }
 
     void SetStateWait(){
+        ResetAllStates();
         what_is_current_state = States::WAIT;
+        is_in_special_state = true;
         state = state_wait;
         wait_timer.Start(3000.0f);
         anim->SetAnimation("pingu_blocker");
@@ -389,7 +394,6 @@ public:
                 is_in_special_state = false;
                 snap_to_ground_enabled = true;
             }
-            steps = 0;
 
             return;
         }
@@ -481,8 +485,14 @@ public:
     void Blocker(){
         velocity.x = 0.0f;
 
+        //This should move the blocker collision if blocker is affected by for example gravity.
+        if(local_position != former_position){
+            RemoveBlockerCollision(blocker_collision_position);
+            ActivateBlockerCollision();
+        }
+
         if(!hit_floor){
-            ResetBlocker();
+            RemoveBlockerCollision(blocker_collision_position);
             item_walk();
         }
 
@@ -627,9 +637,10 @@ public:
     }
 
     std::function<bool()> item_walk = [this](){
+        ResetAllStates();
+
         int former_state = what_is_current_state;
         what_is_current_state = States::WALK;
-        ResetAction(former_state, what_is_current_state);
 
         is_in_special_state = false;
         snap_to_ground_enabled = true;
@@ -655,55 +666,43 @@ public:
         return true;
     };
 
+    void ResetAllStates(){
+        is_in_special_state = false;
+        snap_to_ground_enabled = true;
+
+        //Blocker
+        RemoveBlockerCollision(blocker_collision_position);
+    
+        steps = 0;
+    }
+
     std::function<bool()> item_block = [this](){
         if(
             what_is_current_state == States::FALL ||
-            what_is_current_state == States::PARACHUTE
+            what_is_current_state == States::PARACHUTE ||
+            what_is_current_state == States::BLOCKER
         ) return false;
 
-        int former_state = what_is_current_state;
-        what_is_current_state = States::BLOCKER;
-        ResetAction(former_state, what_is_current_state);
-
-        if(what_is_current_state != States::BLOCKER) return false;
+        ResetAllStates();
         
         anim->SetAnimation("pingu_blocker");
         anim->frame_counter = 0.0f;
         
-        int width = 2;
-
-        auto dec = game->asset_manager.GetDecal(solid_layer);
-
-        for(int yy = 0; yy < 6; yy++){
-            for(int xx = 5; xx < 5+width; xx++){
-
-                Vector2f place_pos = local_position+Vector2f(xx,24.0f-yy);
-                
-                olc::Pixel p = dec->sprite->GetPixel(place_pos);
-                
-                //This is not {0,0,0,0} for some reason but instead {115,121,121,0}
-                
-                if(dec->sprite->GetPixel(place_pos).a == 0){
-                    dec->sprite->SetPixel(place_pos,olc::BLUE);
-                }
-                
-            }
-        }
-
-        dec->Update();
+        ActivateBlockerCollision();
 
         state = state_blocker;
 
         is_in_special_state = true;
+        //snap_to_ground_enabled = false;
         return true;
     };
 
     std::function<bool()> item_blow_up = [this](){
         if(what_is_current_state == States::EXPLODE) return false;
         
-        int former_state = what_is_current_state;
+        ResetAllStates();
+
         what_is_current_state = States::EXPLODE;
-        ResetAction(former_state, what_is_current_state);
 
         anim->SetAnimation("pingu_explode");
         anim->frame_counter = 0.0f;
@@ -717,12 +716,15 @@ public:
     std::function<bool()> item_build = [this](){
         if(!hit_floor || what_is_current_state == States::BUILD || what_is_current_state == States::EXPLODE) return false;
         
+        ResetAllStates();
+
         //Doesn't hurt to make sure the wait timer is stopped
         wait_timer.Stop();
+        steps = 0;
         
         int former_state = what_is_current_state;
         what_is_current_state = States::BUILD;
-        ResetAction(former_state, what_is_current_state);
+        ResetAllStates();
 
         Console::PrintLine("Pingu::item_build");
 
@@ -752,9 +754,9 @@ public:
     std::function<bool()> item_driller = [this](){
         if(!hit_floor && what_is_current_state == States::DRILLER) return false;
 
+        ResetAllStates();
         int former_state = what_is_current_state;
         what_is_current_state = States::DRILLER;
-        ResetAction(former_state, what_is_current_state);
 
         is_in_special_state = true;
         state = state_driller;
@@ -765,10 +767,10 @@ public:
 
     std::function<bool()> item_jump = [this](){
         if(!hit_floor || what_is_current_state == States::JUMP) return false;
+        ResetAllStates();
 
         int former_state = what_is_current_state;
         what_is_current_state = States::JUMP;
-        ResetAction(former_state,what_is_current_state);
 
         is_in_special_state = true;
         state = state_jump;
@@ -789,37 +791,45 @@ public:
 
     int current_item = 2;
 
+    void ActivateBlockerCollision(){
+        blocker_collision_position = local_position;
+        int width = 2;
+
+        auto dec = game->asset_manager.GetDecal(solid_layer);
+
+        for(int yy = 0; yy < 6; yy++){
+            for(int xx = 5; xx < 5+width; xx++){
+
+                Vector2f place_pos = local_position+Vector2f(xx,24.0f-yy);
+                
+                olc::Pixel p = dec->sprite->GetPixel(place_pos);
+                
+                //This is not {0,0,0,0} for some reason but instead {115,121,121,0}
+                
+                if(dec->sprite->GetPixel(place_pos).a == 0){
+                    dec->sprite->SetPixel(place_pos,olc::BLUE);
+                }
+                
+            }
+        }
+
+        dec->Update();
+    }
+
     //Resets from blocker state
-    void ResetBlocker(){
+    void RemoveBlockerCollision(Vector2f _position_for_blue_collision_pixles){
         int width = 2;
         for(int yy = 0; yy < 6; yy++){
             for(int xx = 5; xx < 5+width; xx++){
 
                 auto dec = level->asset_manager.GetDecal(solid_layer);
 
-                Vector2f place_pos = local_position+Vector2f(xx,24.0f-yy);
+                Vector2f place_pos = _position_for_blue_collision_pixles+Vector2f(xx,24.0f-yy);
                 if(dec->sprite->GetPixel(place_pos) == olc::BLUE) dec->sprite->SetPixel(place_pos,olc::Pixel(0,0,0,0));
                 dec->Update();
                 
             }
         }
-    }
-
-    //Runs whenever another action is forcibly activated via the UI, for example you use a builder on a blocker
-    void ResetAction(int _former_state, int _what_is_current_state){
-        
-        switch(_former_state){
-            case States::BLOCKER :{
-                
-                ResetBlocker();
-
-                if(_former_state == _what_is_current_state) item_walk();
-                Console::PrintLine("ResetAction - BLOCKER");
-                
-            }
-            break;
-        }
-
     }
 
     void OnSelectionIteration(){
@@ -899,7 +909,7 @@ public:
         //Runs the current state
         state();
         
-        bool is_already_overlapping_blue = IsOverlappingFeet(local_position,olc::BLUE);
+        //bool is_already_overlapping_blue = IsOverlappingFeet(local_position,olc::BLUE);
 
         //Attempt to create depth when pingus climb up semisolid and overlap pingu on lower level
         if(int(former_position.y) != int(local_position.y)) level->should_resort_after_z_index = true;
@@ -909,7 +919,15 @@ public:
         PinguCollision();
 
         //Checking against BLUE which means there's a blocker pingu in the way
-        if(IsOverlappingFeet(local_position,olc::BLUE) && !is_already_overlapping_blue){
+        //This part was changed in order to ensure pingu is never inside another blocker. Tried checking all blue collision beforehand with
+        //PinguSelectionManager but it isn't very functional somehow. What has been tried so far is to set is_already_overlapping_blue before
+        //MovingSolid AND pingu moves. This involves is_already_overlapping_blue a member variable of Pingu. Hence resolving is a sturdier solution.
+        if(IsOverlappingFeet(local_position,olc::BLUE) && what_is_current_state != States::BLOCKER /*&& !is_already_overlapping_blue*/){
+            while(IsOverlappingFeet(local_position,olc::BLUE) && !IsOverlappingSolid(local_position) && velocity.x != 0.0f){
+                local_position.x -= ufoMaths::Sign(velocity.x);
+                Console::PrintLine("While loop in PinguUpdate");
+            }
+            if(IsOverlappingSolid(local_position)) local_position.x += ufoMaths::Sign(velocity.x);
             face_direction *= -1.0f;
         }
 
@@ -1208,170 +1226,11 @@ public:
         return false;
     }
 
-    //Might be unnecessary
-    void PinguCollisionMovingSolid(Vector2f _velocity, MovingSolid* _moving_solid){
-        while(IsOverlappingSolid(local_position)){
-            Console::PrintLine("PinguCollision: Unconventional conditions were met, resolving upwards before resuming with collision procedure");
-            local_position.y -= 1.0f;
+    void OnMoved(MovingSolid* _moving_solid){
+        if(what_is_current_state == States::BLOCKER){
+            RemoveBlockerCollision(blocker_collision_position);
+            ActivateBlockerCollision();
         }
-
-        hit_floor_last_frame = hit_floor;
-
-        //Resetting all collision related booleans
-        hit_wall = false;
-        hit_slope = true;
-        hit_floor = false;
-        hit_ceiling = false;
-
-        //Currently unused
-        bool attempt_free_from_semisolid = false;
-
-        //Is the pingu already in semisolid?
-        //To elaborate: the reason this is done, is to avoid pingus walking up a right-facing semisolid slope when coming to the left.
-
-        /* This is ascii art of a pingu walking towards a semisolid slope from the opposite way of the way the pingu faces.
-             ______
-            /      _
-           /      <*|
-          /  <-- <|0|>
-    _____/________- -_______
-        
-        */
-
-        //When the pingu is very close to the slope, the following line of code detects if there is a piece of slope right above it's feet.
-        //That way, it determines if its under that slope, which is likely. This can lead to a few oddities, but this will only happen with
-        //very steep slopes.
-
-        is_already_in_semi_solid = (IsOverlappingFeet(local_position+Vector2f(0.0f, -1.0f), olc::RED)
-            || IsOverlappingFeet(local_position+Vector2f(0.0f, -2.0f), olc::RED));
-
-        //This is the only time the pingu moves in the x-axis
-        local_position.x += velocity.x * Engine::Get().GetDeltaTime();
-
-        Vector2f local_position_before_resolving_wall = local_position;
-
-        //Normal slope and walls
-        if(IsOverlappingSolid(local_position)){
-            bool slope_resolved = false;
-            Vector2f incrementing_position = local_position;
-
-            while(IsOverlappingSolid(incrementing_position)){
-                incrementing_position.x -= ufoMaths::Sign(velocity.x);
-            }
-            
-            while(!slope_resolved){
-
-                Vector2f position_before_slope_incrementation = incrementing_position;
-
-                while(IsOverlappingSolid(incrementing_position)){
-                    
-                    incrementing_position.y-=1.0f;
-
-                    if(std::abs(incrementing_position.y - position_before_slope_incrementation.y) > max_slope_height){
-                        
-                        hit_slope = false;
-                        hit_wall = true;
-                        incrementing_position = position_before_slope_incrementation;
-                        incrementing_position.x -= ufoMaths::Sign(velocity.x);
-                        slope_resolved = true;
-                        break;
-                        
-                    }
-                }
-
-                if(!hit_wall) incrementing_position.x += ufoMaths::Sign(velocity.x);
-
-                if(std::abs(local_position.x - incrementing_position.x) >= std::abs(velocity.x * Engine::Get().GetDeltaTime())){
-                    slope_resolved = true;
-                    
-                }
-            }
-            if(hit_slope){
-                local_position.y = incrementing_position.y;
-                
-            }
-            if(hit_wall){
-                
-                local_position = incrementing_position;
-                velocity.x = 0.0f;
-            }
-            
-        }
-        else{
-            hit_slope = false;
-        }
-
-        if(IsOverlappingSolid(local_position)) Console::Print("Is still overlapping after resolution\n");
-
-        //Semi solid slope
-
-        //bool hit_semisolid_slope = false;
-        
-        //third boolean could be a parameter for this collision function perhaps
-        if(IsOverlappingFeet(local_position, olc::RED) && (!is_already_in_semi_solid || what_is_current_state == States::BUILD || velocity.y > 0.0f /*|| hit_slope*/)){
-            //hit_semisolid_slope = true;
-            
-            bool slope_resolved = false;
-
-            Vector2f incrementing_position = local_position;
-
-            Vector2f original_position_before_slope_check = local_position;
-
-            while(IsOverlappingFeet(incrementing_position, olc::RED)){
-                    
-                incrementing_position.y-=1.0f;
-
-                if(IsOverlappingSolid(incrementing_position)){
-                    
-                    incrementing_position.y+=1.0f;
-                    
-                    face_direction *= -1.0f;
-                    break;
-                }
-
-            }
-            
-            local_position = incrementing_position;
-            velocity.y = 0.0f;      
-            
-        }
-
-        local_position.y += velocity.y * Engine::Get().GetDeltaTime();
-
-        if(IsOverlappingSolid(local_position)){
-            while(IsOverlappingSolid(local_position)){
-                local_position.y-=ufoMaths::Sign(velocity.y);
-            }
-            if(velocity.y > 0.0f) hit_floor = true;
-            if(velocity.y < 0.0f) hit_ceiling = true;
-            velocity.y = 0.0f;
-        }
-
-        if(IsOverlappingSolid(local_position+Vector2f(0.0f, 1.0f)) || IsOverlappingFeet(local_position+Vector2f(0.0f, 1.0f), olc::RED)){
-            hit_floor = true;
-        }
-
-        if(!hit_floor && hit_floor_last_frame && !hit_slope && snap_to_ground_enabled){
-
-            bool found_slope = true;
-            Vector2f temporary_position = local_position;
-
-            while(!IsOverlappingSolid(temporary_position) && !IsOverlapping(game, mask_decal, solid_layer, temporary_position, olc::RED)){
-                temporary_position.y += 1.0f;
-                if(std::abs(temporary_position.y - local_position.y) > max_slope_height*2.0f){
-                    
-                    found_slope = false;
-                    break;
-                }
-            }
-            if(found_slope){
-                hit_floor = true;
-                local_position.y = temporary_position.y-1.0f;
-                //velocity.y = 100.0f;
-            }
-            
-        }
-        
     }
 
 };

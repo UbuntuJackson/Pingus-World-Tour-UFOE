@@ -40,6 +40,12 @@ void ItemSelectMenu::OnStart(Level* _level){
     };
 
     item_blocker = [this](Pingu* _pingu){
+        
+        if(_pingu->what_is_current_state == Pingu::States::BLOCKER){
+            _pingu->item_walk();
+            return;
+        }
+
         if(number_of_blockers > 0){
             
             if(_pingu->item_block()) number_of_blockers--;

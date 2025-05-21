@@ -58,6 +58,7 @@ project.categories["moving_solids"] = [
     moving_solid,
     moving_solid,
     moving_solid,
+    moving_solid,
     moving_solid
 ]
 

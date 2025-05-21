@@ -20,6 +20,7 @@ class WorldMapLocation;
 class Pingu;
 class PaintableSurface;
 class MovingSolid;
+class BitMapCollisionBody;
 
 class PingusLevel : public Level{
 public:
