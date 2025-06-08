@@ -49,7 +49,7 @@ void ItemSelectMenu::OnStart(Level* _level){
         if(number_of_blockers > 0){
             
             if(_pingu->item_block()) number_of_blockers--;
-            buttons[selected_index]->text = "Blocker : "+std::to_string(number_of_blockers);
+            buttons[selected_index]->text = "   x"+std::to_string(number_of_blockers);
         }
     };
 
@@ -57,7 +57,7 @@ void ItemSelectMenu::OnStart(Level* _level){
         if(number_of_climbers > 0){
             
             if(_pingu->item_climber()) number_of_climbers--;
-            buttons[selected_index]->text = "Climber : "+std::to_string(number_of_climbers);
+            buttons[selected_index]->text = "   x"+std::to_string(number_of_climbers);
         }
     };
 
@@ -73,7 +73,7 @@ void ItemSelectMenu::OnStart(Level* _level){
         if(number_of_jumpers > 0){
             
             if(_pingu->item_jump()) number_of_jumpers--;
-            buttons[selected_index]->text = "Jumper : "+std::to_string(number_of_jumpers);
+            buttons[selected_index]->text = "    x"+std::to_string(number_of_jumpers);
         }
     };
 
@@ -114,11 +114,27 @@ void ItemSelectMenu::OnStart(Level* _level){
         items.push_back(item_parachute);
     }
     if(number_of_blockers > 0){
-        AddChild<Button>(Vector2f(0.0f, 0.0f), Vector2f(120.0f,20.0f), "Blocker : "+std::to_string(number_of_blockers));
+        Button* b = AddChild<Button>(Vector2f(0.0f, 0.0f), Vector2f(68.0f,20.0f), "   x"+std::to_string(number_of_blockers));
+        b->AddChild<WidgetSpriteReference>(
+            "blocker_icon",
+            Vector2f(0.0f,0.0f),
+            Vector2f(0.0f,0.0f),
+            Vector2f(24.0f,20.0f),
+            Vector2f(1.0f,1.0f),
+            0.0f
+        );
         items.push_back(item_blocker);
     }
     if(number_of_climbers > 0){
-        AddChild<Button>(Vector2f(0.0f, 0.0f), Vector2f(120.0f,20.0f), "Climber : "+std::to_string(number_of_climbers));
+        Button* b = AddChild<Button>(Vector2f(0.0f, 0.0f), Vector2f(68.0f,20.0f), "   x"+std::to_string(number_of_climbers));
+        b->AddChild<WidgetSpriteReference>(
+            "climber_icon",
+            Vector2f(0.0f,0.0f),
+            Vector2f(0.0f,0.0f),
+            Vector2f(24.0f,20.0f),
+            Vector2f(1.0f,1.0f),
+            0.0f
+        );
         items.push_back(item_climber);
     }
     if(number_of_drillers > 0){
@@ -134,9 +150,9 @@ void ItemSelectMenu::OnStart(Level* _level){
         items.push_back(item_driller);
     }
     if(number_of_jumpers > 0){
-        Button* b = AddChild<Button>(Vector2f(0.0f, 0.0f), Vector2f(68.0f,20.0f), "Jumper : "+std::to_string(number_of_jumpers));
+        Button* b = AddChild<Button>(Vector2f(0.0f, 0.0f), Vector2f(68.0f,20.0f), "    x"+std::to_string(number_of_jumpers));
         b->AddChild<WidgetSpriteReference>(
-            "driller_icon",
+            "jumper_icon",
             Vector2f(0.0f,0.0f),
             Vector2f(0.0f,0.0f),
             Vector2f(24.0f,20.0f),

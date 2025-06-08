@@ -60,6 +60,8 @@ public:
     Label* max_pingus_label = nullptr;
     WidgetSpriteReference* honey_coin_hud = nullptr;
 
+    bool should_update_level_decals = false;
+
     void OnResourceLoad();
 
     void OnLoadActors(JsonDictionary& _actor_json);

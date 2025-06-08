@@ -335,6 +335,9 @@ public:
                             
                         }
                     }
+
+                    //Requesting update to avoid potential stutter when pingu modifies terrain while fasting forward
+                    //Implying an increase in updates of decal per frame (x4)
                     v->Update();
                 }
                 
@@ -414,23 +417,27 @@ public:
         if(reached_location){
             
             build_timer.Start(200.0f);
+
+            level->should_update_level_decals = true;
+
+            olc::Decal* dec = level->asset_manager.GetDecal("solid");
+            olc::Decal* dec_mg = nullptr;
+            if(level->asset_manager.decals.count("mg")) dec_mg = level->asset_manager.GetDecal("mg");
+
             for(int yy = 0; yy < 2; yy++){
                 for(int xx = 6; xx < 6+(int)step_width*2; xx++){
                     
-                    auto dec = level->asset_manager.GetDecal("solid");
                     dec->sprite->SetPixel(build_location+Vector2f(xx+step_width*steps*face_direction,yy+24.0f-2.0f-steps*2),olc::Pixel(255,0,0,255));
-                    dec->Update();
-
-                    if(level->asset_manager.decals.count("mg")){
-                        auto dec_mg = level->asset_manager.GetDecal("mg");
+                    
+                    if(dec_mg){
                         dec_mg->sprite->SetPixel(build_location+Vector2f(xx+step_width*steps*face_direction,yy+24.0f-2.0f-steps*2),olc::Pixel(200,50,50,255));
-                        dec_mg->Update();
                     }
                     
                     //level->level_decals.at("mg")->sprite->SetPixel(local_position+Vector2f(xx,yy),olc::Pixel(255,0,0,255));
                     
                 }
             }
+
             steps++;
             
         }
@@ -813,7 +820,7 @@ public:
             }
         }
 
-        dec->Update();
+        level->should_update_level_decals = true;
     }
 
     //Resets from blocker state
@@ -826,38 +833,36 @@ public:
 
                 Vector2f place_pos = _position_for_blue_collision_pixles+Vector2f(xx,24.0f-yy);
                 if(dec->sprite->GetPixel(place_pos) == olc::BLUE) dec->sprite->SetPixel(place_pos,olc::Pixel(0,0,0,0));
-                dec->Update();
+                level->should_update_level_decals = true;
                 
             }
         }
     }
 
-    void OnSelectionIteration(){
-        bool should_set_pingu_selected = false;
+    bool OnSelectionIteration(){
         level->at_least_one_pingu_active = true;
 
         if(!level->pingu_selected_this_frame && RectangleVsPoint(ufo::Rectangle(local_position, Vector2f(12.0f,24.0f)),level->GetActiveCamera()->TransformScreenToWorld(Mouse::Get().GetPosition()))){
             anim->current_animation_state->tint = olc::GREEN;
-            should_set_pingu_selected = true;
+
+            if(Mouse::Get().GetLeftButton().is_pressed){
+ 
+                level->item_select_menu->items[level->item_select_menu->selected_index](this);
+    
+                return true;
+    
+            }
         }
         else{
             anim->current_animation_state->tint = olc::WHITE;
         }
         
-        if(!level->pingu_selected_this_frame && RectangleVsPoint(ufo::Rectangle(local_position, Vector2f(12.0f,24.0f)),level->GetActiveCamera()->TransformScreenToWorld(Mouse::Get().GetPosition())) && Mouse::Get().GetLeftButton().is_pressed){
-
-            if(level->item_select_menu != nullptr){
-                
-                level->item_select_menu->items[level->item_select_menu->selected_index](this);
-            
-            }
-
-        }
-
-        if(should_set_pingu_selected) level->pingu_selected_this_frame = true;
+        return false;
     }
 
     void PinguUpdate(){
+        //Can be uncommented for performance testing
+        //OnSelectionIteration();
 
         //Checking against antimatter pingus
         if(!is_anti_matter && what_is_current_state != States::EXPLODE){

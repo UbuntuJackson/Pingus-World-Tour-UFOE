@@ -99,21 +99,24 @@ void MovingSolid::OnUpdate(){
             bool pingu_was_moved = false;
             Vector2f pingu_former_position = pingu->local_position;
 
+            //If is standing on solid
             if(pingu->IsOverlappingMovingSolid(pingu->local_position + Vector2f(total_movement_x,0.0f) + Vector2f(0.0f,1.0f), olc::WHITE, this)
                 && !pingu->IsOverlappingMovingSolid(pingu->local_position, olc::WHITE, this)
             ){
                 pingu->local_position.x += total_movement_x;
+
+                //To avoid rounding errors the pingu is pushed one pixel further if still in solid.
                 if(pingu->IsOverlappingMovingSolid(pingu->local_position, olc::WHITE, this)){
-                    pingu->local_position.x -= ufoMaths::Sign(total_movement_x);
+                    pingu->local_position.x -= ufoMaths::PreciseSignFloat(total_movement_x);
                 }
                 pingu_was_moved = true;
             }
 
-            if(ufoMaths::Sign(total_movement_x) == 0.0f) continue;
+            if(ufoMaths::PreciseSignFloat(total_movement_x) == 0.0f) continue;
 
             //Pushes pingu if NOT on the slope
             while(pingu->IsOverlappingMovingSolid(pingu->local_position, olc::WHITE, this)){
-                pingu->local_position.x += ufoMaths::Sign(total_movement_x);
+                pingu->local_position.x += ufoMaths::PreciseSignFloat(total_movement_x);
                 Console::PrintLine("MovingSolid pingu->local_position.x", total_movement_x, ufoMaths::Sign(total_movement_x));
                 pingu_was_moved = true;
             }
@@ -121,7 +124,7 @@ void MovingSolid::OnUpdate(){
             //If the pingu collides with ordinary solids
             //This could be faulty. Resolving without pingu touching MovingSolid
             while(pingu->IsOverlapping(pingu->level, pingu->mask_decal, pingu->solid_layer, pingu->local_position, olc::WHITE)){
-                pingu->local_position.x -= ufoMaths::Sign(total_movement_x);
+                pingu->local_position.x -= ufoMaths::PreciseSignFloat(total_movement_x);
                 pingu_was_moved = true;
             }
             
@@ -149,29 +152,31 @@ void MovingSolid::OnUpdate(){
             bool pingu_was_moved = false;
             Vector2f pingu_former_position = pingu->local_position;
 
-            //should probably be 0.0f, total_movement_y
+            //If is standing on solid
             if(pingu->IsOverlappingMovingSolid(pingu->local_position + Vector2f(0.0f,total_movement_y) + Vector2f(0.0f,1.0f), olc::WHITE, this)
                 && !pingu->IsOverlappingMovingSolid(pingu->local_position, olc::WHITE, this)
             ){
                 pingu->local_position.y += total_movement_y;
+
+                //To avoid rounding errors the pingu is pushed one pixel further if still in solid.
                 if(pingu->IsOverlappingMovingSolid(pingu->local_position, olc::WHITE, this)){
-                    pingu->local_position.y -= ufoMaths::Sign(total_movement_y);
+                    pingu->local_position.y -= ufoMaths::PreciseSignFloat(total_movement_y);
                 }
             
                 pingu_was_moved = true;
             }
-            if(ufoMaths::Sign(total_movement_y) == 0.0f) continue;
+            if(ufoMaths::PreciseSignFloat(total_movement_y) == 0.0f) continue;
 
             //Pushes pingu if NOT on the slope
             while(pingu->IsOverlappingMovingSolid(pingu->local_position, olc::WHITE, this)){
-                pingu->local_position.y += ufoMaths::Sign(total_movement_y);
+                pingu->local_position.y += ufoMaths::PreciseSignFloat(total_movement_y);
                 Console::PrintLine("MovingSolid pingu->local_position.y", total_movement_y, ufoMaths::Sign(total_movement_y));
                 pingu_was_moved = true;
             }
 
             //This could be faulty. Resolving without pingu touching MovingSolid
             while(pingu->IsOverlapping(pingu->level, pingu->mask_decal, pingu->solid_layer, pingu->local_position, olc::WHITE)){
-                pingu->local_position.y -= ufoMaths::Sign(total_movement_y);
+                pingu->local_position.y -= ufoMaths::PreciseSignFloat(total_movement_y);
                 pingu_was_moved = true;
             }
         

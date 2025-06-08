@@ -23,6 +23,7 @@
 #include "generated.h"
 #include "result_screen.h"
 #include "pingu_selection_manager.h"
+#include "level_decal_manager.h"
 
 void PingusLevel::OnResourceLoad(){
     Engine::Get().wave_engine.StopAll();
@@ -59,6 +60,9 @@ void PingusLevel::OnResourceLoad(){
     AssetManager::Get().LoadDecal("../res/assets/bomber_icon.png","bomber_icon");
     AssetManager::Get().LoadDecal("../res/assets/parachute_icon.png","parachute_icon");
     AssetManager::Get().LoadDecal("../res/assets/driller_icon.png","driller_icon");
+    AssetManager::Get().LoadDecal("../res/assets/jumper_icon.png","jumper_icon");
+    AssetManager::Get().LoadDecal("../res/assets/blocker_icon.png","blocker_icon");
+    AssetManager::Get().LoadDecal("../res/assets/climber_icon.png","climber_icon");
     AssetManager::Get().LoadDecal("../res/assets/anti_matter_spawner.png","anti_matter_spawner");
     
     Engine::Get().pixel_game_engine.LoadFontSprite("../res/assets/pwt_grey_font.png");
@@ -83,6 +87,7 @@ void PingusLevel::OnLoad(JsonDictionary& _j){
     Console::Out("Level size", level_size);
 
     NewActor<PinguSelectionManager>();
+    NewActor<LevelDecalManager>();
 
     end_level_button = NewActor<Button>(Vector2f(180.0f,480.0f-25.0f), Vector2f(90.0f,32.0f), "Abort mission");
 

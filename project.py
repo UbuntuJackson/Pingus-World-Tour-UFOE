@@ -66,6 +66,7 @@ project.categories["moving_solids"] = [
 #Source-files that aren't Actors.
 project.source_files.append("game.cpp")
 project.source_files.append("src/level_select_menu.cpp")
+project.source_files.append("src/test/quadtree_rectangle.cpp")
 project.source_files.append("src/pingus_level.cpp")
 project.source_files.append("src/new_game_menu.cpp")
 project.source_files.append("src/load_game_menu.cpp")

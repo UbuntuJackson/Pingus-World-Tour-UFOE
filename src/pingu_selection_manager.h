@@ -20,9 +20,13 @@ public:
     }
 
     void OnUpdate(){
-        //Console::PrintLine("PinguSelectionManager");
+        
+        //Can be uncommented for performance testing
+        //return;
+        if(level->item_select_menu == nullptr) QueueForPurge();
+        
         for(int i = level->pingu_handles_all_pingus.size()-1; i >= 0; i--){
-            level->pingu_handles_all_pingus[i]->OnSelectionIteration();
+            if(level->pingu_handles_all_pingus[i]->OnSelectionIteration()) break;
         }
 
         //An attempt to do all the is_already_overlapping_blue checks beforehand so that when a pingu moves or is moved by a MovingSolid
