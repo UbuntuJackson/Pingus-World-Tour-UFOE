@@ -1032,18 +1032,25 @@ public:
             bool slope_resolved = false;
             Vector2f incrementing_position = local_position;
 
+            //Move back until one pixel before where Pingu collided
             while(IsOverlappingSolid(incrementing_position)){
                 incrementing_position.x -= ufoMaths::Sign(velocity.x);
             }
             
             while(!slope_resolved){
 
+                //It is important to sore the position before the check that determines if the pixels in front of tux represent
+                // a slope or a wall.
                 Vector2f position_before_slope_incrementation = incrementing_position;
 
+                //First the y position needs to be incremented repeatedly to measure how
+                // many pixels a slope or potential wall is. It cannot exceed max_slope_height or
+                // else it will be classified as a wall
                 while(IsOverlappingSolid(incrementing_position)){
                     
                     incrementing_position.y-=1.0f;
 
+                    //If this if statement is true, then it's a wall.
                     if(std::abs(incrementing_position.y - position_before_slope_incrementation.y) > max_slope_height){
                         
                         hit_slope = false;
@@ -1063,6 +1070,8 @@ public:
                     
                 }
             }
+
+            //No change in velocity.x if it's a slope, since you want to be able to walk up it properly
             if(hit_slope){
                 local_position.y = incrementing_position.y;
                 
@@ -1113,21 +1122,32 @@ public:
             
         }
 
+        //The only modification of local_position.y internally. External modification from MovingSolid is still possible.
         local_position.y += velocity.y * Engine::Get().GetDeltaTime();
 
+        //Collision-resolution in y-axis should there have been an overlap since the last movement
         if(IsOverlappingSolid(local_position)){
+
+            //Move the pingu back until not colliding.
             while(IsOverlappingSolid(local_position)){
                 local_position.y-=ufoMaths::Sign(velocity.y);
             }
+
+            //Setting hit_floor like this might not be necessary
             if(velocity.y > 0.0f) hit_floor = true;
+
+            //This sort of ceiling detection might be unreliable since Pingu does not necessarily
+            // collide each frame
             if(velocity.y < 0.0f) hit_ceiling = true;
             velocity.y = 0.0f;
         }
 
+        //This should work each frame but somehow doesn't work on lower framerates
         if(IsOverlappingSolid(local_position+Vector2f(0.0f, 1.0f)) || IsOverlappingFeet(local_position+Vector2f(0.0f, 1.0f), olc::RED)){
             hit_floor = true;
         }
 
+        //This is basically the snap-to-ground functionality
         if(!hit_floor && hit_floor_last_frame && !hit_slope && snap_to_ground_enabled){
 
             bool found_slope = true;

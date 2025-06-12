@@ -452,6 +452,11 @@
                          "name":"unlocked",
                          "type":"bool",
                          "value":false
+                        }, 
+                        {
+                         "name":"unlocks_other_level",
+                         "type":"string",
+                         "value":"..\/res\/map\/clownshow\/template_level.json"
                         }],
                  "rotation":0,
                  "type":"",
@@ -459,6 +464,34 @@
                  "width":32,
                  "x":606.666666666667,
                  "y":172.333333333333
+                }, 
+                {
+                 "gid":15,
+                 "height":32,
+                 "id":62,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"description",
+                         "type":"string",
+                         "value":"In the Olympics the pingus did a lot of acrobatics already but please bear with me, there's more to do with your newly acquired skills. In this adventure you need to well... go ahead and see for yourself."
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"Clown Chaos"
+                        }, 
+                        {
+                         "name":"path",
+                         "type":"string",
+                         "value":"..\/res\/map\/clownshow\/template_level.json"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":351,
+                 "y":238
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -467,7 +500,7 @@
          "y":0
         }],
  "nextlayerid":9,
- "nextobjectid":62,
+ "nextobjectid":63,
  "orientation":"orthogonal",
  "properties":[
         {
