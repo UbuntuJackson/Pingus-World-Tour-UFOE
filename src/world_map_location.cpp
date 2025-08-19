@@ -38,20 +38,26 @@ void WorldMapLocation::OnStart(Level* _level){
             switch(level_data.AsDictionary().Get("rank").AsInt()){
                 case 0:
                     best_rank = "S";
+                    rank_number = 3;
                     break;
                 case 1:
                     best_rank = "A";
+                    rank_number = 2;
                     break;
                 case 2:
                     best_rank = "B";
+                    rank_number = 1;
                     break;
                 case 3:
                     best_rank = "L";
+                    rank_number = 0;
                     break;
             }
 
             most_rescued_pingus = level_data.AsDictionary().Get("most_rescued_pingus").AsInt();
         }
+
+        spr->current_frame_index = rank_number;
 
     }
 
@@ -110,16 +116,21 @@ void WorldMapLocation::OnDraw(Camera* _camera){
 
         for(int i = 0; i < (int)distance; i++){
             
-            if( (i/20) % 2 ){
+            if(!((i/20) % 2) ){
                 
                 Vector2f p0 = local_position + (float)i * (other_location->GetGlobalPosition() - GetGlobalPosition()).norm();
                 Vector2f p1 = local_position + ((float)i+1) * (other_location->GetGlobalPosition() - GetGlobalPosition()).norm();
+
+                float angle = std::atan2(p1.y - p0.y, p1.x - p0.x);
 
                 Vector2f offset = Vector2f(16.0f,-16.0f);
 
                 //Console::PrintLine("Line:", _camera->Transform(p0 + offset), _camera->Transform(p1 + offset));
 
-                if(other_location->unlocked) Graphics::Get().DrawLine( _camera->Transform(p0 + offset), _camera->Transform(p1 + offset), Graphics::RED);
+                if(other_location->unlocked){
+                    Graphics::Get().DrawLine( _camera->Transform(p0 + offset), _camera->Transform(p1 + offset), Graphics::RED);
+                    Graphics::Get().DrawFrame(AssetManager::Get(), "dash", _camera->Transform(p0 + offset), Vector2f(16.0f, 16.0f), Vector2f(32.0f, 32.0f), Vector2f(1.0f, 1.0f), 0, angle, olc::WHITE);
+                }
             }
         }
         //Graphics::Get().DrawLine(GetGlobalPosition(), other_location->GetGlobalPosition(),Graphics::RED);
@@ -129,7 +140,7 @@ void WorldMapLocation::OnDraw(Camera* _camera){
         
     }
     else{
-        spr->tint = olc::DARK_RED;
+        spr->tint = olc::GREY;
     }
 }
 

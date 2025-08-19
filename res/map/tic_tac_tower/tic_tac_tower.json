@@ -67,6 +67,8 @@
          "class":"SpriteReference",
          "id":7,
          "image":"bg.png",
+         "imageheight":1000,
+         "imagewidth":688,
          "name":"bg",
          "opacity":1,
          "type":"imagelayer",
@@ -78,6 +80,8 @@
          "class":"SpriteReference",
          "id":8,
          "image":"mg.png",
+         "imageheight":1000,
+         "imagewidth":688,
          "name":"mg",
          "opacity":1,
          "type":"imagelayer",
@@ -89,6 +93,8 @@
          "class":"SpriteReference",
          "id":6,
          "image":"solid.png",
+         "imageheight":1000,
+         "imagewidth":688,
          "name":"solid",
          "opacity":1,
          "type":"imagelayer",
@@ -128,7 +134,7 @@
                         {
                          "name":"maximum_rescuable_pingus",
                          "type":"int",
-                         "value":20
+                         "value":19
                         }, 
                         {
                          "name":"number_of_pingus",
@@ -231,7 +237,7 @@
          "value":"..\/res\/map\/tic_tac_tower"
         }],
  "renderorder":"right-down",
- "tiledversion":"1.11.0",
+ "tiledversion":"1.11.2",
  "tileheight":8,
  "tilesets":[
         {
@@ -251,12 +257,12 @@
          "columns":3,
          "firstgid":5,
          "image":"..\/..\/assets\/pingus_actor_sheet.png",
-         "imageheight":128,
+         "imageheight":192,
          "imagewidth":96,
          "margin":0,
          "name":"pingus_actor_sheet",
          "spacing":0,
-         "tilecount":12,
+         "tilecount":18,
          "tileheight":32,
          "tilewidth":32
         }],

@@ -64,6 +64,7 @@ void PingusLevel::OnResourceLoad(){
     AssetManager::Get().LoadDecal("../res/assets/blocker_icon.png","blocker_icon");
     AssetManager::Get().LoadDecal("../res/assets/climber_icon.png","climber_icon");
     AssetManager::Get().LoadDecal("../res/assets/anti_matter_spawner.png","anti_matter_spawner");
+    AssetManager::Get().LoadDecal("../res/assets/dash.png", "dash");
     
     Engine::Get().pixel_game_engine.LoadFontSprite("../res/assets/pwt_grey_font.png");
 
@@ -142,18 +143,11 @@ void PingusLevel::OnUpdate(){
     Level::OnUpdate();
     pingu_selected_this_frame = false;
 
-    if(paused){
-        if(pause_button->IsReleased()){
-            paused = false;
-        }
+    if((end_level_button->IsReleased() || SingleKeyboard::Get().GetKey(olc::ESCAPE).is_pressed) && !is_menu){
+        NewActor<ResultScreen>(Vector2f(30.0f,30.0f));
+        level_finished = true;
+        paused = true;
 
-        if(end_level_button->IsReleased()){
-            NewActor<ResultScreen>(Vector2f(30.0f,30.0f));
-            level_finished = true;
-            paused = true;
-        }
-        
-        return;
     }
 
     if(item_select_menu != nullptr){
@@ -163,6 +157,14 @@ void PingusLevel::OnUpdate(){
             Mouse::Get().GetScrollDirection() < 0 && !SingleKeyboard::Get().GetKey(olc::SHIFT).is_held,
             false
         );
+    }
+
+    if(paused){
+        if(pause_button->IsReleased()){
+            paused = false;
+        }
+        
+        return;
     }
 
     if(is_menu){
@@ -193,11 +195,7 @@ void PingusLevel::OnUpdate(){
 
     if(!is_menu){
         end_level_button->visible = true;
-        if(end_level_button->IsReleased()){
-            NewActor<ResultScreen>(Vector2f(30.0f,30.0f));
-            level_finished = true;
-            paused = true;
-        }
+        
         fast_forward_button->visible = true;
         fast_forward = false;
         if(fast_forward_button->IsHeld() || SingleKeyboard::Get().GetKey(olc::SPACE).is_held){
@@ -221,11 +219,6 @@ void PingusLevel::OnUpdate(){
     all_pingus_released = released_pingus >= total_number_of_pingus;
 
     at_least_one_pingu_active = false;
-
-    if(SingleKeyboard::Get().GetKey(olc::ESCAPE).is_pressed){
-        NewActor<ResultScreen>(Vector2f(30.0f,30.0f));
-        paused = true;
-    }
 
     if(Mouse::Get().GetLeftButton().is_pressed){
 

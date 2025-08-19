@@ -946,6 +946,7 @@ public:
     void OnPaused(){
         
         build_timer.Pause();
+        wait_timer.Pause();
         fall_timer.Pause();
         
     }

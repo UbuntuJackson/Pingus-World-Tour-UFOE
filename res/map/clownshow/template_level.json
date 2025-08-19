@@ -91,7 +91,7 @@
          "id":6,
          "image":"solid.png",
          "imageheight":480,
-         "imagewidth":680,
+         "imagewidth":1060,
          "name":"solid",
          "opacity":1,
          "type":"imagelayer",
@@ -146,12 +146,17 @@
                         {
                          "name":"blocker",
                          "type":"int",
-                         "value":100
+                         "value":22
                         }, 
                         {
                          "name":"jumper",
                          "type":"int",
-                         "value":100
+                         "value":22
+                        }, 
+                        {
+                         "name":"parachute",
+                         "type":"int",
+                         "value":1
                         }],
                  "rotation":0,
                  "type":"",
@@ -169,19 +174,19 @@
                         {
                          "name":"maximum_rescuable_pingus",
                          "type":"int",
-                         "value":20
+                         "value":6
                         }, 
                         {
                          "name":"number_of_pingus",
                          "type":"int",
-                         "value":10
+                         "value":3
                         }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":1.33333333333337,
-                 "x":670.148684697315,
-                 "y":183.801331853496
+                 "width":21.3333333333333,
+                 "x":1009.64868469732,
+                 "y":182.301331853496
                 }, 
                 {
                  "gid":8,
@@ -192,19 +197,19 @@
                         {
                          "name":"interval_milliseconds",
                          "type":"float",
-                         "value":1000
+                         "value":2500
                         }, 
                         {
                          "name":"number_of_pingus",
                          "type":"int",
-                         "value":100
+                         "value":6
                         }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":49.9152014331052,
-                 "y":191.811788071733
+                 "x":67.4152014331052,
+                 "y":224.811788071733
                 }, 
                 {
                  "gid":5,
@@ -215,26 +220,41 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":321.700294020289,
-                 "y":388.165478902584
+                 "x":477.200294020289,
+                 "y":147.165478902584
                 }, 
                 {
-                 "gid":28,
+                 "gid":26,
                  "height":100,
-                 "id":40,
+                 "id":41,
                  "name":"",
                  "properties":[
+                        {
+                         "name":"angle_increment",
+                         "type":"float",
+                         "value":1.2
+                        }, 
                         {
                          "name":"movement_mode",
                          "type":"int",
                          "value":2
+                        }, 
+                        {
+                         "name":"radius_x",
+                         "type":"float",
+                         "value":50
+                        }, 
+                        {
+                         "name":"radius_y",
+                         "type":"float",
+                         "value":50
                         }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":100,
-                 "x":297,
-                 "y":197
+                 "x":626.5,
+                 "y":177.5
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -243,7 +263,7 @@
          "y":0
         }],
  "nextlayerid":9,
- "nextobjectid":41,
+ "nextobjectid":42,
  "orientation":"orthogonal",
  "properties":[
         {

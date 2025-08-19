@@ -1,7 +1,7 @@
 {
 	"cleared_levels":	{
 		"../res/map/a_short_visit_at_cern/a_short_visit_at_cern.json":	{
-			"most_rescued_pingus":	33,
+			"most_rescued_pingus":	38,
 			"rank":	1
 		},
 		"../res/map/bomber_test_level/bomber_test_level.json":	{
@@ -12,8 +12,20 @@
 			"most_rescued_pingus":	12,
 			"rank":	1
 		},
+		"../res/map/clownshow/template_level.json":	{
+			"most_rescued_pingus":	6,
+			"rank":	2
+		},
 		"../res/map/digging_test_level/digging_test_level.json":	{
 			"most_rescued_pingus":	20,
+			"rank":	0
+		},
+		"../res/map/olympics/olympics.json":	{
+			"most_rescued_pingus":	8,
+			"rank":	2
+		},
+		"../res/map/parachute_test_level/parachute_test_level.json":	{
+			"most_rescued_pingus":	0,
 			"rank":	1
 		},
 		"../res/map/tic_tac_tower/tic_tac_tower.json":	{
@@ -21,11 +33,15 @@
 			"rank":	1
 		}
 	},
-	"last_played_level":	"../res/map/a_short_visit_at_cern/a_short_visit_at_cern.json",
+	"last_played_level":	"../res/map/clownshow/template_level.json",
 	"unlocked_levels":	{
 		"../res/map/a_short_visit_at_cern/a_short_visit_at_cern.json":	1,
 		"../res/map/bomber_test_level/bomber_test_level.json":	1,
+		"../res/map/clownshow/template_level.json":	1,
 		"../res/map/digging_test_level/digging_test_level.json":	1,
-		"../res/map/tic_tac_tower/tic_tac_tower.json":	1
+		"../res/map/olympics/olympics.json":	1,
+		"../res/map/parachute_test_level/parachute_test_level.json":	1,
+		"../res/map/tic_tac_tower/tic_tac_tower.json":	1,
+		"?":	1
 	}
 }

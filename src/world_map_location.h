@@ -40,6 +40,7 @@ public:
     std::string description = "";
     Label* description_label = nullptr;
 
+    int rank_number = 0;
     std::string best_rank = "L";
     int most_rescued_pingus = 0;
 

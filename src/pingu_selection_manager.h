@@ -19,6 +19,24 @@ public:
         SetZIndex(-1);
     }
 
+    void OnPaused(){
+        
+        //Can be uncommented for performance testing
+        //return;
+        if(level->item_select_menu == nullptr) QueueForPurge();
+        
+        for(int i = level->pingu_handles_all_pingus.size()-1; i >= 0; i--){
+            if(level->pingu_handles_all_pingus[i]->OnSelectionIteration()) break;
+        }
+
+        //An attempt to do all the is_already_overlapping_blue checks beforehand so that when a pingu moves or is moved by a MovingSolid
+        //it is already checked if it was in a blue collision zone before changing position. It did not work out for unknown reasons.
+        /*for(int i = level->pingu_handles_all_pingus.size()-1; i >= 0; i--){
+            Pingu* pingu = level->pingu_handles_all_pingus[i];
+            pingu->is_already_overlapping_blue = pingu->is_already_overlapping_blue = pingu->IsOverlappingFeet(pingu->local_position,olc::BLUE);
+        }*/
+    }
+
     void OnUpdate(){
         
         //Can be uncommented for performance testing

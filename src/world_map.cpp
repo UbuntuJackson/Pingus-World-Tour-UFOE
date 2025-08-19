@@ -95,7 +95,7 @@ void WorldMap::OnUpdate(){
     }
     else{
 
-        Console::PrintLine("Backdrop location:", backdrop->local_position);
+        
         backdrop->scale.x = -1.0f;
         backdrop_velocity += backdrop_acceleration * Engine::Get().GetDeltaTime();
 
