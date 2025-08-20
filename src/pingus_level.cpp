@@ -65,6 +65,7 @@ void PingusLevel::OnResourceLoad(){
     AssetManager::Get().LoadDecal("../res/assets/climber_icon.png","climber_icon");
     AssetManager::Get().LoadDecal("../res/assets/anti_matter_spawner.png","anti_matter_spawner");
     AssetManager::Get().LoadDecal("../res/assets/dash.png", "dash");
+    AssetManager::Get().LoadDecal("../res/assets/locationpinbg.png", "locationpinbg");
     
     Engine::Get().pixel_game_engine.LoadFontSprite("../res/assets/pwt_grey_font.png");
 

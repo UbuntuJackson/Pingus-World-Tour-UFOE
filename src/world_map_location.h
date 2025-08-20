@@ -14,12 +14,17 @@ class Label;
 class WorldMapLocation : public Actor{
 public:
     bool selected = false;
+    bool was_selected = false;
+    bool selected_to_left = false;
 
     PingusLevel* level = nullptr;
 
     SpriteReference* spr = nullptr;
+    SpriteReference* spr_bg = nullptr;
     LevelWidgetSpriteReference* preview_image = nullptr;
     float f_tint = 0.0f;
+
+    Vector2f spr_original_position;
 
     ///@export;
     bool unlocked = false;

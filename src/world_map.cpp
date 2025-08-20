@@ -57,7 +57,8 @@ void WorldMap::OnStart(Level* _level){
 
 void WorldMap::OnUpdate(){
 
-    bool level_was_selected = false;
+    bool level_is_selected = false;
+    float screen_width_half = 340.0f;
 
     if(back_to_main_menu->IsReleased()){
         Engine::Get().GoToLevel(std::make_unique<PingusLevel>(), "../res/map/title_screen/title_screen.json");
@@ -67,18 +68,21 @@ void WorldMap::OnUpdate(){
 
     for(const auto& location : level->world_map_location_handles){
         if(location->selected && location->unlocked){
-            level_was_selected = true;
+            
+            level_is_selected = true;
+            if(!level_was_selected){
+                selected_to_left = Mouse::Get().GetPosition().x < screen_width_half;
+            }
+
             //preview_image->key = location->preview;
         }
     }
 
-    float screen_width_half = 340.0f;
-
-    if(Mouse::Get().GetPosition().x < screen_width_half){
+    if(selected_to_left){
         backdrop_velocity += backdrop_acceleration * Engine::Get().GetDeltaTime();
         backdrop->scale.x = 1.0f;
 
-        if(level_was_selected){
+        if(level_is_selected){
             if(backdrop->local_position.x > (0.0f+backdrop_velocity * Engine::Get().GetDeltaTime())) backdrop->local_position.x -= backdrop_velocity * Engine::Get().GetDeltaTime();
             else{
                 backdrop->local_position.x = 0.0f;
@@ -99,7 +103,7 @@ void WorldMap::OnUpdate(){
         backdrop->scale.x = -1.0f;
         backdrop_velocity += backdrop_acceleration * Engine::Get().GetDeltaTime();
 
-        if(level_was_selected){
+        if(level_is_selected){
             if(backdrop->local_position.x < (340.0f+screen_width_half-backdrop_velocity * Engine::Get().GetDeltaTime())) backdrop->local_position.x += backdrop_velocity * Engine::Get().GetDeltaTime();
             else{
                 backdrop->local_position.x = 340.0f+screen_width_half;
@@ -114,6 +118,8 @@ void WorldMap::OnUpdate(){
             }
         }
     }
+
+    level_was_selected = level_is_selected;
 }
 
 void WorldMap::OnWidgetDraw(){

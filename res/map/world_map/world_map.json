@@ -289,6 +289,11 @@
                          "value":"..\/res\/map\/tic_tac_tower\/tic_tac_tower.json"
                         }, 
                         {
+                         "name":"preview",
+                         "type":"string",
+                         "value":"..\/res\/assets\/tower_preview.png"
+                        }, 
+                        {
                          "name":"unlocks_other_level",
                          "type":"string",
                          "value":"..\/res\/map\/a_short_visit_at_cern\/a_short_visit_at_cern.json"
@@ -409,6 +414,11 @@
                          "name":"path",
                          "type":"string",
                          "value":"..\/res\/map\/a_short_visit_at_cern\/a_short_visit_at_cern.json"
+                        }, 
+                        {
+                         "name":"preview",
+                         "type":"string",
+                         "value":"..\/res\/assets\/cern_preview.png"
                         }, 
                         {
                          "name":"unlocked",

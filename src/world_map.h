@@ -16,6 +16,10 @@ public:
 
     int currently_selected_location = 0;
 
+    bool selected_to_left = false;
+
+    bool level_was_selected = false;
+
     std::string last_played_level = "?";
     int last_played_level_rank = 3;
 

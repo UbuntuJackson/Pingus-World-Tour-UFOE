@@ -33,16 +33,41 @@ void WorldMapCursor::OnUpdate(){
 
     spr->local_position = Vector2f(spr->scale.x,1.0f) * 3.0f * std::sin(Engine::Get().GetTime()*1.5f);
 
+    std::vector<WorldMapLocation*> hovered_location_handles;
+
+    for(const auto& location : level->world_map_location_handles){
+        location->selected = false;
+    }
+
     for(const auto& location : level->world_map_location_handles){
         if(ufoMaths::Distance2(level->GetActiveCamera()->TransformScreenToWorld(GetGlobalPosition()),location->GetGlobalPosition() + Vector2f(16.0f,-16.0f)) < 28.0f){
-            location->selected = true;
+            hovered_location_handles.push_back(location);
             if(location->level_path != "" && Mouse::Get().GetLeftButton().is_pressed && location->unlocked){
                 //Would be nice to have a way to error handle should the level path be faulty, instead of downright crashing.
                 Engine::Get().GoToLevel(std::make_unique<PingusLevel>(), location->level_path);
             }
         }
-        else{
-            location->selected = false;
-        }
     }
+
+    if(hovered_location_handles.size() == 1) hovered_location_handles[0]->selected = true;
+    else if(hovered_location_handles.size() > 1){
+        
+        std::sort(
+            hovered_location_handles.begin(),
+            hovered_location_handles.end(),
+            [&](WorldMapLocation* _a, WorldMapLocation* _b){
+                return ufoMaths::Distance2(level->GetActiveCamera()->TransformScreenToWorld(GetGlobalPosition()),_a->GetGlobalPosition()+Vector2f(16.0f,-16.0f)) <
+                    ufoMaths::Distance2(level->GetActiveCamera()->TransformScreenToWorld(GetGlobalPosition()),_b->GetGlobalPosition()+Vector2f(16.0f,-16.0f));
+            });
+        
+        hovered_location_handles[0]->selected = true;
+    }
+
+    if(hovered_location_handles.size() > 0){
+        if(!hovered_location_handles[0]->was_selected){
+            float screen_width_half = 340.0f;
+            hovered_location_handles[0]->selected_to_left = Mouse::Get().GetPosition().x > screen_width_half;
+        } 
+    }
+
 }

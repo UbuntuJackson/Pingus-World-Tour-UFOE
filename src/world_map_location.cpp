@@ -15,6 +15,15 @@
 #include "pingus_level.h"
 
 void WorldMapLocation::OnLevelEnter(Level* _level){
+    spr_bg = AddChild<SpriteReference>(
+        "locationpinbg",
+        Vector2f(-1.0f,-34.0f),
+        Vector2f(0.0f,0.0f),
+        Vector2f(34.0f,34.0f),
+        Vector2f(1.0f,1.0f),
+        0.0f
+    );
+
     spr = AddChild<SpriteReference>(
         "red_x",
         Vector2f(0.0f,-32.0f),
@@ -23,6 +32,7 @@ void WorldMapLocation::OnLevelEnter(Level* _level){
         Vector2f(1.0f,1.0f),
         0.0f
     );
+    
     level = dynamic_cast<PingusLevel*>(_level);
     level->world_map_location_handles.push_back(this);
 }
@@ -64,6 +74,7 @@ void WorldMapLocation::OnStart(Level* _level){
     Console::PrintLine("Location",_level->path,unlocked);
 
     spr->visible = unlocked;
+    spr_bg->visible = spr->visible;
 
     for(const auto& location : level->world_map_location_handles){
         if(location->level_path == unlocks_other_level){
@@ -75,13 +86,17 @@ void WorldMapLocation::OnStart(Level* _level){
     ColourRectangleTheme* label_theme = dynamic_cast<ColourRectangleTheme*>(description_label->theme.get());
     label_theme->colour = Colour(0,0,0,0);
     description_label->text_wrapping_mode = Widget::TextWrappingModes::WORD_MEETS_BORDER;
+
+    spr_original_position = spr->local_position;
 }
 
 void WorldMapLocation::OnUpdate(){
+    spr->local_position = spr_original_position;
     if(selected && unlocked){
+        spr->local_position = spr_original_position - Vector2f(0.0f, 2.0f);
         float text_x = 0.0f;
         float screen_width_half = 340.0f;
-        if(Mouse::Get().GetPosition().x > screen_width_half) text_x = 20.0f;
+        if(selected_to_left) text_x = 20.0f;
         else text_x = 460.0f;
 
         f_tint += 600.0f* Engine::Get().GetDeltaTime();
@@ -108,18 +123,24 @@ void WorldMapLocation::OnUpdate(){
         preview_image->QueueForPurge();
         preview_image = nullptr;
     }
+    spr_bg->local_position = spr->local_position + Vector2f(-1.0f,-2.0f);
+
+    was_selected = selected;
 }
 
 void WorldMapLocation::OnDraw(Camera* _camera){
     if(other_location != nullptr){
         float distance = ufoMaths::Distance2(GetGlobalPosition(), other_location->GetGlobalPosition());
 
-        for(int i = 0; i < (int)distance; i++){
+        if(distance < 30.0f) distance = 30.0f;
+
+        for(int i = 20; i < (int)distance - 40; i++){
             
-            if(!((i/20) % 2) ){
+            if(i % 30 == 0) {
+                Console::PrintLine("WorldMapLocation", i);
                 
-                Vector2f p0 = local_position + (float)i * (other_location->GetGlobalPosition() - GetGlobalPosition()).norm();
-                Vector2f p1 = local_position + ((float)i+1) * (other_location->GetGlobalPosition() - GetGlobalPosition()).norm();
+                Vector2f p0 = GetGlobalPosition() + (float)i * (other_location->GetGlobalPosition() - GetGlobalPosition()).norm();
+                Vector2f p1 = GetGlobalPosition() + ((float)i+1) * (other_location->GetGlobalPosition() - GetGlobalPosition()).norm();
 
                 float angle = std::atan2(p1.y - p0.y, p1.x - p0.x);
 
@@ -129,7 +150,7 @@ void WorldMapLocation::OnDraw(Camera* _camera){
 
                 if(other_location->unlocked){
                     Graphics::Get().DrawLine( _camera->Transform(p0 + offset), _camera->Transform(p1 + offset), Graphics::RED);
-                    Graphics::Get().DrawFrame(AssetManager::Get(), "dash", _camera->Transform(p0 + offset), Vector2f(16.0f, 16.0f), Vector2f(32.0f, 32.0f), Vector2f(1.0f, 1.0f), 0, angle, olc::WHITE);
+                    Graphics::Get().DrawFrame(AssetManager::Get(), "dash", _camera->Transform(p0+offset), Vector2f(16.0f, 16.0f), Vector2f(32.0f, 32.0f), Vector2f(1.0f, 1.0f), 0, angle, olc::WHITE);
                 }
             }
         }
@@ -142,6 +163,7 @@ void WorldMapLocation::OnDraw(Camera* _camera){
     else{
         spr->tint = olc::GREY;
     }
+    spr_bg->tint = spr->tint;
 }
 
 void WorldMapLocation::OnWidgetDraw(){
@@ -149,7 +171,7 @@ void WorldMapLocation::OnWidgetDraw(){
     if(selected && unlocked){
         float screen_width_half = 340.0f;
         float text_x = 0.0f;
-        if(Mouse::Get().GetPosition().x > screen_width_half) text_x = 20.0f;
+        if(selected_to_left) text_x = 20.0f;
         else text_x = 460.0f;
 
         Graphics::Get().DrawString(Vector2f(text_x,240.0f), name_of_location, Graphics::WHITE ,{1.0f,1.0f});
