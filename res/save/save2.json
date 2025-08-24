@@ -1,7 +1,7 @@
 {
 	"cleared_levels":	{
 		"../res/map/a_short_visit_at_cern/a_short_visit_at_cern.json":	{
-			"most_rescued_pingus":	38,
+			"most_rescued_pingus":	0,
 			"rank":	1
 		},
 		"../res/map/bomber_test_level/bomber_test_level.json":	{
@@ -33,7 +33,7 @@
 			"rank":	1
 		}
 	},
-	"last_played_level":	"../res/map/olympics/olympics.json",
+	"last_played_level":	"../res/map/a_short_visit_at_cern/a_short_visit_at_cern.json",
 	"unlocked_levels":	{
 		"../res/map/a_short_visit_at_cern/a_short_visit_at_cern.json":	1,
 		"../res/map/bomber_test_level/bomber_test_level.json":	1,

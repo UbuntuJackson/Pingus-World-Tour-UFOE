@@ -13,6 +13,7 @@
 #include <colour_rectangle_theme.h>
 #include "world_map_location.h"
 #include "pingus_level.h"
+#include "world_map.h"
 
 void WorldMapLocation::OnLevelEnter(Level* _level){
     spr_bg = AddChild<SpriteReference>(
@@ -91,12 +92,15 @@ void WorldMapLocation::OnStart(Level* _level){
 }
 
 void WorldMapLocation::OnUpdate(){
+
+    if(level->world_map == nullptr) return;
+
     spr->local_position = spr_original_position;
     if(selected && unlocked){
         spr->local_position = spr_original_position - Vector2f(0.0f, 2.0f);
         float text_x = 0.0f;
         float screen_width_half = 340.0f;
-        if(selected_to_left) text_x = 20.0f;
+        if(!level->world_map->selected_to_left) text_x = 20.0f;
         else text_x = 460.0f;
 
         f_tint += 600.0f* Engine::Get().GetDeltaTime();
@@ -171,7 +175,7 @@ void WorldMapLocation::OnWidgetDraw(){
     if(selected && unlocked){
         float screen_width_half = 340.0f;
         float text_x = 0.0f;
-        if(selected_to_left) text_x = 20.0f;
+        if(!level->world_map->selected_to_left) text_x = 20.0f;
         else text_x = 460.0f;
 
         Graphics::Get().DrawString(Vector2f(text_x,240.0f), name_of_location, Graphics::WHITE ,{1.0f,1.0f});

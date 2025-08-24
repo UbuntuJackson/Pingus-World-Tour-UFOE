@@ -16,7 +16,11 @@
 
 void WorldMap::OnLevelEnter(Level* _level){
     Widget::OnLevelEnter(_level);
-    level = dynamic_cast<PingusLevel*>(_level); 
+    level = dynamic_cast<PingusLevel*>(_level);
+    assert(level->world_map == nullptr && "There can only be one worldmap");
+    
+    level->world_map = this;
+
     level->is_menu = true;
 
     JsonVariant& last_played_level_json = Engine::Get().GetActiveProfile()->save_file.Get("last_played_level");

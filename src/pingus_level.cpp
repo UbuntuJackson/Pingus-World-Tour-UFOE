@@ -66,6 +66,24 @@ void PingusLevel::OnResourceLoad(){
     AssetManager::Get().LoadDecal("../res/assets/anti_matter_spawner.png","anti_matter_spawner");
     AssetManager::Get().LoadDecal("../res/assets/dash.png", "dash");
     AssetManager::Get().LoadDecal("../res/assets/locationpinbg.png", "locationpinbg");
+
+    std::vector<std::string> decals_with_outline = {
+        "pingu_walk",
+        "pingu_walk_parachute",
+        "pingu_blocker",
+        "pingu_fall_death",
+        "pingu_fall",
+        "pingu_parachute",
+        "pingu_driller",
+        "pingu_explode"
+    };
+
+    for(const std::string& key : decals_with_outline){
+        olc::Decal* original_dec = AssetManager::Get().GetDecal(key);
+
+        
+        
+    }
     
     Engine::Get().pixel_game_engine.LoadFontSprite("../res/assets/pwt_grey_font.png");
 

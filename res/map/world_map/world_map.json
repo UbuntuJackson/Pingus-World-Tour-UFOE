@@ -148,7 +148,7 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":85,
+                 "x":86,
                  "y":60
                 }, 
                 {
@@ -418,7 +418,7 @@
                         {
                          "name":"preview",
                          "type":"string",
-                         "value":"..\/res\/assets\/cern_preview.png"
+                         "value":"..\/res\/assets\/cern_preview_test.png"
                         }, 
                         {
                          "name":"unlocked",

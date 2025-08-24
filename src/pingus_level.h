@@ -21,12 +21,15 @@ class Pingu;
 class PaintableSurface;
 class MovingSolid;
 class BitMapCollisionBody;
+class WorldMap;
 
 class PingusLevel : public Level{
 public:
     std::vector<Goal*> goals;
     std::vector<HoneyCoin*> honey_coin_handles;
     std::vector<WorldMapLocation*> world_map_location_handles;
+    WorldMap* world_map = nullptr;
+
     std::vector<olc::Decal*> level_decals_in_draw_order;
     std::vector<MovingSolid*> moving_solids_handles;
     olc::Decal* solid_decal;

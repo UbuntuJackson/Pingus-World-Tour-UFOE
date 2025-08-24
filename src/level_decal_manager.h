@@ -17,6 +17,8 @@ public:
 
     void OnLevelEnter(Level* _level){
         level = dynamic_cast<PingusLevel*>(_level);
+
+        //Just make sure this happens at the end of the frame
         SetZIndex(100);
     }
 

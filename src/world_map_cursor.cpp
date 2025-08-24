@@ -21,8 +21,9 @@ void WorldMapCursor::OnLevelEnter(Level* _level){
         Vector2f(1.0f,1.0f),
         0.0f
     );
+    spr->visible = false;
 
-    SetZIndex(3);
+    SetZIndex(-1);
     
 }
 
@@ -63,11 +64,11 @@ void WorldMapCursor::OnUpdate(){
         hovered_location_handles[0]->selected = true;
     }
 
-    if(hovered_location_handles.size() > 0){
+    /*if(hovered_location_handles.size() > 0){
         if(!hovered_location_handles[0]->was_selected){
             float screen_width_half = 340.0f;
             hovered_location_handles[0]->selected_to_left = Mouse::Get().GetPosition().x > screen_width_half;
         } 
-    }
+    }*/
 
 }
