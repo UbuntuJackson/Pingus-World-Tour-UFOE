@@ -29,5 +29,9 @@ public:
         level->required_pingus += number_of_pingus;
         level->maximum_rescuable_pingus = maximum_rescuable_pingus;
     }
+
+    void OnUpdate(){
+        
+    }
     
 };
